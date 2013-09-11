@@ -291,6 +291,9 @@
 		684A6FC31BDED09B006DD9FE /* DriverPrimitive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 684A6FC01BDED09B006DD9FE /* DriverPrimitive.cpp */; };
 		684A6FC41BDED09B006DD9FE /* DriverPrimitive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 684A6FC01BDED09B006DD9FE /* DriverPrimitive.cpp */; };
 		684A6FC51BDED09B006DD9FE /* DriverPrimitive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 684A6FC01BDED09B006DD9FE /* DriverPrimitive.cpp */; };
+		681EC9161B2A88240064E12D /* GameInfoTag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 681EC9121B2A88240064E12D /* GameInfoTag.cpp */; };
+		681EC9171B2A88240064E12D /* GameInfoTag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 681EC9121B2A88240064E12D /* GameInfoTag.cpp */; };
+		681EC9181B2A88240064E12D /* GameInfoTag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 681EC9121B2A88240064E12D /* GameInfoTag.cpp */; };
 		6842F75C1B8C4744007A231D /* PeripheralBusAddon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6842F75A1B8C4744007A231D /* PeripheralBusAddon.cpp */; };
 		6842F75D1B8C4744007A231D /* PeripheralBusAddon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6842F75A1B8C4744007A231D /* PeripheralBusAddon.cpp */; };
 		6842F75E1B8C4744007A231D /* PeripheralBusAddon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6842F75A1B8C4744007A231D /* PeripheralBusAddon.cpp */; };
@@ -3740,6 +3743,8 @@
 		684A6FC01BDED09B006DD9FE /* DriverPrimitive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DriverPrimitive.cpp; path = joysticks/DriverPrimitive.cpp; sourceTree = "<group>"; };
 		684A6FC11BDED09B006DD9FE /* DriverPrimitive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DriverPrimitive.h; path = joysticks/DriverPrimitive.h; sourceTree = "<group>"; };
 		684A6FC21BDED09B006DD9FE /* JoystickUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoystickUtils.h; path = joysticks/JoystickUtils.h; sourceTree = "<group>"; };
+		681EC9121B2A88240064E12D /* GameInfoTag.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameInfoTag.cpp; path = games/tags/GameInfoTag.cpp; sourceTree = "<group>"; };
+		681EC9131B2A88240064E12D /* GameInfoTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameInfoTag.h; path = games/tags/GameInfoTag.h; sourceTree = "<group>"; };
 		6842F75A1B8C4744007A231D /* PeripheralBusAddon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeripheralBusAddon.cpp; sourceTree = "<group>"; };
 		6842F75B1B8C4744007A231D /* PeripheralBusAddon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralBusAddon.h; sourceTree = "<group>"; };
 		687F3F361BC5BCA70044D3E8 /* JoystickEasterEgg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JoystickEasterEgg.cpp; path = joysticks/JoystickEasterEgg.cpp; sourceTree = "<group>"; };
@@ -7048,10 +7053,20 @@
 			name = main;
 			sourceTree = "<group>";
 		};
+		681EC9111B2A880E0064E12D /* tags */ = {
+			isa = PBXGroup;
+			children = (
+				681EC9121B2A88240064E12D /* GameInfoTag.cpp */,
+				681EC9131B2A88240064E12D /* GameInfoTag.h */,
+			);
+			name = tags;
+			sourceTree = "<group>";
+		};
 		68A5875C1B2A82F1002D3F53 /* games */ = {
 			isa = PBXGroup;
 			children = (
 				68A5875F1B2A8332002D3F53 /* addons */,
+				681EC9111B2A880E0064E12D /* tags */,
 				68A5875D1B2A8318002D3F53 /* windows */,
 				68CF9B871B2C8A750016931A /* ControllerManager.cpp */,
 				68CF9B881B2C8A760016931A /* ControllerManager.h */,
@@ -11089,6 +11104,7 @@
 				DF93D6A81444A8B1007C6459 /* RarFile.cpp in Sources */,
 				DF93D6AA1444A8B1007C6459 /* SFTPFile.cpp in Sources */,
 				DF93D6AB1444A8B1007C6459 /* ShoutcastFile.cpp in Sources */,
+				681EC9161B2A88240064E12D /* GameInfoTag.cpp in Sources */,
 				DF93D6AC1444A8B1007C6459 /* SlingboxFile.cpp in Sources */,
 				DF93D6AD1444A8B1007C6459 /* SMBFile.cpp in Sources */,
 				DF93D6AE1444A8B1007C6459 /* SpecialProtocolFile.cpp in Sources */,
@@ -12222,6 +12238,7 @@
 				68A5878F1B2A8570002D3F53 /* GUIGameController.cpp in Sources */,
 				DFF0F3EC17528350002DA3A4 /* Screenshot.cpp in Sources */,
 				DFF0F3ED17528350002DA3A4 /* SeekHandler.cpp in Sources */,
+				681EC9181B2A88240064E12D /* GameInfoTag.cpp in Sources */,
 				DFF0F3EE17528350002DA3A4 /* SortUtils.cpp in Sources */,
 				DFF0F3EF17528350002DA3A4 /* Splash.cpp in Sources */,
 				DFF0F3F017528350002DA3A4 /* Stopwatch.cpp in Sources */,
@@ -13337,6 +13354,7 @@
 				E499149A174E606600741B6D /* VideoReferenceClock.cpp in Sources */,
 				E499149B174E606600741B6D /* VideoThumbLoader.cpp in Sources */,
 				E499149C174E606E00741B6D /* GUIViewControl.cpp in Sources */,
+				681EC9171B2A88240064E12D /* GameInfoTag.cpp in Sources */,
 				E499149D174E606E00741B6D /* GUIViewState.cpp in Sources */,
 				E499149E174E606E00741B6D /* ViewDatabase.cpp in Sources */,
 				E499149F174E606E00741B6D /* ViewStateSettings.cpp in Sources */,

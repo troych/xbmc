@@ -412,6 +412,7 @@
     <ClCompile Include="..\..\xbmc\games\addons\GameControllerLayout.cpp" />
     <ClCompile Include="..\..\xbmc\games\ControllerManager.cpp" />
     <ClCompile Include="..\..\xbmc\games\GameTranslator.cpp" />
+    <ClCompile Include="..\..\xbmc\games\tags\GameInfoTag.cpp" />
     <ClCompile Include="..\..\xbmc\games\windows\GUIDialogControllerInput.cpp" />
     <ClCompile Include="..\..\xbmc\games\windows\GUIWindowGameControllers.cpp" />
     <ClCompile Include="..\..\xbmc\games\windows\wizards\GUIControllerWizard.cpp" />
@@ -936,6 +937,7 @@
     <ClInclude Include="..\..\xbmc\games\ControllerTypes.h" />
     <ClInclude Include="..\..\xbmc\games\GameDefinitions.h" />
     <ClInclude Include="..\..\xbmc\games\GameTranslator.h" />
+    <ClInclude Include="..\..\xbmc\games\tags\GameInfoTag.h" />
     <ClInclude Include="..\..\xbmc\games\windows\GUIDialogControllerInput.h" />
     <ClInclude Include="..\..\xbmc\games\windows\GUIWindowGameControllers.h" />
     <ClInclude Include="..\..\xbmc\games\windows\wizards\GUIControllerWizard.h" />
