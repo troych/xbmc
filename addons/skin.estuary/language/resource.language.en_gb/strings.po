@@ -725,3 +725,9 @@ msgstr ""
 msgctxt "#31141"
 msgid "Changes for version"
 msgstr ""
+
+#empty strings from id 31142 to 31199
+
+msgctxt "#31200"
+msgid "Play your personal games or download one of the many game add-ons from the official repository."
+msgstr ""
