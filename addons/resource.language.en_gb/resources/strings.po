@@ -16238,7 +16238,15 @@ msgctxt "#35213"
 msgid "The emulator \"%s\" had an internal error."
 msgstr ""
 
-#empty strings from id 35214 to 35249
+#empty strings from id 35214 to 35219
+
+#. Description of add-on category for game providers
+#: xbmc/filesystem/AddonsDirectory.cpp
+msgctxt "#35220"
+msgid "Game providers"
+msgstr ""
+
+#empty strings from id 35221 to 35504
 
 #: xbmc/games/dialogs/GUIDialogSelectGameClient.cpp
 msgctxt "#35255"
