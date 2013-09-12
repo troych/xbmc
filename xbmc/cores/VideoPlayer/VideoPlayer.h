@@ -244,6 +244,7 @@ public:
   virtual void Pause() override;
   virtual bool HasVideo() const;
   virtual bool HasAudio() const;
+  virtual bool HasGame() const override { return false; }
   virtual bool HasRDS() const;
   virtual bool IsPassthrough() const;
   virtual bool CanSeek();
