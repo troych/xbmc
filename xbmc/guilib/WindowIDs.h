@@ -139,6 +139,7 @@
 #define WINDOW_GAME_CONTROLLERS           10626
 #define WINDOW_DIALOG_CONTROLLER_INPUT    10627
 #define WINDOW_FULLSCREEN_GAME            10628 // virtual window for fullscreen game
+#define WINDOW_GAMES                      10629
 
 //#define WINDOW_VIRTUAL_KEYBOARD           11000
 // WINDOW_ID's from 11100 to 11199 reserved for Skins
