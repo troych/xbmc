@@ -744,3 +744,9 @@ msgctxt "#31144"
 msgid "Enter add-on browser"
 msgstr ""
 
+
+#empty strings from id 31145 to 31199
+
+msgctxt "#31200"
+msgid "Play your personal games or download one of the many game add-ons from the official repository."
+msgstr ""
