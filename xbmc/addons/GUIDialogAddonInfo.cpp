@@ -26,6 +26,7 @@
 #include "AddonDatabase.h"
 #include "FileItem.h"
 #include "filesystem/Directory.h"
+#include "games/GameManager.h"
 #include "GUIDialogAddonSettings.h"
 #include "cores/AudioEngine/Engines/ActiveAE/AudioDSPAddons/ActiveAEDSP.h"
 #include "dialogs/GUIDialogContextMenu.h"
