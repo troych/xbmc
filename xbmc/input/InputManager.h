@@ -20,6 +20,7 @@
 */
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -43,13 +44,20 @@ namespace KEYBOARD
   class IKeyboardHandler;
 }
 
+namespace MOUSE
+{
+  class IMouseButtonMap;
+  class IMouseDriverHandler;
+  class IMouseInputHandler;
+}
+
 class CInputManager : public ISettingCallback
 {
 private:
-  CInputManager() { }
+  CInputManager();
   CInputManager(const CInputManager&);
   CInputManager const& operator=(CInputManager const&);
-  virtual ~CInputManager() { };
+  virtual ~CInputManager();
 
 public:
   /*! \brief static method to get the current instance of the class. Creates a new instance the first time it's called.
@@ -222,6 +230,20 @@ public:
   void RegisterKeyboardHandler(KEYBOARD::IKeyboardHandler* handler);
   void UnregisterKeyboardHandler(KEYBOARD::IKeyboardHandler* handler);
 
+  /*! \brief Registers a handler to be called on mouse input (e.g a game client).
+   *
+   * \param handler The handler to call on mouse input.
+   * \return[in] The controller ID that serves as a context for incoming events.
+   * \sa IMouseButtonMap
+   */
+  std::string RegisterMouseHandler(MOUSE::IMouseInputHandler* handler);
+
+  /*! \brief Unregisters handler from mouse input.
+   *
+   * \param[in] handler The handler to unregister from mouse input.
+   */
+  void UnregisterMouseHandler(MOUSE::IMouseInputHandler* handler);
+
 private:
 
   /*! \brief Process keyboard event and translate into an action
@@ -273,4 +295,15 @@ private:
   CCriticalSection     m_actionMutex;
 
   std::vector<KEYBOARD::IKeyboardHandler*> m_keyboardHandlers;
+
+  struct MouseHandlerHandle
+  {
+    MOUSE::IMouseInputHandler*                  inputHandler;
+    std::unique_ptr<MOUSE::IMouseDriverHandler> driverHandler;
+  };
+
+  std::vector<MouseHandlerHandle> m_mouseHandlers;
+  std::unique_ptr<MOUSE::IMouseButtonMap> m_mouseButtonMap;
+
+  std::unique_ptr<KEYBOARD::IKeyboardHandler> m_keyboardEasterEgg;
 };
