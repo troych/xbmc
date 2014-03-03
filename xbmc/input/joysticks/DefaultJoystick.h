@@ -28,6 +28,7 @@
 
 namespace JOYSTICK
 {
+  class IButtonSequence;
   class IKeymapHandler;
 
   /*!
@@ -72,5 +73,6 @@ namespace JOYSTICK
     static const std::vector<CARDINAL_DIRECTION>& GetDirections(void);
 
     IKeymapHandler* const  m_handler;
+    JOYSTICK::IButtonSequence*       m_easterEgg;
   };
 }

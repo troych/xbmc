@@ -2,6 +2,7 @@ SRCS=Controller.cpp \
      ControllerFeature.cpp \
      ControllerLayout.cpp \
      ControllerTranslator.cpp \
+     EasterEgg.cpp \
 
 LIB=controllers.a
 

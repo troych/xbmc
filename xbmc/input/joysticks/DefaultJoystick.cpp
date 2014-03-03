@@ -21,6 +21,7 @@
 #include "DefaultJoystick.h"
 #include "KeymapHandler.h"
 #include "JoystickTranslator.h"
+#include "games/controllers/EasterEgg.h"
 #include "input/Key.h"
 
 #include <algorithm>
@@ -32,13 +33,15 @@
 using namespace JOYSTICK;
 
 CDefaultJoystick::CDefaultJoystick(void) :
-  m_handler(new CKeymapHandler)
+  m_handler(new CKeymapHandler),
+  m_easterEgg(new CEasterEgg)
 {
 }
 
 CDefaultJoystick::~CDefaultJoystick(void)
 {
   delete m_handler;
+  delete m_easterEgg;
 }
 
 std::string CDefaultJoystick::ControllerID(void) const
@@ -65,6 +68,9 @@ INPUT_TYPE CDefaultJoystick::GetInputType(const FeatureName& feature) const
 
 bool CDefaultJoystick::OnButtonPress(const FeatureName& feature, bool bPressed)
 {
+  if (bPressed && m_easterEgg->OnButtonPress(feature))
+    return true;
+
   const unsigned int keyId = GetKeyID(feature);
 
   if (m_handler->GetInputType(keyId) == INPUT_TYPE::DIGITAL)

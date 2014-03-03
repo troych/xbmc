@@ -28,7 +28,6 @@
 
 class TiXmlElement;
 class CAddonCallbacksAddon;
-class CVariant;
 
 typedef struct cp_plugin_info_t cp_plugin_info_t;
 typedef struct cp_extension_t cp_extension_t;
@@ -113,13 +112,13 @@ public:
    \return true if the addon has settings, false otherwise
    \sa LoadSettings, LoadUserSettings, SaveSettings, HasUserSettings, GetSetting, UpdateSetting
    */
-  virtual bool HasSettings();
+  bool HasSettings();
 
   /*! \brief Check whether the user has configured this addon or not
    \return true if previously saved settings are found, false otherwise
    \sa LoadSettings, LoadUserSettings, SaveSettings, HasSettings, GetSetting, UpdateSetting
    */
-  virtual bool HasUserSettings();
+  bool HasUserSettings();
 
   /*! \brief Save any user configured settings
    \sa LoadSettings, LoadUserSettings, HasSettings, HasUserSettings, GetSetting, UpdateSetting
@@ -131,7 +130,7 @@ public:
    \param value the value that the setting should take
    \sa LoadSettings, LoadUserSettings, SaveSettings, HasSettings, HasUserSettings, GetSetting
    */
-  virtual void UpdateSetting(const std::string& key, const std::string& value);
+  void UpdateSetting(const std::string& key, const std::string& value);
 
   /*! \brief Retrieve a particular settings value
    If a previously configured user setting is available, we return it's value, else we return the default (if available)
@@ -142,14 +141,16 @@ public:
   virtual std::string GetSetting(const std::string& key);
 
   TiXmlElement* GetSettingsXML();
+  virtual std::string GetString(uint32_t id);
 
   // properties
   TYPE Type() const { return m_props.type; }
-  virtual TYPE FullType() const { return Type(); }
   bool IsType(TYPE type) const { return type == m_props.type; }
   const AddonProps& Props() { return m_props; }
   const std::string ID() const { return m_props.id; }
   const std::string Name() const { return m_props.name; }
+  /*! This lies. Ask CAddonMgr */
+  bool Enabled() const { return true; }
   virtual bool IsInUse() const { return false; };
   const AddonVersion Version() const { return m_props.version; }
   const AddonVersion MinVersion() const { return m_props.minversion; }
@@ -203,7 +204,7 @@ public:
   virtual void OnPostInstall(bool update, bool modal) {};
   virtual void OnPreUnInstall() {};
   virtual void OnPostUnInstall() {};
-  virtual bool CanInstall() { return true; }
+  virtual bool CanInstall(const std::string& referer) { return true; }
 
 protected:
   friend class CAddonCallbacksAddon;
@@ -223,12 +224,7 @@ protected:
    \return true if user settings exist, false otherwise
    \sa LoadSettings, SaveSettings, HasSettings, HasUserSettings, GetSetting, UpdateSetting
    */
-  virtual bool LoadUserSettings();
-
-  /* \brief Whether there are settings to be saved
-   \sa SaveSettings
-   */
-  virtual bool HasSettingsToSave() const;
+  bool LoadUserSettings();
 
   /*! \brief Parse settings from an XML document
    \param doc XML document to parse for settings
@@ -236,13 +232,13 @@ protected:
    \return true if settings are loaded, false otherwise
    \sa SettingsToXML
    */
-  virtual bool SettingsFromXML(const CXBMCTinyXML &doc, bool loadDefaults = false);
+  bool SettingsFromXML(const CXBMCTinyXML &doc, bool loadDefaults = false);
 
-  /*! \brief Write settings into an XML document
+  /*! \brief Parse settings into an XML document
    \param doc XML document to receive the settings
    \sa SettingsFromXML
    */
-  virtual void SettingsToXML(CXBMCTinyXML &doc) const;
+  void SettingsToXML(CXBMCTinyXML &doc) const;
 
   const AddonProps m_props;
   CXBMCTinyXML      m_addonXmlDoc;
@@ -254,6 +250,11 @@ private:
   std::string        m_userSettingsPath;
   void BuildProfilePath();
 
+  virtual bool LoadStrings();
+  virtual void ClearStrings();
+
+  bool m_hasStrings;
+  bool m_checkedStrings;
   bool m_hasSettings;
 
   std::string m_profile;

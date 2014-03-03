@@ -5,6 +5,7 @@ SRCS=Addon.cpp \
      AddonCallbacksAudioDSP.cpp \
      AddonCallbacksAudioEngine.cpp \
      AddonCallbacksCodec.cpp \
+     AddonCallbacksGame.cpp \
      AddonCallbacksGUI.cpp \
      AddonCallbacksPeripheral.cpp \
      AddonCallbacksPVR.cpp \
