@@ -45,6 +45,7 @@
 
 #define WINDOW_SCRIPTS                    10020 // virtual window for backward compatibility
 #define WINDOW_SETTINGS_MYPVR             10021
+#define WINDOW_SETTINGS_MYGAMES           10022
 
 #define WINDOW_VIDEO_FILES                10024
 #define WINDOW_VIDEO_NAV                  10025
@@ -137,6 +138,7 @@
 #define WINDOW_FULLSCREEN_RADIO           10625 // virtual window for PVR radio specific keymaps with fallback to WINDOW_VISUALISATION
 #define WINDOW_GAME_CONTROLLERS           10626
 #define WINDOW_DIALOG_CONTROLLER_INPUT    10627
+#define WINDOW_FULLSCREEN_GAME            10628 // virtual window for fullscreen game
 
 //#define WINDOW_VIRTUAL_KEYBOARD           11000
 // WINDOW_ID's from 11100 to 11199 reserved for Skins
