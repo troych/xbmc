@@ -54,6 +54,18 @@ typedef struct CB_PeripheralLib
    */
   unsigned int (*FeatureCount)(void* addonData, const char* controllerId, JOYSTICK_FEATURE_TYPE type);
 
+  /*!
+   * @brief A new cartridge or disk is detected by the media reader
+   * @param metadata TODO: The metadata of the new  ROM and/or the port that detected it
+   */
+  void (*MediaInserted)(void* addonData, const void* metadata);
+
+  /*!
+   * @brief A cartridge or disk is removed from the media reader
+   * @param metadata TODO: The metadata of the ROM/or its port prior to being removed
+   */
+  void (*MediaRemoved)(void* addonData, const void* metadata);
+
 } CB_PeripheralLib;
 
 #ifdef __cplusplus

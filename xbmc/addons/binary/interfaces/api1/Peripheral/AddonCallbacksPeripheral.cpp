@@ -45,6 +45,8 @@ CAddonCallbacksPeripheral::CAddonCallbacksPeripheral(ADDON::CAddon* addon)
   m_callbacks->TriggerScan               = TriggerScan;
   m_callbacks->RefreshButtonMaps         = RefreshButtonMaps;
   m_callbacks->FeatureCount              = FeatureCount;
+  m_callbacks->MediaInserted             = MediaInserted;
+  m_callbacks->MediaRemoved              = MediaRemoved;
 }
 
 CAddonCallbacksPeripheral::~CAddonCallbacksPeripheral()
@@ -95,6 +97,28 @@ unsigned int CAddonCallbacksPeripheral::FeatureCount(void* addonData, const char
   }
 
   return count;
+}
+
+void CAddonCallbacksPeripheral::MediaInserted(void* addonData, const void* metadata)
+{
+  CPeripheralAddon *addon = GetPeripheralAddon(addonData, __FUNCTION__);
+  if (!addon)
+  {
+    CLog::Log(LOGERROR, "HARDWARE - %s - invalid handler data", __FUNCTION__);
+    return;
+  }
+
+  // TODO
+}
+
+void CAddonCallbacksPeripheral::MediaRemoved(void* addonData, const void* metadata)
+{
+  CPeripheralAddon *addon = GetPeripheralAddon(addonData, __FUNCTION__);
+  if (!addon)
+  {
+    CLog::Log(LOGERROR, "HARDWARE - %s - invalid handler data", __FUNCTION__);
+    return;
+  }
 }
 
 } /* namespace Peripheral */

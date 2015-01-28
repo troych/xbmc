@@ -76,6 +76,20 @@ DLLEXPORT unsigned int PERIPHERAL_feature_count(AddonCB* frontend, CB_Peripheral
   return cb->FeatureCount(frontend->addonData, controllerId, type);
 }
 
+DLLEXPORT void PERIPHERAL_media_inserted(AddonCB* frontend, CB_PeripheralLib* cb, const void* metadata)
+{
+  if (frontend == NULL || cb == NULL)
+    return;
+  return cb->MediaInserted(frontend->addonData, metadata);
+}
+
+DLLEXPORT void PERIPHERAL_media_removed(AddonCB* frontend, CB_PeripheralLib* cb, const void* metadata)
+{
+  if (frontend == NULL || cb == NULL)
+    return;
+  return cb->MediaRemoved(frontend->addonData, metadata);
+}
+
 #ifdef __cplusplus
 }
 #endif

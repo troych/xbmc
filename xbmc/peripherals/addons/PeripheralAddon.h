@@ -93,6 +93,10 @@ namespace PERIPHERALS
     void UnregisterButtonMap(JOYSTICK::IButtonMap* buttonMap);
     void RefreshButtonMaps(const std::string& strDeviceName = "");
 
+    /** @name Media reader methods */
+    //@{
+    //@}
+
   protected:
     /*!
      * @brief Request the API version from the add-on, and check if it's compatible
