@@ -11,7 +11,7 @@ EC_DIRS= \
 
 DVDPCODECS_DIRS= \
 	lib \
-	lib/libdvd 
+	lib/libdvd
 
 ifeq (@USE_LIBSTAGEFRIGHT@,1)
 DVDPCODECS_DIRS += xbmc/cores/dvdplayer/DVDCodecs/Video/libstagefrightICS
@@ -48,6 +48,7 @@ DIRECTORY_ARCHIVES=$(DVDPLAYER_ARCHIVES) \
                    xbmc/filesystem/MusicDatabaseDirectory/musicdatabasedirectory.a \
                    xbmc/filesystem/VideoDatabaseDirectory/videodatabasedirectory.a \
                    xbmc/filesystem/filesystem.a \
+                   xbmc/games/controllers/controllers.a \
                    xbmc/games/games.a \
                    xbmc/games/addons/gameaddons.a \
                    xbmc/games/tags/gameinfotags.a \
