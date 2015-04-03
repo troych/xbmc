@@ -85,6 +85,21 @@ namespace PERIPHERALS
 
     static const char* ToString(PERIPHERAL_ERROR error);
 
+    // TODO
+    static JOYSTICK_DRIVER_HAT_DIRECTION ToDriverDirection(HatDirection direction)
+    {
+      switch (direction)
+      {
+        case HatDirectionUp:    return JOYSTICK_DRIVER_HAT_UP;
+        case HatDirectionRight: return JOYSTICK_DRIVER_HAT_RIGHT;
+        case HatDirectionDown:  return JOYSTICK_DRIVER_HAT_DOWN;
+        case HatDirectionLeft:  return JOYSTICK_DRIVER_HAT_LEFT;
+        default:
+          break;
+      }
+      return JOYSTICK_DRIVER_HAT_UNKNOWN;
+    }
+
   protected:
     /*!
      * @brief Request the API version from the add-on, and check if it's compatible

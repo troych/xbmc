@@ -33,6 +33,11 @@
 #include "utils/log.h"
 #include "utils/StringUtils.h"
 
+#include "peripherals/addons/AddonJoystickButtonMap.h" // TODO
+#include "peripherals/addons/PeripheralAddon.h" // TODO
+#include "addons/include/kodi_peripheral_utils.hpp" // TODO
+
+using namespace ADDON;
 using namespace GAME;
 using namespace PERIPHERALS;
 
@@ -184,12 +189,37 @@ void CGUIDialogControllerInput::DoModal(const GamePeripheralPtr& peripheral, CGU
 void CGUIDialogControllerInput::OnButton(PERIPHERALS::CPeripheral* device, unsigned int buttonIndex)
 {
   // TODO
+  PeripheralAddonPtr addon = CAddonJoystickButtonMap::GetAddon(device);
+  if (addon && IsPrompting())
+  {
+    JOYSTICK_FEATURE featureStruct;
+
+    featureStruct.id                  = m_promptIndex;
+    featureStruct.driver_type         = JOYSTICK_DRIVER_TYPE_BUTTON;
+    featureStruct.driver_button.index = buttonIndex;
+
+    JoystickFeaturePtr feature = JoystickFeaturePtr(ADDON::JoystickFeatureFactory::Create(featureStruct));
+    addon->MapJoystickFeature(device, m_peripheral->Addon()->ID(), feature);
+  }
   CancelPrompt();
 }
 
 void CGUIDialogControllerInput::OnHat(PERIPHERALS::CPeripheral* device, unsigned int hatIndex, HatDirection direction)
 {
   // TODO
+  PeripheralAddonPtr addon = CAddonJoystickButtonMap::GetAddon(device);
+  if (addon && IsPrompting())
+  {
+    JOYSTICK_FEATURE featureStruct;
+
+    featureStruct.id                   = m_promptIndex;
+    featureStruct.driver_type          = JOYSTICK_DRIVER_TYPE_HAT_DIRECTION;
+    featureStruct.driver_hat.index     = hatIndex;
+    featureStruct.driver_hat.direction = CPeripheralAddon::ToDriverDirection(direction); // TODO
+
+    JoystickFeaturePtr feature = JoystickFeaturePtr(ADDON::JoystickFeatureFactory::Create(featureStruct));
+    addon->MapJoystickFeature(device, m_peripheral->Addon()->ID(), feature);
+  }
   CancelPrompt();
 }
 
