@@ -34,6 +34,7 @@ using namespace XFILE;
 
 #define GAME_CLIENT_SAVE_DIRECTORY    "save"
 #define GAME_CLIENT_SYSTEM_DIRECTORY  "system"
+#define NETPLAY_ADDON                 "game.netplay"
 
 CGameClientProperties::CGameClientProperties(const CGameClient* parent, game_client_properties*& props)
   : m_parent(parent),
@@ -75,6 +76,10 @@ const char* CGameClientProperties::GetLibraryPath(void)
 
 const char** CGameClientProperties::GetProxyDllPaths(void)
 {
+  // Check if netplay is enabled
+  if (CSettings::Get().GetBool("gamesgeneral.enablenetplay") && m_parent->ID() != NETPLAY_ADDON)
+    AddProxyDll(NETPLAY_ADDON);
+
   // Add all game client dependencies
   // TODO: Compare helper version with required dependency
   const ADDONDEPS& dependencies = m_parent->GetDeps();
