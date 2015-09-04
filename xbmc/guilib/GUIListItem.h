@@ -162,7 +162,9 @@ public:
   void AppendProperties(const CGUIListItem &item);
 
   void Archive(CArchive& ar);
-  void Serialize(CVariant& value);
+  void Serialize(CVariant& value) const;
+  void Deserialize(const CVariant& value);
+  void Deserialize(CVariant&& value);
 
   bool       HasProperty(const std::string &strKey) const;
   bool       HasProperties() const { return !m_mapProperties.empty(); };

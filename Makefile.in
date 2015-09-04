@@ -43,8 +43,12 @@ DIRECTORY_ARCHIVES=$(DVDPLAYER_ARCHIVES) \
                    xbmc/cores/paplayer/paplayer.a \
                    xbmc/cores/playercorefactory/playercorefactory.a \
                    xbmc/dbwrappers/dbwrappers.a \
+                   xbmc/dbwrappers/nosql/nosql.a \
+                   xbmc/dbwrappers/nosql/wrappers/nosqlwrappers.a \
                    xbmc/dialogs/dialogs.a \
                    xbmc/epg/epg.a \
+                   xbmc/filesystem/content/content.a \
+                   xbmc/filesystem/content/schema/contentschema.a \
                    xbmc/filesystem/MusicDatabaseDirectory/musicdatabasedirectory.a \
                    xbmc/filesystem/VideoDatabaseDirectory/videodatabasedirectory.a \
                    xbmc/filesystem/filesystem.a \

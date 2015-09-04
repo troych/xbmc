@@ -36,6 +36,8 @@
 #include "FavouritesDirectory.h"
 #include "LibraryDirectory.h"
 #include "AddonsDirectory.h"
+#include "content/ContentAddonDirectory.h"
+#include "content/ContentDatabaseDirectory.h"
 #include "SourcesDirectory.h"
 #include "FTPDirectory.h"
 #include "HTTPDirectory.h"
@@ -138,6 +140,8 @@ IDirectory* CDirectoryFactory::Create(const CURL& url)
 #endif
   if (url.IsProtocol("udf")) return new CUDFDirectory();
   if (url.IsProtocol("plugin")) return new CPluginDirectory();
+  if (url.IsProtocol("content")) return new CContentAddonDirectory();
+  if (url.IsProtocol("contentdb")) return new CContentDatabaseDirectory();
 #if defined(TARGET_ANDROID)
   if (url.IsProtocol("apk")) return new CAPKDirectory();
 #endif

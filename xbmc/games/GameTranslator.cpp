@@ -23,6 +23,34 @@
 
 using namespace GAME;
 
+const char* CGameTranslator::GetESBR(EsbrRating rating)
+{
+  switch (rating)
+  {
+  case ESBR_EARLY_CHILDHOOD: return "EC (Early Childhood)";
+  case ESBR_EVERYONE:        return "E (Everyone)";
+  case ESBR_10_PLUS:         return "10+ (Ten and above)";
+  case ESBR_TEEN:            return "T (Teen)";
+  case ESBR_MATURE:          return "M (Mature)";
+  case ESBR_ADULTS_ONLY:     return "AO (Adults Only)";
+  case ESBR_UNKNOWN:
+  default:
+    break;
+  }
+  return "Unknown";
+}
+
+EsbrRating CGameTranslator::GetESBR(const std::string& strRating)
+{
+  if      (strRating.substr(0, 2) == "EC") return ESBR_EARLY_CHILDHOOD;
+  else if (strRating.substr(0, 1) == "E")  return ESBR_EVERYONE;
+  else if (strRating.substr(0, 2) == "10") return ESBR_10_PLUS;
+  else if (strRating.substr(0, 1) == "T")  return ESBR_TEEN;
+  else if (strRating.substr(0, 1) == "M")  return ESBR_MATURE;
+  else if (strRating.substr(0, 2) == "AO") return ESBR_ADULTS_ONLY;
+  return ESBR_UNKNOWN;
+}
+
 const char* CGameTranslator::TranslateFeatureType(FeatureType type)
 {
   switch (type)

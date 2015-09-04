@@ -74,6 +74,14 @@ protected:
    \param thumb the skin image to use as the icon
    */
   void AddAddonsSource(const std::string &content, const std::string &label, const std::string& thumb);
+
+  /*! \brief Add a link to get more content of the specified type
+   \param content the type of content desired
+   \param label the name of the link in the GUI
+   \param thumb the skin image to use as the icon
+  */
+  void AddMoreContentItem(const std::string &content, const std::string &label, const std::string& thumb);
+
 #if defined(TARGET_ANDROID)
   void AddAndroidSource(const std::string &content, const std::string &label, const std::string& thumb);
 #endif

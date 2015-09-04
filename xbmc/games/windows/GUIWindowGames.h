@@ -28,16 +28,24 @@ class CGUIWindowGames : public CGUIMediaWindow
 public:
   CGUIWindowGames();
   virtual ~CGUIWindowGames() { }
-  virtual bool OnMessage(CGUIMessage& message);
+
+  // implementation of CGUIControl
+  virtual bool OnMessage(CGUIMessage& message) override;
 
 protected:
+  // implementation of CGUIMediaWindow
   virtual void SetupShares();
+  virtual bool GetDirectory(const std::string& strDirectory, CFileItemList& items);
   virtual bool OnClick(int itemNumber);
-  void OnInfo(int itemNumber);
-  bool PlayGame(const CFileItem &item);
   virtual void GetContextButtons(int itemNumber, CContextButtons &buttons);
   virtual bool OnContextButton(int itemNumber, CONTEXT_BUTTON button);
   virtual std::string GetStartFolder(const std::string &dir);
 
-  CGUIDialogProgress *m_dlgProgress;
+  void OnInfo(int itemNumber);
+  bool PlayGame(const CFileItem &item);
+
+private:
+  void ScanToLibrary(const CFileItem& item);
+
+  CGUIDialogProgress* m_dlgProgress;
 };

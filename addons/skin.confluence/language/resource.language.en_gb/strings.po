@@ -189,6 +189,10 @@ msgctxt "#31061"
 msgid "Current selected"
 msgstr ""
 
+msgctxt "#31062"
+msgid "Recently played"
+msgstr ""
+
 #empty strings from id 31062 to 31100
 #Skin Settings labels
 

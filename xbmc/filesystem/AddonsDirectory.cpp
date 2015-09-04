@@ -69,10 +69,11 @@ const std::array<TYPE, 5> infoProviderTypes = {
   ADDON_SCRAPER_TVSHOWS,
 };
 
-const std::array<TYPE, 3> gameTypes = {
+const std::array<TYPE, 4> gameTypes = {
   ADDON_GAMEDLL,
   ADDON_GAME,
   ADDON_GAME_CONTROLLER,
+  ADDON_GAME_CONTENT,
 };
 
 
@@ -94,7 +95,8 @@ static bool IsEmulator(const AddonPtr& addon)
 
 static bool IsGameProvider(const AddonPtr& addon)
 {
-  return addon->Type() == ADDON_PLUGIN && addon->IsType(ADDON_GAME);
+  return (addon->Type() == ADDON_PLUGIN && addon->IsType(ADDON_GAME)) ||
+         addon->Type() == ADDON_GAME_CONTENT;
 }
 
 static bool IsGameController(const AddonPtr& addon)
@@ -175,7 +177,7 @@ static void GenerateCategoryListing(const CURL& path, const VECADDONS& addons, C
   if (std::any_of(addons.begin(), addons.end(), IsGameType))
   {
     CFileItemPtr item(new CFileItem(g_localizeStrings.Get(27016))); // Game add-ons
-    item->SetPath(URIUtils::AddFileToFolder(path.Get(), "group.games"));
+    item->SetPath(URIUtils::AddFileToFolder(path.Get(), CATEGORY_GAMES));
     item->m_bIsFolder = true;
     const std::string thumb = "DefaultAddonGame.png";
     if (g_TextureManager.HasTexture(thumb))
@@ -734,6 +736,28 @@ bool CAddonsDirectory::GetScriptsAndPlugins(const std::string &content, CFileIte
   return items.Size() > 0;
 }
 
+bool CAddonsDirectory::GetContentAddons(const std::string &content, CFileItemList &items)
+{
+  ADDON::TYPE type = TranslateContentType(content);
+  if (type != ADDON_UNKNOWN)
+  {
+    VECADDONS addons;
+    if (CAddonMgr::Get().GetAddons(type, addons))
+    {
+      for (VECADDONS::const_iterator it = addons.begin(); it != addons.end(); ++it)
+      {
+        const AddonPtr &addon = *it;
+        items.Add(FileItemFromAddon(addon, "content://" + addon->ID(), true));
+      }
+    }
+  }
+
+  items.SetContent("addons");
+  items.SetLabel(g_localizeStrings.Get(24001)); // Add-ons
+
+  return items.Size() > 0;
+}
+
 bool CAddonsDirectory::GetStandaloneGames(CFileItemList &items)
 {
   VECADDONS addons;
@@ -756,8 +780,11 @@ bool CAddonsDirectory::GetSources(const std::string &content, CFileItemList &ite
   CPluginSource::Content type = CPluginSource::Translate(content);
   if (type == CPluginSource::GAME)
     GetStandaloneGames(items);
-
-  return GetScriptsAndPlugins(content, items);
+  
+  GetContentAddons(content, items);
+  GetScriptsAndPlugins(content, items);
+  
+  return !items.IsEmpty();
 }
 
 CFileItemPtr CAddonsDirectory::GetMoreItem(const std::string &content)

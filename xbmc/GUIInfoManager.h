@@ -408,10 +408,12 @@ namespace INFO
 #define LIBRARY_HAS_MUSICVIDEOS     725
 #define LIBRARY_HAS_SINGLES         726
 #define LIBRARY_HAS_COMPILATIONS    727
+#define LIBRARY_HAS_GAMES           728
 
 #define LIBRARY_IS_SCANNING         735
 #define LIBRARY_IS_SCANNING_VIDEO   736
 #define LIBRARY_IS_SCANNING_MUSIC   737
+#define LIBRARY_IS_SCANNING_CONTENT 738
 
 #define SYSTEM_PLATFORM_LINUX       741
 #define SYSTEM_PLATFORM_WINDOWS     742
@@ -963,6 +965,7 @@ protected:
   int m_libraryHasMovieSets;
   int m_libraryHasSingles;
   int m_libraryHasCompilations;
+  int m_libraryHasGames;
 
   SPlayerVideoStreamInfo m_videoInfo;
   SPlayerAudioStreamInfo m_audioInfo;

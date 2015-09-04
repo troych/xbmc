@@ -1028,6 +1028,11 @@ bool URIUtils::IsLibraryFolder(const std::string& strFile)
   return url.IsProtocol("library");
 }
 
+bool URIUtils::IsContent(const std::string& strFile)
+{
+  return IsProtocol(strFile, "content");
+}
+
 bool URIUtils::IsLibraryContent(const std::string &strFile)
 {
   return (IsProtocol(strFile, "library") ||

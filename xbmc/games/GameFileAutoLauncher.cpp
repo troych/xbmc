@@ -126,7 +126,7 @@ void CGameFileAutoLauncher::Launch(const GameClientPtr& gameClient)
 
   std::string strTitle;
   if (file->HasGameInfoTag())
-    strTitle = file->GetGameInfoTag()->GetTitle();
+    strTitle = file->GetGameInfoTag()->Title();
   if (strTitle.empty())
     strTitle = URIUtils::GetFileName(file->GetPath());
 

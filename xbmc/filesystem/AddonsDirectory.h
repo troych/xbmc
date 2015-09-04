@@ -56,6 +56,13 @@ namespace XFILE
      */
     static bool GetScriptsAndPlugins(const std::string &content, CFileItemList &items);
 
+    /*! \brief Fetch content add-ons of a given content type
+     \param content the content type to fetch
+     \param items the list to fill with content add-ons
+     \return true if more than one item is found, false otherwise
+     */
+    static bool GetContentAddons(const std::string &content, CFileItemList &items);
+
     /*! \brief Fetch games that can be run standalone
      \param items the list to fill with games
      \return true if more than one standalone game is found, false otherwise.

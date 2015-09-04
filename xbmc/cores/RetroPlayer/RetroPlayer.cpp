@@ -119,29 +119,27 @@ bool CRetroPlayer::OpenFile(const CFileItem& file, const CPlayerOptions& options
 
 void CRetroPlayer::PrintGameInfo(const CFileItem &file) const
 {
-  // Get game info tag (from a mutable file item, if necessary)
   const CGameInfoTag *tag = file.GetGameInfoTag();
-  CFileItem temp;
-  if (!tag)
-  {
-    temp = file;
-    if (temp.LoadGameTag())
-      tag = temp.GetGameInfoTag();
-  }
 
-  // Dump discovered information to the debug log
+  // Dump information to the debug log
   if (tag)
   {
     CLog::Log(LOGDEBUG, "RetroPlayer: ---------------------------------------");
-    CLog::Log(LOGDEBUG, "RetroPlayer: Game tag loaded");
-    CLog::Log(LOGDEBUG, "RetroPlayer: URL: %s", tag->GetURL().c_str());
-    CLog::Log(LOGDEBUG, "RetroPlayer: Platform: %s", tag->GetPlatform().c_str());
-    CLog::Log(LOGDEBUG, "RetroPlayer: Title: %s", tag->GetTitle().c_str());
-    CLog::Log(LOGDEBUG, "RetroPlayer: Game Code: %s", tag->GetID().c_str());
-    CLog::Log(LOGDEBUG, "RetroPlayer: Region: %s", tag->GetRegion().c_str());
-    CLog::Log(LOGDEBUG, "RetroPlayer: Publisher: %s", tag->GetPublisher().c_str());
-    CLog::Log(LOGDEBUG, "RetroPlayer: Format: %s", tag->GetFormat().c_str());
-    CLog::Log(LOGDEBUG, "RetroPlayer: Cartridge Type: %s", tag->GetCartridgeType().c_str());
+    CLog::Log(LOGDEBUG, "RetroPlayer: Game tag:");
+    CLog::Log(LOGDEBUG, "RetroPlayer:   ID: %d", (int)tag->ID());
+    CLog::Log(LOGDEBUG, "RetroPlayer:   Title: %s", tag->Title().c_str());
+    CLog::Log(LOGDEBUG, "RetroPlayer:   Publisher: %s", tag->Publisher().c_str());
+    CLog::Log(LOGDEBUG, "RetroPlayer:   Developer: %s", tag->Developer().c_str());
+    CLog::Log(LOGDEBUG, "RetroPlayer:   MediaType: %s", tag->MediaType().c_str());
+    CLog::Log(LOGDEBUG, "RetroPlayer:   PlayerCount: %u", tag->PlayerCount());
+    CLog::Log(LOGDEBUG, "RetroPlayer:   IsCoop: %s", tag->IsCoop() ? "true" : "false");
+    CLog::Log(LOGDEBUG, "RetroPlayer:   ReleaseDate: %s", tag->ReleaseDate().GetAsDBDate().c_str());
+    CLog::Log(LOGDEBUG, "RetroPlayer:   AddDate: %s", tag->AddDate().GetAsDBDate().c_str());
+    CLog::Log(LOGDEBUG, "RetroPlayer:   Rating: %d", tag->Rating());
+    CLog::Log(LOGDEBUG, "RetroPlayer:   ESBR: %s", tag->ESBRString());
+    CLog::Log(LOGDEBUG, "RetroPlayer:   Genres: %s", StringUtils::Join(tag->Genres(), "|").c_str());
+    CLog::Log(LOGDEBUG, "RetroPlayer:   Platforms: %s", StringUtils::Join(tag->Platforms(), "|").c_str());
+    CLog::Log(LOGDEBUG, "RetroPlayer:   Series: %s", StringUtils::Join(tag->Series(), "|").c_str());
     CLog::Log(LOGDEBUG, "RetroPlayer: ---------------------------------------");
   }
 }

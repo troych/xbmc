@@ -24,6 +24,7 @@
  *
  */
 
+#include "dbwrappers/nosql/IDocument.h"
 #include "guilib/GUIListItem.h"
 #include "utils/IArchivable.h"
 #include "utils/ISerializable.h"
@@ -95,7 +96,7 @@ enum EFileFolderType {
   \sa CFileItemList
   */
 class CFileItem :
-  public CGUIListItem, public IArchivable, public ISerializable, public ISortable
+  public CGUIListItem, public IArchivable, public dbiplus::IDocument, public ISortable
 {
 public:
   CFileItem(void);
@@ -134,7 +135,9 @@ public:
   void Reset();
   const CFileItem& operator=(const CFileItem& item);
   virtual void Archive(CArchive& ar);
-  virtual void Serialize(CVariant& value) const;
+  virtual void Serialize(CVariant& value) const override;
+  virtual void Deserialize(const CVariant& value) override;
+  virtual void Deserialize(CVariant&& value) override;
   virtual void ToSortable(SortItem &sortable, Field field) const;
   void ToSortable(SortItem &sortable, const Fields &fields) const;
   virtual bool IsFileItem() const { return true; };
@@ -416,7 +419,6 @@ public:
   std::string FindTrailer() const;
 
   virtual bool LoadMusicTag();
-  virtual bool LoadGameTag();
 
   /* Returns the content type of this item if known */
   const std::string& GetMimeType() const { return m_mimetype; }
@@ -466,6 +468,13 @@ public:
    \param song song details to use and set
    */
   void SetFromSong(const CSong &song);
+
+  /*!
+   * \brief Update properties to match the provided item
+   * \param pItem The item being merged
+   * \remark Only non-default properties of pItem will be merged into this item
+   */
+  void Merge(const CFileItem& pItem);
 
   bool m_bIsShareOrDrive;    ///< is this a root share/drive
   int m_iDriveType;     ///< If \e m_bIsShareOrDrive is \e true, use to get the share type. Types see: CMediaSource::m_iDriveType

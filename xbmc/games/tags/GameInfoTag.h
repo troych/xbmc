@@ -19,74 +19,108 @@
  */
 #pragma once
 
+#include "dbwrappers/nosql/IDocument.h"
+#include "games/GameTypes.h"
 #include "utils/IArchivable.h"
-#include "utils/ISerializable.h"
 #include "utils/ISortable.h"
+#include "XBDateTime.h"
 
 #include <string>
+#include <vector>
 
 namespace GAME
 {
-  class CGameInfoTag : public IArchivable, public ISerializable, public ISortable
+  struct GameEdition
+  {
+    GameFlag     flags;
+    CountryCode  countries;
+    std::string  path;
+    uint32_t     crc; // CRC, or zero if unknown
+    std::string  provider;
+  };
+
+  struct GameArtwork
+  {
+    GameArtworkType type;
+    std::string     path;
+  };
+
+  class CGameInfoTag : public IArchivable, public dbiplus::IDocument, public ISortable
   {
   public:
     CGameInfoTag() { Reset(); }
     CGameInfoTag(const CGameInfoTag& tag) { *this = tag; }
     const CGameInfoTag& operator=(const CGameInfoTag& tag);
-    ~CGameInfoTag() { }
     void Reset();
 
-    bool operator==(const CGameInfoTag& tag) const;
-    bool operator!=(const CGameInfoTag& tag) const { return !(*this == tag); }
+    CGameInfoTag& Merge(const CGameInfoTag& other);
 
-    bool IsLoaded() const { return m_bLoaded; }
-    void SetLoaded(bool bOnOff = true) { m_bLoaded = bOnOff; }
+    virtual void Archive(CArchive& ar) override;
+    virtual void Serialize(CVariant& value) const override;
+    virtual void Deserialize(const CVariant& value);
+    virtual void Deserialize(CVariant&& value) override;
+    virtual void ToSortable(SortItem& sortable, Field field) const override;
 
-    // File path
-    const std::string& GetURL() const { return m_strURL; }
-    void SetURL(const std::string& strURL) { m_strURL = strURL; }
+    /*
+     * Single-valued properties
+     */
+    int64_t            ID(void) const { return m_id; }                   // Unique identifier for this game
+    const std::string& Title(void) const { return m_strTitle; }          // Game title
+    const std::string& Publisher(void) const { return m_publisher; }     // Game publisher
+    const std::string& Developer(void) const { return m_developer; }     // Game developer
+    const std::string& MediaType(void) const { return m_strMediaType; }  // Physical media type, e.g. "ROM+MBC5+RAM+BATT" or "CD"
+    unsigned int       PlayerCount(void) const { return m_playerCount; } // Number of players supported by the game
+    bool               IsCoop(void) const { return m_bCoop; }            // True if game supports cooperative mode
+    const CDateTime&   ReleaseDate(void) const { return m_releaseDate; } // Release date to best known accuracy
+    const CDateTime&   AddDate(void) const { return m_addDate; }         // Date the game was added to the database
+    unsigned int       Rating(void) const { return m_rating; }           // Rating out of a possible 10
+    EsbrRating         ESBR(void) const { return m_esbr; }               // ESBR rating
+    const char*        ESBRString(void) const;
 
-    // Title
-    const std::string& GetTitle() const { return m_strName; }
-    void SetTitle(const std::string& strName) { m_strName = strName; }
+    void SetID(int64_t identifier) { m_id = identifier; }
+    void SetTitle(const std::string& strTitle) { m_strTitle = strTitle; }
+    void SetPublisher(const std::string& strPublisher) { m_publisher = strPublisher; }
+    void SetDeveloper(const std::string& strDeveloper) { m_developer = strDeveloper; }
+    void SetMediaType(const std::string& strMediaType) { m_strMediaType = strMediaType; }
+    void SetPlayerCount(unsigned int playerCount) { m_playerCount = playerCount; }
+    void SetCoop(bool bIsCoop) { m_bCoop = bIsCoop; }
+    void SetReleaseDate(const CDateTime& date) { m_releaseDate = date; }
+    void SetAddDate(const CDateTime& date) { m_addDate = date; }
+    void SetRating(unsigned int rating) { m_rating = rating; }
+    void SetESBR(EsbrRating rating) { m_esbr = rating; }
+    void SetESBRString(const std::string& strRating);
 
-    // Platform
-    const std::string& GetPlatform() const { return m_strPlatform; }
-    void SetPlatform(const std::string& strPlatform) { m_strPlatform = strPlatform; }
+    /*
+     * Multi-valued properties
+     */
+    const std::vector<GameEdition>& Editions(void) const  { return m_editions; }   // Alternate editions of the same game
+    const std::vector<std::string>& Genres(void) const    { return m_genres; }     // List of genres
+    const std::vector<std::string>& Platforms(void) const { return m_platforms; }  // List of platforms this game runs on
+    const std::vector<std::string>& Series(void) const    { return m_series; }     // List of series this game belongs to
+    const std::vector<GameArtwork>& Artwork(void) const   { return m_artwork; }    // Artwork related to this game
 
-    // Game Code (ID)
-    const std::string& GetID() const { return m_strID; }
-    void SetID(const std::string& strID) { m_strID = strID; }
-
-    // Region
-    const std::string& GetRegion() const { return m_strRegion; }
-    void SetRegion(const std::string& strRegion) { m_strRegion = strRegion; }
-
-    // Publisher / Licensee
-    const std::string& GetPublisher() const { return m_strPublisher; }
-    void SetPublisher(const std::string& strPublisher) { m_strPublisher = strPublisher; }
-
-    // Format (PAL/NTSC)
-    const std::string& GetFormat() const { return m_strFormat; }
-    void SetFormat(const std::string& strFormat) { m_strFormat = strFormat; }
-
-    // Cartridge Type, e.g. "ROM+MBC5+RAM+BATT" or "CD"
-    const std::string& GetCartridgeType() const { return m_strCartridgeType; }
-    void SetCartridgeType(const std::string& strCartridgeType) { m_strCartridgeType = strCartridgeType; }
-
-    virtual void Archive(CArchive& ar);
-    virtual void Serialize(CVariant& value) const;
-    virtual void ToSortable(SortItem& sortable, Field field) const;
+    std::vector<GameEdition>& Editions(void)  { return m_editions; }   // Alternate editions of the same game
+    std::vector<std::string>& Genres(void)    { return m_genres; }     // List of genres
+    std::vector<std::string>& Platforms(void) { return m_platforms; }  // List of platforms this game runs on
+    std::vector<std::string>& Series(void)    { return m_series; }     // List of series this game belongs to
+    std::vector<GameArtwork>& Artwork(void)   { return m_artwork; }    // Artwork related to this game
 
   private:
-    bool        m_bLoaded;
-    std::string m_strURL;
-    std::string m_strName;
-    std::string m_strPlatform;
-    std::string m_strID;
-    std::string m_strRegion;
-    std::string m_strPublisher;
-    std::string m_strFormat;
-    std::string m_strCartridgeType;
+    int64_t                   m_id;
+    std::string               m_strTitle;
+    std::string               m_publisher;
+    std::string               m_developer;
+    std::string               m_strMediaType;
+    unsigned int              m_playerCount;
+    bool                      m_bCoop;
+    CDateTime                 m_releaseDate;
+    CDateTime                 m_addDate;
+    unsigned int              m_rating;
+    EsbrRating                m_esbr;
+    std::vector<GameEdition>  m_editions;
+    std::vector<std::string>  m_genres;
+    std::vector<std::string>  m_platforms;
+    std::vector<std::string>  m_series;
+    std::vector<GameArtwork>  m_artwork;
   };
 }

@@ -20,9 +20,11 @@
 
 #include "GUIWindowGames.h"
 #include "addons/GUIDialogAddonInfo.h"
+#include "addons/GUIWindowAddonBrowser.h"
 #include "Application.h"
 #include "dialogs/GUIDialogProgress.h"
 #include "FileItem.h"
+#include "filesystem/content/ContentScanner.h"
 #include "games/tags/GameInfoTag.h"
 #include "guilib/GUIWindowManager.h"
 #include "guilib/WindowIDs.h"
@@ -32,6 +34,7 @@
 #include "URL.h"
 #include "Util.h"
 #include "utils/StringUtils.h"
+#include "utils/URIUtils.h"
 
 #define CONTROL_BTNVIEWASICONS      2
 #define CONTROL_BTNSORTBY           3
@@ -108,6 +111,20 @@ void CGUIWindowGames::SetupShares()
   m_rootDir.SetFlags(DIR_FLAG_NO_FILE_DIRS);
 }
 
+bool CGUIWindowGames::GetDirectory(const std::string& strDirectory, CFileItemList& items)
+{
+  if (!CGUIMediaWindow::GetDirectory(strDirectory, items))
+    return false;
+
+  /*
+  std::string label;
+  if (items.GetLabel().empty() && m_rootDir.IsSource(items.GetPath(), CMediaSourceSettings::Get().GetSources("pictures"), &label)) 
+    items.SetLabel(label);
+  */
+
+  return true;
+}
+
 void CGUIWindowGames::GetContextButtons(int itemNumber, CContextButtons &buttons)
 {
   CFileItemPtr item = m_vecItems->Get(itemNumber);
@@ -128,8 +145,16 @@ void CGUIWindowGames::GetContextButtons(int itemNumber, CContextButtons &buttons
         //buttons.Add(CONTEXT_BUTTON_PLAY_WITH, 15213); // Play With...
       }
 
-      if (!m_vecItems->IsPlugin() && (item->IsPlugin() || item->IsScript()))
+      if (URIUtils::IsContent(item->GetPath()))
+        buttons.Add(CONTEXT_BUTTON_ADD_TO_LIBRARY, 27026);
+
+      if (!m_vecItems->IsPlugin() &&
+          (item->IsPlugin() ||
+           item->IsScript() ||
+           URIUtils::IsContent(item->GetPath())))
+      {
         buttons.Add(CONTEXT_BUTTON_INFO, 24003); // Add-on info
+      }
 
       if (CSettings::Get().GetBool("filelists.allowfiledeletion") && !item->IsReadOnly())
       {
@@ -137,7 +162,8 @@ void CGUIWindowGames::GetContextButtons(int itemNumber, CContextButtons &buttons
         buttons.Add(CONTEXT_BUTTON_RENAME, 118);
       }
 
-      if (item->IsPlugin() || item->IsScript() || m_vecItems->IsPlugin())
+      if (item->IsPlugin() || item->IsScript() || m_vecItems->IsPlugin() ||
+          URIUtils::IsContent(item->GetPath()))
       {
         buttons.Add(CONTEXT_BUTTON_PLUGIN_SETTINGS, 1045);
       }
@@ -158,33 +184,41 @@ void CGUIWindowGames::GetContextButtons(int itemNumber, CContextButtons &buttons
 bool CGUIWindowGames::OnContextButton(int itemNumber, CONTEXT_BUTTON button)
 {
   CFileItemPtr item = m_vecItems->Get(itemNumber);
-  if (item && m_vecItems->IsSourcesPath())
+  if (item)
   {
-    if (CGUIDialogContextMenu::OnContextButton("games", item, button))
+    if (m_vecItems->IsSourcesPath())
     {
-      Update("sources://games/");
-      return true;
+      if (CGUIDialogContextMenu::OnContextButton("games", item, button))
+      {
+        Update("sources://games/");
+        return true;
+      }
     }
-  }
-  switch (button)
-  {
-  case CONTEXT_BUTTON_PLAY_ITEM:
-  case CONTEXT_BUTTON_PLAY_WITH:
-    return item && PlayGame(*item);
-  case CONTEXT_BUTTON_INFO:
-    OnInfo(itemNumber);
-    return true;
-  case CONTEXT_BUTTON_DELETE:
-    OnDeleteItem(itemNumber);
-    return true;
-  case CONTEXT_BUTTON_RENAME:
-    OnRenameItem(itemNumber);
-    return true;
-  case CONTEXT_BUTTON_SETTINGS:
-    g_windowManager.ActivateWindow(WINDOW_SETTINGS_MYGAMES);
-    return true;
-  default:
-    break;
+
+    switch (button)
+    {
+    case CONTEXT_BUTTON_PLAY_ITEM:
+    case CONTEXT_BUTTON_PLAY_WITH:
+      PlayGame(*item);
+      return true;
+    case CONTEXT_BUTTON_INFO:
+      OnInfo(itemNumber);
+      return true;
+    case CONTEXT_BUTTON_DELETE:
+      OnDeleteItem(itemNumber);
+      return true;
+    case CONTEXT_BUTTON_RENAME:
+      OnRenameItem(itemNumber);
+      return true;
+    case CONTEXT_BUTTON_SETTINGS:
+      g_windowManager.ActivateWindow(WINDOW_SETTINGS_MYGAMES);
+      return true;
+    case CONTEXT_BUTTON_ADD_TO_LIBRARY:
+      ScanToLibrary(*item);
+      return true;
+    default:
+      break;
+    }
   }
   return CGUIMediaWindow::OnContextButton(itemNumber, button);
 }
@@ -194,6 +228,19 @@ bool CGUIWindowGames::OnClick(int itemNumber)
   CFileItemPtr item = m_vecItems->Get(itemNumber);
   if (!item)
     return true;
+
+  /* TODO
+  if (item->GetPath() == "library://game/more.xml/")
+  {
+    std::string strAddonID;
+    if (1 == CGUIWindowAddonBrowser::SelectAddonID(ADDON::ADDON_GAME_CONTENT, strAddonID, false, true, false, true, false))
+    {
+      const std::string strDirectory = "content://" + strAddonID + "/";
+      Update(strDirectory);
+    }
+    return true;
+  }
+  */
 
   if (!(item->m_bIsFolder || item->IsFileFolder()) && item->IsGame())
     return PlayGame(*item);
@@ -234,9 +281,12 @@ std::string CGUIWindowGames::GetStartFolder(const std::string &dir)
     return "addons://sources/game/";
   }
 
+  // Make sure our shares are configured
   SetupShares();
+
   VECSOURCES shares;
   m_rootDir.GetSources(shares);
+
   bool bIsSourceName = false;
   int iIndex = CUtil::GetMatchingSource(dir, shares, bIsSourceName);
   if (iIndex >= 0)
@@ -247,9 +297,17 @@ std::string CGUIWindowGames::GetStartFolder(const std::string &dir)
       if (!g_passwordManager.IsItemUnlocked(&item, "games"))
         return "";
     }
+
     if (bIsSourceName)
       return shares[iIndex].strPath;
+
     return dir;
   }
+
   return CGUIMediaWindow::GetStartFolder(dir);
+}
+
+void CGUIWindowGames::ScanToLibrary(const CFileItem& item)
+{
+  CContentScanner::Get().Scan(item.GetPath());
 }

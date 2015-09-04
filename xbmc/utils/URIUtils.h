@@ -166,6 +166,7 @@ public:
   static bool IsLibraryContent(const std::string& strFile);
   static bool IsPVRChannel(const std::string& strFile);
   static bool IsUsingFastSwitch(const std::string& strFile);
+  static bool IsContent(const std::string& strFile);
 
   static void AddSlashAtEnd(std::string& strFolder);
   static bool HasSlashAtEnd(const std::string& strFile, bool checkURL = false);

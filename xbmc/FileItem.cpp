@@ -63,6 +63,7 @@
 
 #include <assert.h>
 #include <algorithm>
+#include <utility>
 
 using namespace std;
 using namespace XFILE;
@@ -582,16 +583,25 @@ void CFileItem::Archive(CArchive& ar)
 
 void CFileItem::Serialize(CVariant& value) const
 {
-  //CGUIListItem::Serialize(value["CGUIListItem"]);
+  CGUIListItem::Serialize(value["CGUIListItem"]);
 
-  value["strPath"] = m_strPath;
-  value["dateTime"] = (m_dateTime.IsValid()) ? m_dateTime.GetAsRFC1123DateTime() : "";
-  value["lastmodified"] = m_dateTime.IsValid() ? m_dateTime.GetAsDBDateTime() : "";
-  value["size"] = m_dwSize;
-  value["DVDLabel"] = m_strDVDLabel;
-  value["title"] = m_strTitle;
-  value["mimetype"] = m_mimetype;
-  value["extrainfo"] = m_extrainfo;
+  if (!m_strPath.empty())
+    value["strPath"] = m_strPath;
+  if (m_dateTime.IsValid())
+  {
+    value["dateTime"] = m_dateTime.GetAsRFC1123DateTime();
+    value["lastmodified"] = m_dateTime.GetAsDBDateTime();
+  }
+  if (m_dwSize)
+    value["size"] = m_dwSize;
+  if (!m_strDVDLabel.empty())
+    value["DVDLabel"] = m_strDVDLabel;
+  if (!m_strTitle.empty())
+    value["title"] = m_strTitle;
+  if (!m_mimetype.empty())
+    value["mimetype"] = m_mimetype;
+  if (!m_extrainfo.empty())
+    value["extrainfo"] = m_extrainfo;
 
   if (m_musicInfoTag)
     (*m_musicInfoTag).Serialize(value["musicInfoTag"]);
@@ -604,6 +614,60 @@ void CFileItem::Serialize(CVariant& value) const
 
   if (m_gameInfoTag)
     (*m_gameInfoTag).Serialize(value["gameInfoTag"]);
+}
+
+void CFileItem::Deserialize(const CVariant& value)
+{
+  CGUIListItem::Deserialize(value["CGUIListItem"]);
+
+  m_strPath = value["strPath"].asString();
+  m_dateTime.SetFromDBDate(value["lastmodified"].asString());
+  m_dwSize = value["size"].asInteger();
+  m_strDVDLabel = value["DVDLabel"].asString();
+  m_strTitle = value["title"].asString();
+  m_mimetype = value["mimetype"].asString();
+  m_extrainfo = value["extrainfo"].asString();
+
+  /* TODO
+  if (!value["musicInfoTag"].empty())
+    GetMusicInfoTag()->Deserialize(value["musicInfoTag"]);
+  
+  if (!value["videoInfoTag"].empty())
+    GetVideoInfoTag()->Deserialize(value["videoInfoTag"]);
+  
+  if (!value["pictureInfoTag"].empty())
+    GetPictureInfoTag()->Deserialize(value["pictureInfoTag"]);
+  */
+
+  if (value["gameInfoTag"].isObject())
+    GetGameInfoTag()->Deserialize(value["gameInfoTag"]);
+}
+
+void CFileItem::Deserialize(CVariant&& value)
+{
+  CGUIListItem::Deserialize(std::move(value["CGUIListItem"]));
+
+  m_strPath = std::move(value["strPath"].asString());
+  m_dateTime.SetFromDBDate(value["lastmodified"].asString());
+  m_dwSize = value["size"].asInteger();
+  m_strDVDLabel = std::move(value["DVDLabel"].asString());
+  m_strTitle = std::move(value["title"].asString());
+  m_mimetype = std::move(value["mimetype"].asString());
+  m_extrainfo = std::move(value["extrainfo"].asString());
+
+  /* TODO
+  if (!value["musicInfoTag"].empty())
+    GetMusicInfoTag()->Deserialize(std::move(value["musicInfoTag"]));
+  
+  if (!value["videoInfoTag"].empty())
+    GetVideoInfoTag()->Deserialize(std::move(value["videoInfoTag"]));
+  
+  if (!value["pictureInfoTag"].empty())
+    GetPictureInfoTag()->Deserialize(std::move(value["pictureInfoTag"]));
+  */
+
+  if (value["gameInfoTag"].isObject())
+    GetGameInfoTag()->Deserialize(std::move(value["gameInfoTag"]));
 }
 
 void CFileItem::ToSortable(SortItem &sortable, Field field) const
@@ -1677,6 +1741,19 @@ bool CFileItem::LoadTracksFromCueDocument(CFileItemList& scannedItems)
   return tracksFound != 0;
 }
 
+void CFileItem::Merge(const CFileItem& pItem)
+{
+  // TODO: Merge CGUIListItem
+
+  // Merge metadata
+  if (pItem.HasGameInfoTag())
+    GetGameInfoTag()->Merge(*pItem.GetGameInfoTag());
+
+  // TODO: Add other types
+
+  // Merge properties
+  m_mapProperties.insert(pItem.m_mapProperties.begin(), pItem.m_mapProperties.end());
+}
 
 /////////////////////////////////////////////////////////////////////////////////
 /////
@@ -3141,18 +3218,6 @@ bool CFileItem::LoadMusicTag()
       }
     }
   }
-  return false;
-}
-
-bool CFileItem::LoadGameTag()
-{
-  // Already loaded?
-  if (HasGameInfoTag() && m_gameInfoTag->IsLoaded())
-    return true;
-
-  // TODO
-  GetGameInfoTag();
-
   return false;
 }
 

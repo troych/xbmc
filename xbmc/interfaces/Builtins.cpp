@@ -774,7 +774,7 @@ int CBuiltins::Execute(const std::string& execString)
       else if (StringUtils::StartsWithNoCase(params[i], "platform="))
       {
         // A game platform was specified, record the request for when we choose a game client
-        item.GetGameInfoTag()->SetPlatform(params[i].substr(9));
+        item.GetGameInfoTag()->Platforms().push_back(params[i].substr(9));
       }
       else if (StringUtils::StartsWithNoCase(params[i], "gameclient="))
       {

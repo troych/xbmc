@@ -20,6 +20,8 @@
 
 #include "LibraryDirectory.h"
 #include "Directory.h"
+#include "filesystem/content/ContentDatabaseDirectory.h"
+#include "filesystem/content/ContentDatabaseFilter.h"
 #include "playlists/SmartPlayList.h"
 #include "profiles/ProfilesManager.h"
 #include "SmartPlaylistDirectory.h"
@@ -59,7 +61,6 @@ bool CLibraryDirectory::GetDirectory(const CURL& url, CFileItemList &items)
       std::string type = XMLUtils::GetAttribute(node, "type");
       if (type == "filter")
       {
-        CSmartPlaylist playlist;
         std::string type, label;
         XMLUtils::GetString(node, "content", type);
         if (type.empty())
@@ -67,16 +68,39 @@ bool CLibraryDirectory::GetDirectory(const CURL& url, CFileItemList &items)
           CLog::Log(LOGERROR, "<content> tag must not be empty for type=\"filter\" node '%s'", libNode.c_str());
           return false;
         }
+
+        // temporary
+        MediaType mediaType = MediaTypes::FromString(type);
+
         if (XMLUtils::GetString(node, "label", label))
           label = CGUIControlFactory::FilterLabel(label);
-        playlist.SetType(type);
-        playlist.SetName(label);
-        if (playlist.LoadFromXML(node) &&
-            CSmartPlaylistDirectory::GetDirectory(playlist, items))
+
+        const std::string& strLibrary = url.GetHostName();
+        if (strLibrary == "music" ||
+            strLibrary == "video" ||
+            strLibrary == "video_flat")
         {
-          items.SetProperty("library.filter", "true");
-          items.SetPath(items.GetProperty("path.db").asString());
-          return true;
+          CSmartPlaylist playlist;
+          playlist.SetType(type);
+          playlist.SetName(label);
+          if (playlist.LoadFromXML(node) &&
+              CSmartPlaylistDirectory::GetDirectory(playlist, items))
+          {
+            items.SetProperty("library.filter", "true");
+            items.SetPath(items.GetProperty("path.db").asString());
+            return true;
+          }
+        }
+        else
+        {
+          CContentDatabaseFilter filter(type);
+          CContentDatabaseDirectory db;
+          if (db.GetDirectory(filter, items))
+          {
+            items.SetProperty("library.filter", "true");
+            items.SetLabel(label);
+            return true;
+          }
         }
       }
       else if (type == "folder")

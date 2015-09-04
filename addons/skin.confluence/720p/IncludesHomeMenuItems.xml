@@ -328,12 +328,17 @@
 		</control>
 		<control type="button" id="90182">
 			<include>ButtonHomeSubCommonValues</include>
-			<label>744</label>
-			<onclick>ActivateWindow(Games,Files,return)</onclick>
+			<label>31062</label><!-- Recently played -->
+			<onclick>ActivateWindow(Games,RecentlyPlayedGames,return)</onclick>
 		</control>
 		<control type="button" id="90183">
 			<include>ButtonHomeSubCommonValues</include>
-			<label>24001</label>
+			<label>14022</label><!-- Library -->
+			<onclick>ActivateWindow(Games,Root,return)</onclick>
+		</control>
+		<control type="button" id="90184">
+			<include>ButtonHomeSubCommonValues</include>
+			<label>24001</label><!-- Add-ons -->
 			<onclick>ActivateWindow(Games,Addons,return)</onclick>
 		</control>
 		<control type="image" id="90184">

@@ -7006,9 +7006,16 @@ msgctxt "#15015"
 msgid "Remove"
 msgstr ""
 
+#: system/library/game/index.xml
 #: system/settings/settings.xml
+#: xbmc/media/MediaType.cpp
 msgctxt "#15016"
 msgid "Games"
+msgstr ""
+
+#: xbmc/media/MediaType.cpp
+msgctxt "#15017"
+msgid "Game"
 msgstr ""
 
 #empty strings from id 15017 to 15018
@@ -13232,6 +13239,7 @@ msgctxt "#27015"
 msgid "Add-on manager"
 msgstr ""
 
+#: system/library/game/addons.xml
 #: xbmc/addons/Addon.cpp
 #: xbmc/filesystem/AddonsDirectory.cpp
 #: xbmc/games/windows/GUIViewStateWindowGames.cpp
@@ -13241,7 +13249,7 @@ msgstr ""
 
 #: xbmc/windows/GUIMediaWindow.cpp
 msgctxt "#27017"
-msgid "Add games..."
+msgid "Add files..."
 msgstr ""
 
 #: xbmc/addons/Addon.cpp
@@ -13280,7 +13288,45 @@ msgctxt "#27024"
 msgid "Game providers"
 msgstr ""
 
-#empty strings from id 27025 to 29799
+#: xbmc/windows/GUIMediaWindow.cpp
+msgctxt "#27025"
+msgid "Add games..."
+msgstr ""
+
+#: xbmc/games/windows/GUIWindowGames.cpp
+msgctxt "#27026"
+msgid "Add to library"
+msgstr ""
+
+#empty strings from id 27027 to 27499
+
+#: system/library/game/publishers.xml
+msgctxt "#27500"
+msgid "Publishers"
+msgstr ""
+
+#: system/library/game/developers.xml
+msgctxt "#27501"
+msgid "Developers"
+msgstr ""
+
+#: system/library/game/regions.xml
+msgctxt "#27502"
+msgid "Regions"
+msgstr ""
+
+#: system/library/game/regions.xml
+#: xbmc/media/MediaTypes.cpp
+msgctxt "#27503"
+msgid "Platforms"
+msgstr ""
+
+#: xbmc/media/MediaTypes.cpp
+msgctxt "#27504"
+msgid "Platform"
+msgstr ""
+
+#empty strings from id 27505 to 29799
 
 #strings 29800 thru 29998 reserved strings used only in the default Project Mayhem III skin and not c++ code
 
@@ -16583,7 +16629,27 @@ msgctxt "#36921"
 msgid "songs"
 msgstr ""
 
-#empty strings from id 36922 to 36999
+#: xbmc/media/MediaType.cpp
+msgctxt "#36922"
+msgid "game"
+msgstr ""
+
+#: xbmc/media/MediaType.cpp
+msgctxt "#36923"
+msgid "games"
+msgstr ""
+
+#: xbmc/media/MediaType.cpp
+msgctxt "#36924"
+msgid "platform"
+msgstr ""
+
+#: xbmc/media/MediaType.cpp
+msgctxt "#36925"
+msgid "platforms"
+msgstr ""
+
+#empty strings from id 36924 to 36999
 
 #: xbmc/cores/dvdplayer/DVDInputStreams/DVDInputStreamNavigator.cpp
 msgctxt "#37000"

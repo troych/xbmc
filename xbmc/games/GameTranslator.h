@@ -20,6 +20,7 @@
 #pragma once
 
 #include "ControllerTypes.h"
+#include "GameTypes.h"
 
 #include <string>
 
@@ -29,6 +30,9 @@ namespace GAME
 class CGameTranslator
 {
 public:
+  static const char* GetESBR(EsbrRating rating);
+  static EsbrRating GetESBR(const std::string& strRating);
+
   static const char* TranslateFeatureType(FeatureType type);
   static FeatureType TranslateFeatureType(const std::string& strType);
 

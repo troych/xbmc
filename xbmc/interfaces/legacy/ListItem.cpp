@@ -538,17 +538,46 @@ namespace XBMCAddon
 
           if (key == "title")
           {
-            item->m_strTitle = value;
+            //item->m_strTitle = value; // TODO
             item->GetGameInfoTag()->SetTitle(value);
           }
-          else if (key == "platform")
-            item->GetGameInfoTag()->SetPlatform(value);
-          else if (key == "region")
-            item->GetGameInfoTag()->SetRegion(value);
           else if (key == "publisher")
             item->GetGameInfoTag()->SetPublisher(value);
-          else if (key == "gameclient")
-            item->SetProperty("Addon.ID", value);
+          else if (key == "developer")
+            item->GetGameInfoTag()->SetDeveloper(value);
+          else if (key == "mediatype")
+            item->GetGameInfoTag()->SetMediaType(value);
+          else if (key == "playercount")
+            item->GetGameInfoTag()->SetPlayerCount(strtol(value.c_str(), NULL, 10));
+          else if (key == "coop")
+            item->GetGameInfoTag()->SetCoop(value == "true" || value == "True");
+          else if (key == "date")
+          {
+            if (strlen(value.c_str()) == 10)
+            {
+              int year = atoi(value.substr(value.size() - 4).c_str());
+              int month = atoi(value.substr(3, 4).c_str());
+              int day = atoi(value.substr(0, 2).c_str());
+              //item->m_dateTime.SetDate(year, month, day); // TODO
+              item->GetGameInfoTag()->SetReleaseDate(CDateTime(year, month, day, 0, 0, 0));
+            }
+          }
+          else if (key == "rating")
+            item->GetGameInfoTag()->SetRating(strtol(value.c_str(), NULL, 10));
+          else if (key == "esbr")
+            item->GetGameInfoTag()->SetESBRString(value);
+          else if (key == "genre")
+            item->GetGameInfoTag()->Genres().push_back(value); // TODO
+          else if (key == "platform")
+            item->GetGameInfoTag()->Platforms().push_back(value); // TODO
+          else if (key == "series")
+            item->GetGameInfoTag()->Series().push_back(value); // TODO
+          else if (key == "Addon.ID")
+            item->SetProperty("Addon.ID", value); // TODO
+          /* TODO
+          else if (key == "trailer")
+            item->GetGameInfoTag()->SetTrailer(value);
+          */
         }
       }
     } // end ListItem::setInfo

@@ -21,6 +21,8 @@
 #include "GUIViewStateWindowGames.h"
 #include "games/GameManager.h"
 #include "FileItem.h"
+#include "filesystem/content/ContentAddonDirectory.h"
+#include "filesystem/Directory.h"
 #include "guilib/GraphicContext.h" // include before ViewState.h
 #include "guilib/LocalizeStrings.h"
 #include "guilib/WindowIDs.h"
@@ -30,7 +32,9 @@
 #include "view/ViewState.h"
 #include "view/ViewStateSettings.h"
 
+using namespace ADDON;
 using namespace GAME;
+using namespace XFILE;
 
 CGUIViewStateWindowGames::CGUIViewStateWindowGames(const CFileItemList& items) : CGUIViewState(items)
 {
@@ -71,7 +75,32 @@ std::string CGUIViewStateWindowGames::GetExtensions()
 VECSOURCES& CGUIViewStateWindowGames::GetSources()
 {
   m_sources.clear();
+  
+  // Game library:
+  // Recently played
+  // All games
+  // Platforms
+  // Series
+  // Genres
+  // Developers
+  // Multiplayer
+  // Rating
+  // Alternate editions
 
+  CFileItemList items;
+  CDirectory::GetDirectory("library://game/", items, "");
+  for (int i = 0; i < items.Size(); i++)
+  {
+    CFileItemPtr item = items[i];
+    CMediaSource share;
+    share.strName = item->GetLabel();
+    share.strPath = item->GetPath();
+    share.m_strThumbnailImage= item->GetIconImage();
+    share.m_iDriveType = CMediaSource::SOURCE_TYPE_LOCAL;
+    m_sources.push_back(share);
+  }
+
+  /*
   // Files
   {
     CMediaSource share;
@@ -83,7 +112,12 @@ VECSOURCES& CGUIViewStateWindowGames::GetSources()
   }
 
   // Add-ons
-  AddAddonsSource("game", g_localizeStrings.Get(27016), "DefaultAddonGame.png"); // Game Add-ons
+  AddAddonsSource("game", g_localizeStrings.Get(27016), "DefaultAddonGame.png"); // Game add-ons
+
+  if (XFILE::CContentAddonDirectory::HasInstallableAddons())
+    AddMoreContentItem("game", g_localizeStrings.Get(27025), "DefaultAddonGame.png"); // Add games...
+  */
+
   return CGUIViewState::GetSources();
 }
 

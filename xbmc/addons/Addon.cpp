@@ -101,6 +101,7 @@ static const TypeMapping types[] =
    {"xbmc.service",                      ADDON_SERVICE,             24018, "DefaultAddonService.png" },
    {"kodi.resource.language",            ADDON_RESOURCE_LANGUAGE,   24026, "DefaultAddonLanguage.png" },
    {"kodi.resource.uisounds",            ADDON_RESOURCE_UISOUNDS,   24006, "DefaultAddonUISounds.png" },
+   {"kodi.content.game",                 ADDON_GAME_CONTENT,        27016, "DefaultAddonGame.png" },
   };
 
 const std::string TranslateType(const ADDON::TYPE &type, bool pretty/*=false*/)
@@ -129,6 +130,11 @@ TYPE TranslateType(const std::string &string)
   }
 
   return ADDON_UNKNOWN;
+}
+
+TYPE TranslateContentType(const std::string &content)
+{
+  return TranslateType("kodi.content." + content);
 }
 
 const std::string GetIcon(const ADDON::TYPE& type)
@@ -380,6 +386,7 @@ void CAddon::BuildLibName(const cp_extension_t *extension)
     case ADDON_PLUGIN:
     case ADDON_SERVICE:
     case ADDON_CONTEXT_ITEM:
+    case ADDON_GAME_CONTENT:
       ext = ADDON_PYTHON_EXT;
       break;
     case ADDON_GAME_CONTROLLER:
@@ -416,6 +423,7 @@ void CAddon::BuildLibName(const cp_extension_t *extension)
       case ADDON_REPOSITORY:
       case ADDON_CONTEXT_ITEM:
       case ADDON_GAME_CONTROLLER:
+      case ADDON_GAME_CONTENT:
         {
           std::string temp = CAddonMgr::Get().GetExtValue(extension->configuration, "@library");
           m_strLibName = temp;

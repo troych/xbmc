@@ -25,6 +25,8 @@
 #include "utils/StringUtils.h"
 #include "utils/Variant.h"
 
+#include <utility>
+
 using namespace std;
 
 bool CGUIListItem::icompare::operator()(const std::string &s1, const std::string &s2) const
@@ -321,14 +323,20 @@ void CGUIListItem::Archive(CArchive &ar)
     SetInvalid();
   }
 }
-void CGUIListItem::Serialize(CVariant &value)
+
+void CGUIListItem::Serialize(CVariant &value) const
 {
   value["isFolder"] = m_bIsFolder;
-  value["strLabel"] = m_strLabel;
-  value["strLabel2"] = m_strLabel2;
-  value["sortLabel"] = m_sortLabel;
-  value["strIcon"] = m_strIcon;
-  value["selected"] = m_bSelected;
+  if (!m_strLabel.empty())
+    value["strLabel"] = m_strLabel;
+  if (!m_strLabel2.empty())
+    value["strLabel2"] = m_strLabel2;
+  if (!m_sortLabel.empty())
+    value["sortLabel"] = m_sortLabel;
+  if (!m_strIcon.empty())
+    value["strIcon"] = m_strIcon;
+  if (m_bSelected)
+    value["selected"] = m_bSelected;
 
   for (PropertyMap::const_iterator it = m_mapProperties.begin(); it != m_mapProperties.end(); ++it)
   {
@@ -336,6 +344,42 @@ void CGUIListItem::Serialize(CVariant &value)
   }
   for (ArtMap::const_iterator it = m_art.begin(); it != m_art.end(); ++it)
     value["art"][it->first] = it->second;
+}
+
+void CGUIListItem::Deserialize(const CVariant& value)
+{
+  m_bIsFolder = value["isFolder"].asBoolean();
+  m_strLabel = value["strLabel"].asString();
+  m_strLabel2 = value["strLabel2"].asString();
+  m_sortLabel = value["sortLabel"].asWideString();
+  m_strIcon = value["strIcon"].asString();
+  m_bSelected = value["selected"].asBoolean();
+
+  const CVariant& properties = value["properties"];
+  for (CVariant::const_iterator_map it = properties.begin_map(); it != properties.end_map(); ++it)
+    m_mapProperties[it->first] = it->second;
+
+  const CVariant& art = value["art"];
+  for (CVariant::const_iterator_map it = art.begin_map(); it != art.end_map(); ++it)
+    m_art[it->first] = it->second.asString();
+}
+
+void CGUIListItem::Deserialize(CVariant&& value)
+{
+  m_bIsFolder = std::move(value["isFolder"].asBoolean());
+  m_strLabel = std::move(value["strLabel"].asString());
+  m_strLabel2 = std::move(value["strLabel2"].asString());
+  m_sortLabel = std::move(value["sortLabel"].asWideString());
+  m_strIcon = std::move(value["strIcon"].asString());
+  m_bSelected = std::move(value["selected"].asBoolean());
+
+  const CVariant& properties = value["properties"];
+  for (CVariant::const_iterator_map it = properties.begin_map(); it != properties.end_map(); ++it)
+    m_mapProperties[it->first] = std::move(it->second);
+
+  const CVariant& art = value["art"];
+  for (CVariant::const_iterator_map it = art.begin_map(); it != art.end_map(); ++it)
+    m_art[it->first] = std::move(it->second.asString());
 }
 
 void CGUIListItem::FreeIcons()

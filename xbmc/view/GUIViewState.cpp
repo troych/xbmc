@@ -43,6 +43,7 @@
 #include "settings/Settings.h"
 #include "FileItem.h"
 #include "filesystem/AddonsDirectory.h"
+#include "filesystem/content/ContentAddonDirectory.h"
 #include "guilib/TextureManager.h"
 
 #if defined(TARGET_ANDROID)
@@ -419,6 +420,25 @@ void CGUIViewState::AddAddonsSource(const std::string &content, const std::strin
   { // add the plugin source
     CMediaSource source;
     source.strPath = "addons://sources/" + content + "/";    
+    source.strName = label;
+    if (!thumb.empty() && g_TextureManager.HasTexture(thumb))
+      source.m_strThumbnailImage = thumb;
+    source.m_iDriveType = CMediaSource::SOURCE_TYPE_LOCAL;
+    source.m_ignore = true;
+    m_sources.push_back(source);
+  }
+}
+
+void CGUIViewState::AddMoreContentItem(const std::string &content, const std::string &label, const std::string &thumb)
+{
+  if (!g_advancedSettings.m_bVirtualShares)
+    return;
+
+  VECADDONS dummyAddons;
+  if (XFILE::CContentAddonDirectory::GetAddons(content, dummyAddons))
+  {
+    CMediaSource source;
+    source.strPath = "content://add/" + content + "/";    
     source.strName = label;
     if (!thumb.empty() && g_TextureManager.HasTexture(thumb))
       source.m_strThumbnailImage = thumb;
