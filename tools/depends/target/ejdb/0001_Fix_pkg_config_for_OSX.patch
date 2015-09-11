@@ -1,0 +1,29 @@
+From 2a6024fb20980ed9191d3e284d8d0458fef61e60 Mon Sep 17 00:00:00 2001
+From: Anton Adamansky <adamansky@gmail.com>
+Date: Fri, 24 Jul 2015 22:22:42 +0600
+Subject: [PATCH] Fixed #152
+
+---
+ src/CMakeLists.txt | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index f04e784..0f9f9f7 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -182,10 +182,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/myconf.h.in ${EJDB_GENERATED_DIR}/myc
+ file(GLOB EJDB_GENERATED_HDRS ${EJDB_GENERATED_DIR}/*.h)
+ list(APPEND ALL_HDRS ${EJDB_GENERATED_HDRS})
+ 
+-if (NOT APPLE AND NOT BUILD_FRAMEWORK)
+-	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libejdb.pc.in ${EJDB_GENERATED_DIR}/libejdb.pc @ONLY)
+-	install(FILES ${EJDB_GENERATED_DIR}/libejdb.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+-endif(NOT APPLE AND NOT BUILD_FRAMEWORK)
++configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libejdb.pc.in ${EJDB_GENERATED_DIR}/libejdb.pc @ONLY)
++install(FILES ${EJDB_GENERATED_DIR}/libejdb.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+ 
+ foreach(MODULE IN LISTS MODULES)
+ 	if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${MODULE}/CMakeLists.txt)
+-- 
+1.9.5 (Apple Git-50.3)
+

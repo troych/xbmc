@@ -1,0 +1,23 @@
+From 8b55f411488f4757d0d271c397275cb6a2cfc47e Mon Sep 17 00:00:00 2001
+From: Garrett Brown <themagnificentmrb@gmail.com>
+Date: Sat, 12 Sep 2015 13:51:36 -0700
+Subject: [PATCH] Fix library name in .pc file
+
+---
+ src/libejdb.pc.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/libejdb.pc.in b/src/libejdb.pc.in
+index 5923dbd..279b3f1 100644
+--- a/src/libejdb.pc.in
++++ b/src/libejdb.pc.in
+@@ -7,5 +7,5 @@ Name: @PROJECT_NAME@
+ Description: @PROJECT_DESCRIPTION_SUMMARY@
+ URL: @PROJECT_WEBSITE@
+ Version: @PROJECT_VERSION@
+-Libs: -L${libdir} -l@PROJECT_NAME@
++Libs: -L${libdir} -l@PROJECT_NAME@-1
+ Cflags: -I${includedir}
+-- 
+1.9.5 (Apple Git-50.3)
+
