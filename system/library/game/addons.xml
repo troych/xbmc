@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<node order="22" type="folder">
+  <label>27016</label>
+  <icon>DefaultAddonGame.png</icon>
+  <path>addons://sources/game/</path>
+</node>
