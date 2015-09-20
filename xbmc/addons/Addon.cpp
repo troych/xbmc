@@ -25,6 +25,7 @@
 #include "settings/Settings.h"
 #include "filesystem/Directory.h"
 #include "filesystem/File.h"
+#include "filesystem/SpecialProtocol.h"
 #include "system.h"
 #ifdef HAS_PYTHON
 #include "interfaces/python/XBPython.h"
@@ -617,7 +618,18 @@ const std::string CAddon::Icon() const
 
 const std::string CAddon::LibPath() const
 {
-  return URIUtils::AddFileToFolder(m_props.path, m_strLibName);
+  std::string strLibPath = URIUtils::AddFileToFolder(m_props.path, m_strLibName);
+
+  // Check if add-on library has been installed to the binaries path instead
+  std::string strSharePath = CSpecialProtocol::TranslatePath("special://xbmc/");
+  const bool bIsInSharePath = StringUtils::StartsWith(strLibPath, strSharePath);
+  if (bIsInSharePath && !CFile::Exists(strLibPath))
+  {
+    std::string strBinPath = CSpecialProtocol::TranslatePath("special://xbmcbin/");
+    strLibPath.replace(0, strSharePath.length(), strBinPath);
+  }
+
+  return strLibPath;
 }
 
 AddonVersion CAddon::GetDependencyVersion(const std::string &dependencyID) const
