@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<node order="1" visible="Library.HasContent(Games)">
-  <!-- a virtual folder -->
-  <label>15016</label>
-  <icon>DefaultGames.png</icon>
-</node>

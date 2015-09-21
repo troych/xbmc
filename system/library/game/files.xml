@@ -2,5 +2,5 @@
 <node order="20" type="folder">
   <label>744</label>
   <icon>DefaultFolder.png</icon>
-  <path>sources://game</path>
+  <path>sources://games/</path>
 </node>

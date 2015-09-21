@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<node order="4" type="filter">
-  <label>27500</label>
-  <icon>DefaultPublisher.png</icon>
-  <content>games</content>
-  <group>publishers</group>
-</node>
