@@ -260,6 +260,7 @@
     <ClCompile Include="..\..\xbmc\DbUrl.cpp" />
     <ClCompile Include="..\..\xbmc\dbwrappers\Database.cpp" />
     <ClCompile Include="..\..\xbmc\dbwrappers\DatabaseQuery.cpp" />
+    <ClCompile Include="..\..\xbmc\dbwrappers\DatabaseQuerySQL.cpp" />
     <ClCompile Include="..\..\xbmc\dbwrappers\dataset.cpp" />
     <ClCompile Include="..\..\xbmc\dbwrappers\mysqldataset.cpp" />
     <ClCompile Include="..\..\xbmc\dbwrappers\qry_dat.cpp" />
@@ -929,6 +930,7 @@
     <ClInclude Include="..\..\xbmc\cores\RetroPlayer\RetroPlayerDialogs.h" />
     <ClInclude Include="..\..\xbmc\cores\RetroPlayer\RetroPlayerVideo.h" />
     <ClInclude Include="..\..\xbmc\cores\VideoRenderers\OverlayRendererGUI.h" />
+    <ClInclude Include="..\..\xbmc\dbwrappers\DatabaseQuerySQL.h" />
     <ClInclude Include="..\..\xbmc\dialogs\GUIDialogKeyboardGeneric.h" />
     <ClInclude Include="..\..\xbmc\DbUrl.h" />
     <ClInclude Include="..\..\xbmc\dialogs\GUIDialogMediaFilter.h" />
