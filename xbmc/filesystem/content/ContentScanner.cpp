@@ -22,7 +22,10 @@
 #include "ContentDatabaseDirectory.h"
 #include "filesystem/Directory.h"
 #include "threads/SingleLock.h"
+#include "utils/log.h"
 #include "URL.h"
+
+#include <queue>
 
 using namespace XFILE;
 
@@ -50,8 +53,10 @@ void CContentScanner::Scan(const std::string& strPath)
     SetPriority(GetMinPriority());
   }
 
-  CSingleLock lock(m_mutex);
-  m_strPath = strPath;
+  {
+    CSingleLock lock(m_mutex);
+    m_strPath = strPath;
+  }
   m_scanEvent.Set();
 }
 
@@ -60,6 +65,9 @@ void CContentScanner::Process(void)
   while (!m_bStop)
   {
     m_scanEvent.Wait();
+
+    if (m_bStop)
+      break;
 
     std::string strPath;
     {
@@ -73,8 +81,19 @@ void CContentScanner::Process(void)
 
 void CContentScanner::DoScan(const std::string& strPath)
 {
-  if (!m_bStop)
+  // Breadth first scan
+  std::queue<std::string> pathsToScan;
+  unsigned int            pathsScanned = 0;
+  unsigned int            pathsTotal = 0;
+
+  pathsToScan.push(strPath);
+  pathsTotal++;
+
+  while (!pathsToScan.empty())
   {
+    std::string strPath(pathsToScan.front());
+    pathsToScan.pop();
+
     CFileItemList items;
     if (CDirectory::GetDirectory(strPath, items))
     {
@@ -83,14 +102,21 @@ void CContentScanner::DoScan(const std::string& strPath)
       CContentDatabaseDirectory database;
       database.WriteDirectory(strPath, vecItems);
 
+      // Add subdirectories to the queue
       for (VECFILEITEMS::const_iterator it = vecItems.begin(); it != vecItems.end(); ++it)
       {
         const CFileItemPtr& item = *it;
         const std::string& strPath = item->GetPath();
 
         if (item->m_bIsFolder && !strPath.empty())
-          DoScan(strPath); // TODO: Replace recursion with iterative scan
+        {
+          pathsToScan.push(strPath);
+          pathsTotal++;
+        }
       }
     }
+
+    pathsScanned++;
+    CLog::Log(LOGDEBUG, "Content scaner: %u of %u paths scanned", pathsScanned, pathsTotal);
   }
 }
