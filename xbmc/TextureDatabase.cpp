@@ -109,7 +109,7 @@ std::string CTextureRule::FormatParameter(const std::string &operatorString,
   std::string parameter(param);
   if (m_field == TF_Url)
     parameter = CTextureUtils::UnwrapImageURL(param);
-  return CDatabaseQueryRule::FormatParameter(operatorString, parameter, db, strType);
+  return CDatabaseQueryRuleSQL::FormatParameter(operatorString, parameter, db, strType);
 }
 
 void CTextureRule::GetAvailableFields(std::vector<std::string> &fieldList)
@@ -487,5 +487,5 @@ CDatabaseQueryRule *CTextureDatabase::CreateRule() const
 
 CDatabaseQueryRuleCombination *CTextureDatabase::CreateCombination() const
 {
-  return new CDatabaseQueryRuleCombination();
+  return new CDatabaseQueryRuleCombinationSQL();
 }

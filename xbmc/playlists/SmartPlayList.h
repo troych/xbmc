@@ -24,14 +24,14 @@
 #include <vector>
 #include <memory>
 
-#include "dbwrappers/DatabaseQuery.h"
+#include "dbwrappers/DatabaseQuerySQL.h"
 #include "utils/SortUtils.h"
 #include "utils/XBMCTinyXML.h"
 
 class CURL;
 class CVariant;
 
-class CSmartPlaylistRule : public CDatabaseQueryRule
+class CSmartPlaylistRule : public CDatabaseQueryRuleSQL
 {
 public:
   CSmartPlaylistRule();
@@ -79,7 +79,7 @@ private:
   static std::string FormatLinkQuery(const char *field, const char *table, const MediaType& mediaType, const std::string& mediaField, const std::string& parameter);
 };
 
-class CSmartPlaylistRuleCombination : public CDatabaseQueryRuleCombination
+class CSmartPlaylistRuleCombination : public CDatabaseQueryRuleCombinationSQL
 {
 public:
   CSmartPlaylistRuleCombination() { }

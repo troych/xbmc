@@ -702,7 +702,7 @@ std::string CSmartPlaylistRule::FormatParameter(const std::string &operatorStrin
     std::string seconds = StringUtils::Format("%li", StringUtils::TimeStringToSeconds(param));
     return db.PrepareSQL(operatorString.c_str(), seconds.c_str());
   }
-  return CDatabaseQueryRule::FormatParameter(operatorString, param, db, strType);
+  return CDatabaseQueryRuleSQL::FormatParameter(operatorString, param, db, strType);
 }
 
 std::string CSmartPlaylistRule::FormatLinkQuery(const char *field, const char *table, const MediaType& mediaType, const std::string& mediaField, const std::string& parameter)
@@ -857,7 +857,7 @@ std::string CSmartPlaylistRule::FormatWhereClause(const std::string &negate, con
     }
   }
   if (query.empty())
-    query = CDatabaseQueryRule::FormatWhereClause(negate, oper, param, db, strType);
+    query = CDatabaseQueryRuleSQL::FormatWhereClause(negate, oper, param, db, strType);
   return query;
 }
 

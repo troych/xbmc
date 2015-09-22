@@ -22,11 +22,11 @@
 
 #include "dbwrappers/Database.h"
 #include "TextureCacheJob.h"
-#include "dbwrappers/DatabaseQuery.h"
+#include "dbwrappers/DatabaseQuerySQL.h"
 
 class CVariant;
 
-class CTextureRule : public CDatabaseQueryRule
+class CTextureRule : public CDatabaseQueryRuleSQL
 {
 public:
   CTextureRule() {};

@@ -1,5 +1,6 @@
 SRCS=Database.cpp \
      DatabaseQuery.cpp \
+     DatabaseQuerySQL.cpp \
      dataset.cpp \
      mysqldataset.cpp \
      qry_dat.cpp \

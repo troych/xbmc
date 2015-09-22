@@ -76,7 +76,7 @@ public:
   void                        SetParameter(const std::string &value);
   void                        SetParameter(const std::vector<std::string> &values);
 
-  virtual std::string         GetWhereClause(const CDatabase &db, const std::string& strType) const;
+  virtual std::string         GetWhereClause(const CDatabase &db, const std::string& strType) const { return ""; }
 
   int                         m_field;
   SEARCH_OPERATOR             m_operator;
@@ -87,12 +87,7 @@ protected:
   virtual FIELD_TYPE          GetFieldType(int field) const=0;
   virtual int                 TranslateField(const char *field) const=0;
   virtual std::string         TranslateField(int field) const=0;
-  std::string                 ValidateParameter(const std::string &parameter) const;
-  virtual std::string         FormatParameter(const std::string &negate, const std::string &oper, const CDatabase &db, const std::string &type) const;
-  virtual std::string         FormatWhereClause(const std::string &negate, const std::string &oper, const std::string &param,
-                                                const CDatabase &db, const std::string &type) const;
   virtual SEARCH_OPERATOR     GetOperator(const std::string &type) const { return m_operator; };
-  virtual std::string         GetOperatorString(SEARCH_OPERATOR op) const;
   virtual std::string         GetBooleanQuery(const std::string &negate, const std::string &strType) const { return ""; }
 
   static SEARCH_OPERATOR      TranslateOperator(const char *oper);
@@ -128,7 +123,7 @@ public:
   virtual bool Save(TiXmlNode *parent) const;
   virtual bool Save(CVariant &obj) const;
 
-  std::string GetWhereClause(const CDatabase &db, const std::string& strType) const;
+  virtual std::string GetWhereClause(const CDatabase &db, const std::string& strType) const { return ""; }
   std::string TranslateCombinationType() const;
 
   Combination GetType() const { return m_type; }

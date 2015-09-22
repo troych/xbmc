@@ -47,7 +47,7 @@ JSONRPC_STATUS CTextureOperations::GetTextures(const std::string &method, ITrans
       xspObj = filter;
 
     // decipher the rules
-    CDatabaseQueryRuleCombination rule;
+    CDatabaseQueryRuleCombinationSQL rule;
     if (!rule.Load(xspObj, &db))
       return InvalidParams;
 
