@@ -45,7 +45,10 @@ CContentScanner::~CContentScanner(void)
 void CContentScanner::Scan(const std::string& strPath)
 {
   if (!IsRunning())
+  {
     Create();
+    SetPriority(GetMinPriority());
+  }
 
   CSingleLock lock(m_mutex);
   m_strPath = strPath;
