@@ -373,6 +373,18 @@
     <Filter Include="games\windows">
       <UniqueIdentifier>{b27eff5a-49e1-4e7d-b4c2-f4e46d18629a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="dbwrappers\nosql">
+      <UniqueIdentifier>{08f5c221-5228-4bad-9c58-3bb5799f883b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dbwrappers\nosql\wrappers">
+      <UniqueIdentifier>{87ed65fb-e588-4142-be79-d1599b3aee94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="filesystem\content">
+      <UniqueIdentifier>{ec477f74-d404-4d36-bf6e-424e909713c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="filesystem\content\schema">
+      <UniqueIdentifier>{a1af7002-357f-4071-b0f9-dff936bd972c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\xbmc\win32\pch.cpp">
@@ -3273,6 +3285,36 @@
     </ClCompile>
     <ClCompile Include="..\..\xbmc\dbwrappers\DatabaseQuerySQL.cpp">
       <Filter>dbwrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\dbwrappers\nosql\NoSqlDatabase.cpp">
+      <Filter>dbwrappers\nosql</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\dbwrappers\nosql\NoSqlIterator.cpp">
+      <Filter>dbwrappers\nosql</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\dbwrappers\nosql\wrappers\BsonUtils.cpp">
+      <Filter>dbwrappers\nosql\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\dbwrappers\nosql\wrappers\EjdbDatastore.cpp">
+      <Filter>dbwrappers\nosql\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\dbwrappers\nosql\wrappers\EjdbIterator.cpp">
+      <Filter>dbwrappers\nosql\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\filesystem\content\ContentAddonDirectory.cpp">
+      <Filter>filesystem\content</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\filesystem\content\ContentDatabaseDirectory.cpp">
+      <Filter>filesystem\content</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\filesystem\content\ContentDatabaseFilter.cpp">
+      <Filter>filesystem\content</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\filesystem\content\ContentScanner.cpp">
+      <Filter>filesystem\content</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\filesystem\content\schema\Directory.cpp">
+      <Filter>filesystem\content\schema</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -6349,6 +6391,51 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\dbwrappers\DatabaseQuerySQL.h">
       <Filter>dbwrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\dbwrappers\nosql\IDocument.h">
+      <Filter>dbwrappers\nosql</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\dbwrappers\nosql\IDocumentFactory.h">
+      <Filter>dbwrappers\nosql</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\dbwrappers\nosql\IDocumentIterator.h">
+      <Filter>dbwrappers\nosql</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\dbwrappers\nosql\IDocumentStore.h">
+      <Filter>dbwrappers\nosql</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\dbwrappers\nosql\NoSqlDatabase.h">
+      <Filter>dbwrappers\nosql</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\dbwrappers\nosql\NoSqlIterator.h">
+      <Filter>dbwrappers\nosql</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\dbwrappers\nosql\NoSqlTypes.h">
+      <Filter>dbwrappers\nosql</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\dbwrappers\nosql\wrappers\BsonUtils.h">
+      <Filter>dbwrappers\nosql\wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\dbwrappers\nosql\wrappers\EjdbDatastore.h">
+      <Filter>dbwrappers\nosql\wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\dbwrappers\nosql\wrappers\EjdbIterator.h">
+      <Filter>dbwrappers\nosql\wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\filesystem\content\ContentAddonDirectory.h">
+      <Filter>filesystem\content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\filesystem\content\ContentDatabaseDirectory.h">
+      <Filter>filesystem\content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\filesystem\content\ContentDatabaseFilter.h">
+      <Filter>filesystem\content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\filesystem\content\ContentScanner.h">
+      <Filter>filesystem\content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\filesystem\content\schema\Directory.h">
+      <Filter>filesystem\content\schema</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
