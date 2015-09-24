@@ -303,6 +303,9 @@
 		687F3F3D1BC5BCA70044D3E8 /* JoystickMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 687F3F381BC5BCA70044D3E8 /* JoystickMonitor.cpp */; };
 		687F3F3E1BC5BCA70044D3E8 /* JoystickMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 687F3F381BC5BCA70044D3E8 /* JoystickMonitor.cpp */; };
 		687F3F3F1BC5BCA70044D3E8 /* JoystickMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 687F3F381BC5BCA70044D3E8 /* JoystickMonitor.cpp */; };
+		68465ECC1BB491D30083BB53 /* DatabaseQuerySQL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68465ECA1BB491D30083BB53 /* DatabaseQuerySQL.cpp */; };
+		68465ECD1BB491D30083BB53 /* DatabaseQuerySQL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68465ECA1BB491D30083BB53 /* DatabaseQuerySQL.cpp */; };
+		68465ECE1BB491D30083BB53 /* DatabaseQuerySQL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68465ECA1BB491D30083BB53 /* DatabaseQuerySQL.cpp */; };
 		687AAF391B2CA4D700C16152 /* AddonCallbacksGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 687AAF361B2CA4D700C16152 /* AddonCallbacksGame.cpp */; };
 		687AAF3A1B2CA4D700C16152 /* AddonCallbacksGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 687AAF361B2CA4D700C16152 /* AddonCallbacksGame.cpp */; };
 		687AAF3B1B2CA4D700C16152 /* AddonCallbacksGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 687AAF361B2CA4D700C16152 /* AddonCallbacksGame.cpp */; };
@@ -3790,6 +3793,8 @@
 		687F3F371BC5BCA70044D3E8 /* JoystickEasterEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoystickEasterEgg.h; path = joysticks/JoystickEasterEgg.h; sourceTree = "<group>"; };
 		687F3F381BC5BCA70044D3E8 /* JoystickMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JoystickMonitor.cpp; path = joysticks/JoystickMonitor.cpp; sourceTree = "<group>"; };
 		687F3F391BC5BCA70044D3E8 /* JoystickMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoystickMonitor.h; path = joysticks/JoystickMonitor.h; sourceTree = "<group>"; };
+		68465ECA1BB491D30083BB53 /* DatabaseQuerySQL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DatabaseQuerySQL.cpp; sourceTree = "<group>"; };
+		68465ECB1BB491D30083BB53 /* DatabaseQuerySQL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseQuerySQL.h; sourceTree = "<group>"; };
 		687AAF361B2CA4D700C16152 /* AddonCallbacksGame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddonCallbacksGame.cpp; sourceTree = "<group>"; };
 		687AAF371B2CA4D700C16152 /* AddonCallbacksGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddonCallbacksGame.h; sourceTree = "<group>"; };
 		687AAF381B2CA4D700C16152 /* DllGameClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DllGameClient.h; sourceTree = "<group>"; };
@@ -6855,6 +6860,8 @@
 				E38E16810D25F9FA00618676 /* Database.h */,
 				7C26126F1825B6340086E04D /* DatabaseQuery.cpp */,
 				7C2612701825B6340086E04D /* DatabaseQuery.h */,
+				68465ECA1BB491D30083BB53 /* DatabaseQuerySQL.cpp */,
+				68465ECB1BB491D30083BB53 /* DatabaseQuerySQL.h */,
 				E38E1CD70D25F9FC00618676 /* dataset.cpp */,
 				E38E1CD80D25F9FC00618676 /* dataset.h */,
 				7C7B2B2E1134F36400713D6D /* mysqldataset.cpp */,
@@ -11432,6 +11439,7 @@
 				68A587831B2A83FC002D3F53 /* GUIControllerWizard.cpp in Sources */,
 				DF40BC2F178B4C07009DB567 /* LanguageInvokerThread.cpp in Sources */,
 				DF40BC31178B4C07009DB567 /* ScriptInvocationManager.cpp in Sources */,
+				68465ECC1BB491D30083BB53 /* DatabaseQuerySQL.cpp in Sources */,
 				DFBB430A178B574E006CC20A /* AddonCallbacksCodec.cpp in Sources */,
 				55611BA31766672F00754072 /* RenderFlags.cpp in Sources */,
 				5558ED10176396CD00118C35 /* StereoscopicsManager.cpp in Sources */,
@@ -11767,6 +11775,7 @@
 				DFF0F19417528350002DA3A4 /* DVDOverlayContainer.cpp in Sources */,
 				DFF0F19517528350002DA3A4 /* DVDOverlayRenderer.cpp in Sources */,
 				DFF0F19717528350002DA3A4 /* DVDPlayer.cpp in Sources */,
+				68465ECE1BB491D30083BB53 /* DatabaseQuerySQL.cpp in Sources */,
 				DFF0F19817528350002DA3A4 /* DVDPlayerAudio.cpp in Sources */,
 				DFF0F19917528350002DA3A4 /* DVDPlayerSubtitle.cpp in Sources */,
 				DFF0F19A17528350002DA3A4 /* DVDPlayerTeletext.cpp in Sources */,
@@ -13009,6 +13018,7 @@
 				E49912A4174E5D9900741B6D /* RarDirectory.cpp in Sources */,
 				E49912A5174E5D9900741B6D /* RarFile.cpp in Sources */,
 				E49912A6174E5D9900741B6D /* RarManager.cpp in Sources */,
+				68465ECD1BB491D30083BB53 /* DatabaseQuerySQL.cpp in Sources */,
 				E49912A7174E5D9900741B6D /* RSSDirectory.cpp in Sources */,
 				E49912AA174E5D9900741B6D /* SAPDirectory.cpp in Sources */,
 				E49912AB174E5D9900741B6D /* SAPFile.cpp in Sources */,
