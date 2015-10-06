@@ -127,6 +127,7 @@
 						</item>
 						<item id="8">
 							<label>$LOCALIZE[35049]</label>
+							<visible>System.GetBool(gamesgeneral.enable)</visible>
 							<onclick>ActivateWindow(games,addons://sources/game/,return)</onclick>
 							<thumb>icons/settings/games.png</thumb>
 							<property name="id">game</property>

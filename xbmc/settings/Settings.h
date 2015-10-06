@@ -374,6 +374,7 @@ public:
   static const std::string SETTING_SOURCE_VIDEOS;
   static const std::string SETTING_SOURCE_MUSIC;
   static const std::string SETTING_SOURCE_PICTURES;
+  static const std::string SETTING_GAMES_ENABLE;
   static const std::string SETTING_GAMES_ENABLEREWIND;
   static const std::string SETTING_GAMES_REWINDTIME;
   static const std::string SETTING_GAMES_CONTROLLERCONFIG;

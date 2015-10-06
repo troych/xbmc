@@ -1186,7 +1186,7 @@
 								<onclick>ActivateWindow(Games)</onclick>
 								<thumb>icons/home/games.png</thumb>
 								<property name="id">games</property>
-								<visible>!Skin.HasSetting(HomeMenuNoGamesButton)</visible>
+								<visible>System.GetBool(gamesgeneral.enable) + !Skin.HasSetting(HomeMenuNoGamesButton)</visible>
 							</item>
 							<item>
 								<label>$LOCALIZE[24001]</label>

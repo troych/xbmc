@@ -345,6 +345,10 @@
 		68C149751CDDF16F0014ADDB /* DynamicDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68C149721CDDF16F0014ADDB /* DynamicDatabase.cpp */; };
 		68C149791CDDF1DB0014ADDB /* GUIDialogSavestates.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68C149771CDDF1DB0014ADDB /* GUIDialogSavestates.cpp */; };
 		68C1497A1CDDF1DB0014ADDB /* GUIDialogSavestates.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68C149771CDDF1DB0014ADDB /* GUIDialogSavestates.cpp */; };
+		68D41C1B1D94494000544EFC /* JoystickEasterEgg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D41C191D94494000544EFC /* JoystickEasterEgg.cpp */; };
+		68D41C1C1D94494000544EFC /* JoystickEasterEgg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D41C191D94494000544EFC /* JoystickEasterEgg.cpp */; };
+		68D41C1F1D9457E100544EFC /* KeyboardEasterEgg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D41C1D1D9457E100544EFC /* KeyboardEasterEgg.cpp */; };
+		68D41C201D9457E100544EFC /* KeyboardEasterEgg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D41C1D1D9457E100544EFC /* KeyboardEasterEgg.cpp */; };
 		68D77CFF1CD1C5E4004C1735 /* GameSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77CFD1CD1C5E4004C1735 /* GameSettings.cpp */; };
 		68D77D001CD1C5E4004C1735 /* GameSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77CFD1CD1C5E4004C1735 /* GameSettings.cpp */; };
 		68D77D081CD1C64C004C1735 /* GenericKeyboardJoystick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D041CD1C64C004C1735 /* GenericKeyboardJoystick.cpp */; };
@@ -2945,6 +2949,11 @@
 		68C149731CDDF16F0014ADDB /* DynamicDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicDatabase.h; sourceTree = "<group>"; };
 		68C149771CDDF1DB0014ADDB /* GUIDialogSavestates.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUIDialogSavestates.cpp; path = games/dialogs/GUIDialogSavestates.cpp; sourceTree = "<group>"; };
 		68C149781CDDF1DB0014ADDB /* GUIDialogSavestates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIDialogSavestates.h; path = games/dialogs/GUIDialogSavestates.h; sourceTree = "<group>"; };
+		68D41C181D94494000544EFC /* IButtonSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IButtonSequence.h; path = joysticks/IButtonSequence.h; sourceTree = "<group>"; };
+		68D41C191D94494000544EFC /* JoystickEasterEgg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JoystickEasterEgg.cpp; path = joysticks/JoystickEasterEgg.cpp; sourceTree = "<group>"; };
+		68D41C1A1D94494000544EFC /* JoystickEasterEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoystickEasterEgg.h; path = joysticks/JoystickEasterEgg.h; sourceTree = "<group>"; };
+		68D41C1D1D9457E100544EFC /* KeyboardEasterEgg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = KeyboardEasterEgg.cpp; path = keyboard/KeyboardEasterEgg.cpp; sourceTree = "<group>"; };
+		68D41C1E1D9457E100544EFC /* KeyboardEasterEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyboardEasterEgg.h; path = keyboard/KeyboardEasterEgg.h; sourceTree = "<group>"; };
 		68D77CFD1CD1C5E4004C1735 /* GameSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameSettings.cpp; path = games/GameSettings.cpp; sourceTree = "<group>"; };
 		68D77CFE1CD1C5E4004C1735 /* GameSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameSettings.h; path = games/GameSettings.h; sourceTree = "<group>"; };
 		68D77D021CD1C638004C1735 /* IKeyboardHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IKeyboardHandler.h; path = keyboard/IKeyboardHandler.h; sourceTree = "<group>"; };
@@ -6324,11 +6333,14 @@
 				68AE5BB01C9241DF00C4D527 /* IButtonMap.h */,
 				6819C8B61D76492500A60E30 /* IButtonMapCallback.h */,
 				68AE5BB11C9241DF00C4D527 /* IButtonMapper.h */,
+				68D41C181D94494000544EFC /* IButtonSequence.h */,
 				68AE5BB21C9241DF00C4D527 /* IDriverHandler.h */,
 				6861B9EC1CC248F600F62655 /* IDriverReceiver.h */,
 				68AE5BB31C9241DF00C4D527 /* IInputHandler.h */,
 				6861B9ED1CC248F600F62655 /* IInputReceiver.h */,
 				68AE5BB41C9241DF00C4D527 /* IKeymapHandler.h */,
+				68D41C191D94494000544EFC /* JoystickEasterEgg.cpp */,
+				68D41C1A1D94494000544EFC /* JoystickEasterEgg.h */,
 				68AE5BB51C9241DF00C4D527 /* JoystickMonitor.cpp */,
 				68AE5BB61C9241DF00C4D527 /* JoystickMonitor.h */,
 				68AE5BB71C9241DF00C4D527 /* JoystickTranslator.cpp */,
@@ -6489,6 +6501,8 @@
 			children = (
 				68D77D031CD1C63B004C1735 /* generic */,
 				68D77D021CD1C638004C1735 /* IKeyboardHandler.h */,
+				68D41C1D1D9457E100544EFC /* KeyboardEasterEgg.cpp */,
+				68D41C1E1D9457E100544EFC /* KeyboardEasterEgg.h */,
 			);
 			name = keyboard;
 			sourceTree = "<group>";
@@ -10205,6 +10219,7 @@
 				E38E204A0D25F9FD00618676 /* MusicDatabaseDirectory.cpp in Sources */,
 				E38E204B0D25F9FD00618676 /* MusicSearchDirectory.cpp in Sources */,
 				E38E204F0D25F9FD00618676 /* PlaylistDirectory.cpp in Sources */,
+				68D41C1F1D9457E100544EFC /* KeyboardEasterEgg.cpp in Sources */,
 				E38E20500D25F9FD00618676 /* PlaylistFileDirectory.cpp in Sources */,
 				68AE5C1B1C92438E00C4D527 /* GUIControllerButton.cpp in Sources */,
 				E38E20510D25F9FD00618676 /* PluginDirectory.cpp in Sources */,
@@ -10329,6 +10344,7 @@
 				68D77D6E1CD1C86B004C1735 /* RetroPlayerVideo.cpp in Sources */,
 				E38E22430D25F9FE00618676 /* filestr.cpp in Sources */,
 				E38E22440D25F9FE00618676 /* find.cpp in Sources */,
+				68D41C1B1D94494000544EFC /* JoystickEasterEgg.cpp in Sources */,
 				E38E22450D25F9FE00618676 /* getbits.cpp in Sources */,
 				DF0E4ACA1AD5982500A75430 /* InfoTagRadioRDS.cpp in Sources */,
 				E38E22460D25F9FE00618676 /* global.cpp in Sources */,
@@ -11258,6 +11274,7 @@
 				E499115D174E5CC300741B6D /* find.cpp in Sources */,
 				68D77D691CD1C86B004C1735 /* PixelConverter.cpp in Sources */,
 				E499115E174E5CC300741B6D /* getbits.cpp in Sources */,
+				68D41C201D9457E100544EFC /* KeyboardEasterEgg.cpp in Sources */,
 				E499115F174E5CC300741B6D /* global.cpp in Sources */,
 				DFE7041C1D15804C004EAA9D /* ActiveAEDSPProcess.cpp in Sources */,
 				E4991160174E5CC300741B6D /* int64.cpp in Sources */,
@@ -11718,6 +11735,7 @@
 				68C1497A1CDDF1DB0014ADDB /* GUIDialogSavestates.cpp in Sources */,
 				E4991327174E5DAD00741B6D /* Shader.cpp in Sources */,
 				E4991328174E5DAD00741B6D /* Texture.cpp in Sources */,
+				68D41C1C1D94494000544EFC /* JoystickEasterEgg.cpp in Sources */,
 				E4991329174E5DAD00741B6D /* TextureBundle.cpp in Sources */,
 				397877D61AAAF87700F98A45 /* Speed.cpp in Sources */,
 				DF6F52AF1AF6D03F001BC57D /* dacp.cpp in Sources */,

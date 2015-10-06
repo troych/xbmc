@@ -1990,6 +1990,12 @@
   <section id="games" label="15016" help="35200">
     <category id="gamesgeneral" label="16000" help="35202">
       <group id="1" label="35197">
+        <setting id="gamesgeneral.enable" type="boolean">
+          <visible>false</visible>
+          <level>0</level>
+          <default>false</default>
+          <control type="toggle" />
+        </setting>
         <setting id="gamesgeneral.enablerewind" type="boolean" label="35203" help="35204">
           <level>0</level>
           <default>true</default>
