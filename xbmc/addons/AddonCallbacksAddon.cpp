@@ -536,6 +536,8 @@ static void CFileItemListToVFSDirEntries(VFSDirEntry* entries,
   {
     entries[i].label = strdup(items[i]->GetLabel().c_str());
     entries[i].path = strdup(items[i]->GetPath().c_str());
+    entries[i].num_props = 0; // TODO
+    entries[i].properties = nullptr; // TODO
     entries[i].size = items[i]->m_dwSize;
     entries[i].folder = items[i]->m_bIsFolder;
   }
