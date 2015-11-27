@@ -118,6 +118,9 @@ namespace ADDON
     uint16_t           ProductID(void) const { return m_productId; }
     unsigned int       Index(void) const     { return m_index; }
 
+    // Derived property: VID and PID are 0x0000 if unknown
+    bool IsVidPidKnown(void) const { return m_vendorId != 0 || m_productId != 0; }
+
     void SetType(PERIPHERAL_TYPE type)       { m_type      = type; }
     void SetName(const std::string& strName) { m_strName   = strName; }
     void SetVendorID(uint16_t vendorId)      { m_vendorId  = vendorId; }
@@ -281,6 +284,9 @@ namespace ADDON
     unsigned int       ButtonCount(void) const   { return m_buttonCount; }
     unsigned int       HatCount(void) const      { return m_hatCount; }
     unsigned int       AxisCount(void) const     { return m_axisCount; }
+
+    // Derived property: Counts are unknown if all are zero
+    bool AreElementCountsKnown(void) const { return m_buttonCount != 0 || m_hatCount != 0 || m_axisCount != 0; }
 
     void SetProvider(const std::string& provider)     { m_provider      = provider; }
     void SetRequestedPort(int requestedPort)          { m_requestedPort = requestedPort; }
