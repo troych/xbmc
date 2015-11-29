@@ -38,7 +38,7 @@ public:
   static const GameControllerPtr EmptyPtr;
 
   // implementation of CAddon
-  virtual ADDON::AddonPtr GetRunningInstance(void) const;
+  virtual ADDON::AddonPtr GetRunningInstance(void) const override;
 
   std::string Label(void);
   std::string ImagePath(void) const;

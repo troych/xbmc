@@ -44,7 +44,7 @@ public:
   bool GetController(const std::string& strControllerId, GameControllerPtr& controller) const;
 
   // implementation of Observer
-  virtual void Notify(const Observable& obs, const ObservableMessage msg);
+  virtual void Notify(const Observable& obs, const ObservableMessage msg) override;
 
 private:
   void UpdateAddons(void);
