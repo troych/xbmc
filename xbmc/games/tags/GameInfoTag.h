@@ -74,9 +74,9 @@ namespace GAME
     const std::string& GetCartridgeType() const { return m_strCartridgeType; }
     void SetCartridgeType(const std::string& strCartridgeType) { m_strCartridgeType = strCartridgeType; }
 
-    virtual void Archive(CArchive& ar);
-    virtual void Serialize(CVariant& value) const;
-    virtual void ToSortable(SortItem& sortable, Field field) const;
+    virtual void Archive(CArchive& ar) override;
+    virtual void Serialize(CVariant& value) const override;
+    virtual void ToSortable(SortItem& sortable, Field field) const override;
 
   private:
     bool        m_bLoaded;
