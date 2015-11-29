@@ -38,12 +38,12 @@ bool CAddonJoystickButtonMapWO::Load(void)
   return m_addon.get() != NULL;
 }
 
-bool CAddonJoystickButtonMapWO::AddPrimitiveFeature(const JOYSTICK::JoystickFeature& feature, const CDriverPrimitive& primitive)
+bool CAddonJoystickButtonMapWO::AddScalar(const JOYSTICK::JoystickFeature& feature, const CDriverPrimitive& primitive)
 {
-  ADDON::JoystickFeature primitiveFeature(feature, JOYSTICK_FEATURE_TYPE_PRIMITIVE);
-  primitiveFeature.SetPrimitive(ToPrimitive(primitive));
+  ADDON::JoystickFeature scalar(feature, JOYSTICK_FEATURE_TYPE_SCALAR);
+  scalar.SetPrimitive(ToPrimitive(primitive));
 
-  return m_addon->AddFeature(m_device, m_strControllerId, primitiveFeature);
+  return m_addon->AddFeature(m_device, m_strControllerId, scalar);
 }
 
 ADDON::DriverPrimitive CAddonJoystickButtonMapWO::ToPrimitive(const CDriverPrimitive& primitive)

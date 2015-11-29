@@ -72,10 +72,10 @@ namespace JOYSTICK
     ) = 0;
 
     /*!
-     * \brief Get the driver primitive for a primitive feature
+     * \brief Get the driver primitive for a scalar feature
      *
      * When a feature can be represented by a single driver primitive, it is
-     * called a primitive feature.
+     * called a scalar feature.
      *
      *   - This includes buttons and triggers, because they can be mapped to a
      *     single button/hat/semiaxis
@@ -83,27 +83,28 @@ namespace JOYSTICK
      *   - This does not include analog sticks, because they require two axes
      *     and four driver primitives (one for each semiaxis)
      *
-     * \param feature        Must be a primitive feature (a feature that only
+     * \param feature        Must be a scalar feature (a feature that only
      *                       requires a single driver primitive)
      * \param primitive      The resolved driver primitive
      *
      * \return True if the feature resolved to a driver primitive, false if the
-     *         feature didn't resolve or isn't a primitive feature
+     *         feature didn't resolve or isn't a scalar feature
      */
-    virtual bool GetPrimitiveFeature(
+    virtual bool GetScalar(
       const JoystickFeature& feature,
       CDriverPrimitive& primitive
     ) = 0;
 
     /*!
-     * \brief Add or update a primitive feature
+     * \brief Add or update a scalar feature
      *
-     * \param feature        Must be a primitive feature
+     * \param feature        Must be a scalar feature
      * \param primitive      The feature's driver primitive
      *
-     * \return True if the feature was updated, false if the feature is unchanged or failure occurs
+     * \return True if the feature was updated, false if the feature is
+     *         unchanged or failure occurs
      */
-    virtual bool AddPrimitiveFeature(
+    virtual bool AddScalar(
       const JoystickFeature& feature,
       const CDriverPrimitive& primitive
     ) = 0;

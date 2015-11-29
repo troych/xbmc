@@ -43,12 +43,12 @@ namespace PERIPHERALS
       JOYSTICK::JoystickFeature& feature
     ) override;
 
-    virtual bool GetPrimitiveFeature(
+    virtual bool GetScalar(
       const JOYSTICK::JoystickFeature& feature,
       JOYSTICK::CDriverPrimitive& primitive
     ) override;
 
-    virtual bool AddPrimitiveFeature(
+    virtual bool AddScalar(
       const JOYSTICK::JoystickFeature& feature,
       const JOYSTICK::CDriverPrimitive& primitive
     ) override;

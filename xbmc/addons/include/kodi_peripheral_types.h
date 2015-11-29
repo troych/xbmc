@@ -50,7 +50,7 @@
 #endif
 
 /* current Peripheral API version */
-#define PERIPHERAL_API_VERSION "1.0.11"
+#define PERIPHERAL_API_VERSION "1.0.12"
 
 /* min. Peripheral API version */
 #define PERIPHERAL_MIN_API_VERSION "1.0.11"
@@ -230,15 +230,15 @@ extern "C"
   typedef enum JOYSTICK_FEATURE_TYPE
   {
     JOYSTICK_FEATURE_TYPE_UNKNOWN,
-    JOYSTICK_FEATURE_TYPE_PRIMITIVE,
+    JOYSTICK_FEATURE_TYPE_SCALAR,
     JOYSTICK_FEATURE_TYPE_ANALOG_STICK,
     JOYSTICK_FEATURE_TYPE_ACCELEROMETER,
   } JOYSTICK_FEATURE_TYPE;
 
-  typedef struct JOYSTICK_FEATURE_PRIMITIVE
+  typedef struct JOYSTICK_FEATURE_SCALAR
   {
     struct JOYSTICK_DRIVER_PRIMITIVE primitive;
-  } ATTRIBUTE_PACKED JOYSTICK_FEATURE_PRIMITIVE;
+  } ATTRIBUTE_PACKED JOYSTICK_FEATURE_SCALAR;
 
   typedef struct JOYSTICK_FEATURE_ANALOG_STICK
   {
@@ -261,7 +261,7 @@ extern "C"
     JOYSTICK_FEATURE_TYPE                   type;
     union
     {
-      struct JOYSTICK_FEATURE_PRIMITIVE     primitive;
+      struct JOYSTICK_FEATURE_SCALAR        scalar;
       struct JOYSTICK_FEATURE_ANALOG_STICK  analog_stick;
       struct JOYSTICK_FEATURE_ACCELEROMETER accelerometer;
     };

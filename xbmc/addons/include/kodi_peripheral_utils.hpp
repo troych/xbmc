@@ -493,6 +493,33 @@ namespace ADDON
 
   /*!
    * ADDON::JoystickFeature
+   *
+   * Class for joystick features. A feature can be:
+   *
+   *   1) scalar[1]
+   *   2) analog stick
+   *   3) accelerometer
+   *
+   * [1] All three driver primitives (buttons, hats and axes) have a state that
+   *     can be represented using a single scalar value. For this reason,
+   *     features that map to a single primitive are called "scalar features".
+   *
+   * Features can be mapped to a variable number of driver primitives. The names
+   * of the primitives for each feature are:
+   *
+   *    Scalar feature:
+   *       - primitive
+   *
+   *    Analog stick:
+   *       - up
+   *       - down
+   *       - right
+   *       - left
+   *
+   *    Accelerometer:
+   *       - positive X
+   *       - positive Y
+   *       - positive Z
    */
   class JoystickFeature
   {
@@ -524,8 +551,8 @@ namespace ADDON
       m_primitives.resize(MAX_PRIMITIVES);
       switch (m_type)
       {
-        case JOYSTICK_FEATURE_TYPE_PRIMITIVE:
-          SetPrimitive(feature.primitive.primitive);
+        case JOYSTICK_FEATURE_TYPE_SCALAR:
+          SetPrimitive(feature.scalar.primitive);
           break;
         case JOYSTICK_FEATURE_TYPE_ANALOG_STICK:
           SetUp(feature.analog_stick.up);
@@ -567,7 +594,7 @@ namespace ADDON
     void SetName(const std::string& name) { m_name = name; }
     void SetType(JOYSTICK_FEATURE_TYPE type) { m_type = type; }
 
-    // Primitive feature methods
+    // Scalar methods
     const DriverPrimitive& Primitive(void) const { return m_primitives[0]; }
     void SetPrimitive(const DriverPrimitive& primitive) { m_primitives[0] = primitive; }
 
@@ -595,8 +622,8 @@ namespace ADDON
       feature.type = m_type;
       switch (m_type)
       {
-        case JOYSTICK_FEATURE_TYPE_PRIMITIVE:
-          Primitive().ToStruct(feature.primitive.primitive);
+        case JOYSTICK_FEATURE_TYPE_SCALAR:
+          Primitive().ToStruct(feature.scalar.primitive);
           break;
         case JOYSTICK_FEATURE_TYPE_ANALOG_STICK:
           Up().ToStruct(feature.analog_stick.up);

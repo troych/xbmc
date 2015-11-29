@@ -65,7 +65,7 @@ CAddonJoystickButtonMapRO::DriverMap CAddonJoystickButtonMapRO::CreateLookupTabl
 
     switch (feature.Type())
     {
-    case JOYSTICK_FEATURE_TYPE_PRIMITIVE:
+    case JOYSTICK_FEATURE_TYPE_SCALAR:
     {
       driverMap[ToPrimitive(feature.Primitive())] = it->first;
       break;
@@ -120,7 +120,7 @@ bool CAddonJoystickButtonMapRO::GetFeature(const CDriverPrimitive& primitive, ::
   return false;
 }
 
-bool CAddonJoystickButtonMapRO::GetPrimitiveFeature(const ::JoystickFeature& feature, CDriverPrimitive& primitive)
+bool CAddonJoystickButtonMapRO::GetScalar(const ::JoystickFeature& feature, CDriverPrimitive& primitive)
 {
   bool retVal(false);
 
@@ -129,7 +129,7 @@ bool CAddonJoystickButtonMapRO::GetPrimitiveFeature(const ::JoystickFeature& fea
   {
     const ADDON::JoystickFeature& addonFeature = it->second;
 
-    if (addonFeature.Type() == JOYSTICK_FEATURE_TYPE_PRIMITIVE)
+    if (addonFeature.Type() == JOYSTICK_FEATURE_TYPE_SCALAR)
     {
       primitive = ToPrimitive(addonFeature.Primitive());
       retVal = true;

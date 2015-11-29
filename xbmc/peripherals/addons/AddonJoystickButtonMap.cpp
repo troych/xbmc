@@ -49,14 +49,14 @@ bool CAddonJoystickButtonMap::GetFeature(const CDriverPrimitive& primitive, Joys
   return m_buttonMapRO.GetFeature(primitive, feature);
 }
 
-bool CAddonJoystickButtonMap::GetPrimitiveFeature(const JoystickFeature& feature, CDriverPrimitive& primitive)
+bool CAddonJoystickButtonMap::GetScalar(const JoystickFeature& feature, CDriverPrimitive& primitive)
 {
-  return m_buttonMapRO.GetPrimitiveFeature(feature, primitive);
+  return m_buttonMapRO.GetScalar(feature, primitive);
 }
 
-bool CAddonJoystickButtonMap::AddPrimitiveFeature(const JoystickFeature& feature, const CDriverPrimitive& primitive)
+bool CAddonJoystickButtonMap::AddScalar(const JoystickFeature& feature, const CDriverPrimitive& primitive)
 {
-  return m_buttonMapWO.AddPrimitiveFeature(feature, primitive);
+  return m_buttonMapWO.AddScalar(feature, primitive);
 }
 
 bool CAddonJoystickButtonMap::GetAnalogStick(const JoystickFeature& feature,

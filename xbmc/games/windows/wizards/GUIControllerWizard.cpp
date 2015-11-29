@@ -261,7 +261,7 @@ bool CGUIControllerWizard::MapPrimitive(IJoystickButtonMap* buttonMap, const CDr
     {
       case STATE_PROMPT_BUTTON:
       {
-        bHandled = buttonMap->AddPrimitiveFeature(features[m_featureIndex].Name(), primitive);
+        bHandled = buttonMap->AddScalar(features[m_featureIndex].Name(), primitive);
         break;
       }
       case STATE_PROMPT_ANALOG_STICK_UP:
