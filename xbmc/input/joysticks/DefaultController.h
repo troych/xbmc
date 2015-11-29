@@ -42,12 +42,12 @@ namespace JOYSTICK
     virtual ~CDefaultController(void);
 
     // implementation of IJoystickInputHandler
-    virtual std::string ControllerID(void) const;
-    virtual InputType GetInputType(const JoystickFeature& feature) const;
-    virtual bool OnButtonPress(const JoystickFeature& feature, bool bPressed);
-    virtual bool OnButtonMotion(const JoystickFeature& feature, float magnitude);
-    virtual bool OnAnalogStickMotion(const JoystickFeature& feature, float x, float y);
-    virtual bool OnAccelerometerMotion(const JoystickFeature& feature, float x, float y, float z);
+    virtual std::string ControllerID(void) const override;
+    virtual InputType GetInputType(const JoystickFeature& feature) const override;
+    virtual bool OnButtonPress(const JoystickFeature& feature, bool bPressed) override;
+    virtual bool OnButtonMotion(const JoystickFeature& feature, float magnitude) override;
+    virtual bool OnAnalogStickMotion(const JoystickFeature& feature, float x, float y) override;
+    virtual bool OnAccelerometerMotion(const JoystickFeature& feature, float x, float y, float z) override;
 
   private:
     /*!

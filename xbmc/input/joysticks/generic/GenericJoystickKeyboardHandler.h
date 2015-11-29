@@ -37,8 +37,8 @@ namespace JOYSTICK
     virtual ~CGenericJoystickKeyboardHandler(void) { }
 
     // implementation of IKeyboardHandler
-    virtual bool OnKeyPress(const CKey& key);
-    virtual void OnKeyRelease(const CKey& key);
+    virtual bool OnKeyPress(const CKey& key) override;
+    virtual void OnKeyRelease(const CKey& key) override;
 
   private:
     static unsigned int GetButtonIndex(const CKey& key);

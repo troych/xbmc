@@ -43,9 +43,9 @@ namespace JOYSTICK
     virtual ~CGenericJoystickButtonMapping(void) { }
 
     // implementation of IJoystickDriverHandler
-    virtual bool OnButtonMotion(unsigned int buttonIndex, bool bPressed);
-    virtual bool OnHatMotion(unsigned int hatIndex, HAT_STATE state);
-    virtual bool OnAxisMotion(unsigned int axisIndex, float position);
+    virtual bool OnButtonMotion(unsigned int buttonIndex, bool bPressed) override;
+    virtual bool OnHatMotion(unsigned int hatIndex, HAT_STATE state) override;
+    virtual bool OnAxisMotion(unsigned int axisIndex, float position) override;
     virtual void ProcessAxisMotions(void) { }
 
   private:

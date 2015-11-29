@@ -36,13 +36,13 @@ namespace JOYSTICK
     virtual ~CButtonKeyHandler(void);
 
     // implementation of IButtonKeyHandler
-    virtual InputType GetInputType(unsigned int buttonKeyId) const;
-    virtual void OnDigitalButtonKey(unsigned int buttonKeyId, bool bPressed);
-    virtual void OnAnalogButtonKey(unsigned int buttonKeyId, float magnitude);
+    virtual InputType GetInputType(unsigned int buttonKeyId) const override;
+    virtual void OnDigitalButtonKey(unsigned int buttonKeyId, bool bPressed) override;
+    virtual void OnAnalogButtonKey(unsigned int buttonKeyId, float magnitude) override;
 
   protected:
     // implementation of CThread
-    virtual void Process(void);
+    virtual void Process(void) override;
 
   private:
     enum BUTTON_STATE
