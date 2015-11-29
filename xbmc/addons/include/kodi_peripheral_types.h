@@ -50,7 +50,7 @@
 #endif
 
 /* current Peripheral API version */
-#define PERIPHERAL_API_VERSION "1.0.12"
+#define PERIPHERAL_API_VERSION "1.0.13"
 
 /* min. Peripheral API version */
 #define PERIPHERAL_MIN_API_VERSION "1.0.11"
@@ -147,8 +147,8 @@ extern "C"
    * @brief value in the closed interval [-1.0, 1.0]
    *
    * The axis state uses the XInput coordinate system:
-   *  - Negative values signify down or to the left
-   *  - Positive values signify up or to the right
+   *   - Negative values signify down or to the left
+   *   - Positive values signify up or to the right
    */
   typedef float JOYSTICK_STATE_AXIS;
 
@@ -205,9 +205,9 @@ extern "C"
 
   typedef enum JOYSTICK_DRIVER_SEMIAXIS_DIRECTION
   {
-    JOYSTICK_DRIVER_SEMIAXIS_DIRECTION_NEGATIVE = -1, /*!< @brief negative half of the axis */
-    JOYSTICK_DRIVER_SEMIAXIS_DIRECTION_UNKNOWN  =  0, /*!< @brief unknown direction */
-    JOYSTICK_DRIVER_SEMIAXIS_DIRECTION_POSITIVE =  1, /*!< @brief positive half of the axis */
+    JOYSTICK_DRIVER_SEMIAXIS_NEGATIVE = -1, /*!< @brief negative half of the axis */
+    JOYSTICK_DRIVER_SEMIAXIS_UNKNOWN  =  0, /*!< @brief unknown direction */
+    JOYSTICK_DRIVER_SEMIAXIS_POSITIVE =  1, /*!< @brief positive half of the axis */
   } JOYSTICK_DRIVER_SEMIAXIS_DIRECTION;
 
   typedef struct JOYSTICK_DRIVER_SEMIAXIS

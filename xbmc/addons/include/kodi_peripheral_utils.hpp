@@ -356,7 +356,7 @@ namespace ADDON
       m_type(JOYSTICK_DRIVER_PRIMITIVE_TYPE_UNKNOWN),
       m_driverIndex(0),
       m_hatDirection(JOYSTICK_DRIVER_HAT_UNKNOWN),
-      m_semiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_DIRECTION_UNKNOWN)
+      m_semiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_UNKNOWN)
     {
     }
 
@@ -367,7 +367,7 @@ namespace ADDON
       m_type(JOYSTICK_DRIVER_PRIMITIVE_TYPE_BUTTON),
       m_driverIndex(buttonIndex),
       m_hatDirection(JOYSTICK_DRIVER_HAT_UNKNOWN),
-      m_semiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_DIRECTION_UNKNOWN)
+      m_semiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_UNKNOWN)
     {
     }
 
@@ -379,7 +379,7 @@ namespace ADDON
       m_type(JOYSTICK_DRIVER_PRIMITIVE_TYPE_HAT_DIRECTION),
       m_driverIndex(hatIndex),
       m_hatDirection(direction),
-      m_semiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_DIRECTION_UNKNOWN)
+      m_semiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_UNKNOWN)
     {
     }
 
@@ -399,7 +399,7 @@ namespace ADDON
       m_type(primitive.type),
       m_driverIndex(0),
       m_hatDirection(JOYSTICK_DRIVER_HAT_UNKNOWN),
-      m_semiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_DIRECTION_UNKNOWN)
+      m_semiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_UNKNOWN)
     {
       switch (m_type)
       {
