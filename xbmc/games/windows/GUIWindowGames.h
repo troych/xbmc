@@ -31,13 +31,15 @@ public:
   virtual bool OnMessage(CGUIMessage& message);
 
 protected:
-  virtual void SetupShares();
-  virtual bool OnClick(int itemNumber);
+  // implementation of CGUIMediaWindow
+  virtual void SetupShares() override;
+  virtual bool OnClick(int itemNumber) override;
+  virtual void GetContextButtons(int itemNumber, CContextButtons &buttons) override;
+  virtual bool OnContextButton(int itemNumber, CONTEXT_BUTTON button) override;
+  virtual std::string GetStartFolder(const std::string &dir) override;
+
   void OnInfo(int itemNumber);
   bool PlayGame(const CFileItem &item);
-  virtual void GetContextButtons(int itemNumber, CContextButtons &buttons);
-  virtual bool OnContextButton(int itemNumber, CONTEXT_BUTTON button);
-  virtual std::string GetStartFolder(const std::string &dir);
 
   CGUIDialogProgress *m_dlgProgress;
 };

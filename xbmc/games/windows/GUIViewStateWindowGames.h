@@ -26,10 +26,11 @@ class CGUIViewStateWindowGames : public CGUIViewState
 public:
   CGUIViewStateWindowGames(const CFileItemList& items);
 
-  virtual std::string GetLockType();
-  virtual std::string GetExtensions();
-  virtual VECSOURCES& GetSources();
+  // implementation of CGUIViewState
+  virtual std::string GetLockType() override;
+  virtual std::string GetExtensions() override;
+  virtual VECSOURCES& GetSources() override;
 
 protected:
-  virtual void SaveViewState();
+  virtual void SaveViewState() override;
 };
