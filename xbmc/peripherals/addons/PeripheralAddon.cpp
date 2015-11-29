@@ -498,9 +498,9 @@ bool CPeripheralAddon::GetFeatures(const CPeripheral* device, const std::string&
   {
     for (unsigned int i = 0; i < featureCount; i++)
     {
-      JoystickFeaturePtr feature(ADDON::JoystickFeatureFactory::Create(pFeatures[i]));
-      if (feature)
-        features[feature->Name()] = feature;
+      ADDON::JoystickFeature feature(pFeatures[i]);
+      if (feature.Type() != JOYSTICK_FEATURE_TYPE_UNKNOWN)
+        features[feature.Name()] = std::move(feature);
     }
 
     try { m_pStruct->FreeFeatures(featureCount, pFeatures); }
@@ -513,7 +513,7 @@ bool CPeripheralAddon::GetFeatures(const CPeripheral* device, const std::string&
 }
 
 bool CPeripheralAddon::AddFeature(const CPeripheral* device, const std::string& strControllerId,
-                                  const ADDON::JoystickFeature* feature)
+                                  const ADDON::JoystickFeature& feature)
 {
   if (!HasFeature(FEATURE_JOYSTICK))
     return false;
@@ -527,7 +527,7 @@ bool CPeripheralAddon::AddFeature(const CPeripheral* device, const std::string& 
   joystickInfo.ToStruct(joystickStruct);
 
   JOYSTICK_FEATURE featureStruct;
-  feature->ToStruct(featureStruct);
+  feature.ToStruct(featureStruct);
 
   try { LogError(retVal = m_pStruct->AddFeature(&joystickStruct, strControllerId.c_str(),
                                                 &featureStruct), "AddFeature()"); }

@@ -61,34 +61,30 @@ CAddonJoystickButtonMapRO::DriverMap CAddonJoystickButtonMapRO::CreateLookupTabl
 
   for (JoystickFeatureMap::const_iterator it = features.begin(); it != features.end(); ++it)
   {
-    const ADDON::JoystickFeature* feature = it->second.get();
+    const ADDON::JoystickFeature& feature = it->second;
 
-    switch (feature->Type())
+    switch (feature.Type())
     {
     case JOYSTICK_FEATURE_TYPE_PRIMITIVE:
     {
-      const ADDON::PrimitiveFeature* primitive = static_cast<const ADDON::PrimitiveFeature*>(feature);
-      driverMap[ToPrimitive(primitive->Primitive())] = it->first;
+      driverMap[ToPrimitive(feature.Primitive())] = it->first;
       break;
     }
 
     case JOYSTICK_FEATURE_TYPE_ANALOG_STICK:
     {
-      const ADDON::AnalogStick* analogStick = static_cast<const ADDON::AnalogStick*>(feature);
-      driverMap[ToPrimitive(analogStick->Up())] = it->first;
-      driverMap[ToPrimitive(analogStick->Down())] = it->first;
-      driverMap[ToPrimitive(analogStick->Right())] = it->first;
-      driverMap[ToPrimitive(analogStick->Left())] = it->first;
+      driverMap[ToPrimitive(feature.Up())] = it->first;
+      driverMap[ToPrimitive(feature.Down())] = it->first;
+      driverMap[ToPrimitive(feature.Right())] = it->first;
+      driverMap[ToPrimitive(feature.Left())] = it->first;
       break;
     }
 
     case JOYSTICK_FEATURE_TYPE_ACCELEROMETER:
     {
-      const ADDON::Accelerometer* accelerometer = static_cast<const ADDON::Accelerometer*>(feature);
-
-      CDriverPrimitive x_axis(ToPrimitive(accelerometer->PositiveX()));
-      CDriverPrimitive y_axis(ToPrimitive(accelerometer->PositiveY()));
-      CDriverPrimitive z_axis(ToPrimitive(accelerometer->PositiveZ()));
+      CDriverPrimitive x_axis(ToPrimitive(feature.PositiveX()));
+      CDriverPrimitive y_axis(ToPrimitive(feature.PositiveY()));
+      CDriverPrimitive z_axis(ToPrimitive(feature.PositiveZ()));
 
       driverMap[x_axis] = it->first;
       driverMap[y_axis] = it->first;
@@ -131,11 +127,11 @@ bool CAddonJoystickButtonMapRO::GetPrimitiveFeature(const ::JoystickFeature& fea
   JoystickFeatureMap::const_iterator it = m_features.find(feature);
   if (it != m_features.end())
   {
-    const ADDON::JoystickFeature* feature = it->second.get();
+    const ADDON::JoystickFeature& addonFeature = it->second;
 
-    if (feature->Type() == JOYSTICK_FEATURE_TYPE_PRIMITIVE)
+    if (addonFeature.Type() == JOYSTICK_FEATURE_TYPE_PRIMITIVE)
     {
-      primitive = ToPrimitive(static_cast<const ADDON::PrimitiveFeature*>(feature)->Primitive());
+      primitive = ToPrimitive(addonFeature.Primitive());
       retVal = true;
     }
   }
@@ -154,15 +150,14 @@ bool CAddonJoystickButtonMapRO::GetAnalogStick(const ::JoystickFeature& feature,
   JoystickFeatureMap::const_iterator it = m_features.find(feature);
   if (it != m_features.end())
   {
-    const ADDON::JoystickFeature* feature = it->second.get();
+    const ADDON::JoystickFeature& addonFeature = it->second;
 
-    if (feature->Type() == JOYSTICK_FEATURE_TYPE_ANALOG_STICK)
+    if (addonFeature.Type() == JOYSTICK_FEATURE_TYPE_ANALOG_STICK)
     {
-      const ADDON::AnalogStick* analogStick = static_cast<const ADDON::AnalogStick*>(feature);
-      up     = ToPrimitive(analogStick->Up());
-      down   = ToPrimitive(analogStick->Down());
-      right  = ToPrimitive(analogStick->Right());
-      left   = ToPrimitive(analogStick->Left());
+      up     = ToPrimitive(addonFeature.Up());
+      down   = ToPrimitive(addonFeature.Down());
+      right  = ToPrimitive(addonFeature.Right());
+      left   = ToPrimitive(addonFeature.Left());
       retVal = true;
     }
   }
@@ -180,14 +175,13 @@ bool CAddonJoystickButtonMapRO::GetAccelerometer(const ::JoystickFeature& featur
   JoystickFeatureMap::const_iterator it = m_features.find(feature);
   if (it != m_features.end())
   {
-    const ADDON::JoystickFeature* feature = it->second.get();
+    const ADDON::JoystickFeature& addonFeature = it->second;
 
-    if (feature->Type() == JOYSTICK_FEATURE_TYPE_ACCELEROMETER)
+    if (addonFeature.Type() == JOYSTICK_FEATURE_TYPE_ACCELEROMETER)
     {
-      const ADDON::Accelerometer* accelerometer = static_cast<const ADDON::Accelerometer*>(feature);
-      positiveX = ToPrimitive(accelerometer->PositiveX());
-      positiveY = ToPrimitive(accelerometer->PositiveY());
-      positiveZ = ToPrimitive(accelerometer->PositiveZ());
+      positiveX = ToPrimitive(addonFeature.PositiveX());
+      positiveY = ToPrimitive(addonFeature.PositiveY());
+      positiveZ = ToPrimitive(addonFeature.PositiveZ());
       retVal    = true;
     }
   }

@@ -40,9 +40,10 @@ bool CAddonJoystickButtonMapWO::Load(void)
 
 bool CAddonJoystickButtonMapWO::AddPrimitiveFeature(const JOYSTICK::JoystickFeature& feature, const CDriverPrimitive& primitive)
 {
-  ADDON::PrimitiveFeature primitiveFeature(feature, ToPrimitive(primitive));
+  ADDON::JoystickFeature primitiveFeature(feature, JOYSTICK_FEATURE_TYPE_PRIMITIVE);
+  primitiveFeature.SetPrimitive(ToPrimitive(primitive));
 
-  return m_addon->AddFeature(m_device, m_strControllerId, &primitiveFeature);
+  return m_addon->AddFeature(m_device, m_strControllerId, primitiveFeature);
 }
 
 ADDON::DriverPrimitive CAddonJoystickButtonMapWO::ToPrimitive(const CDriverPrimitive& primitive)
@@ -79,10 +80,14 @@ bool CAddonJoystickButtonMapWO::AddAnalogStick(const JOYSTICK::JoystickFeature& 
                                                const CDriverPrimitive& right,
                                                const CDriverPrimitive& left)
 {
-  ADDON::AnalogStick analogStick(feature, ToPrimitive(up),    ToPrimitive(down),
-                                          ToPrimitive(right), ToPrimitive(left));
+  ADDON::JoystickFeature analogStick(feature, JOYSTICK_FEATURE_TYPE_ANALOG_STICK);
 
-  return m_addon->AddFeature(m_device, m_strControllerId, &analogStick);
+  analogStick.SetUp(ToPrimitive(up));
+  analogStick.SetDown(ToPrimitive(down));
+  analogStick.SetRight(ToPrimitive(right));
+  analogStick.SetLeft(ToPrimitive(left));
+
+  return m_addon->AddFeature(m_device, m_strControllerId, analogStick);
 }
 
 bool CAddonJoystickButtonMapWO::AddAccelerometer(const JOYSTICK::JoystickFeature& feature,
@@ -90,11 +95,13 @@ bool CAddonJoystickButtonMapWO::AddAccelerometer(const JOYSTICK::JoystickFeature
                                                  const CDriverPrimitive& positiveY,
                                                  const CDriverPrimitive& positiveZ)
 {
-  ADDON::Accelerometer accelerometer(feature, ToPrimitive(positiveX),
-                                              ToPrimitive(positiveY),
-                                              ToPrimitive(positiveZ));
+  ADDON::JoystickFeature accelerometer(feature, JOYSTICK_FEATURE_TYPE_ACCELEROMETER);
 
-  return m_addon->AddFeature(m_device, m_strControllerId, &accelerometer);
+  accelerometer.SetPositiveX(ToPrimitive(positiveX));
+  accelerometer.SetPositiveY(ToPrimitive(positiveY));
+  accelerometer.SetPositiveZ(ToPrimitive(positiveZ));
+
+  return m_addon->AddFeature(m_device, m_strControllerId, accelerometer);
 }
 
 JOYSTICK_DRIVER_HAT_DIRECTION CAddonJoystickButtonMapWO::ToHatDirection(HAT_DIRECTION dir)

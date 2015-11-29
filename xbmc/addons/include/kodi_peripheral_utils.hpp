@@ -430,7 +430,7 @@ namespace ADDON
     JOYSTICK_DRIVER_HAT_DIRECTION      HatDirection(void) const { return m_hatDirection; }
     JOYSTICK_DRIVER_SEMIAXIS_DIRECTION SemiAxisDirection(void) const { return m_semiAxisDirection; }
 
-    bool Equals(const DriverPrimitive& other) const
+    bool operator==(const DriverPrimitive& other) const
     {
       if (m_type == other.m_type)
       {
@@ -493,50 +493,125 @@ namespace ADDON
 
   /*!
    * ADDON::JoystickFeature
-   *
-   * Base class for joystick features. In kodi_peripheral_types.h, the various
-   * driver types are stored as an union. Here, we use polymorphism to allow for
-   * extra driver information.
    */
   class JoystickFeature
   {
   public:
-    JoystickFeature(void)
+    const unsigned int MAX_PRIMITIVES = 4;
+
+    JoystickFeature(void) :
+      m_type(JOYSTICK_FEATURE_TYPE_UNKNOWN)
     {
+      m_primitives.resize(MAX_PRIMITIVES);
     }
 
-    JoystickFeature(const std::string& name) :
-      m_name(name)
+    JoystickFeature(const std::string& name, JOYSTICK_FEATURE_TYPE type) :
+      m_name(name),
+      m_type(type)
     {
+      m_primitives.resize(MAX_PRIMITIVES);
+    }
+
+    JoystickFeature(const JoystickFeature& other)
+    {
+      *this = other;
     }
 
     JoystickFeature(const JOYSTICK_FEATURE& feature) :
-      m_name(feature.name ? feature.name : "")
+      m_name(feature.name ? feature.name : ""),
+      m_type(feature.type)
     {
+      m_primitives.resize(MAX_PRIMITIVES);
+      switch (m_type)
+      {
+        case JOYSTICK_FEATURE_TYPE_PRIMITIVE:
+          SetPrimitive(feature.primitive.primitive);
+          break;
+        case JOYSTICK_FEATURE_TYPE_ANALOG_STICK:
+          SetUp(feature.analog_stick.up);
+          SetDown(feature.analog_stick.down);
+          SetRight(feature.analog_stick.right);
+          SetLeft(feature.analog_stick.left);
+          break;
+        case JOYSTICK_FEATURE_TYPE_ACCELEROMETER:
+          SetPositiveX(feature.accelerometer.positive_x);
+          SetPositiveY(feature.accelerometer.positive_y);
+          SetPositiveZ(feature.accelerometer.positive_z);
+          break;
+        default:
+          break;
+      }
     }
 
-    virtual ~JoystickFeature(void) { }
-
-    virtual JoystickFeature* Clone(void) const { return new JoystickFeature(*this); }
-
-    virtual bool Equals(const JoystickFeature* other) const
+    JoystickFeature& operator=(const JoystickFeature& rhs)
     {
-      return other &&
-             m_name == other->m_name &&
-             Type() == other->Type();
+      if (this != &rhs)
+      {
+        m_name = rhs.m_name;
+        m_type = rhs.m_type;
+        m_primitives = rhs.m_primitives;
+      }
+      return *this;
     }
 
-    virtual JOYSTICK_FEATURE_TYPE Type(void) const { return JOYSTICK_FEATURE_TYPE_UNKNOWN; }
+    bool operator==(const JoystickFeature& other) const
+    {
+      return m_name == other.m_name &&
+             m_type == other.m_type &&
+             m_primitives == other.m_primitives;
+    }
 
     const std::string& Name(void) const { return m_name; }
+    JOYSTICK_FEATURE_TYPE Type(void) const { return m_type; }
 
     void SetName(const std::string& name) { m_name = name; }
+    void SetType(JOYSTICK_FEATURE_TYPE type) { m_type = type; }
 
-    virtual void ToStruct(JOYSTICK_FEATURE& feature) const
+    // Primitive feature methods
+    const DriverPrimitive& Primitive(void) const { return m_primitives[0]; }
+    void SetPrimitive(const DriverPrimitive& primitive) { m_primitives[0] = primitive; }
+
+    // Analog stick methods
+    const DriverPrimitive& Up(void) const { return m_primitives[0]; }
+    const DriverPrimitive& Down(void) const { return m_primitives[1]; }
+    const DriverPrimitive& Right(void) const { return m_primitives[2]; }
+    const DriverPrimitive& Left(void) const { return m_primitives[3]; }
+    void SetUp(const DriverPrimitive& primitive) { m_primitives[0] = primitive; }
+    void SetDown(const DriverPrimitive& primitive) { m_primitives[1] = primitive; }
+    void SetRight(const DriverPrimitive& primitive) { m_primitives[2] = primitive; }
+    void SetLeft(const DriverPrimitive& primitive) { m_primitives[3] = primitive; }
+
+    // Accelerometer methods
+    const DriverPrimitive& PositiveX(void) const { return m_primitives[0]; }
+    const DriverPrimitive& PositiveY(void) const { return m_primitives[1]; }
+    const DriverPrimitive& PositiveZ(void) const { return m_primitives[2]; }
+    void SetPositiveX(const DriverPrimitive& primitive) { m_primitives[0] = primitive; }
+    void SetPositiveY(const DriverPrimitive& primitive) { m_primitives[1] = primitive; }
+    void SetPositiveZ(const DriverPrimitive& primitive) { m_primitives[2] = primitive; }
+
+    void ToStruct(JOYSTICK_FEATURE& feature) const
     {
       feature.name = new char[m_name.length() + 1];
-      feature.type = Type();
-
+      feature.type = m_type;
+      switch (m_type)
+      {
+        case JOYSTICK_FEATURE_TYPE_PRIMITIVE:
+          Primitive().ToStruct(feature.primitive.primitive);
+          break;
+        case JOYSTICK_FEATURE_TYPE_ANALOG_STICK:
+          Up().ToStruct(feature.analog_stick.up);
+          Down().ToStruct(feature.analog_stick.down);
+          Right().ToStruct(feature.analog_stick.right);
+          Left().ToStruct(feature.analog_stick.left);
+          break;
+        case JOYSTICK_FEATURE_TYPE_ACCELEROMETER:
+          PositiveX().ToStruct(feature.accelerometer.positive_x);
+          PositiveY().ToStruct(feature.accelerometer.positive_y);
+          PositiveZ().ToStruct(feature.accelerometer.positive_z);
+          break;
+        default:
+          break;
+      }
       std::strcpy(feature.name, m_name.c_str());
     }
 
@@ -546,229 +621,10 @@ namespace ADDON
     }
 
   private:
-    std::string  m_name;
+    std::string                  m_name;
+    JOYSTICK_FEATURE_TYPE        m_type;
+    std::vector<DriverPrimitive> m_primitives;
   };
 
   typedef PeripheralVector<JoystickFeature, JOYSTICK_FEATURE> JoystickFeatures;
-
-  /*!
-   * ADDON::PrimitiveFeature
-   *
-   * When a feature can be represented by a single driver primitive, it is
-   * called a primitive feature.
-   *
-   *   - This includes buttons and triggers, because they can be mapped to a
-   *     single button/hat/semiaxis
-   *
-   *   - This does not include analog sticks, because they require two axes
-   *     and four driver primitives (one for each semiaxis)
-   *
-   */
-  class PrimitiveFeature : public JoystickFeature
-  {
-  public:
-    PrimitiveFeature(void) { }
-
-    PrimitiveFeature(const std::string& name, const DriverPrimitive& primitive) :
-      JoystickFeature(name),
-      m_primitive(primitive)
-    {
-    }
-
-    PrimitiveFeature(const JOYSTICK_FEATURE& feature) :
-      JoystickFeature(feature),
-      m_primitive(feature.primitive.primitive)
-    {
-    }
-
-    virtual ~PrimitiveFeature(void) { }
-
-    virtual JoystickFeature* Clone(void) const { return new PrimitiveFeature(*this); }
-
-    virtual bool Equals(const JoystickFeature* other) const
-    {
-      return JoystickFeature::Equals(other) &&
-             m_primitive.Equals(static_cast<const PrimitiveFeature*>(other)->m_primitive);
-    }
-
-    virtual JOYSTICK_FEATURE_TYPE Type(void) const      { return JOYSTICK_FEATURE_TYPE_PRIMITIVE; }
-    const DriverPrimitive&        Primitive(void) const { return m_primitive; }
-
-    void SetDriver(const DriverPrimitive& primitive) { m_primitive = primitive; }
-
-    virtual void ToStruct(JOYSTICK_FEATURE& feature) const
-    {
-      JoystickFeature::ToStruct(feature);
-      m_primitive.ToStruct(feature.primitive.primitive);
-    }
-
-  private:
-    DriverPrimitive m_primitive;
-  };
-
-  /*!
-   * ADDON::AnalogStick
-   *
-   * Analog sticks are defined by two axes. Each semiaxis is stored as two
-   * driver primitives.
-   *
-   * These primitives don't have to be semiaxes. If four buttons or hat
-   * directions are used, the frontend will calculate values for both axes
-   * based on the state of the buttons/hats.
-   */
-  class AnalogStick : public JoystickFeature
-  {
-  public:
-    AnalogStick(void) { }
-
-    AnalogStick(const std::string& name,
-                const DriverPrimitive& up,
-                const DriverPrimitive& down,
-                const DriverPrimitive& right,
-                const DriverPrimitive& left) :
-      JoystickFeature(name),
-      m_up(up),
-      m_down(down),
-      m_right(right),
-      m_left(left)
-    {
-    }
-
-    AnalogStick(const JOYSTICK_FEATURE& feature) :
-      JoystickFeature(feature),
-      m_up(feature.analog_stick.up),
-      m_down(feature.analog_stick.down),
-      m_right(feature.analog_stick.right),
-      m_left(feature.analog_stick.left)
-    {
-    }
-
-    virtual ~AnalogStick(void) { }
-
-    virtual JoystickFeature* Clone(void) const { return new AnalogStick(*this); }
-
-    virtual bool Equals(const JoystickFeature* other) const
-    {
-      return JoystickFeature::Equals(other) &&
-             m_up.Equals(static_cast<const AnalogStick*>(other)->m_up) &&
-             m_down.Equals(static_cast<const AnalogStick*>(other)->m_down) &&
-             m_right.Equals(static_cast<const AnalogStick*>(other)->m_right) &&
-             m_left.Equals(static_cast<const AnalogStick*>(other)->m_left);
-    }
-
-    virtual JOYSTICK_FEATURE_TYPE Type(void) const  { return JOYSTICK_FEATURE_TYPE_ANALOG_STICK; }
-    const DriverPrimitive&        Up(void) const    { return m_up; }
-    const DriverPrimitive&        Down(void) const  { return m_down; }
-    const DriverPrimitive&        Right(void) const { return m_right; }
-    const DriverPrimitive&        Left(void) const  { return m_left; }
-
-    void SetUp(const DriverPrimitive& driverPrimitive)    { m_up    = driverPrimitive; }
-    void SetDown(const DriverPrimitive& driverPrimitive)  { m_down  = driverPrimitive; }
-    void SetRight(const DriverPrimitive& driverPrimitive) { m_right = driverPrimitive; }
-    void SetLeft(const DriverPrimitive& driverPrimitive)  { m_left  = driverPrimitive; }
-
-    virtual void ToStruct(JOYSTICK_FEATURE& feature) const
-    {
-      JoystickFeature::ToStruct(feature);
-      m_up.ToStruct(feature.analog_stick.up);
-      m_down.ToStruct(feature.analog_stick.down);
-      m_right.ToStruct(feature.analog_stick.right);
-      m_left.ToStruct(feature.analog_stick.left);
-    }
-
-  private:
-    DriverPrimitive m_up;
-    DriverPrimitive m_down;
-    DriverPrimitive m_right;
-    DriverPrimitive m_left;
-  };
-
-  /*!
-   * ADDON::Accelerometer
-   *
-   * Accelerometers are defined by three axes. The positive semiaxis of each
-   * axis is assigned to a driver primitive.
-   *
-   * The driver primitives should be semiaxes. The frontend may not support
-   * turning digital events from buttons/hats into analog accelerations.
-   */
-  class Accelerometer : public JoystickFeature
-  {
-  public:
-    Accelerometer(void) { }
-
-    Accelerometer(const std::string& name, const DriverPrimitive& positiveX,
-                                           const DriverPrimitive& positiveY,
-                                           const DriverPrimitive& positiveZ) :
-      JoystickFeature(name),
-      m_positiveX(positiveX),
-      m_positiveY(positiveY),
-      m_positiveZ(positiveZ)
-    {
-    }
-
-    Accelerometer(const JOYSTICK_FEATURE& feature) :
-      JoystickFeature(feature),
-      m_positiveX(feature.accelerometer.positive_x),
-      m_positiveY(feature.accelerometer.positive_y),
-      m_positiveZ(feature.accelerometer.positive_z)
-    {
-    }
-
-    virtual ~Accelerometer(void) { }
-
-    virtual JoystickFeature* Clone(void) const { return new Accelerometer(*this); }
-
-    virtual bool Equals(const JoystickFeature* other) const
-    {
-      return JoystickFeature::Equals(other) &&
-             m_positiveX.Equals(static_cast<const Accelerometer*>(other)->m_positiveX) &&
-             m_positiveY.Equals(static_cast<const Accelerometer*>(other)->m_positiveY) &&
-             m_positiveZ.Equals(static_cast<const Accelerometer*>(other)->m_positiveZ);
-    }
-
-    virtual JOYSTICK_FEATURE_TYPE Type(void) const      { return JOYSTICK_FEATURE_TYPE_ACCELEROMETER; }
-    const DriverPrimitive&        PositiveX(void) const { return m_positiveX; }
-    const DriverPrimitive&        PositiveY(void) const { return m_positiveY; }
-    const DriverPrimitive&        PositiveZ(void) const { return m_positiveZ; }
-
-    void SetPositiveX(const DriverPrimitive& primitive) { m_positiveX = primitive; }
-    void SetPositiveY(const DriverPrimitive& primitive) { m_positiveY = primitive; }
-    void SetPositiveZ(const DriverPrimitive& primitive) { m_positiveZ = primitive; }
-
-    virtual void ToStruct(JOYSTICK_FEATURE& feature) const
-    {
-      JoystickFeature::ToStruct(feature);
-      m_positiveX.ToStruct(feature.accelerometer.positive_x);
-      m_positiveY.ToStruct(feature.accelerometer.positive_y);
-      m_positiveZ.ToStruct(feature.accelerometer.positive_z);
-    }
-
-  private:
-    DriverPrimitive m_positiveX;
-    DriverPrimitive m_positiveY;
-    DriverPrimitive m_positiveZ;
-  };
-
-  /*!
-   * ADDON::JoystickFeatureFactory
-   *
-   * Utility class to create joystick features polymorphically
-   */
-  class JoystickFeatureFactory
-  {
-  public:
-    static JoystickFeature* Create(const JOYSTICK_FEATURE& feature)
-    {
-      switch (feature.type)
-      {
-      case JOYSTICK_FEATURE_TYPE_PRIMITIVE:     return new PrimitiveFeature(feature);
-      case JOYSTICK_FEATURE_TYPE_ANALOG_STICK:  return new AnalogStick(feature);
-      case JOYSTICK_FEATURE_TYPE_ACCELEROMETER: return new Accelerometer(feature);
-      default:
-        break;
-      }
-      return NULL;
-    }
-  };
 }
