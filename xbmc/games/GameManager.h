@@ -102,7 +102,7 @@ namespace GAME
     void ClearAutoLaunch()                    { m_fileLauncher.ClearAutoLaunch(); }
 
     // Inherited from Observer
-    virtual void Notify(const Observable& obs, const ObservableMessage msg);
+    virtual void Notify(const Observable& obs, const ObservableMessage msg) override;
 
     // Get all known add-ons, both local and remote
     static void GetAllGameClients(ADDON::VECADDONS& addons);

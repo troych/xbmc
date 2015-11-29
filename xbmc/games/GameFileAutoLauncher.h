@@ -58,7 +58,7 @@ namespace GAME
       * Monitor state of app and dequeue file when appropriate (user leaves
       * add-on manager, too much time passes, etc).
       */
-    virtual void Process();
+    virtual void Process() override;
 
   private:
     /**

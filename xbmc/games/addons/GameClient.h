@@ -90,12 +90,12 @@ public:
   CControllerInput(CGameClient* addon, int port, const GameControllerPtr& controller);
 
   // Implementation of IJoystickInputHandler
-  virtual std::string ControllerID(void) const;
-  virtual JOYSTICK::InputType GetInputType(const std::string& feature) const;
-  virtual bool OnButtonPress(const std::string& feature, bool bPressed);
-  virtual bool OnButtonMotion(const std::string& feature, float magnitude);
-  virtual bool OnAnalogStickMotion(const std::string& feature, float x, float y);
-  virtual bool OnAccelerometerMotion(const std::string& feature, float x, float y, float z);
+  virtual std::string ControllerID(void) const override;
+  virtual JOYSTICK::InputType GetInputType(const std::string& feature) const override;
+  virtual bool OnButtonPress(const std::string& feature, bool bPressed) override;
+  virtual bool OnButtonMotion(const std::string& feature, float magnitude) override;
+  virtual bool OnAnalogStickMotion(const std::string& feature, float x, float y) override;
+  virtual bool OnAccelerometerMotion(const std::string& feature, float x, float y, float z) override;
 
   const GameControllerPtr& Controller(void) const { return m_controller; }
 
@@ -116,11 +116,11 @@ public:
   bool Initialize(void);
 
   // Implementation of IAddon
-  virtual bool              IsExecutable() const { return m_bSupportsStandalone; }
-  virtual const std::string LibPath() const;
-  virtual ADDON::AddonPtr   GetRunningInstance() const;
-  virtual void              OnEnabled();
-  virtual void              OnDisabled();
+  virtual bool              IsExecutable() const override { return m_bSupportsStandalone; }
+  virtual const std::string LibPath() const override;
+  virtual ADDON::AddonPtr   GetRunningInstance() const override;
+  virtual void              OnEnabled() override;
+  virtual void              OnDisabled() override;
 
   // Query properties of the game client
   const std::set<std::string>& GetExtensions() const    { return m_extensions; }
@@ -166,8 +166,8 @@ public:
   bool OnAccelerometerMotion(int port, const std::string& feature, float x, float y, float z);
 
   // implementation of IKeyboardHandler
-  virtual bool OnKeyPress(const CKey& key);
-  virtual void OnKeyRelease(const CKey& key);
+  virtual bool OnKeyPress(const CKey& key) override;
+  virtual void OnKeyRelease(const CKey& key) override;
 
 private:
   // Called by the constructors
