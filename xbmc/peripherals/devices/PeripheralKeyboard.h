@@ -38,12 +38,12 @@ namespace PERIPHERALS
 
     // implementation of CPeripheral
     virtual bool InitialiseFeature(const PeripheralFeature feature);
-    virtual void RegisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler, bool bPromiscuous);
-    virtual void UnregisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler);
+    virtual void RegisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler, bool bPromiscuous) override;
+    virtual void UnregisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler) override;
 
     // implementation of IKeyboardHandler
-    virtual bool OnKeyPress(const CKey& key);
-    virtual void OnKeyRelease(const CKey& key);
+    virtual bool OnKeyPress(const CKey& key) override;
+    virtual void OnKeyRelease(const CKey& key) override;
 
   private:
     struct KeyboardHandler

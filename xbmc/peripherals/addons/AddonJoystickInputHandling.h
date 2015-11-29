@@ -39,10 +39,10 @@ namespace PERIPHERALS
     virtual ~CAddonJoystickInputHandling(void);
 
     // implementation of IJoystickDriverHandler
-    virtual bool OnButtonMotion(unsigned int buttonIndex, bool bPressed);
-    virtual bool OnHatMotion(unsigned int hatIndex, JOYSTICK::HAT_STATE state);
-    virtual bool OnAxisMotion(unsigned int axisIndex, float position);
-    virtual void ProcessAxisMotions(void);
+    virtual bool OnButtonMotion(unsigned int buttonIndex, bool bPressed) override;
+    virtual bool OnHatMotion(unsigned int hatIndex, JOYSTICK::HAT_STATE state) override;
+    virtual bool OnAxisMotion(unsigned int axisIndex, float position) override;
+    virtual void ProcessAxisMotions(void) override;
 
   private:
     JOYSTICK::IJoystickDriverHandler* m_driverHandler;

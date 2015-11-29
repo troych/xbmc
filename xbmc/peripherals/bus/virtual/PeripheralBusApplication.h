@@ -37,6 +37,6 @@ namespace PERIPHERALS
 
   protected:
     // implementation of CPeripheralBus
-    virtual bool PerformDeviceScan(PeripheralScanResults& results);
+    virtual bool PerformDeviceScan(PeripheralScanResults& results) override;
   };
 }

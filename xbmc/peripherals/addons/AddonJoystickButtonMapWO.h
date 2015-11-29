@@ -22,31 +22,69 @@
 #include "addons/include/kodi_peripheral_types.h"
 #include "input/joysticks/DriverPrimitive.h"
 #include "input/joysticks/JoystickTypes.h"
+#include "input/joysticks/IJoystickButtonMap.h"
 #include "peripherals/addons/PeripheralAddon.h"
 
 #include <string>
 
 namespace PERIPHERALS
 {
-  class CAddonJoystickButtonMapWO
+  class CAddonJoystickButtonMapWO : public JOYSTICK::IJoystickButtonMap
   {
   public:
     CAddonJoystickButtonMapWO(CPeripheral* device, const PeripheralAddonPtr& addon, const std::string& strControllerId);
 
     virtual ~CAddonJoystickButtonMapWO(void) { }
 
-    std::string ControllerID(void) const { return m_strControllerId; }
-    bool Load(void);
-    bool AddPrimitiveFeature(const JOYSTICK::JoystickFeature& feature, const JOYSTICK::CDriverPrimitive& primitive);
-    bool AddAnalogStick(const JOYSTICK::JoystickFeature& feature,
-                        const JOYSTICK::CDriverPrimitive& up,
-                        const JOYSTICK::CDriverPrimitive& down,
-                        const JOYSTICK::CDriverPrimitive& right,
-                        const JOYSTICK::CDriverPrimitive& left);
-    bool AddAccelerometer(const JOYSTICK::JoystickFeature& feature,
-                          const JOYSTICK::CDriverPrimitive& positiveX,
-                          const JOYSTICK::CDriverPrimitive& positiveY,
-                          const JOYSTICK::CDriverPrimitive& positiveZ);
+    // implementation of IJoystickButtonMap
+    virtual std::string ControllerID(void) const override { return m_strControllerId; }
+
+    virtual bool Load(void) override;
+
+    virtual bool GetFeature(
+      const JOYSTICK::CDriverPrimitive& primitive,
+      JOYSTICK::JoystickFeature& feature
+    ) override { return false; }
+
+    virtual bool GetPrimitiveFeature(
+      const JOYSTICK::JoystickFeature& feature,
+      JOYSTICK::CDriverPrimitive& primitive
+    ) override { return false; }
+
+    virtual bool AddPrimitiveFeature(
+      const JOYSTICK::JoystickFeature& feature,
+      const JOYSTICK::CDriverPrimitive& primitive
+    ) override;
+
+    virtual bool GetAnalogStick(
+      const JOYSTICK::JoystickFeature& feature,
+      JOYSTICK::CDriverPrimitive& up,
+      JOYSTICK::CDriverPrimitive& down,
+      JOYSTICK::CDriverPrimitive& right,
+      JOYSTICK::CDriverPrimitive& left
+    ) override { return false; }
+
+    virtual bool AddAnalogStick(
+      const JOYSTICK::JoystickFeature& feature,
+      const JOYSTICK::CDriverPrimitive& up,
+      const JOYSTICK::CDriverPrimitive& down,
+      const JOYSTICK::CDriverPrimitive& right,
+      const JOYSTICK::CDriverPrimitive& left
+    ) override;
+
+    virtual bool GetAccelerometer(
+      const JOYSTICK::JoystickFeature& feature,
+      JOYSTICK::CDriverPrimitive& positiveX,
+      JOYSTICK::CDriverPrimitive& positiveY,
+      JOYSTICK::CDriverPrimitive& positiveZ
+    ) override { return false; }
+
+    virtual bool AddAccelerometer(
+      const JOYSTICK::JoystickFeature& feature,
+      const JOYSTICK::CDriverPrimitive& positiveX,
+      const JOYSTICK::CDriverPrimitive& positiveY,
+      const JOYSTICK::CDriverPrimitive& positiveZ
+    ) override;
 
   private:
     // Utility functions

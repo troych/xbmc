@@ -39,22 +39,22 @@ namespace PERIPHERALS
     void ProcessEvents(void);
 
     // Inherited from CPeripheralBus
-    virtual void         Register(CPeripheral *peripheral);
-    virtual void         GetFeatures(std::vector<PeripheralFeature> &features) const;
-    virtual bool         HasFeature(const PeripheralFeature feature) const;
-    virtual CPeripheral* GetPeripheral(const std::string &strLocation) const;
-    virtual CPeripheral* GetByPath(const std::string &strPath) const;
-    virtual int          GetPeripheralsWithFeature(std::vector<CPeripheral *> &results, const PeripheralFeature feature) const;
-    virtual size_t       GetNumberOfPeripherals(void) const;
-    virtual size_t       GetNumberOfPeripheralsWithId(const int iVendorId, const int iProductId) const;
-    virtual void         GetDirectory(const std::string &strPath, CFileItemList &items) const;
+    virtual void         Register(CPeripheral *peripheral) override;
+    virtual void         GetFeatures(std::vector<PeripheralFeature> &features) const override;
+    virtual bool         HasFeature(const PeripheralFeature feature) const override;
+    virtual CPeripheral* GetPeripheral(const std::string &strLocation) const override;
+    virtual CPeripheral* GetByPath(const std::string &strPath) const override;
+    virtual int          GetPeripheralsWithFeature(std::vector<CPeripheral *> &results, const PeripheralFeature feature) const override;
+    virtual size_t       GetNumberOfPeripherals(void) const override;
+    virtual size_t       GetNumberOfPeripheralsWithId(const int iVendorId, const int iProductId) const override;
+    virtual void         GetDirectory(const std::string &strPath, CFileItemList &items) const override;
 
     bool SplitLocation(const std::string& strLocation, PeripheralAddonPtr& addon, unsigned int& peripheralIndex) const;
 
   protected:
     // Inherited from CPeripheralBus
-    virtual bool PerformDeviceScan(PeripheralScanResults &results);
-    virtual void UnregisterRemovedDevices(const PeripheralScanResults &results);
+    virtual bool PerformDeviceScan(PeripheralScanResults &results) override;
+    virtual void UnregisterRemovedDevices(const PeripheralScanResults &results) override;
 
   private:
     void UpdateAddons(void);

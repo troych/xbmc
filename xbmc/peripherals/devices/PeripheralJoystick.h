@@ -42,15 +42,15 @@ namespace PERIPHERALS
     virtual ~CPeripheralJoystick(void);
 
     // implementation of CPeripheral
-    virtual bool InitialiseFeature(const PeripheralFeature feature);
-    virtual void RegisterJoystickDriverHandler(IJoystickDriverHandler* handler, bool bPromiscuous);
-    virtual void UnregisterJoystickDriverHandler(IJoystickDriverHandler* handler);
+    virtual bool InitialiseFeature(const PeripheralFeature feature) override;
+    virtual void RegisterJoystickDriverHandler(IJoystickDriverHandler* handler, bool bPromiscuous) override;
+    virtual void UnregisterJoystickDriverHandler(IJoystickDriverHandler* handler) override;
 
     // implementation of IJoystickDriverHandler
-    virtual bool OnButtonMotion(unsigned int buttonIndex, bool bPressed);
-    virtual bool OnHatMotion(unsigned int hatIndex, JOYSTICK::HAT_STATE state);
-    virtual bool OnAxisMotion(unsigned int axisIndex, float position);
-    virtual void ProcessAxisMotions(void);
+    virtual bool OnButtonMotion(unsigned int buttonIndex, bool bPressed) override;
+    virtual bool OnHatMotion(unsigned int hatIndex, JOYSTICK::HAT_STATE state) override;
+    virtual bool OnAxisMotion(unsigned int axisIndex, float position) override;
+    virtual void ProcessAxisMotions(void) override;
 
     /*!
      * \brief Get the name of the driver or API providing this joystick

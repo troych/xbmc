@@ -56,7 +56,7 @@ namespace PERIPHERALS
     virtual ~CPeripheralAddon(void);
 
     // implementation of IAddon
-    virtual ADDON::AddonPtr GetRunningInstance(void) const;
+    virtual ADDON::AddonPtr GetRunningInstance(void) const override;
 
     /*!
      * @brief Initialise the instance of this add-on
@@ -99,7 +99,7 @@ namespace PERIPHERALS
      * @return True when compatible, false otherwise.
      * @remark Implementation of CAddonDll
      */
-    virtual bool CheckAPIVersion(void);
+    virtual bool CheckAPIVersion(void) override;
 
   private:
     /*!

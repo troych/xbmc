@@ -39,7 +39,7 @@ namespace PERIPHERALS
 
     virtual ~CPortMapper(void);
 
-    virtual void Notify(const Observable &obs, const ObservableMessage msg);
+    virtual void Notify(const Observable &obs, const ObservableMessage msg) override;
 
   private:
     void ProcessPeripherals(void);
