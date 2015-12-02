@@ -2,6 +2,7 @@ SRCS  = AddonJoystickButtonMap.cpp
 SRCS += AddonJoystickButtonMapping.cpp
 SRCS += AddonJoystickInputHandling.cpp
 SRCS += PeripheralAddon.cpp
+SRCS += PeripheralAddonTranslator.cpp
 
 LIB = peripheral-addons.a
 

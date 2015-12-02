@@ -19,6 +19,7 @@
  */
 
 #include "AddonJoystickButtonMap.h"
+#include "PeripheralAddonTranslator.h"
 #include "input/joysticks/JoystickUtils.h"
 #include "peripherals/Peripherals.h"
 #include "peripherals/devices/Peripheral.h"
@@ -26,15 +27,6 @@
 
 using namespace JOYSTICK;
 using namespace PERIPHERALS;
-
-// --- Helper function ---------------------------------------------------------
-
-JOYSTICK_DRIVER_SEMIAXIS_DIRECTION operator*(JOYSTICK_DRIVER_SEMIAXIS_DIRECTION dir, int i)
-{
-  return static_cast<JOYSTICK_DRIVER_SEMIAXIS_DIRECTION>(static_cast<int>(dir) * i);
-}
-
-// --- CAddonJoystickButtonMap -------------------------------------------------
 
 CAddonJoystickButtonMap::CAddonJoystickButtonMap(CPeripheral* device, const std::string& strControllerId)
   : m_device(device),
@@ -98,7 +90,7 @@ bool CAddonJoystickButtonMap::GetScalar(const FeatureName& feature, CDriverPrimi
 
     if (addonFeature.Type() == JOYSTICK_FEATURE_TYPE_SCALAR)
     {
-      primitive = ToPrimitive(addonFeature.Primitive());
+      primitive = CPeripheralAddonTranslator::TranslatePrimitive(addonFeature.Primitive());
       retVal = true;
     }
   }
@@ -119,7 +111,7 @@ bool CAddonJoystickButtonMap::AddScalar(const FeatureName& feature, const CDrive
     UnmapPrimitive(primitive);
 
     ADDON::JoystickFeature scalar(feature, JOYSTICK_FEATURE_TYPE_SCALAR);
-    scalar.SetPrimitive(ToPrimitive(primitive));
+    scalar.SetPrimitive(CPeripheralAddonTranslator::TranslatePrimitive(primitive));
 
     m_features[feature] = scalar;
   }
@@ -144,10 +136,10 @@ bool CAddonJoystickButtonMap::GetAnalogStick(const FeatureName& feature,
 
     if (addonFeature.Type() == JOYSTICK_FEATURE_TYPE_ANALOG_STICK)
     {
-      up     = ToPrimitive(addonFeature.Up());
-      down   = ToPrimitive(addonFeature.Down());
-      right  = ToPrimitive(addonFeature.Right());
-      left   = ToPrimitive(addonFeature.Left());
+      up     = CPeripheralAddonTranslator::TranslatePrimitive(addonFeature.Up());
+      down   = CPeripheralAddonTranslator::TranslatePrimitive(addonFeature.Down());
+      right  = CPeripheralAddonTranslator::TranslatePrimitive(addonFeature.Right());
+      left   = CPeripheralAddonTranslator::TranslatePrimitive(addonFeature.Left());
       retVal = true;
     }
   }
@@ -177,22 +169,22 @@ bool CAddonJoystickButtonMap::AddAnalogStick(const FeatureName& feature,
     if (up.Type() != CDriverPrimitive::Unknown)
     {
       UnmapPrimitive(up);
-      analogStick.SetUp(ToPrimitive(up));
+      analogStick.SetUp(CPeripheralAddonTranslator::TranslatePrimitive(up));
     }
     if (down.Type() != CDriverPrimitive::Unknown)
     {
       UnmapPrimitive(down);
-      analogStick.SetDown(ToPrimitive(down));
+      analogStick.SetDown(CPeripheralAddonTranslator::TranslatePrimitive(down));
     }
     if (right.Type() != CDriverPrimitive::Unknown)
     {
       UnmapPrimitive(right);
-      analogStick.SetRight(ToPrimitive(right));
+      analogStick.SetRight(CPeripheralAddonTranslator::TranslatePrimitive(right));
     }
     if (left.Type() != CDriverPrimitive::Unknown)
     {
       UnmapPrimitive(left);
-      analogStick.SetLeft(ToPrimitive(left));
+      analogStick.SetLeft(CPeripheralAddonTranslator::TranslatePrimitive(left));
     }
 
     m_features[feature] = analogStick;
@@ -217,9 +209,9 @@ bool CAddonJoystickButtonMap::GetAccelerometer(const FeatureName& feature,
 
     if (addonFeature.Type() == JOYSTICK_FEATURE_TYPE_ACCELEROMETER)
     {
-      positiveX = ToPrimitive(addonFeature.PositiveX());
-      positiveY = ToPrimitive(addonFeature.PositiveY());
-      positiveZ = ToPrimitive(addonFeature.PositiveZ());
+      positiveX = CPeripheralAddonTranslator::TranslatePrimitive(addonFeature.PositiveX());
+      positiveY = CPeripheralAddonTranslator::TranslatePrimitive(addonFeature.PositiveY());
+      positiveZ = CPeripheralAddonTranslator::TranslatePrimitive(addonFeature.PositiveZ());
       retVal    = true;
     }
   }
@@ -247,17 +239,17 @@ bool CAddonJoystickButtonMap::AddAccelerometer(const FeatureName& feature,
     if (positiveX.Type() != CDriverPrimitive::Unknown)
     {
       UnmapPrimitive(positiveX);
-      accelerometer.SetPositiveX(ToPrimitive(positiveX));
+      accelerometer.SetPositiveX(CPeripheralAddonTranslator::TranslatePrimitive(positiveX));
     }
     if (positiveY.Type() != CDriverPrimitive::Unknown)
     {
       UnmapPrimitive(positiveY);
-      accelerometer.SetPositiveY(ToPrimitive(positiveY));
+      accelerometer.SetPositiveY(CPeripheralAddonTranslator::TranslatePrimitive(positiveY));
     }
     if (positiveZ.Type() != CDriverPrimitive::Unknown)
     {
       UnmapPrimitive(positiveZ);
-      accelerometer.SetPositiveZ(ToPrimitive(positiveZ));
+      accelerometer.SetPositiveZ(CPeripheralAddonTranslator::TranslatePrimitive(positiveZ));
     }
 
     // TODO: Unmap complementary semiaxes
@@ -282,24 +274,24 @@ CAddonJoystickButtonMap::DriverMap CAddonJoystickButtonMap::CreateLookupTable(co
     {
       case JOYSTICK_FEATURE_TYPE_SCALAR:
       {
-        driverMap[ToPrimitive(feature.Primitive())] = it->first;
+        driverMap[CPeripheralAddonTranslator::TranslatePrimitive(feature.Primitive())] = it->first;
         break;
       }
 
       case JOYSTICK_FEATURE_TYPE_ANALOG_STICK:
       {
-        driverMap[ToPrimitive(feature.Up())] = it->first;
-        driverMap[ToPrimitive(feature.Down())] = it->first;
-        driverMap[ToPrimitive(feature.Right())] = it->first;
-        driverMap[ToPrimitive(feature.Left())] = it->first;
+        driverMap[CPeripheralAddonTranslator::TranslatePrimitive(feature.Up())] = it->first;
+        driverMap[CPeripheralAddonTranslator::TranslatePrimitive(feature.Down())] = it->first;
+        driverMap[CPeripheralAddonTranslator::TranslatePrimitive(feature.Right())] = it->first;
+        driverMap[CPeripheralAddonTranslator::TranslatePrimitive(feature.Left())] = it->first;
         break;
       }
 
       case JOYSTICK_FEATURE_TYPE_ACCELEROMETER:
       {
-        CDriverPrimitive x_axis(ToPrimitive(feature.PositiveX()));
-        CDriverPrimitive y_axis(ToPrimitive(feature.PositiveY()));
-        CDriverPrimitive z_axis(ToPrimitive(feature.PositiveZ()));
+        CDriverPrimitive x_axis(CPeripheralAddonTranslator::TranslatePrimitive(feature.PositiveX()));
+        CDriverPrimitive y_axis(CPeripheralAddonTranslator::TranslatePrimitive(feature.PositiveY()));
+        CDriverPrimitive z_axis(CPeripheralAddonTranslator::TranslatePrimitive(feature.PositiveZ()));
 
         driverMap[x_axis] = it->first;
         driverMap[y_axis] = it->first;
@@ -335,7 +327,7 @@ bool CAddonJoystickButtonMap::UnmapPrimitive(const CDriverPrimitive& primitive)
     if (itFeature != m_features.end())
     {
       ADDON::JoystickFeature& addonFeature = itFeature->second;
-      ResetPrimitive(addonFeature, ToPrimitive(primitive));
+      ResetPrimitive(addonFeature, CPeripheralAddonTranslator::TranslatePrimitive(primitive));
       if (addonFeature.Type() == JOYSTICK_FEATURE_TYPE_UNKNOWN)
         m_features.erase(itFeature);
       bModified = true;
@@ -400,19 +392,19 @@ bool CAddonJoystickButtonMap::ResetPrimitive(ADDON::JoystickFeature& feature, co
     case JOYSTICK_FEATURE_TYPE_ACCELEROMETER:
     {
       if (primitive == feature.PositiveX() ||
-          primitive == Opposite(feature.PositiveX()))
+          primitive == CPeripheralAddonTranslator::Opposite(feature.PositiveX()))
       {
         feature.SetPositiveX(ADDON::DriverPrimitive());
         bModified = true;
       }
       else if (primitive == feature.PositiveY() ||
-               primitive == Opposite(feature.PositiveY()))
+               primitive == CPeripheralAddonTranslator::Opposite(feature.PositiveY()))
       {
         feature.SetPositiveY(ADDON::DriverPrimitive());
         bModified = true;
       }
       else if (primitive == feature.PositiveZ() ||
-               primitive == Opposite(feature.PositiveZ()))
+               primitive == CPeripheralAddonTranslator::Opposite(feature.PositiveZ()))
       {
         feature.SetPositiveZ(ADDON::DriverPrimitive());
         bModified = true;
@@ -434,117 +426,4 @@ bool CAddonJoystickButtonMap::ResetPrimitive(ADDON::JoystickFeature& feature, co
       break;
   }
   return bModified;
-}
-
-CDriverPrimitive CAddonJoystickButtonMap::ToPrimitive(const ADDON::DriverPrimitive& primitive)
-{
-  CDriverPrimitive retVal;
-
-  switch (primitive.Type())
-  {
-    case JOYSTICK_DRIVER_PRIMITIVE_TYPE_BUTTON:
-    {
-      retVal = CDriverPrimitive(primitive.DriverIndex());
-      break;
-    }
-    case JOYSTICK_DRIVER_PRIMITIVE_TYPE_HAT_DIRECTION:
-    {
-      retVal = CDriverPrimitive(primitive.DriverIndex(), ToHatDirection(primitive.HatDirection()));
-      break;
-    }
-    case JOYSTICK_DRIVER_PRIMITIVE_TYPE_SEMIAXIS:
-    {
-      retVal = CDriverPrimitive(primitive.DriverIndex(), ToSemiAxisDirection(primitive.SemiAxisDirection()));
-      break;
-    }
-    default:
-      break;
-  }
-
-  return retVal;
-}
-
-ADDON::DriverPrimitive CAddonJoystickButtonMap::ToPrimitive(const CDriverPrimitive& primitive)
-{
-  ADDON::DriverPrimitive retVal;
-
-  switch (primitive.Type())
-  {
-    case CDriverPrimitive::Button:
-    {
-      retVal = ADDON::DriverPrimitive(primitive.Index());
-      break;
-    }
-    case CDriverPrimitive::Hat:
-    {
-      retVal = ADDON::DriverPrimitive(primitive.Index(), ToHatDirection(primitive.HatDirection()));
-      break;
-    }
-    case CDriverPrimitive::SemiAxis:
-    {
-      retVal = ADDON::DriverPrimitive(primitive.Index(), ToSemiAxisDirection(primitive.SemiAxisDirection()));
-      break;
-    }
-    default:
-      break;
-  }
-
-  return retVal;
-}
-
-HAT_DIRECTION CAddonJoystickButtonMap::ToHatDirection(JOYSTICK_DRIVER_HAT_DIRECTION driverDirection)
-{
-  switch (driverDirection)
-  {
-    case JOYSTICK_DRIVER_HAT_LEFT:   return HAT_DIRECTION::LEFT;
-    case JOYSTICK_DRIVER_HAT_RIGHT:  return HAT_DIRECTION::RIGHT;
-    case JOYSTICK_DRIVER_HAT_UP:     return HAT_DIRECTION::UP;
-    case JOYSTICK_DRIVER_HAT_DOWN:   return HAT_DIRECTION::DOWN;
-    default:
-      break;
-  }
-  return HAT_DIRECTION::UNKNOWN;
-}
-
-JOYSTICK_DRIVER_HAT_DIRECTION CAddonJoystickButtonMap::ToHatDirection(HAT_DIRECTION dir)
-{
-  switch (dir)
-  {
-    case HAT_DIRECTION::UP:     return JOYSTICK_DRIVER_HAT_UP;
-    case HAT_DIRECTION::DOWN:   return JOYSTICK_DRIVER_HAT_DOWN;
-    case HAT_DIRECTION::RIGHT:  return JOYSTICK_DRIVER_HAT_RIGHT;
-    case HAT_DIRECTION::LEFT:   return JOYSTICK_DRIVER_HAT_LEFT;
-    default:
-      break;
-  }
-  return JOYSTICK_DRIVER_HAT_UNKNOWN;
-}
-
-SEMIAXIS_DIRECTION CAddonJoystickButtonMap::ToSemiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_DIRECTION dir)
-{
-  switch (dir)
-  {
-    case JOYSTICK_DRIVER_SEMIAXIS_POSITIVE: return SEMIAXIS_DIRECTION::POSITIVE;
-    case JOYSTICK_DRIVER_SEMIAXIS_NEGATIVE: return SEMIAXIS_DIRECTION::NEGATIVE;
-    default:
-      break;
-  }
-  return SEMIAXIS_DIRECTION::UNKNOWN;
-}
-
-JOYSTICK_DRIVER_SEMIAXIS_DIRECTION CAddonJoystickButtonMap::ToSemiAxisDirection(SEMIAXIS_DIRECTION dir)
-{
-  switch (dir)
-  {
-    case SEMIAXIS_DIRECTION::POSITIVE: return JOYSTICK_DRIVER_SEMIAXIS_POSITIVE;
-    case SEMIAXIS_DIRECTION::NEGATIVE: return JOYSTICK_DRIVER_SEMIAXIS_NEGATIVE;
-    default:
-      break;
-  }
-  return JOYSTICK_DRIVER_SEMIAXIS_UNKNOWN;
-}
-
-ADDON::DriverPrimitive CAddonJoystickButtonMap::Opposite(const ADDON::DriverPrimitive& primitive)
-{
-  return ADDON::DriverPrimitive(primitive.DriverIndex(), primitive.SemiAxisDirection() * -1);
 }

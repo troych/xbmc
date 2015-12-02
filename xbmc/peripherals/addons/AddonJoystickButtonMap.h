@@ -20,7 +20,7 @@
 #pragma once
 
 #include "PeripheralAddon.h" // for FeatureMap
-#include "addons/include/kodi_peripheral_types.h"
+#include "addons/include/kodi_peripheral_utils.hpp"
 #include "input/joysticks/DriverPrimitive.h"
 #include "input/joysticks/IJoystickButtonMap.h"
 #include "input/joysticks/JoystickTypes.h"
@@ -96,17 +96,6 @@ namespace PERIPHERALS
     bool UnmapPrimitive(const JOYSTICK::CDriverPrimitive& primitive);
 
     static bool ResetPrimitive(ADDON::JoystickFeature& feature, const ADDON::DriverPrimitive& primitive);
-
-    static JOYSTICK::CDriverPrimitive ToPrimitive(const ADDON::DriverPrimitive& primitive);
-    static ADDON::DriverPrimitive     ToPrimitive(const JOYSTICK::CDriverPrimitive& primitive);
-
-    static JOYSTICK::HAT_DIRECTION       ToHatDirection(JOYSTICK_DRIVER_HAT_DIRECTION driverDirection);
-    static JOYSTICK_DRIVER_HAT_DIRECTION ToHatDirection(JOYSTICK::HAT_DIRECTION dir);
-
-    static JOYSTICK::SEMIAXIS_DIRECTION       ToSemiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_DIRECTION dir);
-    static JOYSTICK_DRIVER_SEMIAXIS_DIRECTION ToSemiAxisDirection(JOYSTICK::SEMIAXIS_DIRECTION dir);
-
-    static ADDON::DriverPrimitive Opposite(const ADDON::DriverPrimitive& semiaxis);
 
     CPeripheral* const  m_device;
     PeripheralAddonPtr  m_addon;

@@ -86,8 +86,6 @@ namespace PERIPHERALS
     void UnregisterButtonMap(JOYSTICK::IJoystickButtonMap* buttonMap);
     void RefreshButtonMaps(const std::string& strDeviceName = "", const std::string& strControllerId = "");
 
-    static const char* ToString(PERIPHERAL_ERROR error);
-
   protected:
     /*!
      * @brief Request the API version from the add-on, and check if it's compatible
@@ -105,8 +103,6 @@ namespace PERIPHERALS
 
     static void GetJoystickInfo(const CPeripheral* device, ADDON::Joystick& joystickInfo);
     static void SetJoystickInfo(CPeripheralJoystick& joystick, const ADDON::Joystick& joystickInfo);
-
-    static JOYSTICK::HAT_STATE ToHatState(JOYSTICK_STATE_HAT state);
 
     /*!
      * @brief Reset all class members to their defaults. Called by the constructors

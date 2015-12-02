@@ -20,6 +20,7 @@
 
 #include "PeripheralAddon.h"
 #include "AddonJoystickButtonMap.h"
+#include "PeripheralAddonTranslator.h"
 #include "addons/AddonManager.h"
 #include "filesystem/Directory.h"
 #include "filesystem/SpecialProtocol.h"
@@ -410,7 +411,7 @@ bool CPeripheralAddon::ProcessEvents(void)
           }
           case PERIPHERAL_EVENT_TYPE_DRIVER_HAT:
           {
-            const HAT_STATE state = ToHatState(event.HatState());
+            const HAT_STATE state = CPeripheralAddonTranslator::TranslateHatState(event.HatState());
             CLog::Log(LOGDEBUG, "Joystick %s: Hat %u %s", joystickDevice->DeviceName().c_str(),
                       event.DriverIndex(), CJoystickTranslator::HatStateToString(state));
             if (joystickDevice->OnHatMotion(event.DriverIndex(), state))
@@ -624,46 +625,12 @@ void CPeripheralAddon::SetJoystickInfo(CPeripheralJoystick& joystick, const ADDO
   joystick.SetAxisCount(joystickInfo.AxisCount());
 }
 
-const char* CPeripheralAddon::ToString(const PERIPHERAL_ERROR error)
-{
-  switch (error)
-  {
-  case PERIPHERAL_NO_ERROR:
-    return "no error";
-  case PERIPHERAL_ERROR_FAILED:
-    return "command failed";
-  case PERIPHERAL_ERROR_INVALID_PARAMETERS:
-    return "invalid parameters";
-  case PERIPHERAL_ERROR_NOT_IMPLEMENTED:
-    return "not implemented";
-  case PERIPHERAL_ERROR_NOT_CONNECTED:
-    return "not connected";
-  case PERIPHERAL_ERROR_CONNECTION_FAILED:
-    return "connection failed";
-  case PERIPHERAL_ERROR_UNKNOWN:
-  default:
-    return "unknown error";
-  }
-}
-
-HAT_STATE CPeripheralAddon::ToHatState(JOYSTICK_STATE_HAT state)
-{
-  HAT_STATE translatedState = HAT_STATE::UNPRESSED;
-
-  if (state & JOYSTICK_STATE_HAT_UP)    translatedState |= HAT_STATE::UP;
-  if (state & JOYSTICK_STATE_HAT_DOWN)  translatedState |= HAT_STATE::DOWN;
-  if (state & JOYSTICK_STATE_HAT_RIGHT) translatedState |= HAT_STATE::RIGHT;
-  if (state & JOYSTICK_STATE_HAT_LEFT)  translatedState |= HAT_STATE::LEFT;
-
-  return translatedState;
-}
-
 bool CPeripheralAddon::LogError(const PERIPHERAL_ERROR error, const char *strMethod) const
 {
   if (error != PERIPHERAL_NO_ERROR)
   {
     CLog::Log(LOGERROR, "PERIPHERAL - %s - addon '%s' returned an error: %s",
-        strMethod, Name().c_str(), ToString(error));
+        strMethod, Name().c_str(), CPeripheralAddonTranslator::TranslateError(error));
     return false;
   }
   return true;
