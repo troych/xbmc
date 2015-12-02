@@ -53,7 +53,7 @@ namespace JOYSTICK
      * \return INPUT_TYPE_DIGITAL for digital buttons, INPUT_TYPE_ANALOG for analog
      *         buttons, or INPUT_TYPE_UNKNOWN otherwise
      */
-    virtual InputType GetInputType(const JoystickFeature& feature) const = 0;
+    virtual InputType GetInputType(const FeatureName& feature) const = 0;
 
     /*!
      * \brief A digital button has been pressed or released
@@ -63,7 +63,7 @@ namespace JOYSTICK
      *
      * \return True if the event was handled otherwise false
      */
-    virtual bool OnButtonPress(const JoystickFeature& feature, bool bPressed) = 0;
+    virtual bool OnButtonPress(const FeatureName& feature, bool bPressed) = 0;
 
     /*!
      * \brief An analog button (trigger or a pressure-sensitive button) has changed state
@@ -74,7 +74,7 @@ namespace JOYSTICK
      *
      * \return True if the event was handled otherwise false
      */
-    virtual bool OnButtonMotion(const JoystickFeature& feature, float magnitude) = 0;
+    virtual bool OnButtonMotion(const FeatureName& feature, float magnitude) = 0;
 
     /*!
      * \brief An analog stick has moved
@@ -85,7 +85,7 @@ namespace JOYSTICK
      *
      * \return True if the event was handled otherwise false
      */
-    virtual bool OnAnalogStickMotion(const JoystickFeature& feature, float x, float y) = 0;
+    virtual bool OnAnalogStickMotion(const FeatureName& feature, float x, float y) = 0;
 
     /*!
      * \brief An accelerometer's state has changed
@@ -97,6 +97,6 @@ namespace JOYSTICK
      *
      * \return True if the event was handled otherwise false
      */
-    virtual bool OnAccelerometerMotion(const JoystickFeature& feature, float x, float y, float z) { return false; }
+    virtual bool OnAccelerometerMotion(const FeatureName& feature, float x, float y, float z) { return false; }
   };
 }

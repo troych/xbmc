@@ -38,7 +38,7 @@ bool CAddonJoystickButtonMapWO::Load(void)
   return m_addon.get() != NULL;
 }
 
-bool CAddonJoystickButtonMapWO::AddScalar(const JOYSTICK::JoystickFeature& feature, const CDriverPrimitive& primitive)
+bool CAddonJoystickButtonMapWO::AddScalar(const JOYSTICK::FeatureName& feature, const CDriverPrimitive& primitive)
 {
   ADDON::JoystickFeature scalar(feature, JOYSTICK_FEATURE_TYPE_SCALAR);
   scalar.SetPrimitive(ToPrimitive(primitive));
@@ -74,7 +74,7 @@ ADDON::DriverPrimitive CAddonJoystickButtonMapWO::ToPrimitive(const CDriverPrimi
   return retVal;
 }
 
-bool CAddonJoystickButtonMapWO::AddAnalogStick(const JOYSTICK::JoystickFeature& feature,
+bool CAddonJoystickButtonMapWO::AddAnalogStick(const JOYSTICK::FeatureName& feature,
                                                const CDriverPrimitive& up,
                                                const CDriverPrimitive& down,
                                                const CDriverPrimitive& right,
@@ -90,7 +90,7 @@ bool CAddonJoystickButtonMapWO::AddAnalogStick(const JOYSTICK::JoystickFeature& 
   return m_addon->AddFeature(m_device, m_strControllerId, analogStick);
 }
 
-bool CAddonJoystickButtonMapWO::AddAccelerometer(const JOYSTICK::JoystickFeature& feature,
+bool CAddonJoystickButtonMapWO::AddAccelerometer(const JOYSTICK::FeatureName& feature,
                                                  const CDriverPrimitive& positiveX,
                                                  const CDriverPrimitive& positiveY,
                                                  const CDriverPrimitive& positiveZ)

@@ -41,7 +41,7 @@ namespace JOYSTICK
      * \brief The add-on ID of the game controller associated with this button map
      *
      * The controller ID provided by the implementation serves as the context
-     * for the feature indices below.
+     * for the feature names below.
      *
      * \return The ID of this button map's game controller add-on
      */
@@ -68,7 +68,7 @@ namespace JOYSTICK
      */
     virtual bool GetFeature(
       const CDriverPrimitive& primitive,
-      JoystickFeature& feature
+      FeatureName& feature
     ) = 0;
 
     /*!
@@ -91,7 +91,7 @@ namespace JOYSTICK
      *         feature didn't resolve or isn't a scalar feature
      */
     virtual bool GetScalar(
-      const JoystickFeature& feature,
+      const FeatureName& feature,
       CDriverPrimitive& primitive
     ) = 0;
 
@@ -105,7 +105,7 @@ namespace JOYSTICK
      *         unchanged or failure occurs
      */
     virtual bool AddScalar(
-      const JoystickFeature& feature,
+      const FeatureName& feature,
       const CDriverPrimitive& primitive
     ) = 0;
 
@@ -121,7 +121,7 @@ namespace JOYSTICK
      * \return True if the feature resolved to an analog stick with at least 1 known direction
      */
     virtual bool GetAnalogStick(
-      const JoystickFeature& feature,
+      const FeatureName& feature,
       CDriverPrimitive& up,
       CDriverPrimitive& down,
       CDriverPrimitive& right,
@@ -144,7 +144,7 @@ namespace JOYSTICK
      * \return True if the analog stick was updated, false otherwise
      */
     virtual bool AddAnalogStick(
-      const JoystickFeature& feature,
+      const FeatureName& feature,
       const CDriverPrimitive& up,
       const CDriverPrimitive& down,
       const CDriverPrimitive& right,
@@ -162,7 +162,7 @@ namespace JOYSTICK
      * \return True if the feature resolved to an accelerometer with at least 1 known axis
      */
     virtual bool GetAccelerometer(
-      const JoystickFeature& feature,
+      const FeatureName& feature,
       CDriverPrimitive& positiveX,
       CDriverPrimitive& positiveY,
       CDriverPrimitive& positiveZ
@@ -181,7 +181,7 @@ namespace JOYSTICK
      * \return True if the accelerometer was updated, false if unchanged or failure occurred
      */
     virtual bool AddAccelerometer(
-      const JoystickFeature& feature,
+      const FeatureName& feature,
       const CDriverPrimitive& positiveX,
       const CDriverPrimitive& positiveY,
       const CDriverPrimitive& positiveZ

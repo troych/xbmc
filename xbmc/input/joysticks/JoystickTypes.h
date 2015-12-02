@@ -29,9 +29,9 @@
 namespace JOYSTICK
 {
   /*!
-   * \brief Physical feature of the joystick - button, analog stick, etc
+   * \brief Name of a physical feature belonging to the joystick
    */
-  typedef std::string JoystickFeature;
+  typedef std::string FeatureName;
 
   /*!
    * \brief Direction arrows on the hat (directional pad)
@@ -72,7 +72,6 @@ namespace JOYSTICK
   typedef HAT_STATE  INTERCARDINAL_DIRECTION;
 
   /*!
-   * \ingroup joysticks
    * \brief Directions in which a semiaxis can point
    */
   enum class SEMIAXIS_DIRECTION

@@ -108,7 +108,7 @@ CAddonJoystickButtonMapRO::DriverMap CAddonJoystickButtonMapRO::CreateLookupTabl
   return driverMap;
 }
 
-bool CAddonJoystickButtonMapRO::GetFeature(const CDriverPrimitive& primitive, ::JoystickFeature& feature)
+bool CAddonJoystickButtonMapRO::GetFeature(const CDriverPrimitive& primitive, FeatureName& feature)
 {
   DriverMap::const_iterator it = m_driverMap.find(primitive);
   if (it != m_driverMap.end())
@@ -120,7 +120,7 @@ bool CAddonJoystickButtonMapRO::GetFeature(const CDriverPrimitive& primitive, ::
   return false;
 }
 
-bool CAddonJoystickButtonMapRO::GetScalar(const ::JoystickFeature& feature, CDriverPrimitive& primitive)
+bool CAddonJoystickButtonMapRO::GetScalar(const FeatureName& feature, CDriverPrimitive& primitive)
 {
   bool retVal(false);
 
@@ -139,7 +139,7 @@ bool CAddonJoystickButtonMapRO::GetScalar(const ::JoystickFeature& feature, CDri
   return retVal;
 }
 
-bool CAddonJoystickButtonMapRO::GetAnalogStick(const ::JoystickFeature& feature,
+bool CAddonJoystickButtonMapRO::GetAnalogStick(const FeatureName& feature,
                                                CDriverPrimitive& up,
                                                CDriverPrimitive& down,
                                                CDriverPrimitive& right,
@@ -165,7 +165,7 @@ bool CAddonJoystickButtonMapRO::GetAnalogStick(const ::JoystickFeature& feature,
   return retVal;
 }
 
-bool CAddonJoystickButtonMapRO::GetAccelerometer(const ::JoystickFeature& feature,
+bool CAddonJoystickButtonMapRO::GetAccelerometer(const FeatureName& feature,
                                                  CDriverPrimitive& positiveX,
                                                  CDriverPrimitive& positiveY,
                                                  CDriverPrimitive& positiveZ)

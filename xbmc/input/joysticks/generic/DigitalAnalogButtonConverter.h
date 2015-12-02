@@ -41,18 +41,18 @@ namespace JOYSTICK
 
     // implementation of IJoystickInputHandler
     virtual std::string ControllerID(void) const override;
-    virtual InputType GetInputType(const JoystickFeature& feature) const override;
-    virtual bool OnButtonPress(const JoystickFeature& feature, bool bPressed) override;
-    virtual bool OnButtonMotion(const JoystickFeature& feature, float magnitude) override;
-    virtual bool OnAnalogStickMotion(const JoystickFeature& feature, float x, float y) override;
-    virtual bool OnAccelerometerMotion(const JoystickFeature& feature, float x, float y, float z) override;
+    virtual InputType GetInputType(const FeatureName& feature) const override;
+    virtual bool OnButtonPress(const FeatureName& feature, bool bPressed) override;
+    virtual bool OnButtonMotion(const FeatureName& feature, float magnitude) override;
+    virtual bool OnAnalogStickMotion(const FeatureName& feature, float x, float y) override;
+    virtual bool OnAccelerometerMotion(const FeatureName& feature, float x, float y, float z) override;
 
   private:
-    bool IsActivated(const JoystickFeature& feature) const;
-    void Activate(const JoystickFeature& feature);
-    void Deactivate(const JoystickFeature& feature);
+    bool IsActivated(const FeatureName& feature) const;
+    void Activate(const FeatureName& feature);
+    void Deactivate(const FeatureName& feature);
 
     IJoystickInputHandler* const  m_handler;
-    std::vector<JoystickFeature>  m_activatedFeatures; // for tracking analog features mapped to digital input
+    std::vector<FeatureName>  m_activatedFeatures; // for tracking analog features mapped to digital input
   };
 }

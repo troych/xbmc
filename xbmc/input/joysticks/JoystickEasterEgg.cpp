@@ -47,7 +47,7 @@ CJoystickEasterEgg::CJoystickEasterEgg(void)
 {
 }
 
-bool CJoystickEasterEgg::OnButtonPress(const JoystickFeature& feature)
+bool CJoystickEasterEgg::OnButtonPress(const FeatureName& feature)
 {
   bool bHandled = false;
 

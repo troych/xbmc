@@ -44,22 +44,22 @@ bool CAddonJoystickButtonMap::Load(void)
   return m_buttonMapRO.Load() && m_buttonMapWO.Load();
 }
 
-bool CAddonJoystickButtonMap::GetFeature(const CDriverPrimitive& primitive, JoystickFeature& feature)
+bool CAddonJoystickButtonMap::GetFeature(const CDriverPrimitive& primitive, FeatureName& feature)
 {
   return m_buttonMapRO.GetFeature(primitive, feature);
 }
 
-bool CAddonJoystickButtonMap::GetScalar(const JoystickFeature& feature, CDriverPrimitive& primitive)
+bool CAddonJoystickButtonMap::GetScalar(const FeatureName& feature, CDriverPrimitive& primitive)
 {
   return m_buttonMapRO.GetScalar(feature, primitive);
 }
 
-bool CAddonJoystickButtonMap::AddScalar(const JoystickFeature& feature, const CDriverPrimitive& primitive)
+bool CAddonJoystickButtonMap::AddScalar(const FeatureName& feature, const CDriverPrimitive& primitive)
 {
   return m_buttonMapWO.AddScalar(feature, primitive);
 }
 
-bool CAddonJoystickButtonMap::GetAnalogStick(const JoystickFeature& feature,
+bool CAddonJoystickButtonMap::GetAnalogStick(const FeatureName& feature,
                                              CDriverPrimitive& up,
                                              CDriverPrimitive& down,
                                              CDriverPrimitive& right,
@@ -68,7 +68,7 @@ bool CAddonJoystickButtonMap::GetAnalogStick(const JoystickFeature& feature,
   return m_buttonMapRO.GetAnalogStick(feature, up, down, right, left);
 }
 
-bool CAddonJoystickButtonMap::AddAnalogStick(const JoystickFeature& feature,
+bool CAddonJoystickButtonMap::AddAnalogStick(const FeatureName& feature,
                                              const CDriverPrimitive& up,
                                              const CDriverPrimitive& down,
                                              const CDriverPrimitive& right,
@@ -77,7 +77,7 @@ bool CAddonJoystickButtonMap::AddAnalogStick(const JoystickFeature& feature,
   return m_buttonMapWO.AddAnalogStick(feature, up, down, right, left);
 }
 
-bool CAddonJoystickButtonMap::GetAccelerometer(const JoystickFeature& feature,
+bool CAddonJoystickButtonMap::GetAccelerometer(const FeatureName& feature,
                                                CDriverPrimitive& positiveX,
                                                CDriverPrimitive& positiveY,
                                                CDriverPrimitive& positiveZ)
@@ -85,7 +85,7 @@ bool CAddonJoystickButtonMap::GetAccelerometer(const JoystickFeature& feature,
   return m_buttonMapRO.GetAccelerometer(feature, positiveX, positiveY, positiveZ);
 }
 
-bool CAddonJoystickButtonMap::AddAccelerometer(const JoystickFeature& feature,
+bool CAddonJoystickButtonMap::AddAccelerometer(const FeatureName& feature,
                                                const CDriverPrimitive& positiveX,
                                                const CDriverPrimitive& positiveY,
                                                const CDriverPrimitive& positiveZ)

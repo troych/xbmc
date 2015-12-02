@@ -51,7 +51,7 @@ bool CGenericJoystickInputHandling::OnButtonMotion(unsigned int buttonIndex, boo
 
   bool bHandled = false;
 
-  JoystickFeature feature;
+  FeatureName feature;
   if (m_buttonMap->GetFeature(CDriverPrimitive(buttonIndex), feature))
   {
     char& wasPressed = m_buttonStates[buttonIndex];
@@ -105,7 +105,7 @@ bool CGenericJoystickInputHandling::ProcessHatDirection(int index,
   {
     const bool bActivated = ((int)newState & (int)targetDir) != (int)HAT_STATE::UNPRESSED;
 
-    JoystickFeature feature;
+    FeatureName feature;
     if (m_buttonMap->GetFeature(CDriverPrimitive(index, targetDir), feature))
     {
       if (bActivated)
@@ -138,8 +138,8 @@ bool CGenericJoystickInputHandling::OnAxisMotion(unsigned int axisIndex, float n
   CDriverPrimitive positiveAxis(axisIndex, SEMIAXIS_DIRECTION::POSITIVE);
   CDriverPrimitive negativeAxis(axisIndex, SEMIAXIS_DIRECTION::NEGATIVE);
 
-  JoystickFeature positiveFeature;
-  JoystickFeature negativeFeature;
+  FeatureName positiveFeature;
+  FeatureName negativeFeature;
 
   bool bHasFeaturePositive = m_buttonMap->GetFeature(positiveAxis, positiveFeature);
   bool bHasFeatureNegative = m_buttonMap->GetFeature(negativeAxis, negativeFeature);
@@ -191,13 +191,13 @@ bool CGenericJoystickInputHandling::OnAxisMotion(unsigned int axisIndex, float n
 
 void CGenericJoystickInputHandling::ProcessAxisMotions(void)
 {
-  std::vector<JoystickFeature> featuresToProcess;
+  std::vector<FeatureName> featuresToProcess;
   featuresToProcess.swap(m_featuresWithMotion);
 
   // Invoke callbacks for features with motion
-  for (std::vector<JoystickFeature>::const_iterator it = featuresToProcess.begin(); it != featuresToProcess.end(); ++it)
+  for (std::vector<FeatureName>::const_iterator it = featuresToProcess.begin(); it != featuresToProcess.end(); ++it)
   {
-    const JoystickFeature& feature = *it;
+    const FeatureName& feature = *it;
 
     CDriverPrimitive up;
     CDriverPrimitive down;
@@ -241,11 +241,11 @@ void CGenericJoystickInputHandling::ProcessAxisMotions(void)
   }
 
   // Digital buttons emulating analog buttons need to be repeated every frame
-  for (std::vector<JoystickFeature>::const_iterator it = m_repeatingFeatures.begin(); it != m_repeatingFeatures.end(); ++it)
+  for (std::vector<FeatureName>::const_iterator it = m_repeatingFeatures.begin(); it != m_repeatingFeatures.end(); ++it)
     m_handler->OnButtonPress(*it, true);
 }
 
-bool CGenericJoystickInputHandling::OnPress(const JoystickFeature& feature)
+bool CGenericJoystickInputHandling::OnPress(const FeatureName& feature)
 {
   bool bHandled = false;
 
@@ -267,7 +267,7 @@ bool CGenericJoystickInputHandling::OnPress(const JoystickFeature& feature)
   return bHandled;
 }
 
-void CGenericJoystickInputHandling::OnRelease(const JoystickFeature& feature)
+void CGenericJoystickInputHandling::OnRelease(const FeatureName& feature)
 {
   CLog::Log(LOGDEBUG, "CGenericJoystickInputHandling: %s feature [ %s ] released",
             m_handler->ControllerID().c_str(), feature.c_str());
@@ -276,12 +276,12 @@ void CGenericJoystickInputHandling::OnRelease(const JoystickFeature& feature)
   StopDigitalRepeating(feature);
 }
 
-void CGenericJoystickInputHandling::StartDigitalRepeating(const JoystickFeature& feature)
+void CGenericJoystickInputHandling::StartDigitalRepeating(const FeatureName& feature)
 {
   m_repeatingFeatures.push_back(feature);
 }
 
-void CGenericJoystickInputHandling::StopDigitalRepeating(const JoystickFeature& feature)
+void CGenericJoystickInputHandling::StopDigitalRepeating(const FeatureName& feature)
 {
   m_repeatingFeatures.erase(std::remove(m_repeatingFeatures.begin(), m_repeatingFeatures.end(), feature), m_repeatingFeatures.end());
 }

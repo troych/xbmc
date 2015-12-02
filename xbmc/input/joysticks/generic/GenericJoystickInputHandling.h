@@ -58,11 +58,11 @@ namespace JOYSTICK
   private:
     bool ProcessHatDirection(int index, HAT_STATE oldState, HAT_STATE newState, HAT_DIRECTION targetDir);
 
-    bool OnPress(const JoystickFeature& feature);
-    void OnRelease(const JoystickFeature& feature);
+    bool OnPress(const FeatureName& feature);
+    void OnRelease(const FeatureName& feature);
 
-    void StartDigitalRepeating(const JoystickFeature& feature);
-    void StopDigitalRepeating(const JoystickFeature& feature);
+    void StartDigitalRepeating(const FeatureName& feature);
+    void StopDigitalRepeating(const FeatureName& feature);
 
     float GetAxisState(int axisIndex) const;
 
@@ -71,7 +71,7 @@ namespace JOYSTICK
     std::vector<char>            m_buttonStates; // std::vector is specialized for <bool>
     std::vector<HAT_STATE>       m_hatStates;
     std::vector<float>           m_axisStates;
-    std::vector<JoystickFeature> m_featuresWithMotion;
-    std::vector<JoystickFeature> m_repeatingFeatures;
+    std::vector<FeatureName> m_featuresWithMotion;
+    std::vector<FeatureName> m_repeatingFeatures;
   };
 }

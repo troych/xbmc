@@ -43,11 +43,11 @@ namespace JOYSTICK
 
     // implementation of IJoystickInputHandler
     virtual std::string ControllerID(void) const override;
-    virtual InputType GetInputType(const JoystickFeature& feature) const override;
-    virtual bool OnButtonPress(const JoystickFeature& feature, bool bPressed) override;
-    virtual bool OnButtonMotion(const JoystickFeature& feature, float magnitude) override;
-    virtual bool OnAnalogStickMotion(const JoystickFeature& feature, float x, float y) override;
-    virtual bool OnAccelerometerMotion(const JoystickFeature& feature, float x, float y, float z) override;
+    virtual InputType GetInputType(const FeatureName& feature) const override;
+    virtual bool OnButtonPress(const FeatureName& feature, bool bPressed) override;
+    virtual bool OnButtonMotion(const FeatureName& feature, float magnitude) override;
+    virtual bool OnAnalogStickMotion(const FeatureName& feature, float x, float y) override;
+    virtual bool OnAccelerometerMotion(const FeatureName& feature, float x, float y, float z) override;
 
   private:
     /*!
@@ -56,7 +56,7 @@ namespace JOYSTICK
      *
      * \return The button key ID
      */
-    static unsigned int GetButtonKeyID(const JoystickFeature& feature, CARDINAL_DIRECTION dir = CARDINAL_DIRECTION::UNKNOWN);
+    static unsigned int GetButtonKeyID(const FeatureName& feature, CARDINAL_DIRECTION dir = CARDINAL_DIRECTION::UNKNOWN);
 
     /*!
      * \brief Return a vector of the four cardinal directions

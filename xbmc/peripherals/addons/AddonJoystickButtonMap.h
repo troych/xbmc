@@ -40,21 +40,21 @@ namespace PERIPHERALS
 
     virtual bool GetFeature(
       const JOYSTICK::CDriverPrimitive& primitive,
-      JOYSTICK::JoystickFeature& feature
+      JOYSTICK::FeatureName& feature
     ) override;
 
     virtual bool GetScalar(
-      const JOYSTICK::JoystickFeature& feature,
+      const JOYSTICK::FeatureName& feature,
       JOYSTICK::CDriverPrimitive& primitive
     ) override;
 
     virtual bool AddScalar(
-      const JOYSTICK::JoystickFeature& feature,
+      const JOYSTICK::FeatureName& feature,
       const JOYSTICK::CDriverPrimitive& primitive
     ) override;
 
     virtual bool GetAnalogStick(
-      const JOYSTICK::JoystickFeature& feature,
+      const JOYSTICK::FeatureName& feature,
       JOYSTICK::CDriverPrimitive& up,
       JOYSTICK::CDriverPrimitive& down,
       JOYSTICK::CDriverPrimitive& right,
@@ -62,7 +62,7 @@ namespace PERIPHERALS
     ) override;
 
     virtual bool AddAnalogStick(
-      const JOYSTICK::JoystickFeature& feature,
+      const JOYSTICK::FeatureName& feature,
       const JOYSTICK::CDriverPrimitive& up,
       const JOYSTICK::CDriverPrimitive& down,
       const JOYSTICK::CDriverPrimitive& right,
@@ -70,14 +70,14 @@ namespace PERIPHERALS
     ) override;
 
     virtual bool GetAccelerometer(
-      const JOYSTICK::JoystickFeature& feature,
+      const JOYSTICK::FeatureName& feature,
       JOYSTICK::CDriverPrimitive& positiveX,
       JOYSTICK::CDriverPrimitive& positiveY,
       JOYSTICK::CDriverPrimitive& positiveZ
     ) override;
 
     virtual bool AddAccelerometer(
-      const JOYSTICK::JoystickFeature& feature,
+      const JOYSTICK::FeatureName& feature,
       const JOYSTICK::CDriverPrimitive& positiveX,
       const JOYSTICK::CDriverPrimitive& positiveY,
       const JOYSTICK::CDriverPrimitive& positiveZ

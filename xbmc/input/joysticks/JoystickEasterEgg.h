@@ -28,7 +28,7 @@ namespace JOYSTICK
   public:
     ~IButtonSequence(void) { }
 
-    virtual bool OnButtonPress(const JoystickFeature& feature) = 0;
+    virtual bool OnButtonPress(const FeatureName& feature) = 0;
   };
 
   /*!
@@ -40,7 +40,7 @@ namespace JOYSTICK
     CJoystickEasterEgg(void);
 
     // implementation of IButtonSequence
-    virtual bool OnButtonPress(const JoystickFeature& feature) override;
+    virtual bool OnButtonPress(const FeatureName& feature) override;
 
   private:
     void OnFinish(void);
