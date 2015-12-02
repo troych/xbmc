@@ -493,7 +493,7 @@ bool CPeripheralAddon::GetFeatures(const CPeripheral* device,
 
   try { LogError(retVal = m_pStruct->GetFeatures(&joystickStruct, strControllerId.c_str(),
                                                  &featureCount, &pFeatures), "GetFeatures()"); }
-  catch (std::exception &e) { LogException(e, "GetButtonMap()"); return false;  }
+  catch (std::exception &e) { LogException(e, "GetFeatures()"); return false;  }
 
   if (retVal == PERIPHERAL_NO_ERROR)
   {
@@ -513,8 +513,9 @@ bool CPeripheralAddon::GetFeatures(const CPeripheral* device,
   return false;
 }
 
-bool CPeripheralAddon::AddFeature(const CPeripheral* device, const std::string& strControllerId,
-                                  const ADDON::JoystickFeature& feature)
+bool CPeripheralAddon::MapFeatures(const CPeripheral* device,
+                                   const std::string& strControllerId,
+                                   const FeatureMap& features)
 {
   if (!HasFeature(FEATURE_JOYSTICK))
     return false;
@@ -527,12 +528,18 @@ bool CPeripheralAddon::AddFeature(const CPeripheral* device, const std::string& 
   JOYSTICK_INFO joystickStruct;
   joystickInfo.ToStruct(joystickStruct);
 
-  JOYSTICK_FEATURE featureStruct;
-  feature.ToStruct(featureStruct);
+  std::vector<ADDON::JoystickFeature> featureVector;
+  for (FeatureMap::const_iterator it = features.begin(); it != features.end(); ++it)
+    featureVector.push_back(it->second);
 
-  try { LogError(retVal = m_pStruct->AddFeature(&joystickStruct, strControllerId.c_str(),
-                                                &featureStruct), "AddFeature()"); }
-  catch (std::exception &e) { LogException(e, "AddFeature()"); return false;  }
+  unsigned int featureCount = featureVector.size();
+
+  JOYSTICK_FEATURE* pFeatures = NULL;
+  ADDON::JoystickFeatures::ToStructs(featureVector, &pFeatures);
+
+  try { LogError(retVal = m_pStruct->MapFeatures(&joystickStruct, strControllerId.c_str(),
+                                                 featureCount, pFeatures), "MapFeatures()"); }
+  catch (std::exception &e) { LogException(e, "MapFeatures()"); return false;  }
 
   if (retVal == PERIPHERAL_NO_ERROR)
   {

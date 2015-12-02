@@ -93,6 +93,10 @@ namespace PERIPHERALS
     // Utility functions
     static DriverMap CreateLookupTable(const FeatureMap& features);
 
+    bool UnmapPrimitive(const JOYSTICK::CDriverPrimitive& primitive);
+
+    static bool ResetPrimitive(ADDON::JoystickFeature& feature, const ADDON::DriverPrimitive& primitive);
+
     static JOYSTICK::CDriverPrimitive ToPrimitive(const ADDON::DriverPrimitive& primitive);
     static ADDON::DriverPrimitive     ToPrimitive(const JOYSTICK::CDriverPrimitive& primitive);
 
@@ -101,6 +105,8 @@ namespace PERIPHERALS
 
     static JOYSTICK::SEMIAXIS_DIRECTION       ToSemiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_DIRECTION dir);
     static JOYSTICK_DRIVER_SEMIAXIS_DIRECTION ToSemiAxisDirection(JOYSTICK::SEMIAXIS_DIRECTION dir);
+
+    static ADDON::DriverPrimitive Opposite(const ADDON::DriverPrimitive& semiaxis);
 
     CPeripheral* const  m_device;
     PeripheralAddonPtr  m_addon;

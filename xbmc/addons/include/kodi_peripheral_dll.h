@@ -137,9 +137,9 @@ extern "C"
                                unsigned int* feature_count, JOYSTICK_FEATURE** features);
 
   /*!
-   * @brief Free the memory allocated in GetButtonMap()
+   * @brief Free the memory allocated in GetFeatures()
    *
-   * Must be called if GetButtonMap() returns PERIPHERAL_NO_ERROR.
+   * Must be called if GetFeatures() returns PERIPHERAL_NO_ERROR.
    *
    * @param feature_count  The number of features allocated for the features array
    * @param features       The array of allocated features
@@ -147,14 +147,15 @@ extern "C"
   void FreeFeatures(unsigned int feature_count, JOYSTICK_FEATURE* features);
 
   /*!
-   * @brief Add or update joystick feature
+   * @brief Add or update joystick features
    * @param joystick      The device's joystick properties; unknown values may be left at their default
    * @param controller_id The game controller profile being updated
-   * @param feature       The feature's new properties
+   * @param feature_count The number of features int the features array
+   * @param features      The array of features
    * @return PERIPHERAL_NO_ERROR if successful
    */
-  PERIPHERAL_ERROR AddFeature(const JOYSTICK_INFO* joystick, const char* controller_id,
-                              JOYSTICK_FEATURE* feature);
+  PERIPHERAL_ERROR MapFeatures(const JOYSTICK_INFO* joystick, const char* controller_id,
+                               unsigned int feature_count, JOYSTICK_FEATURE* features);
 #endif
   ///}
 
@@ -178,7 +179,7 @@ extern "C"
     pClient->FreeJoystickInfo               = FreeJoystickInfo;
     pClient->GetFeatures                    = GetFeatures;
     pClient->FreeFeatures                   = FreeFeatures;
-    pClient->AddFeature                     = AddFeature;
+    pClient->MapFeatures                    = MapFeatures;
 #endif
   }
 

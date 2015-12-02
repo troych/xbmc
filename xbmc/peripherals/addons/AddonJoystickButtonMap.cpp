@@ -27,6 +27,15 @@
 using namespace JOYSTICK;
 using namespace PERIPHERALS;
 
+// --- Helper function ---------------------------------------------------------
+
+JOYSTICK_DRIVER_SEMIAXIS_DIRECTION operator*(JOYSTICK_DRIVER_SEMIAXIS_DIRECTION dir, int i)
+{
+  return static_cast<JOYSTICK_DRIVER_SEMIAXIS_DIRECTION>(static_cast<int>(dir) * i);
+}
+
+// --- CAddonJoystickButtonMap -------------------------------------------------
+
 CAddonJoystickButtonMap::CAddonJoystickButtonMap(CPeripheral* device, const std::string& strControllerId)
   : m_device(device),
     m_addon(g_peripherals.GetAddon(device)),
@@ -99,10 +108,25 @@ bool CAddonJoystickButtonMap::GetScalar(const FeatureName& feature, CDriverPrimi
 
 bool CAddonJoystickButtonMap::AddScalar(const FeatureName& feature, const CDriverPrimitive& primitive)
 {
-  ADDON::JoystickFeature scalar(feature, JOYSTICK_FEATURE_TYPE_SCALAR);
-  scalar.SetPrimitive(ToPrimitive(primitive));
+  if (primitive.Type() == CDriverPrimitive::Unknown)
+  {
+    FeatureMap::iterator it = m_features.find(feature);
+    if (it != m_features.end())
+      m_features.erase(it);
+  }
+  else
+  {
+    UnmapPrimitive(primitive);
 
-  return m_addon->AddFeature(m_device, m_strControllerId, scalar);
+    ADDON::JoystickFeature scalar(feature, JOYSTICK_FEATURE_TYPE_SCALAR);
+    scalar.SetPrimitive(ToPrimitive(primitive));
+
+    m_features[feature] = scalar;
+  }
+
+  m_driverMap = CreateLookupTable(m_features);
+
+  return m_addon->MapFeatures(m_device, m_strControllerId, m_features);
 }
 
 bool CAddonJoystickButtonMap::GetAnalogStick(const FeatureName& feature,
@@ -137,14 +161,46 @@ bool CAddonJoystickButtonMap::AddAnalogStick(const FeatureName& feature,
                                              const CDriverPrimitive& right,
                                              const CDriverPrimitive& left)
 {
-  ADDON::JoystickFeature analogStick(feature, JOYSTICK_FEATURE_TYPE_ANALOG_STICK);
+  if (up.Type() == CDriverPrimitive::Unknown &&
+      down.Type() == CDriverPrimitive::Unknown &&
+      right.Type() == CDriverPrimitive::Unknown &&
+      left.Type() == CDriverPrimitive::Unknown)
+  {
+    FeatureMap::iterator it = m_features.find(feature);
+    if (it != m_features.end())
+      m_features.erase(it);
+  }
+  else
+  {
+    ADDON::JoystickFeature analogStick(feature, JOYSTICK_FEATURE_TYPE_ANALOG_STICK);
 
-  analogStick.SetUp(ToPrimitive(up));
-  analogStick.SetDown(ToPrimitive(down));
-  analogStick.SetRight(ToPrimitive(right));
-  analogStick.SetLeft(ToPrimitive(left));
+    if (up.Type() != CDriverPrimitive::Unknown)
+    {
+      UnmapPrimitive(up);
+      analogStick.SetUp(ToPrimitive(up));
+    }
+    if (down.Type() != CDriverPrimitive::Unknown)
+    {
+      UnmapPrimitive(down);
+      analogStick.SetDown(ToPrimitive(down));
+    }
+    if (right.Type() != CDriverPrimitive::Unknown)
+    {
+      UnmapPrimitive(right);
+      analogStick.SetRight(ToPrimitive(right));
+    }
+    if (left.Type() != CDriverPrimitive::Unknown)
+    {
+      UnmapPrimitive(left);
+      analogStick.SetLeft(ToPrimitive(left));
+    }
 
-  return m_addon->AddFeature(m_device, m_strControllerId, analogStick);
+    m_features[feature] = analogStick;
+  }
+
+  m_driverMap = CreateLookupTable(m_features);
+
+  return m_addon->MapFeatures(m_device, m_strControllerId, m_features);
 }
 
 bool CAddonJoystickButtonMap::GetAccelerometer(const FeatureName& feature,
@@ -176,13 +232,42 @@ bool CAddonJoystickButtonMap::AddAccelerometer(const FeatureName& feature,
                                                const CDriverPrimitive& positiveY,
                                                const CDriverPrimitive& positiveZ)
 {
-  ADDON::JoystickFeature accelerometer(feature, JOYSTICK_FEATURE_TYPE_ACCELEROMETER);
+  if (positiveX.Type() == CDriverPrimitive::Unknown &&
+      positiveY.Type() == CDriverPrimitive::Unknown &&
+      positiveZ.Type() == CDriverPrimitive::Unknown)
+  {
+    FeatureMap::iterator it = m_features.find(feature);
+    if (it != m_features.end())
+      m_features.erase(it);
+  }
+  else
+  {
+    ADDON::JoystickFeature accelerometer(feature, JOYSTICK_FEATURE_TYPE_ACCELEROMETER);
 
-  accelerometer.SetPositiveX(ToPrimitive(positiveX));
-  accelerometer.SetPositiveY(ToPrimitive(positiveY));
-  accelerometer.SetPositiveZ(ToPrimitive(positiveZ));
+    if (positiveX.Type() != CDriverPrimitive::Unknown)
+    {
+      UnmapPrimitive(positiveX);
+      accelerometer.SetPositiveX(ToPrimitive(positiveX));
+    }
+    if (positiveY.Type() != CDriverPrimitive::Unknown)
+    {
+      UnmapPrimitive(positiveY);
+      accelerometer.SetPositiveY(ToPrimitive(positiveY));
+    }
+    if (positiveZ.Type() != CDriverPrimitive::Unknown)
+    {
+      UnmapPrimitive(positiveZ);
+      accelerometer.SetPositiveZ(ToPrimitive(positiveZ));
+    }
 
-  return m_addon->AddFeature(m_device, m_strControllerId, accelerometer);
+    // TODO: Unmap complementary semiaxes
+
+    m_features[feature] = accelerometer;
+  }
+
+  m_driverMap = CreateLookupTable(m_features);
+
+  return m_addon->MapFeatures(m_device, m_strControllerId, m_features);
 }
 
 CAddonJoystickButtonMap::DriverMap CAddonJoystickButtonMap::CreateLookupTable(const FeatureMap& features)
@@ -236,6 +321,119 @@ CAddonJoystickButtonMap::DriverMap CAddonJoystickButtonMap::CreateLookupTable(co
   }
   
   return driverMap;
+}
+
+bool CAddonJoystickButtonMap::UnmapPrimitive(const CDriverPrimitive& primitive)
+{
+  bool bModified = false;
+
+  DriverMap::iterator it = m_driverMap.find(primitive);
+  if (it != m_driverMap.end())
+  {
+    const FeatureName& featureName = it->second;
+    FeatureMap::iterator itFeature = m_features.find(featureName);
+    if (itFeature != m_features.end())
+    {
+      ADDON::JoystickFeature& addonFeature = itFeature->second;
+      ResetPrimitive(addonFeature, ToPrimitive(primitive));
+      if (addonFeature.Type() == JOYSTICK_FEATURE_TYPE_UNKNOWN)
+        m_features.erase(itFeature);
+      bModified = true;
+    }
+  }
+
+  return bModified;
+}
+
+bool CAddonJoystickButtonMap::ResetPrimitive(ADDON::JoystickFeature& feature, const ADDON::DriverPrimitive& primitive)
+{
+  bool bModified = false;
+
+  switch (feature.Type())
+  {
+    case JOYSTICK_FEATURE_TYPE_SCALAR:
+    {
+      if (primitive == feature.Primitive())
+      {
+        CLog::Log(LOGDEBUG, "Removing \"%s\" from button map due to conflict", feature.Name().c_str());
+        feature.SetType(JOYSTICK_FEATURE_TYPE_UNKNOWN);
+        bModified = true;
+      }
+      break;
+    }
+    case JOYSTICK_FEATURE_TYPE_ANALOG_STICK:
+    {
+      if (primitive == feature.Up())
+      {
+        feature.SetUp(ADDON::DriverPrimitive());
+        bModified = true;
+      }
+      else if (primitive == feature.Down())
+      {
+        feature.SetDown(ADDON::DriverPrimitive());
+        bModified = true;
+      }
+      else if (primitive == feature.Right())
+      {
+        feature.SetRight(ADDON::DriverPrimitive());
+        bModified = true;
+      }
+      else if (primitive == feature.Left())
+      {
+        feature.SetLeft(ADDON::DriverPrimitive());
+        bModified = true;
+      }
+
+      if (bModified)
+      {
+        if (feature.Up().Type() == JOYSTICK_DRIVER_PRIMITIVE_TYPE_UNKNOWN &&
+            feature.Down().Type() == JOYSTICK_DRIVER_PRIMITIVE_TYPE_UNKNOWN &&
+            feature.Right().Type() == JOYSTICK_DRIVER_PRIMITIVE_TYPE_UNKNOWN &&
+            feature.Left().Type() == JOYSTICK_DRIVER_PRIMITIVE_TYPE_UNKNOWN)
+        {
+          CLog::Log(LOGDEBUG, "Removing \"%s\" from button map due to conflict", feature.Name().c_str());
+          feature.SetType(JOYSTICK_FEATURE_TYPE_UNKNOWN);
+        }
+      }
+      break;
+    }
+    case JOYSTICK_FEATURE_TYPE_ACCELEROMETER:
+    {
+      if (primitive == feature.PositiveX() ||
+          primitive == Opposite(feature.PositiveX()))
+      {
+        feature.SetPositiveX(ADDON::DriverPrimitive());
+        bModified = true;
+      }
+      else if (primitive == feature.PositiveY() ||
+               primitive == Opposite(feature.PositiveY()))
+      {
+        feature.SetPositiveY(ADDON::DriverPrimitive());
+        bModified = true;
+      }
+      else if (primitive == feature.PositiveZ() ||
+               primitive == Opposite(feature.PositiveZ()))
+      {
+        feature.SetPositiveZ(ADDON::DriverPrimitive());
+        bModified = true;
+      }
+
+      if (bModified)
+      {
+        if (feature.PositiveX().Type() == JOYSTICK_DRIVER_PRIMITIVE_TYPE_UNKNOWN &&
+            feature.PositiveY().Type() == JOYSTICK_DRIVER_PRIMITIVE_TYPE_UNKNOWN &&
+            feature.PositiveZ().Type() == JOYSTICK_DRIVER_PRIMITIVE_TYPE_UNKNOWN)
+        {
+          CLog::Log(LOGDEBUG, "Removing \"%s\" from button map due to conflict", feature.Name().c_str());
+          feature.SetType(JOYSTICK_FEATURE_TYPE_UNKNOWN);
+        }
+      }
+      break;
+    }
+    default:
+      break;
+  }
+  return bModified;
 }
 
 CDriverPrimitive CAddonJoystickButtonMap::ToPrimitive(const ADDON::DriverPrimitive& primitive)
@@ -344,4 +542,9 @@ JOYSTICK_DRIVER_SEMIAXIS_DIRECTION CAddonJoystickButtonMap::ToSemiAxisDirection(
       break;
   }
   return JOYSTICK_DRIVER_SEMIAXIS_UNKNOWN;
+}
+
+ADDON::DriverPrimitive CAddonJoystickButtonMap::Opposite(const ADDON::DriverPrimitive& primitive)
+{
+  return ADDON::DriverPrimitive(primitive.DriverIndex(), primitive.SemiAxisDirection() * -1);
 }
