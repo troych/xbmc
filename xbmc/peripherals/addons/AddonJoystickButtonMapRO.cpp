@@ -55,11 +55,11 @@ bool CAddonJoystickButtonMapRO::Load(void)
   return false;
 }
 
-CAddonJoystickButtonMapRO::DriverMap CAddonJoystickButtonMapRO::CreateLookupTable(const JoystickFeatureMap& features)
+CAddonJoystickButtonMapRO::DriverMap CAddonJoystickButtonMapRO::CreateLookupTable(const FeatureMap& features)
 {
   DriverMap driverMap;
 
-  for (JoystickFeatureMap::const_iterator it = features.begin(); it != features.end(); ++it)
+  for (FeatureMap::const_iterator it = features.begin(); it != features.end(); ++it)
   {
     const ADDON::JoystickFeature& feature = it->second;
 
@@ -124,7 +124,7 @@ bool CAddonJoystickButtonMapRO::GetScalar(const FeatureName& feature, CDriverPri
 {
   bool retVal(false);
 
-  JoystickFeatureMap::const_iterator it = m_features.find(feature);
+  FeatureMap::const_iterator it = m_features.find(feature);
   if (it != m_features.end())
   {
     const ADDON::JoystickFeature& addonFeature = it->second;
@@ -147,7 +147,7 @@ bool CAddonJoystickButtonMapRO::GetAnalogStick(const FeatureName& feature,
 {
   bool retVal(false);
 
-  JoystickFeatureMap::const_iterator it = m_features.find(feature);
+  FeatureMap::const_iterator it = m_features.find(feature);
   if (it != m_features.end())
   {
     const ADDON::JoystickFeature& addonFeature = it->second;
@@ -172,7 +172,7 @@ bool CAddonJoystickButtonMapRO::GetAccelerometer(const FeatureName& feature,
 {
   bool retVal(false);
 
-  JoystickFeatureMap::const_iterator it = m_features.find(feature);
+  FeatureMap::const_iterator it = m_features.find(feature);
   if (it != m_features.end())
   {
     const ADDON::JoystickFeature& addonFeature = it->second;

@@ -473,8 +473,9 @@ bool CPeripheralAddon::GetJoystickProperties(unsigned int index, CPeripheralJoys
   return false;
 }
 
-bool CPeripheralAddon::GetFeatures(const CPeripheral* device, const std::string& strControllerId,
-                                   JoystickFeatureMap& features)
+bool CPeripheralAddon::GetFeatures(const CPeripheral* device,
+                                   const std::string& strControllerId,
+                                   FeatureMap& features)
 {
   if (!HasFeature(FEATURE_JOYSTICK))
     return false;

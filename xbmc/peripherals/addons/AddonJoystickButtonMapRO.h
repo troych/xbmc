@@ -86,11 +86,10 @@ namespace PERIPHERALS
     ) override { return false; }
 
   private:
-    typedef std::string Feature;
-    typedef std::map<JOYSTICK::CDriverPrimitive, Feature> DriverMap;
+    typedef std::map<JOYSTICK::CDriverPrimitive, JOYSTICK::FeatureName> DriverMap;
 
     // Utility functions
-    static DriverMap                    CreateLookupTable(const JoystickFeatureMap& features);
+    static DriverMap                    CreateLookupTable(const FeatureMap& features);
     static JOYSTICK::CDriverPrimitive   ToPrimitive(const ADDON::DriverPrimitive& primitive);
     static JOYSTICK::HAT_DIRECTION      ToHatDirection(JOYSTICK_DRIVER_HAT_DIRECTION driverDirection);
     static JOYSTICK::SEMIAXIS_DIRECTION ToSemiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_DIRECTION dir);
@@ -98,7 +97,7 @@ namespace PERIPHERALS
     CPeripheral* const  m_device;
     PeripheralAddonPtr  m_addon;
     const std::string   m_strControllerId;
-    JoystickFeatureMap  m_features;
+    FeatureMap  m_features;
     DriverMap           m_driverMap;
   };
 }
