@@ -19,10 +19,13 @@
  */
 #pragma once
 
+#include "addons/IAddon.h"
 #include "guilib/IWindowManagerCallback.h"
-#include "peripherals/addons/PeripheralAddon.h"
+#include "peripherals/PeripheralTypes.h"
 #include "peripherals/bus/PeripheralBus.h"
 #include "threads/CriticalSection.h"
+
+#include <string>
 
 namespace PERIPHERALS
 {

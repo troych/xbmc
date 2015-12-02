@@ -41,10 +41,6 @@ namespace PERIPHERALS
   class CPeripheral;
   class CPeripheralJoystick;
 
-  class CPeripheralAddon;
-  typedef std::shared_ptr<CPeripheralAddon> PeripheralAddonPtr;
-  typedef std::vector<PeripheralAddonPtr>   PeripheralAddonVector;
-
   typedef std::map<JOYSTICK::FeatureName, ADDON::JoystickFeature> FeatureMap;
 
   class CPeripheralAddon : public ADDON::CAddonDll<DllPeripheral, PeripheralAddon, PERIPHERAL_PROPERTIES>

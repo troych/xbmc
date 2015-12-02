@@ -19,6 +19,7 @@
  */
 
 #include "Peripherals.h"
+#include "addons/PeripheralAddon.h"
 #include "bus/PeripheralBus.h"
 #include "devices/PeripheralBluetooth.h"
 #include "devices/PeripheralDisk.h"

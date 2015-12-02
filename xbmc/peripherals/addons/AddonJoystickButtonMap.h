@@ -22,7 +22,7 @@
 #include "AddonJoystickButtonMapRO.h"
 #include "AddonJoystickButtonMapWO.h"
 #include "input/joysticks/IJoystickButtonMap.h"
-#include "peripherals/addons/PeripheralAddon.h"
+#include "peripherals/PeripheralTypes.h"
 
 namespace PERIPHERALS
 {

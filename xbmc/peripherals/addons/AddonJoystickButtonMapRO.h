@@ -19,17 +19,19 @@
  */
 #pragma once
 
+#include "PeripheralAddon.h"
 #include "addons/include/kodi_peripheral_types.h"
 #include "input/joysticks/DriverPrimitive.h"
 #include "input/joysticks/IJoystickButtonMap.h"
 #include "input/joysticks/JoystickTypes.h"
-#include "peripherals/addons/PeripheralAddon.h"
 
 #include <map>
 #include <string>
 
 namespace PERIPHERALS
 {
+  class CPeripheral;
+
   class CAddonJoystickButtonMapRO : public JOYSTICK::IJoystickButtonMap
   {
   public:

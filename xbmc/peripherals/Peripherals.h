@@ -20,7 +20,6 @@
  */
 
 #include "system.h"
-#include "addons/PeripheralAddon.h"
 #include "bus/PeripheralBus.h"
 #include "devices/Peripheral.h"
 #include "PortMapper.h"

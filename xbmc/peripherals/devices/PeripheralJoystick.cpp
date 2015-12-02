@@ -20,6 +20,7 @@
 
 #include "PeripheralJoystick.h"
 #include "peripherals/Peripherals.h"
+#include "peripherals/addons/PeripheralAddon.h"
 #include "peripherals/bus/virtual/PeripheralBusAddon.h"
 #include "threads/SingleLock.h"
 #include "utils/log.h"

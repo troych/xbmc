@@ -19,8 +19,10 @@
  */
 
 #include "PeripheralBusAddon.h"
+#include "addons/Addon.h"
 #include "addons/AddonManager.h"
 #include "peripherals/Peripherals.h"
+#include "peripherals/addons/PeripheralAddon.h"
 #include "threads/SingleLock.h"
 #include "utils/log.h"
 

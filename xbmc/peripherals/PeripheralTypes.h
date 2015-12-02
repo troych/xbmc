@@ -21,8 +21,10 @@
 
 #include <algorithm>
 #include <map>
+#include <memory>
 #include <string>
 #include <stdio.h>
+#include <vector>
 #ifdef TARGET_WINDOWS
 #include "PlatformDefs.h"
 #endif
@@ -72,6 +74,10 @@ namespace PERIPHERALS
     PERIPHERAL_JOYSTICK,
     PERIPHERAL_KEYBOARD,
   };
+
+  class CPeripheralAddon;
+  typedef std::shared_ptr<CPeripheralAddon> PeripheralAddonPtr;
+  typedef std::vector<PeripheralAddonPtr>   PeripheralAddonVector;
 
   struct PeripheralID
   {
