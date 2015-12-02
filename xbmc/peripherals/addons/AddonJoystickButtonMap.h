@@ -19,13 +19,17 @@
  */
 #pragma once
 
-#include "AddonJoystickButtonMapRO.h"
-#include "AddonJoystickButtonMapWO.h"
+#include "PeripheralAddon.h" // for FeatureMap
+#include "addons/include/kodi_peripheral_types.h"
+#include "input/joysticks/DriverPrimitive.h"
 #include "input/joysticks/IJoystickButtonMap.h"
+#include "input/joysticks/JoystickTypes.h"
 #include "peripherals/PeripheralTypes.h"
 
 namespace PERIPHERALS
 {
+  class CPeripheral;
+
   class CAddonJoystickButtonMap : public JOYSTICK::IJoystickButtonMap
   {
   public:
@@ -34,7 +38,7 @@ namespace PERIPHERALS
     virtual ~CAddonJoystickButtonMap(void);
 
     // Implementation of IJoystickButtonMap
-    virtual std::string ControllerID(void) const override { return m_buttonMapRO.ControllerID(); }
+    virtual std::string ControllerID(void) const override { return m_strControllerId; }
 
     virtual bool Load(void) override;
 
@@ -84,8 +88,24 @@ namespace PERIPHERALS
     ) override;
 
   private:
-    PeripheralAddonPtr        m_addon;
-    CAddonJoystickButtonMapRO m_buttonMapRO;
-    CAddonJoystickButtonMapWO m_buttonMapWO;
+    typedef std::map<JOYSTICK::CDriverPrimitive, JOYSTICK::FeatureName> DriverMap;
+
+    // Utility functions
+    static DriverMap CreateLookupTable(const FeatureMap& features);
+
+    static JOYSTICK::CDriverPrimitive ToPrimitive(const ADDON::DriverPrimitive& primitive);
+    static ADDON::DriverPrimitive     ToPrimitive(const JOYSTICK::CDriverPrimitive& primitive);
+
+    static JOYSTICK::HAT_DIRECTION       ToHatDirection(JOYSTICK_DRIVER_HAT_DIRECTION driverDirection);
+    static JOYSTICK_DRIVER_HAT_DIRECTION ToHatDirection(JOYSTICK::HAT_DIRECTION dir);
+
+    static JOYSTICK::SEMIAXIS_DIRECTION       ToSemiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_DIRECTION dir);
+    static JOYSTICK_DRIVER_SEMIAXIS_DIRECTION ToSemiAxisDirection(JOYSTICK::SEMIAXIS_DIRECTION dir);
+
+    CPeripheral* const  m_device;
+    PeripheralAddonPtr  m_addon;
+    const std::string   m_strControllerId;
+    FeatureMap          m_features;
+    DriverMap           m_driverMap;
   };
 }
