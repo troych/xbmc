@@ -64,13 +64,13 @@ void CAddonCallbacksPeripheral::TriggerScan(void* addonData)
   g_peripherals.TriggerDeviceScan(PERIPHERAL_BUS_ADDON);
 }
 
-void CAddonCallbacksPeripheral::RefreshButtonMaps(void* addonData, const char* deviceName)
+void CAddonCallbacksPeripheral::RefreshButtonMaps(void* addonData, const char* deviceName, const char* controllerId)
 {
   CPeripheralAddon* peripheralAddon = GetPeripheralAddon(addonData, __FUNCTION__);
   if (!peripheralAddon)
     return;
 
-  peripheralAddon->RefreshButtonMaps(deviceName ? deviceName : "");
+  peripheralAddon->RefreshButtonMaps(deviceName ? deviceName : "", controllerId ? controllerId : "");
 }
 
 }; /* namespace ADDON */

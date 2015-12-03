@@ -115,16 +115,16 @@ public:
     return PERIPHERAL_trigger_scan(m_handle, m_callbacks);
   }
 
-  void RefreshButtonMaps(const std::string& strDeviceName)
+  void RefreshButtonMaps(const std::string& strDeviceName = "", const std::string& strControllerId = "")
   {
-    return PERIPHERAL_refresh_button_maps(m_handle, m_callbacks, strDeviceName.c_str());
+    return PERIPHERAL_refresh_button_maps(m_handle, m_callbacks, strDeviceName.c_str(), strControllerId.c_str());
   }
 
 protected:
     CB_PeripheralLib* (*PERIPHERAL_register_me)(void* handle);
     void (*PERIPHERAL_unregister_me)(void* handle, CB_PeripheralLib* cb);
     void (*PERIPHERAL_trigger_scan)(void* handle, CB_PeripheralLib* cb);
-    void (*PERIPHERAL_refresh_button_maps)(void* handle, CB_PeripheralLib* cb, const char* deviceName);
+    void (*PERIPHERAL_refresh_button_maps)(void* handle, CB_PeripheralLib* cb, const char* deviceName, const char* controllerId);
 
 private:
   void*             m_handle;

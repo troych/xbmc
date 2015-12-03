@@ -43,7 +43,7 @@ public:
   CB_PeripheralLib* GetCallbacks() const { return m_callbacks; }
 
   static void TriggerScan(void* addonData);
-  static void RefreshButtonMaps(void* addonData, const char* deviceName);
+  static void RefreshButtonMaps(void* addonData, const char* deviceName, const char* controllerId);
 
 private:
   static PERIPHERALS::CPeripheralAddon* GetPeripheralAddon(void* addonData, const char* strFunction);
