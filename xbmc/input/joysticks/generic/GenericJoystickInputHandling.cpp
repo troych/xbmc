@@ -288,5 +288,8 @@ void CGenericJoystickInputHandling::StopDigitalRepeating(const FeatureName& feat
 
 float CGenericJoystickInputHandling::GetAxisState(int axisIndex) const
 {
-  return (0 <= axisIndex && axisIndex < (int)m_axisStates.size()) ? m_axisStates[axisIndex] : 0;
+  if (0 <= axisIndex && axisIndex < (int)m_axisStates.size())
+    return m_axisStates[axisIndex];
+
+  return 0;
 }
