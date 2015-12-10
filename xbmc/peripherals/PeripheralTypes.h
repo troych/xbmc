@@ -45,6 +45,7 @@ namespace PERIPHERALS
 #ifdef TARGET_ANDROID
     PERIPHERAL_BUS_ANDROID,
 #endif
+    PERIPHERAL_BUS_APPLICATION,
   };
 
   enum PeripheralFeature
@@ -74,6 +75,7 @@ namespace PERIPHERALS
     PERIPHERAL_TUNER,
     PERIPHERAL_IMON,
     PERIPHERAL_JOYSTICK,
+    PERIPHERAL_JOYSTICK_EMULATION,
   };
 
   class CPeripheral;
@@ -131,6 +133,8 @@ namespace PERIPHERALS
         return "imon";
       case PERIPHERAL_JOYSTICK:
         return "joystick";
+      case PERIPHERAL_JOYSTICK_EMULATION:
+        return "joystickemulation";
       default:
         return "unknown";
       }
@@ -159,6 +163,8 @@ namespace PERIPHERALS
         return PERIPHERAL_IMON;
       else if (strTypeLowerCase == "joystick")
         return PERIPHERAL_JOYSTICK;
+      else if (strTypeLowerCase == "joystickemulation")
+        return PERIPHERAL_JOYSTICK_EMULATION;
 
       return PERIPHERAL_UNKNOWN;
     };
@@ -181,6 +187,8 @@ namespace PERIPHERALS
       case PERIPHERAL_BUS_ANDROID:
         return "android";
 #endif
+      case PERIPHERAL_BUS_APPLICATION:
+        return "application";
       default:
         return "unknown";
       }
@@ -205,6 +213,8 @@ namespace PERIPHERALS
       else if (strTypeLowerCase == "android")
         return PERIPHERAL_BUS_ANDROID;
 #endif
+      else if (strTypeLowerCase == "application")
+        return PERIPHERAL_BUS_APPLICATION;
 
       return PERIPHERAL_BUS_UNKNOWN;
     };
