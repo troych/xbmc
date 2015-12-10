@@ -7670,6 +7670,7 @@ msgstr ""
 
 #. Audio DSP process chain indication
 #: xbmc/settings/dialogs/GUIDialogAudioDSPSettings.cpp
+#: system/settings.xml
 msgctxt "#15087"
 msgid "Input"
 msgstr ""
@@ -15281,7 +15282,18 @@ msgctxt "#35010"
 msgid "Peripheral libraries"
 msgstr ""
 
-#empty strings from id 35011 to 35048
+#. Name of the emulated controller in the list of peripherals
+#: xbmc/peripherals/bus/virtual/PeripheralBusApplication.cpp
+msgctxt "#35011"
+msgid "Emulated controller"
+msgstr ""
+
+#empty strings from id 35012 to 35047
+
+#: system/settings/settings.xml
+msgctxt "#35048"
+msgid "ALL YOUR BASE ARE BELONG[CR]TO US"
+msgstr ""
 
 #. Name of game add-ons category
 #: xbmc/filesystem/AddonsDirectory.cpp
@@ -15359,7 +15371,47 @@ msgctxt "#35064"
 msgid "Pair your controllers with the various input devices of different game systems."
 msgstr ""
 
-#empty strings from id 35065 to 35089
+#: system/settings/settings.xml
+msgctxt "#35065"
+msgid "%i"
+msgstr ""
+
+#: system/settings/settings.xml
+msgctxt "#35066"
+msgid "Number of emulated controllers"
+msgstr ""
+
+#: system/settings/settings.xml
+msgctxt "#35067"
+msgid "Emulated controllers let you control additional players using the keyboard. This is intended for devices that use keyboard drivers, but you can also see how many people fit around a keyboard!"
+msgstr ""
+
+#: system/settings/settings.xml
+msgctxt "#35067"
+msgid "Configure input for game add-ons."
+msgstr ""
+
+#: system/settings/settings.xml
+msgctxt "#35069"
+msgid "Configure keyboard player 1"
+msgstr ""
+
+#: system/settings/settings.xml
+msgctxt "#35070"
+msgid "Configure keyboard player 2"
+msgstr ""
+
+#: system/settings/settings.xml
+msgctxt "#35071"
+msgid "Configure keyboard player 3"
+msgstr ""
+
+#: system/settings/settings.xml
+msgctxt "#35072"
+msgid "Configure keyboard player 4"
+msgstr ""
+
+#empty strings from id 35074 to 35089
 
 #. Button prompt without timeout. %s - button name
 #: xbmc/games/controllers/guicontrols/GUIScalarFeatureButton.cpp

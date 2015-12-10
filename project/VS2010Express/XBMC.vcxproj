@@ -387,9 +387,12 @@
     <ClCompile Include="..\..\xbmc\filesystem\MusicDatabaseDirectory.cpp" />
     <ClCompile Include="..\..\xbmc\filesystem\MusicDatabaseDirectory\DirectoryNodeGrouped.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\DefaultJoystick.cpp" />
+    <ClCompile Include="..\..\xbmc\games\GameSettings.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\ButtonMapping.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\FeatureHandling.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\InputHandling.cpp" />
+    <ClCompile Include="..\..\xbmc\input\keyboard\generic\GenericKeyboardJoystick.cpp" />
+    <ClCompile Include="..\..\xbmc\input\keyboard\generic\GenericKeyboardJoystickHandling.cpp" />
     <ClCompile Include="..\..\xbmc\music\windows\MusicFileItemListModifier.cpp" />
     <ClCompile Include="..\..\xbmc\filesystem\MusicDatabaseFile.cpp" />
     <ClCompile Include="..\..\xbmc\filesystem\MusicFileDirectory.cpp" />
@@ -693,7 +696,9 @@
     <ClCompile Include="..\..\xbmc\peripherals\addons\PeripheralAddon.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\addons\PeripheralAddonTranslator.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\bus\virtual\PeripheralBusAddon.cpp" />
+    <ClCompile Include="..\..\xbmc\peripherals\bus\virtual\PeripheralBusApplication.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\devices\PeripheralJoystick.cpp" />
+    <ClCompile Include="..\..\xbmc\peripherals\devices\PeripheralJoystickEmulation.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\EventScanner.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\EventScanRate.cpp" />
     <ClCompile Include="..\..\xbmc\platform\posix\main.cpp">
@@ -1047,6 +1052,7 @@
     <ClInclude Include="..\..\xbmc\filesystem\ImageFile.h" />
     <ClInclude Include="..\..\xbmc\filesystem\MusicDatabaseDirectory\DirectoryNodeGrouped.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\DefaultJoystick.h" />
+    <ClInclude Include="..\..\xbmc\games\GameSettings.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\ButtonMapping.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\FeatureHandling.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\InputHandling.h" />
@@ -1054,6 +1060,9 @@
     <ClInclude Include="..\..\xbmc\input\joysticks\IButtonMapper.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\IDriverHandler.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\IInputHandler.h" />
+    <ClInclude Include="..\..\xbmc\input\keyboard\generic\GenericKeyboardJoystick.h" />
+    <ClInclude Include="..\..\xbmc\input\keyboard\generic\GenericKeyboardJoystickHandling.h" />
+    <ClInclude Include="..\..\xbmc\input\keyboard\IKeyboardHandler.h" />
     <ClInclude Include="..\..\xbmc\music\windows\MusicFileItemListModifier.h" />
     <ClInclude Include="..\..\xbmc\filesystem\OverrideDirectory.h" />
     <ClInclude Include="..\..\xbmc\filesystem\OverrideFile.h" />
@@ -1198,7 +1207,9 @@
     <ClInclude Include="..\..\xbmc\peripherals\addons\PeripheralAddon.h" />
     <ClInclude Include="..\..\xbmc\peripherals\addons\PeripheralAddonTranslator.h" />
     <ClInclude Include="..\..\xbmc\peripherals\bus\virtual\PeripheralBusAddon.h" />
+    <ClInclude Include="..\..\xbmc\peripherals\bus\virtual\PeripheralBusApplication.h" />
     <ClInclude Include="..\..\xbmc\peripherals\devices\PeripheralJoystick.h" />
+    <ClInclude Include="..\..\xbmc\peripherals\devices\PeripheralJoystickEmulation.h" />
     <ClInclude Include="..\..\xbmc\peripherals\EventScanner.h" />
     <ClInclude Include="..\..\xbmc\peripherals\EventScanRate.h" />
     <ClInclude Include="..\..\xbmc\platform\MessagePrinter.h" />

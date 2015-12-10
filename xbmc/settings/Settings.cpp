@@ -369,7 +369,6 @@ const std::string CSettings::SETTING_AUDIOOUTPUT_TRUEHDPASSTHROUGH = "audiooutpu
 const std::string CSettings::SETTING_AUDIOOUTPUT_DTSHDPASSTHROUGH = "audiooutput.dtshdpassthrough";
 const std::string CSettings::SETTING_INPUT_PERIPHERALS = "input.peripherals";
 const std::string CSettings::SETTING_INPUT_ENABLEMOUSE = "input.enablemouse";
-const std::string CSettings::SETTING_INPUT_CONTROLLERCONFIG = "input.controllerconfig";
 const std::string CSettings::SETTING_INPUT_APPLEREMOTEMODE = "input.appleremotemode";
 const std::string CSettings::SETTING_INPUT_APPLEREMOTEALWAYSON = "input.appleremotealwayson";
 const std::string CSettings::SETTING_INPUT_APPLEREMOTESEQUENCETIME = "input.appleremotesequencetime";
@@ -412,6 +411,12 @@ const std::string CSettings::SETTING_ADDONS_ALLOW_UNKNOWN_SOURCES = "addons.unkn
 const std::string CSettings::SETTING_ADDONS_MANAGE_DEPENDENCIES = "addons.managedependencies";
 const std::string CSettings::SETTING_GENERAL_ADDONFOREIGNFILTER = "general.addonforeignfilter";
 const std::string CSettings::SETTING_GENERAL_ADDONBROKENFILTER = "general.addonbrokenfilter";
+const std::string CSettings::SETTING_GAMES_CONTROLLERCONFIG = "gamesinput.controllerconfig";
+const std::string CSettings::SETTING_GAMES_EMULATEDCONTROLLERS = "gamesinput.emulatedcontrollers";
+const std::string CSettings::SETTING_GAMES_EMULATEDCONTROLLER1 = "gamesinput.emulatedcontroller1";
+const std::string CSettings::SETTING_GAMES_EMULATEDCONTROLLER2 = "gamesinput.emulatedcontroller2";
+const std::string CSettings::SETTING_GAMES_EMULATEDCONTROLLER3 = "gamesinput.emulatedcontroller3";
+const std::string CSettings::SETTING_GAMES_EMULATEDCONTROLLER4 = "gamesinput.emulatedcontroller4";
 
 CSettings::CSettings()
   : m_initialized(false)
@@ -1179,7 +1184,6 @@ void CSettings::InitializeISettingCallbacks()
 
   settingSet.clear();
   settingSet.insert(CSettings::SETTING_INPUT_PERIPHERALS);
-  settingSet.insert(CSettings::SETTING_INPUT_CONTROLLERCONFIG);
   settingSet.insert(CSettings::SETTING_LOCALE_LANGUAGE);
   m_settingsManager->RegisterCallback(&PERIPHERALS::CPeripherals::GetInstance(), settingSet);
 
@@ -1208,6 +1212,15 @@ void CSettings::InitializeISettingCallbacks()
 
   settingSet.clear();
   settingSet.insert(CSettings::SETTING_POWERMANAGEMENT_WAKEONACCESS);
+  m_settingsManager->RegisterCallback(&CWakeOnAccess::GetInstance(), settingSet);
+
+  settingSet.clear();
+  settingSet.insert(CSettings::SETTING_GAMES_CONTROLLERCONFIG);
+  settingSet.insert(CSettings::SETTING_GAMES_EMULATEDCONTROLLERS);
+  settingSet.insert(CSettings::SETTING_GAMES_EMULATEDCONTROLLER1);
+  settingSet.insert(CSettings::SETTING_GAMES_EMULATEDCONTROLLER2);
+  settingSet.insert(CSettings::SETTING_GAMES_EMULATEDCONTROLLER3);
+  settingSet.insert(CSettings::SETTING_GAMES_EMULATEDCONTROLLER4);
   m_settingsManager->RegisterCallback(&CWakeOnAccess::GetInstance(), settingSet);
 }
 

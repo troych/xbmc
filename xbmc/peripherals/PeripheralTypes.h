@@ -42,6 +42,7 @@ namespace PERIPHERALS
     PERIPHERAL_BUS_RPI,
     PERIPHERAL_BUS_CEC,
     PERIPHERAL_BUS_ADDON,
+    PERIPHERAL_BUS_APPLICATION,
   };
 
   enum PeripheralFeature
@@ -70,6 +71,7 @@ namespace PERIPHERALS
     PERIPHERAL_TUNER,
     PERIPHERAL_IMON,
     PERIPHERAL_JOYSTICK,
+    PERIPHERAL_JOYSTICK_EMULATION,
   };
 
   class CPeripheralAddon;
@@ -123,6 +125,8 @@ namespace PERIPHERALS
         return "imon";
       case PERIPHERAL_JOYSTICK:
         return "joystick";
+      case PERIPHERAL_JOYSTICK_EMULATION:
+        return "joystickemulation";
       default:
         return "unknown";
       }
@@ -151,6 +155,8 @@ namespace PERIPHERALS
         return PERIPHERAL_IMON;
       else if (strTypeLowerCase == "joystick")
         return PERIPHERAL_JOYSTICK;
+      else if (strTypeLowerCase == "joystickemulation")
+        return PERIPHERAL_JOYSTICK_EMULATION;
 
       return PERIPHERAL_UNKNOWN;
     };
@@ -169,6 +175,8 @@ namespace PERIPHERALS
         return "cec";
       case PERIPHERAL_BUS_ADDON:
         return "addon";
+      case PERIPHERAL_BUS_APPLICATION:
+        return "application";
       default:
         return "unknown";
       }
@@ -189,6 +197,8 @@ namespace PERIPHERALS
         return PERIPHERAL_BUS_CEC;
       else if (strTypeLowerCase == "addon")
         return PERIPHERAL_BUS_ADDON;
+      else if (strTypeLowerCase == "application")
+        return PERIPHERAL_BUS_APPLICATION;
 
       return PERIPHERAL_BUS_UNKNOWN;
     };
