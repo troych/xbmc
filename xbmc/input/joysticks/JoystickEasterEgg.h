@@ -26,7 +26,7 @@ namespace JOYSTICK
   class IButtonSequence
   {
   public:
-    ~IButtonSequence(void) { }
+    virtual ~IButtonSequence(void) { }
 
     virtual bool OnButtonPress(const FeatureName& feature) = 0;
   };
@@ -38,6 +38,7 @@ namespace JOYSTICK
   {
   public:
     CJoystickEasterEgg(void);
+    virtual ~CJoystickEasterEgg(void) { }
 
     // implementation of IButtonSequence
     virtual bool OnButtonPress(const FeatureName& feature) override;

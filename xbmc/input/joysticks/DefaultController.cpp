@@ -45,6 +45,7 @@ CDefaultController::CDefaultController(void)
 CDefaultController::~CDefaultController(void)
 {
   delete m_handler;
+  delete m_easterEgg;
 }
 
 std::string CDefaultController::ControllerID(void) const
