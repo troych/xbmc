@@ -39,6 +39,9 @@ CGUIControllerList::CGUIControllerList(CGUIWindow* window, IFeatureList* feature
 
 bool CGUIControllerList::Initialize(void)
 {
+  if (m_featureList == nullptr)
+    return false;
+
   m_controllerList = dynamic_cast<CGUIControlGroupList*>(m_window->GetControl(CONTROL_CONTROLLER_LIST));
   m_controllerButton = dynamic_cast<CGUIButtonControl*>(m_window->GetControl(CONTROL_CONTROLLER_BUTTON_TEMPLATE));
 
