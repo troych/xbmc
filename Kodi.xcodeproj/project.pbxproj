@@ -384,6 +384,12 @@
 		68E49B601C1C5C470083E94F /* ControllerTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68E49B511C1C5C470083E94F /* ControllerTranslator.cpp */; };
 		68E49B611C1C5C470083E94F /* ControllerTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68E49B511C1C5C470083E94F /* ControllerTranslator.cpp */; };
 		68E49B621C1C5C470083E94F /* ControllerTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68E49B511C1C5C470083E94F /* ControllerTranslator.cpp */; };
+		68E49B671C1C5F5B0083E94F /* DefaultController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68E49B631C1C5F5B0083E94F /* DefaultController.cpp */; };
+		68E49B681C1C5F5B0083E94F /* DefaultController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68E49B631C1C5F5B0083E94F /* DefaultController.cpp */; };
+		68E49B691C1C5F5B0083E94F /* DefaultController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68E49B631C1C5F5B0083E94F /* DefaultController.cpp */; };
+		68E49B6A1C1C5F5B0083E94F /* EasterEgg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68E49B651C1C5F5B0083E94F /* EasterEgg.cpp */; };
+		68E49B6B1C1C5F5B0083E94F /* EasterEgg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68E49B651C1C5F5B0083E94F /* EasterEgg.cpp */; };
+		68E49B6C1C1C5F5B0083E94F /* EasterEgg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68E49B651C1C5F5B0083E94F /* EasterEgg.cpp */; };
 		68F2DA0C1B2A608B006E297B /* AddonJoystickButtonMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68F2DA001B2A608B006E297B /* AddonJoystickButtonMap.cpp */; };
 		68F2DA0D1B2A608B006E297B /* AddonJoystickButtonMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68F2DA001B2A608B006E297B /* AddonJoystickButtonMap.cpp */; };
 		68F2DA0E1B2A608B006E297B /* AddonJoystickButtonMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68F2DA001B2A608B006E297B /* AddonJoystickButtonMap.cpp */; };
@@ -3830,6 +3836,10 @@
 		68E49B511C1C5C470083E94F /* ControllerTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerTranslator.cpp; path = games/controllers/ControllerTranslator.cpp; sourceTree = "<group>"; };
 		68E49B521C1C5C470083E94F /* ControllerTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControllerTranslator.h; path = games/controllers/ControllerTranslator.h; sourceTree = "<group>"; };
 		68E49B531C1C5C470083E94F /* ControllerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControllerTypes.h; path = games/controllers/ControllerTypes.h; sourceTree = "<group>"; };
+		68E49B631C1C5F5B0083E94F /* DefaultController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DefaultController.cpp; path = games/controllers/DefaultController.cpp; sourceTree = "<group>"; };
+		68E49B641C1C5F5B0083E94F /* DefaultController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultController.h; path = games/controllers/DefaultController.h; sourceTree = "<group>"; };
+		68E49B651C1C5F5B0083E94F /* EasterEgg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EasterEgg.cpp; path = games/controllers/EasterEgg.cpp; sourceTree = "<group>"; };
+		68E49B661C1C5F5B0083E94F /* EasterEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EasterEgg.h; path = games/controllers/EasterEgg.h; sourceTree = "<group>"; };
 		68F2DA001B2A608B006E297B /* AddonJoystickButtonMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AddonJoystickButtonMap.cpp; path = addons/AddonJoystickButtonMap.cpp; sourceTree = "<group>"; };
 		68F2DA011B2A608B006E297B /* AddonJoystickButtonMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddonJoystickButtonMap.h; path = addons/AddonJoystickButtonMap.h; sourceTree = "<group>"; };
 		68F2DA021B2A608B006E297B /* AddonJoystickButtonMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AddonJoystickButtonMapping.cpp; path = addons/AddonJoystickButtonMapping.cpp; sourceTree = "<group>"; };
@@ -7219,6 +7229,10 @@
 				68E49B511C1C5C470083E94F /* ControllerTranslator.cpp */,
 				68E49B521C1C5C470083E94F /* ControllerTranslator.h */,
 				68E49B531C1C5C470083E94F /* ControllerTypes.h */,
+				68E49B631C1C5F5B0083E94F /* DefaultController.cpp */,
+				68E49B641C1C5F5B0083E94F /* DefaultController.h */,
+				68E49B651C1C5F5B0083E94F /* EasterEgg.cpp */,
+				68E49B661C1C5F5B0083E94F /* EasterEgg.h */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -10745,6 +10759,7 @@
 				E38E227F0D25F9FE00618676 /* MusicInfoLoader.cpp in Sources */,
 				E38E22800D25F9FE00618676 /* MusicInfoScanner.cpp in Sources */,
 				E38E22970D25F9FE00618676 /* NfoFile.cpp in Sources */,
+				68E49B671C1C5F5B0083E94F /* DefaultController.cpp in Sources */,
 				E38E22A00D25F9FE00618676 /* PartyModeManager.cpp in Sources */,
 				B542632B197D353B00726998 /* PosixInterfaceForCLog.cpp in Sources */,
 				E38E22A10D25F9FE00618676 /* Picture.cpp in Sources */,
@@ -11313,6 +11328,7 @@
 				DF402A5C1644613B001C56B8 /* AddonModuleXbmcvfs.cpp in Sources */,
 				DF402A63164461B0001C56B8 /* CallbackHandler.cpp in Sources */,
 				DF402A64164461B9001C56B8 /* LanguageHook.cpp in Sources */,
+				68E49B6A1C1C5F5B0083E94F /* EasterEgg.cpp in Sources */,
 				DF402A65164461B9001C56B8 /* swig.cpp in Sources */,
 				DF402A66164461B9001C56B8 /* XBPython.cpp in Sources */,
 				F5EDC48C1651A6F900B852D8 /* GroupUtils.cpp in Sources */,
@@ -12129,6 +12145,7 @@
 				DFF0F34017528350002DA3A4 /* Socket.cpp in Sources */,
 				DF3E5EFD199D4B340039675D /* KodiController.mm in Sources */,
 				DFF0F34117528350002DA3A4 /* TCPServer.cpp in Sources */,
+				68E49B6C1C1C5F5B0083E94F /* EasterEgg.cpp in Sources */,
 				DFF0F34217528350002DA3A4 /* UdpClient.cpp in Sources */,
 				DFF0F34317528350002DA3A4 /* WakeOnAccess.cpp in Sources */,
 				DFF0F34417528350002DA3A4 /* WebServer.cpp in Sources */,
@@ -12517,6 +12534,7 @@
 				7CCDA0E6192753E30074CF51 /* PltArgument.cpp in Sources */,
 				7CCDA0EF192753E30074CF51 /* PltConstants.cpp in Sources */,
 				7CCDA0F8192753E30074CF51 /* PltCtrlPoint.cpp in Sources */,
+				68E49B691C1C5F5B0083E94F /* DefaultController.cpp in Sources */,
 				7CCDA101192753E30074CF51 /* PltCtrlPointTask.cpp in Sources */,
 				7CCDA10A192753E30074CF51 /* PltDatagramStream.cpp in Sources */,
 				7CCDA113192753E30074CF51 /* PltDeviceData.cpp in Sources */,
@@ -12636,6 +12654,7 @@
 				E4991153174E5CC300741B6D /* crc.cpp in Sources */,
 				E4991154174E5CC300741B6D /* crypt.cpp in Sources */,
 				E4991155174E5CC300741B6D /* encname.cpp in Sources */,
+				68E49B681C1C5F5B0083E94F /* DefaultController.cpp in Sources */,
 				E4991156174E5CC300741B6D /* errhnd.cpp in Sources */,
 				E4991157174E5CC300741B6D /* extinfo.cpp in Sources */,
 				684A6FC41BDED09B006DD9FE /* DriverPrimitive.cpp in Sources */,
@@ -13639,6 +13658,7 @@
 				7CCDA7A7192756250074CF51 /* NptDataBuffer.cpp in Sources */,
 				7CCDA7B0192756250074CF51 /* NptDebug.cpp in Sources */,
 				7CCDA7B9192756250074CF51 /* NptDigest.cpp in Sources */,
+				68E49B6B1C1C5F5B0083E94F /* EasterEgg.cpp in Sources */,
 				7CCDA7BC192756250074CF51 /* NptDynamicLibraries.cpp in Sources */,
 				7CCDA7BF192756250074CF51 /* NptFile.cpp in Sources */,
 				7CCDA7C8192756250074CF51 /* NptHash.cpp in Sources */,
