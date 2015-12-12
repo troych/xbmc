@@ -20,6 +20,7 @@
 
 #include "ControllerManager.h"
 #include "Controller.h"
+#include "DefaultController.h"
 #include "addons/AddonManager.h"
 
 using namespace ADDON;
@@ -101,6 +102,10 @@ void CControllerManager::UpdateAddons(void)
     std::sort(m_controllers.begin(), m_controllers.end(),
       [](const ControllerPtr& i, const ControllerPtr& j)
       {
+        if (i->ID() == DEFAULT_CONTROLLER_ID)
+          return true;
+        if (j->ID() == DEFAULT_CONTROLLER_ID)
+          return false;
         return i->ID() < j->ID();
       });
   }

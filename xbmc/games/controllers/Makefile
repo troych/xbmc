@@ -3,6 +3,8 @@ SRCS=Controller.cpp \
      ControllerLayout.cpp \
      ControllerManager.cpp \
      ControllerTranslator.cpp \
+     DefaultController.cpp \
+     EasterEgg.cpp \
 
 LIB=controllers.a
 
