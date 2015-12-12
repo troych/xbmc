@@ -29,30 +29,23 @@ namespace GAME
   typedef std::vector<ControllerPtr>   ControllerVector;
 
   /*!
-   * \brief Types of features used in the game controller abstraction
+   * \brief Types of features used in the controller abstraction
    */
-  enum FeatureType
+  enum class FEATURE
   {
-    FEATURE_UNKNOWN,
-    FEATURE_BUTTON,
-    FEATURE_ANALOG_STICK,
-    FEATURE_ACCELEROMETER,
-    FEATURE_KEY,
-    FEATURE_RELATIVE_POINTER,
-    FEATURE_ABSOLUTE_POINTER,
+    UNKNOWN,
+    SCALAR,
+    ANALOG_STICK,
+    ACCELEROMETER,
+    KEY,
+    RELATIVE_POINTER,
+    ABSOLUTE_POINTER,
   };
 
-  enum ButtonType
+  enum class GEOMETRY
   {
-    BUTTON_UNKNOWN,
-    BUTTON_DIGITAL,
-    BUTTON_ANALOG,
-  };
-
-  enum FeatureGeometryType
-  {
-    GEOMETRY_NONE,
-    GEOMETRY_RECTANGLE,
-    GEOMETRY_CIRCLE,
+    NONE,
+    RECTANGLE,
+    CIRCLE,
   };
 }

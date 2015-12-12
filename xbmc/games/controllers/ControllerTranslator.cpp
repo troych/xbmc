@@ -23,70 +23,70 @@
 
 using namespace GAME;
 
-const char* CControllerTranslator::TranslateFeatureType(FeatureType type)
+const char* CControllerTranslator::TranslateFeatureType(FEATURE type)
 {
   switch (type)
   {
-    case FEATURE_BUTTON:           return LAYOUT_XML_ELM_BUTTON;
-    case FEATURE_ANALOG_STICK:     return LAYOUT_XML_ELM_ANALOG_STICK;
-    case FEATURE_ACCELEROMETER:    return LAYOUT_XML_ELM_ACCELEROMETER;
-    case FEATURE_KEY:              return LAYOUT_XML_ELM_KEY;
-    case FEATURE_RELATIVE_POINTER: return LAYOUT_XML_ELM_RELATIVE_POINTER;
-    case FEATURE_ABSOLUTE_POINTER: return LAYOUT_XML_ELM_ABSOLUTE_POINTER;
+    case FEATURE::SCALAR:           return LAYOUT_XML_ELM_BUTTON;
+    case FEATURE::ANALOG_STICK:     return LAYOUT_XML_ELM_ANALOG_STICK;
+    case FEATURE::ACCELEROMETER:    return LAYOUT_XML_ELM_ACCELEROMETER;
+    case FEATURE::KEY:              return LAYOUT_XML_ELM_KEY;
+    case FEATURE::RELATIVE_POINTER: return LAYOUT_XML_ELM_RELATIVE_POINTER;
+    case FEATURE::ABSOLUTE_POINTER: return LAYOUT_XML_ELM_ABSOLUTE_POINTER;
     default:
       break;
   }
   return "";
 }
 
-FeatureType CControllerTranslator::TranslateFeatureType(const std::string& strType)
+FEATURE CControllerTranslator::TranslateFeatureType(const std::string& strType)
 {
-  if (strType == LAYOUT_XML_ELM_BUTTON)           return FEATURE_BUTTON;
-  if (strType == LAYOUT_XML_ELM_ANALOG_STICK)     return FEATURE_ANALOG_STICK;
-  if (strType == LAYOUT_XML_ELM_ACCELEROMETER)    return FEATURE_ACCELEROMETER;
-  if (strType == LAYOUT_XML_ELM_KEY)              return FEATURE_KEY;
-  if (strType == LAYOUT_XML_ELM_RELATIVE_POINTER) return FEATURE_RELATIVE_POINTER;
-  if (strType == LAYOUT_XML_ELM_ABSOLUTE_POINTER) return FEATURE_ABSOLUTE_POINTER;
+  if (strType == LAYOUT_XML_ELM_BUTTON)           return FEATURE::SCALAR;
+  if (strType == LAYOUT_XML_ELM_ANALOG_STICK)     return FEATURE::ANALOG_STICK;
+  if (strType == LAYOUT_XML_ELM_ACCELEROMETER)    return FEATURE::ACCELEROMETER;
+  if (strType == LAYOUT_XML_ELM_KEY)              return FEATURE::KEY;
+  if (strType == LAYOUT_XML_ELM_RELATIVE_POINTER) return FEATURE::RELATIVE_POINTER;
+  if (strType == LAYOUT_XML_ELM_ABSOLUTE_POINTER) return FEATURE::ABSOLUTE_POINTER;
 
-  return FEATURE_UNKNOWN;
+  return FEATURE::UNKNOWN;
 }
 
-const char* CControllerTranslator::TranslateButtonType(ButtonType type)
+const char* CControllerTranslator::TranslateButtonType(JOYSTICK::INPUT type)
 {
   switch (type)
   {
-    case BUTTON_DIGITAL: return "digital";
-    case BUTTON_ANALOG:  return "analog";
+    case JOYSTICK::INPUT::DIGITAL: return "digital";
+    case JOYSTICK::INPUT::ANALOG:  return "analog";
     default:
       break;
   }
   return "";
 }
 
-ButtonType CControllerTranslator::TranslateButtonType(const std::string& strType)
+JOYSTICK::INPUT CControllerTranslator::TranslateButtonType(const std::string& strType)
 {
-  if (strType == "digital") return BUTTON_DIGITAL;
-  if (strType == "analog")  return BUTTON_ANALOG;
+  if (strType == "digital") return JOYSTICK::INPUT::DIGITAL;
+  if (strType == "analog")  return JOYSTICK::INPUT::ANALOG;
 
-  return BUTTON_UNKNOWN;
+  return JOYSTICK::INPUT::UNKNOWN;
 }
 
-const char* CControllerTranslator::TranslateGeometry(FeatureGeometryType geometry)
+const char* CControllerTranslator::TranslateGeometry(GEOMETRY geometry)
 {
   switch (geometry)
   {
-    case GEOMETRY_RECTANGLE: return "rectangle";
-    case GEOMETRY_CIRCLE:    return "circle";
+    case GEOMETRY::RECTANGLE: return "rectangle";
+    case GEOMETRY::CIRCLE:    return "circle";
     default:
       break;
   }
   return "none";
 }
 
-FeatureGeometryType CControllerTranslator::TranslateGeometry(const std::string& strGeometry)
+GEOMETRY CControllerTranslator::TranslateGeometry(const std::string& strGeometry)
 {
-  if (strGeometry == "rectangle") return GEOMETRY_RECTANGLE;
-  if (strGeometry == "circle")    return GEOMETRY_CIRCLE;
+  if (strGeometry == "rectangle") return GEOMETRY::RECTANGLE;
+  if (strGeometry == "circle")    return GEOMETRY::CIRCLE;
 
-  return GEOMETRY_NONE;
+  return GEOMETRY::NONE;
 }

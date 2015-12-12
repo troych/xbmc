@@ -54,7 +54,7 @@ std::string CDefaultController::ControllerID(void) const
   return DEFAULT_CONTROLLER_ID;
 }
 
-InputType CDefaultController::GetInputType(const FeatureName& feature) const
+INPUT CDefaultController::GetInputType(const FeatureName& feature) const
 {
   return m_handler->GetInputType(GetButtonKeyID(feature));
 }
@@ -66,7 +66,7 @@ bool CDefaultController::OnButtonPress(const FeatureName& feature, bool bPressed
 
   const unsigned int buttonKeyId = GetButtonKeyID(feature);
 
-  if (m_handler->GetInputType(buttonKeyId) == INPUT_TYPE_DIGITAL)
+  if (m_handler->GetInputType(buttonKeyId) == INPUT::DIGITAL)
   {
     m_handler->OnDigitalButtonKey(buttonKeyId, bPressed);
     return true;
@@ -79,7 +79,7 @@ bool CDefaultController::OnButtonMotion(const FeatureName& feature, float magnit
 {
   const unsigned int buttonKeyId = GetButtonKeyID(feature);
 
-  if (m_handler->GetInputType(buttonKeyId) == INPUT_TYPE_ANALOG)
+  if (m_handler->GetInputType(buttonKeyId) == INPUT::ANALOG)
   {
     m_handler->OnAnalogButtonKey(buttonKeyId, magnitude);
     return true;
@@ -101,11 +101,11 @@ bool CDefaultController::OnAnalogStickMotion(const FeatureName& feature, float x
 
     // Calculate the button key ID and input type for this direction
     const unsigned int buttonKeyId = GetButtonKeyID(feature, *it);
-    const InputType inputType = m_handler->GetInputType(buttonKeyId);
+    const INPUT inputType = m_handler->GetInputType(buttonKeyId);
 
-    if (inputType == INPUT_TYPE_DIGITAL)
+    if (inputType == INPUT::DIGITAL)
       m_handler->OnDigitalButtonKey(buttonKeyId, false);
-    else if (inputType == INPUT_TYPE_ANALOG)
+    else if (inputType == INPUT::ANALOG)
       m_handler->OnAnalogButtonKey(buttonKeyId, 0.0f);
   }
 
@@ -113,18 +113,18 @@ bool CDefaultController::OnAnalogStickMotion(const FeatureName& feature, float x
 
   // Calculate the button key ID and input type for the analog stick's direction
   const unsigned int buttonKeyId = GetButtonKeyID(feature, analogStickDir);
-  const InputType inputType = m_handler->GetInputType(buttonKeyId);
+  const INPUT inputType = m_handler->GetInputType(buttonKeyId);
 
   // Calculate the magnitude in the cardinal direction
   const float magnitude = MAX(ABS(x), ABS(y));
 
-  if (inputType == INPUT_TYPE_DIGITAL)
+  if (inputType == INPUT::DIGITAL)
   {
     const bool bIsPressed = (magnitude >= ANALOG_DIGITAL_THRESHOLD);
     m_handler->OnDigitalButtonKey(buttonKeyId, bIsPressed);
     return true;
   }
-  else if (inputType == INPUT_TYPE_ANALOG)
+  else if (inputType == INPUT::ANALOG)
   {
     m_handler->OnAnalogButtonKey(buttonKeyId, magnitude);
     return true;

@@ -27,21 +27,22 @@
 #include <sstream>
 
 using namespace GAME;
+using namespace JOYSTICK;
 
 // --- FeatureTypeEqual --------------------------------------------------------
 
 struct FeatureTypeEqual
 {
-  FeatureTypeEqual(FeatureType type, ButtonType buttonType) : type(type), buttonType(buttonType) { }
+  FeatureTypeEqual(FEATURE type, INPUT buttonType) : type(type), buttonType(buttonType) { }
 
   bool operator()(const CControllerFeature& feature) const
   {
-    if (type == FEATURE_UNKNOWN)
+    if (type == FEATURE::UNKNOWN)
       return true; // Match all feature types
 
-    if (type == FEATURE_BUTTON && feature.Type() == FEATURE_BUTTON)
+    if (type == FEATURE::SCALAR && feature.Type() == FEATURE::SCALAR)
     {
-      if (buttonType == BUTTON_UNKNOWN)
+      if (buttonType == INPUT::UNKNOWN)
         return true; // Match all button types
 
       return buttonType == feature.ButtonType();
@@ -50,8 +51,8 @@ struct FeatureTypeEqual
     return type == feature.Type();
   }
 
-  const FeatureType type;
-  const ButtonType  buttonType;
+  const FEATURE type;
+  const INPUT   buttonType;
 };
 
 // --- CControllerLayout ---------------------------------------------------
@@ -66,8 +67,8 @@ void CControllerLayout::Reset(void)
   m_features.clear();
 }
 
-unsigned int CControllerLayout::FeatureCount(FeatureType type       /* = FEATURE_UNKNOWN */,
-                                                 ButtonType  buttonType /* = BUTTON_UNKNOWN */) const
+unsigned int CControllerLayout::FeatureCount(FEATURE type       /* = FEATURE::UNKNOWN */,
+                                             INPUT   buttonType /* = INPUT::UNKNOWN */) const
 {
   return std::count_if(m_features.begin(), m_features.end(), FeatureTypeEqual(type, buttonType));
 }

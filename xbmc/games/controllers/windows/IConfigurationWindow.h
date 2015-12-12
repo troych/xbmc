@@ -26,10 +26,10 @@
 namespace GAME
 {
   /*!
-   * \brief Controller configuration utility
+   * \brief Controller configuration window
    *
-   * The utility presents a list of controllers. Also on the screen is a list of
-   * features belonging to that controller.
+   * The configuration window presents a list of controllers. Also on the screen
+   * is a list of features belonging to that controller.
    *
    * The configuration utility reacts to several events:
    *
@@ -37,8 +37,7 @@ namespace GAME
    *      controller's features.
    *
    *   2) When a feature is selected, the user is prompted for controller input.
-   *      When finished, focus moves on to the next feature and another prompt
-   *      occurs.
+   *      This initiates a "wizard" that
    */
   class IConfigurationWindow
   {

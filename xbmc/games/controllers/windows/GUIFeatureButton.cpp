@@ -58,12 +58,12 @@ bool CGUIFeatureButton::PromptForInput(void)
 
   switch (m_feature.Type())
   {
-    case FEATURE_BUTTON:
+    case FEATURE::SCALAR:
     {
       PromptButton();
       break;
     }
-    case FEATURE_ANALOG_STICK:
+    case FEATURE::ANALOG_STICK:
     {
       PromptAnalogStick();
       break;
@@ -204,12 +204,12 @@ bool CGUIFeatureButton::MapPrimitive(IJoystickButtonMap* buttonMap, const JOYSTI
   {
     switch (m_feature.Type())
     {
-      case FEATURE_BUTTON:
+      case FEATURE::SCALAR:
       {
         bHandled = buttonMap->AddScalar(m_feature.Name(), primitive);
         break;
       }
-      case FEATURE_ANALOG_STICK:
+      case FEATURE::ANALOG_STICK:
       {
         CDriverPrimitive up;
         CDriverPrimitive down;

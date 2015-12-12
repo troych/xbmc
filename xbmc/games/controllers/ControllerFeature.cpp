@@ -28,6 +28,7 @@
 #include <sstream>
 
 using namespace GAME;
+using namespace JOYSTICK;
 
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(x)  do { delete (x); (x) = NULL; } while (0)
@@ -35,12 +36,12 @@ using namespace GAME;
 
 void CControllerFeature::Reset(void)
 {
-  m_type = FEATURE_UNKNOWN;
+  m_type = FEATURE::UNKNOWN;
   m_strName.clear();
   m_strLabel.clear();
   m_labelId = 0;
   SAFE_DELETE(m_geometry);
-  m_buttonType = BUTTON_UNKNOWN;
+  m_buttonType = INPUT::UNKNOWN;
 }
 
 CControllerFeature& CControllerFeature::operator=(const CControllerFeature& rhs)
@@ -70,7 +71,7 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
 
   // Type
   m_type = CControllerTranslator::TranslateFeatureType(strType);
-  if (m_type == FEATURE_UNKNOWN)
+  if (m_type == FEATURE::UNKNOWN)
   {
     CLog::Log(LOGERROR, "Invalid feature: <%s> ", pElement->Value());
     return false;
@@ -86,7 +87,7 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
 
   // Label ID
   std::string strLabel = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_FEATURE_LABEL);
-  if (m_type != FEATURE_KEY && strLabel.empty())
+  if (m_type != FEATURE::KEY && strLabel.empty())
   {
     CLog::Log(LOGERROR, "<%s> tag has no \"%s\" attribute", strType.c_str(), LAYOUT_XML_ATTR_FEATURE_LABEL);
     return false;
@@ -100,7 +101,7 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
   m_geometry = CreateGeometry(pElement);
 
   // Button type
-  if (m_type == FEATURE_BUTTON)
+  if (m_type == FEATURE::SCALAR)
   {
     std::string strButtonType = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_BUTTON_TYPE);
     if (strButtonType.empty())
@@ -111,7 +112,7 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
     else
     {
       m_buttonType = CControllerTranslator::TranslateButtonType(strButtonType);
-      if (m_buttonType == BUTTON_UNKNOWN)
+      if (m_buttonType == INPUT::UNKNOWN)
       {
         CLog::Log(LOGERROR, "<%s> tag - attribute \"%s\" is invalid: \"%s\"",
                   strType.c_str(), LAYOUT_XML_ATTR_BUTTON_TYPE, strButtonType.c_str());
@@ -132,7 +133,7 @@ CShape* CControllerFeature::CreateGeometry(const TiXmlElement* pElement)
   {
     switch (CControllerTranslator::TranslateGeometry(strGeometry))
     {
-      case GEOMETRY_RECTANGLE:
+      case GEOMETRY::RECTANGLE:
       {
         int x1, y1, x2, y2;
 
@@ -179,7 +180,7 @@ CShape* CControllerFeature::CreateGeometry(const TiXmlElement* pElement)
         geometry = new CRect(x1, y1, x2, y2);
         break;
       }
-      case GEOMETRY_CIRCLE:
+      case GEOMETRY::CIRCLE:
       {
         int x, y, r;
 

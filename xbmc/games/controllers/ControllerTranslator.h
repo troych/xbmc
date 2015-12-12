@@ -20,6 +20,7 @@
 #pragma once
 
 #include "ControllerTypes.h"
+#include "input/joysticks/JoystickTypes.h"
 
 #include <string>
 
@@ -29,14 +30,14 @@ namespace GAME
 class CControllerTranslator
 {
 public:
-  static const char* TranslateFeatureType(FeatureType type);
-  static FeatureType TranslateFeatureType(const std::string& strType);
+  static const char* TranslateFeatureType(FEATURE type);
+  static FEATURE TranslateFeatureType(const std::string& strType);
 
-  static const char* TranslateButtonType(ButtonType type);
-  static ButtonType TranslateButtonType(const std::string& strType);
+  static const char* TranslateButtonType(JOYSTICK::INPUT type);
+  static JOYSTICK::INPUT TranslateButtonType(const std::string& strType);
 
-  static const char* TranslateGeometry(FeatureGeometryType geometry);
-  static FeatureGeometryType TranslateGeometry(const std::string& strGeometry);
+  static const char* TranslateGeometry(GEOMETRY geometry);
+  static GEOMETRY TranslateGeometry(const std::string& strGeometry);
 };
 
 }

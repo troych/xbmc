@@ -21,6 +21,7 @@
 
 #include "ControllerTypes.h"
 #include "guilib/Geometry.h"
+#include "input/joysticks/JoystickTypes.h"
 
 #include <string>
 
@@ -40,24 +41,24 @@ public:
 
   CControllerFeature& operator=(const CControllerFeature& rhs);
 
-  FeatureType        Type(void) const       { return m_type; }
+  FEATURE            Type(void) const       { return m_type; }
   const std::string& Name(void) const       { return m_strName; }
   const std::string& Label(void) const      { return m_strLabel; }
   unsigned int       LabelID(void) const    { return m_labelId; }
   CShape*            Geometry(void) const   { return m_geometry; }
-  enum ButtonType    ButtonType(void) const { return m_buttonType; }
+  JOYSTICK::INPUT    ButtonType(void) const { return m_buttonType; }
 
   bool Deserialize(const TiXmlElement* pElement, const CController* controller);
 
 private:
   static CShape* CreateGeometry(const TiXmlElement* pElement);
 
-  FeatureType     m_type;
-  std::string     m_strName;
-  std::string     m_strLabel;
-  unsigned int    m_labelId;
-  CShape*         m_geometry;
-  enum ButtonType m_buttonType;
+  FEATURE           m_type;
+  std::string       m_strName;
+  std::string       m_strLabel;
+  unsigned int      m_labelId;
+  CShape*           m_geometry;
+  JOYSTICK::INPUT   m_buttonType;
 };
 
 }
