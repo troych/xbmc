@@ -147,6 +147,7 @@
 #include "peripherals/dialogs/GUIDialogPeripheralSettings.h"
 
 /* Game related include files */
+#include "games/controllers/windows/GUIControllerWindow.h"
 #include "games/windows/GUIWindowGames.h"
 
 using namespace std;
@@ -298,6 +299,8 @@ void CGUIWindowManager::CreateWindows()
   Add(new CGUIWindowStartup);
   Add(new CGUIWindowSplash);
   Add(new CGUIWindowGames);
+
+  Add(new GAME::CGUIControllerWindow);
 }
 
 bool CGUIWindowManager::DestroyWindows()
@@ -400,6 +403,7 @@ bool CGUIWindowManager::DestroyWindows()
     Delete(WINDOW_PROGRAMS);
     Delete(WINDOW_PICTURES);
     Delete(WINDOW_WEATHER);
+    Delete(WINDOW_GAME_CONTROLLERS);
     Delete(WINDOW_GAMES);
 
     Delete(WINDOW_SETTINGS_MYPICTURES);
@@ -954,7 +958,7 @@ void CGUIWindowManager::RenderPass() const
   // we render the dialogs based on their render order.
   vector<CGUIWindow *> renderList = m_activeDialogs;
   stable_sort(renderList.begin(), renderList.end(), RenderOrderSortFunction);
-  
+
   for (iDialog it = renderList.begin(); it != renderList.end(); ++it)
   {
     if ((*it)->IsDialogRunning())

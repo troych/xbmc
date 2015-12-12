@@ -65,6 +65,7 @@
 #include "utils/StringUtils.h"
 #include "GUIAction.h"
 #include "GUIFocusPlane.h"
+#include "GUIGameController.h"
 #include "Util.h"
 
 using namespace std;
@@ -1466,6 +1467,9 @@ CGUIControl* CGUIControlFactory::Create(int parentID, const CRect &rect, TiXmlEl
     break;
   case CGUIControl::GUICONTROL_FOCUSPLANE:
     control = new CGUIFocusPlane(parentID, id, posX, posY, width, height);
+    break;
+  case CGUIControl::GUICONTROL_GAMECONTROLLER:
+    control = new CGUIGameController(parentID, id, posX, posY, width, height);
     break;
   default:
     break;
