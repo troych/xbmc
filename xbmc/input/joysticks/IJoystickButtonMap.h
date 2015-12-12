@@ -62,7 +62,7 @@ namespace JOYSTICK
      *
      * \param primitive    The driver primitive (a button, hat direction or semi-axis)
      * \param feature      The name of the resolved joystick feature, or
-     *                         unmodified if GetFeature() returns false
+     *                     invalid if false is returned
      *
      * \return True if the driver primitive is associated with a feature, false otherwise
      */
