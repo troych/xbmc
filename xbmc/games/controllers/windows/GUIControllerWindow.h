@@ -48,8 +48,10 @@ namespace GAME
     void OnControllerFocused(unsigned int controllerIndex);
     void OnFeatureFocused(unsigned int featureIndex);
     void OnFeatureSelected(unsigned int featureIndex);
+
     void GetMoreControllers(void);
 
-    IConfigurationUtility* m_configUtility;
+    IControllerList* m_controllerList;
+    IFeatureList*    m_featureList;
   };
 }

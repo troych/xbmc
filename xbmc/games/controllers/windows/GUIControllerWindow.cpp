@@ -19,7 +19,8 @@
  */
 
 #include "GUIControllerWindow.h"
-#include "GUIConfigurationUtility.h"
+#include "GUIControllerList.h"
+#include "GUIFeatureList.h"
 #include "GUIGameDefines.h"
 #include "addons/GUIWindowAddonBrowser.h"
 #include "addons/IAddon.h"
@@ -38,13 +39,15 @@ using namespace PERIPHERALS;
 
 CGUIControllerWindow::CGUIControllerWindow(void) :
   CGUIWindow(WINDOW_GAME_CONTROLLERS, "GameControllers.xml"),
-  m_configUtility(nullptr)
+  m_controllerList(nullptr),
+  m_featureList(nullptr)
 {
 }
 
 CGUIControllerWindow::~CGUIControllerWindow(void)
 {
-  delete m_configUtility;
+  delete m_controllerList;
+  delete m_featureList;
 }
 
 bool CGUIControllerWindow::OnMessage(CGUIMessage& message)
@@ -91,17 +94,23 @@ void CGUIControllerWindow::OnInitWindow(void)
 {
   CGUIWindow::OnInitWindow();
 
-  if (!m_configUtility)
+  if (!m_featureList)
   {
-    m_configUtility = new CGUIConfigurationUtility(this);
-    if (m_configUtility->Initialize())
+    m_featureList = new CGUIFeatureList(this);
+    if (!m_featureList->Initialize())
     {
-      m_configUtility->OnControllerFocused(0);
+      delete m_featureList;
+      m_featureList = nullptr;
     }
-    else
+  }
+
+  if (m_featureList && !m_controllerList)
+  {
+    m_controllerList = new CGUIControllerList(this, m_featureList);
+    if (!m_controllerList->Initialize())
     {
-      delete m_configUtility;
-      m_configUtility = nullptr;
+      delete m_controllerList;
+      m_controllerList = nullptr;
     }
   }
 
@@ -122,8 +131,19 @@ void CGUIControllerWindow::OnInitWindow(void)
 
 void CGUIControllerWindow::OnDeinitWindow(int nextWindowID)
 {
-  delete m_configUtility;
-  m_configUtility = nullptr;
+  if (m_controllerList)
+  {
+    m_controllerList->Deinitialize();
+    delete m_controllerList;
+    m_controllerList = nullptr;
+  }
+
+  if (m_featureList)
+  {
+    m_featureList->Deinitialize();
+    delete m_featureList;
+    m_featureList = nullptr;
+  }
 
   CGUIWindow::OnDeinitWindow(nextWindowID);
 }
@@ -152,20 +172,20 @@ void CGUIControllerWindow::FocusController(unsigned int controllerIndex)
 
 void CGUIControllerWindow::OnControllerFocused(unsigned int controllerIndex)
 {
-  if (m_configUtility)
-    m_configUtility->OnControllerFocused(controllerIndex);
+  if (m_controllerList)
+    m_controllerList->OnFocus(controllerIndex);
 }
 
 void CGUIControllerWindow::OnFeatureFocused(unsigned int featureIndex)
 {
-  if (m_configUtility)
-    m_configUtility->OnFeatureFocused(featureIndex);
+  if (m_featureList)
+    m_featureList->OnFocus(featureIndex);
 }
 
 void CGUIControllerWindow::OnFeatureSelected(unsigned int featureIndex)
 {
-  if (m_configUtility)
-    m_configUtility->OnFeatureSelected(featureIndex);
+  if (m_featureList)
+    m_featureList->OnFocus(featureIndex);
 }
 
 void CGUIControllerWindow::GetMoreControllers(void)

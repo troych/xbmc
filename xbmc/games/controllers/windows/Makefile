@@ -1,5 +1,4 @@
-SRCS=GUIConfigurationUtility.cpp \
-     GUIConfigurationWizard.cpp \
+SRCS=GUIConfigurationWizard.cpp \
      GUIControllerList.cpp \
      GUIControllerWindow.cpp \
      GUIFeatureButton.cpp \

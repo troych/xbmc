@@ -65,49 +65,6 @@ namespace GAME
     virtual void SetLabel(unsigned int featureIndex, const std::string& strLabel) = 0;
   };
 
-  class IConfigurationUtility
-  {
-  public:
-    virtual ~IConfigurationUtility(void) { }
-
-    /*!
-     * \brief  Initialize the resource
-     * \return true if the resource is initialized and can be used
-     *         false if the resource failed to initialize and must not be used
-     */
-    virtual bool Initialize(void) = 0;
-
-    /*!
-     * \brief  Deinitialize the resource
-     * \remark This must be called if Initialize() returned true
-     */
-    virtual void Deinitialize(void) = 0;
-
-    /*
-     * \brief  Focus has been set to the specified controller
-     * \param  controllerIndex The index of the controller being focused
-     */
-    virtual void OnControllerFocused(unsigned int controllerIndex) = 0;
-
-    /*!
-     * \brief  The specified controller has been selected
-     * \param  controllerIndex The index of the controller being selected
-     */
-    virtual void OnControllerSelected(unsigned int featureIndex) = 0;
-
-    /*!
-     * \brief  Focus has been set to the specified feature
-     * \param  featureIndex The index of the feature being focused
-     */
-    virtual void OnFeatureFocused(unsigned int featureIndex) = 0;
-
-    /*!
-     * \brief  The specified feature has been selected
-     * \param  featureIndex The index of the feature being selected
-     */
-    virtual void OnFeatureSelected(unsigned int featureIndex) = 0;
-  };
-
   /*!
    * \brief A list populated by installed controllers
    */
@@ -134,12 +91,16 @@ namespace GAME
      */
     virtual void Refresh(void) = 0;
 
-    /*!
-     * \brief The specified controller is being focused
-     * \param controllerIndex The index of the controller in the list of controllers
+    /*
+     * \brief  The specified controller has been focused
+     * \param  controllerIndex The index of the controller being focused
      */
     virtual void OnFocus(unsigned int controllerIndex) = 0;
 
+    /*!
+     * \brief  The specified controller has been selected
+     * \param  controllerIndex The index of the controller being selected
+     */
     virtual void OnSelect(unsigned int controllerIndex) = 0;
   };
 
@@ -166,12 +127,20 @@ namespace GAME
 
     /*!
      * \brief Load the features for the specified controller
-     * \param controller The controller whose features are being listed
+     * \param controller The controller to load
      */
     virtual void Load(const ControllerPtr& controller) = 0;
 
+    /*!
+     * \brief  Focus has been set to the specified feature
+     * \param  featureIndex The index of the feature being focused
+     */
     virtual void OnFocus(unsigned int index) = 0;
 
+    /*!
+     * \brief  The specified feature has been selected
+     * \param  featureIndex The index of the feature being selected
+     */
     virtual void OnSelect(unsigned int index) = 0;
 
     virtual void OnUnfocus(void) = 0;
