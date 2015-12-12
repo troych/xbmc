@@ -60,11 +60,9 @@
  */
 
 #include "GameClientProperties.h"
-#include "GameController.h"
 #include "addons/Addon.h"
 #include "addons/AddonDll.h"
 #include "addons/DllGameClient.h"
-#include "games/ControllerTypes.h"
 #include "games/GameTypes.h"
 #include "games/SerialState.h"
 #include "input/IKeyboardHandler.h"
@@ -81,29 +79,6 @@ class IPlayer;
 
 namespace GAME
 {
-
-class CGameClient;
-
-class CControllerInput : public JOYSTICK::IJoystickInputHandler
-{
-public:
-  CControllerInput(CGameClient* addon, int port, const GameControllerPtr& controller);
-
-  // Implementation of IJoystickInputHandler
-  virtual std::string ControllerID(void) const override;
-  virtual JOYSTICK::InputType GetInputType(const std::string& feature) const override;
-  virtual bool OnButtonPress(const std::string& feature, bool bPressed) override;
-  virtual bool OnButtonMotion(const std::string& feature, float magnitude) override;
-  virtual bool OnAnalogStickMotion(const std::string& feature, float x, float y) override;
-  virtual bool OnAccelerometerMotion(const std::string& feature, float x, float y, float z) override;
-
-  const GameControllerPtr& Controller(void) const { return m_controller; }
-
-private:
-  CGameClient* const      m_addon;
-  const int               m_port;
-  const GameControllerPtr m_controller;
-};
 
 class CGameClient : public ADDON::CAddonDll<DllGameClient, GameClient, game_client_properties>,
                     public IKeyboardHandler
@@ -158,7 +133,6 @@ public:
 
   bool OpenPort(unsigned int port);
   void ClosePort(unsigned int port);
-  void UpdatePort(unsigned int port, const GameControllerPtr& controller);
 
   bool OnButtonPress(int port, const std::string& feature, bool bPressed);
   bool OnButtonMotion(int port, const std::string& feature, float magnitude);
@@ -180,7 +154,6 @@ private:
   void ClearPorts(void);
   void OpenKeyboard(void);
   void CloseKeyboard(void);
-  GameControllerVector GetControllers(void) const;
 
   // Helper functions
   static std::string ToArchivePath(const std::string& strPath);
@@ -217,9 +190,6 @@ private:
   unsigned int          m_serializeSize;
   bool                  m_bRewindEnabled;
   CSerialState          m_serialState;
-
-  // Input
-  std::vector<CControllerInput*>  m_controllers;
 
   CCriticalSection      m_critSection;
 };

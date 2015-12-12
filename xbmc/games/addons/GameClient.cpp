@@ -73,73 +73,6 @@ std::string NormalizeExtension(const std::string& strExtension)
   return ext;
 }
 
-// --- CControllerInput ------------------------------------------------------------
-
-CControllerInput::CControllerInput(CGameClient* addon, int port, const GameControllerPtr& controller)
-  : m_addon(addon),
-    m_port(port),
-    m_controller(controller)
-{
-  assert(m_addon != NULL);
-  assert(controller.get() != NULL);
-}
-
-std::string CControllerInput::ControllerID(void) const
-{
-  return m_controller->ID();
-}
-
-InputType CControllerInput::GetInputType(const std::string& feature) const
-{
-  const std::vector<CGameControllerFeature>& features = m_controller->Layout().Features();
-
-  // TODO: Return INPUT_TYPE_UNKNOWN if feature isn't handled by the add-on, for
-  //       example if a libretro add-on doesn't include the feature in its
-  //       buttonmap.xml
-
-  for (std::vector<CGameControllerFeature>::const_iterator it = features.begin(); it != features.end(); ++it)
-  {
-    if (feature == it->Name())
-    {
-      switch (it->Type())
-      {
-        case FEATURE_BUTTON:
-          if (it->ButtonType() == BUTTON_DIGITAL)
-            return INPUT_TYPE_DIGITAL;
-          else if (it->ButtonType() == BUTTON_ANALOG)
-            return INPUT_TYPE_ANALOG;
-          break;
-
-        default:
-          break;
-      }
-      break;
-    }
-  }
-
-  return INPUT_TYPE_UNKNOWN;
-}
-
-bool CControllerInput::OnButtonPress(const std::string& feature, bool bPressed)
-{
-  return m_addon->OnButtonPress(m_port, feature, bPressed);
-}
-
-bool CControllerInput::OnButtonMotion(const std::string& feature, float magnitude)
-{
-  return m_addon->OnButtonMotion(m_port, feature, magnitude);
-}
-
-bool CControllerInput::OnAnalogStickMotion(const std::string& feature, float x, float y)
-{
-  return m_addon->OnAnalogStickMotion(m_port, feature, x, y);
-}
-
-bool CControllerInput::OnAccelerometerMotion(const std::string& feature, float x, float y, float z)
-{
-  return m_addon->OnAccelerometerMotion(m_port, feature, x, y, z);
-}
-
 // --- CGameClient -------------------------------------------------------------
 
 CGameClient::CGameClient(const AddonProps& props)
@@ -674,77 +607,15 @@ unsigned int CGameClient::RewindFrames(unsigned int frames)
 
 bool CGameClient::OpenPort(unsigned int port)
 {
-  GameControllerVector controllers = GetControllers();
-  if (!controllers.empty()) // TODO: Choose controller
-  {
-    if (port >= m_controllers.size())
-      m_controllers.resize(port + 1);
-
-    ClosePort(port);
-
-    m_controllers[port] = new CControllerInput(this, port, controllers[0]);
-
-    // If keyboard input is being captured by this add-on, force the port type to PERIPHERAL_JOYSTICK
-    PERIPHERALS::PeripheralType device = PERIPHERALS::PERIPHERAL_UNKNOWN;
-    if (m_bSupportsKeyboard)
-      device = PERIPHERALS::PERIPHERAL_JOYSTICK;
-
-    CPortManager::Get().OpenPort(m_controllers[port], port, device);
-
-    UpdatePort(port, controllers[0]);
-
-    return true;
-  }
-
   return false;
 }
 
 void CGameClient::ClosePort(unsigned int port)
 {
-  if (port >= m_controllers.size())
-    return;
-
-  if (m_controllers[port] != NULL)
-  {
-    CPortManager::Get().ClosePort(m_controllers[port]);
-
-    delete m_controllers[port];
-    m_controllers[port] = NULL;
-
-    UpdatePort(port, CGameController::EmptyPtr);
-  }
 }
 
 void CGameClient::ClearPorts(void)
 {
-  for (unsigned int i = 0; i < m_controllers.size(); i++)
-    ClosePort(i);
-}
-
-void CGameClient::UpdatePort(unsigned int port, const GameControllerPtr& controller)
-{
-  if (controller != CGameController::EmptyPtr)
-  {
-    game_controller controllerStruct;
-
-    const std::string strId = controller->ID();
-    controllerStruct.controller_id        = strId.c_str();
-    controllerStruct.digital_button_count = controller->Layout().FeatureCount(FEATURE_BUTTON, BUTTON_DIGITAL);
-    controllerStruct.analog_button_count  = controller->Layout().FeatureCount(FEATURE_BUTTON, BUTTON_ANALOG);
-    controllerStruct.analog_stick_count   = controller->Layout().FeatureCount(FEATURE_ANALOG_STICK);
-    controllerStruct.accelerometer_count  = controller->Layout().FeatureCount(FEATURE_ACCELEROMETER);
-    controllerStruct.key_count            = controller->Layout().FeatureCount(FEATURE_KEY);
-    controllerStruct.rel_pointer_count    = controller->Layout().FeatureCount(FEATURE_RELATIVE_POINTER);
-    controllerStruct.abs_pointer_count    = controller->Layout().FeatureCount(FEATURE_ABSOLUTE_POINTER);
-
-    try { m_pStruct->UpdatePort(port, true, &controllerStruct); }
-    catch (...) { LogException("UpdatePort()"); }
-  }
-  else
-  {
-    try { m_pStruct->UpdatePort(port, false, NULL); }
-    catch (...) { LogException("UpdatePort()"); }
-  }
 }
 
 void CGameClient::OpenKeyboard(void)
@@ -757,53 +628,13 @@ void CGameClient::CloseKeyboard(void)
   CInputManager::Get().UnregisterKeyboardHandler(this);
 }
 
-GameControllerVector CGameClient::GetControllers(void) const
-{
-  GameControllerVector controllers;
-
-  const ADDONDEPS& dependencies = GetDeps();
-  for (ADDONDEPS::const_iterator it = dependencies.begin(); it != dependencies.end(); ++it)
-  {
-    AddonPtr addon;
-    if (CAddonMgr::Get().GetAddon(it->first, addon, ADDON_GAME_CONTROLLER))
-    {
-      GameControllerPtr controller = std::dynamic_pointer_cast<CGameController>(addon);
-      if (controller)
-        controllers.push_back(controller);
-    }
-  }
-
-  if (controllers.empty())
-  {
-    // Use the default controller
-    AddonPtr addon;
-    if (CAddonMgr::Get().GetAddon(DEFAULT_GAME_CONTROLLER, addon, ADDON_GAME_CONTROLLER))
-      controllers.push_back(std::dynamic_pointer_cast<CGameController>(addon));
-  }
-
-  return controllers;
-}
-
 bool CGameClient::OnButtonPress(int port, const std::string& feature, bool bPressed)
 {
   // Only allow activated input in fullscreen game
   if (bPressed && g_windowManager.GetActiveWindowID() != WINDOW_FULLSCREEN_GAME)
     return false;
 
-  std::string strControllerId = m_controllers[port]->Controller()->ID();
-
   bool bHandled = false;
-
-  game_input_event event;
-
-  event.type                   = GAME_INPUT_EVENT_DIGITAL_BUTTON;
-  event.port                   = port;
-  event.controller_id          = strControllerId.c_str();
-  event.feature_name           = feature.c_str();
-  event.digital_button.pressed = bPressed;
-
-  try { bHandled = m_pStruct->InputEvent(port, &event); }
-  catch (...) { LogException("InputEvent()"); }
 
   return bHandled;
 }
@@ -814,21 +645,8 @@ bool CGameClient::OnButtonMotion(int port, const std::string& feature, float mag
   if (magnitude && g_windowManager.GetActiveWindowID() != WINDOW_FULLSCREEN_GAME)
     return false;
 
-  std::string strControllerId = m_controllers[port]->Controller()->ID();
-
   bool bHandled = false;
-
-  game_input_event event;
-
-  event.type                    = GAME_INPUT_EVENT_ANALOG_BUTTON;
-  event.port                    = port;
-  event.controller_id           = strControllerId.c_str();
-  event.feature_name            = feature.c_str();
-  event.analog_button.magnitude = magnitude;
-
-  try { bHandled = m_pStruct->InputEvent(port, &event); }
-  catch (...) { LogException("InputEvent()"); }
-
+  
   return bHandled;
 }
 
@@ -838,21 +656,7 @@ bool CGameClient::OnAnalogStickMotion(int port, const std::string& feature, floa
   if ((x || y) && g_windowManager.GetActiveWindowID() != WINDOW_FULLSCREEN_GAME)
     return false;
 
-  std::string strControllerId = m_controllers[port]->Controller()->ID();
-
   bool bHandled = false;
-
-  game_input_event event;
-
-  event.type           = GAME_INPUT_EVENT_ANALOG_STICK;
-  event.port           = port;
-  event.controller_id  = strControllerId.c_str();
-  event.feature_name   = feature.c_str();
-  event.analog_stick.x = x;
-  event.analog_stick.y = y;
-
-  try { bHandled = m_pStruct->InputEvent(port, &event); }
-  catch (...) { LogException("InputEvent()"); }
 
   return bHandled;
 }
@@ -863,22 +667,7 @@ bool CGameClient::OnAccelerometerMotion(int port, const std::string& feature, fl
   if ((x || y || z) && g_windowManager.GetActiveWindowID() != WINDOW_FULLSCREEN_GAME)
     return false;
 
-  std::string strControllerId = m_controllers[port]->Controller()->ID();
-
   bool bHandled = false;
-
-  game_input_event event;
-
-  event.type            = GAME_INPUT_EVENT_ACCELEROMETER;
-  event.port            = port;
-  event.controller_id   = strControllerId.c_str();
-  event.feature_name    = feature.c_str();
-  event.accelerometer.x = x;
-  event.accelerometer.y = y;
-  event.accelerometer.z = z;
-
-  try { bHandled = m_pStruct->InputEvent(port, &event); }
-  catch (...) { LogException("InputEvent()"); }
 
   return bHandled;
 }

@@ -1,8 +1,5 @@
 SRCS=GameClient.cpp \
      GameClientProperties.cpp \
-     GameController.cpp \
-     GameControllerFeature.cpp \
-     GameControllerLayout.cpp \
 
 LIB=gameaddons.a
 

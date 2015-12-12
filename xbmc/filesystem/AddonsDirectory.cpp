@@ -72,7 +72,6 @@ const std::array<TYPE, 5> infoProviderTypes = {
 const std::array<TYPE, 3> gameTypes = {
   ADDON_GAMEDLL,
   ADDON_GAME,
-  ADDON_GAME_CONTROLLER,
 };
 
 
@@ -97,17 +96,11 @@ static bool IsGameProvider(const AddonPtr& addon)
   return addon->Type() == ADDON_PLUGIN && addon->IsType(ADDON_GAME);
 }
 
-static bool IsGameController(const AddonPtr& addon)
-{
-  return addon->Type() == ADDON_GAME_CONTROLLER;
-}
-
 static bool IsGameType(const AddonPtr& addon)
 {
   return IsStandalone(addon) ||
          IsEmulator(addon) ||
-         IsGameProvider(addon) ||
-         IsGameController(addon);
+         IsGameProvider(addon);
 }
 
 static bool IsSystemAddon(const AddonPtr& addon)
@@ -115,13 +108,11 @@ static bool IsSystemAddon(const AddonPtr& addon)
   return StringUtils::StartsWith(addon->Path(), CSpecialProtocol::TranslatePath("special://xbmc/addons"));
 }
 
-
 static bool IsUserInstalled(const AddonPtr& addon)
 {
   return std::find_if(dependencyTypes.begin(), dependencyTypes.end(),
       [&](TYPE type){ return addon->IsType(type); }) == dependencyTypes.end();
 }
-
 
 static bool IsOrphaned(const AddonPtr& addon, const VECADDONS& all)
 {
@@ -274,18 +265,6 @@ static void GenerateAddonListingForCategory(const CURL& path, VECADDONS& addons,
       item->SetPath(itemPath.Get());
       item->m_bIsFolder = true;
       std::string thumb = GetIcon(ADDON_GAME); // TODO
-      if (!thumb.empty() && g_TextureManager.HasTexture(thumb))
-        item->SetArt("thumb", thumb);
-      items.Add(item);
-    }
-    if (std::any_of(addons.begin(), addons.end(), IsGameController))
-    {
-      CFileItemPtr item(new CFileItem(TranslateType(ADDON_GAME_CONTROLLER, true)));
-      CURL itemPath = path;
-      itemPath.SetFileName(TranslateType(ADDON_GAME_CONTROLLER));
-      item->SetPath(itemPath.Get());
-      item->m_bIsFolder = true;
-      std::string thumb = GetIcon(ADDON_GAME_CONTROLLER);
       if (!thumb.empty() && g_TextureManager.HasTexture(thumb))
         item->SetArt("thumb", thumb);
       items.Add(item);
