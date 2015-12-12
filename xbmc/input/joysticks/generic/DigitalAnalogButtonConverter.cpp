@@ -38,14 +38,14 @@ std::string CDigitalAnalogButtonConverter::ControllerID(void) const
   return m_handler->ControllerID();
 }
 
-InputType CDigitalAnalogButtonConverter::GetInputType(const FeatureName& feature) const
+INPUT CDigitalAnalogButtonConverter::GetInputType(const FeatureName& feature) const
 {
   return m_handler->GetInputType(feature);
 }
 
 bool CDigitalAnalogButtonConverter::OnButtonPress(const FeatureName& feature, bool bPressed)
 {
-  if (GetInputType(feature) == INPUT_TYPE_ANALOG)
+  if (GetInputType(feature) == INPUT::ANALOG)
     return m_handler->OnButtonMotion(feature, bPressed ? 1.0f : 0.0f);
 
   return m_handler->OnButtonPress(feature, bPressed);
@@ -53,7 +53,7 @@ bool CDigitalAnalogButtonConverter::OnButtonPress(const FeatureName& feature, bo
 
 bool CDigitalAnalogButtonConverter::OnButtonMotion(const FeatureName& feature, float magnitude)
 {
-  if (GetInputType(feature) == INPUT_TYPE_DIGITAL)
+  if (GetInputType(feature) == INPUT::DIGITAL)
   {
     const bool bIsPressed = (magnitude >= ANALOG_DIGITAL_THRESHOLD);
 

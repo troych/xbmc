@@ -19,7 +19,7 @@
  */
 #pragma once
 
-#include "IJoystickInputHandler.h"
+#include "JoystickTypes.h"
 
 namespace JOYSTICK
 {
@@ -39,10 +39,10 @@ namespace JOYSTICK
      *
      * \param buttonKeyId  The button key ID from Key.h
      *
-     * \return The type of action mapped to buttonKeyId, or INPUT_TYPE_UNKNOWN if
+     * \return The type of action mapped to buttonKeyId, or INPUT::UNKNOWN if
      *         no action is mapped to the specified key
      */
-    virtual InputType GetInputType(unsigned int buttonKeyId) const = 0;
+    virtual INPUT GetInputType(unsigned int buttonKeyId) const = 0;
 
     /*!
      * \brief A button mapped to a digital action has been pressed or released

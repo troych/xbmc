@@ -33,11 +33,11 @@ namespace JOYSTICK
    */
   enum class HAT_DIRECTION
   {
-    UNKNOWN = 0x0,
-    UP      = 0x1,
-    DOWN    = 0x2,
-    RIGHT   = 0x4,
-    LEFT    = 0x8,
+    UNKNOWN = 0,
+    UP      = 1,
+    DOWN    = 2,
+    RIGHT   = 3,
+    LEFT    = 4,
   };
 
   /*!
@@ -74,5 +74,15 @@ namespace JOYSTICK
     NEGATIVE = -1,  // semiaxis lies in the interval [-1.0, 0.0]
     UNKNOWN  =  0,  // semiaxis is unknown or invalid
     POSITIVE =  1,  // semiaxis lies in the interval [0.0, 1.0]
+  };
+
+  /*!
+   * \brief Types of input available for scalar features
+   */
+  enum class INPUT
+  {
+    UNKNOWN,
+    DIGITAL,
+    ANALOG,
   };
 }

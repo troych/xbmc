@@ -41,7 +41,7 @@ namespace JOYSTICK
 
     // implementation of IJoystickInputHandler
     virtual std::string ControllerID(void) const override;
-    virtual InputType GetInputType(const FeatureName& feature) const override;
+    virtual INPUT GetInputType(const FeatureName& feature) const override;
     virtual bool OnButtonPress(const FeatureName& feature, bool bPressed) override;
     virtual bool OnButtonMotion(const FeatureName& feature, float magnitude) override;
     virtual bool OnAnalogStickMotion(const FeatureName& feature, float x, float y) override;

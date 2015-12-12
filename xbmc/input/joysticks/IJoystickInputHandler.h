@@ -25,13 +25,6 @@
 
 namespace JOYSTICK
 {
-  enum InputType
-  {
-    INPUT_TYPE_UNKNOWN,
-    INPUT_TYPE_DIGITAL,
-    INPUT_TYPE_ANALOG,
-  };
-
   /*!
    * \brief Interface for handling input events for game controllers
    */
@@ -50,10 +43,10 @@ namespace JOYSTICK
     /*!
      * \brief Get the type of input handled by the specified feature
      *
-     * \return INPUT_TYPE_DIGITAL for digital buttons, INPUT_TYPE_ANALOG for analog
-     *         buttons, or INPUT_TYPE_UNKNOWN otherwise
+     * \return INPUT::DIGITAL for digital buttons, INPUT::ANALOG for analog
+     *         buttons, or INPUT::UNKNOWN otherwise
      */
-    virtual InputType GetInputType(const FeatureName& feature) const = 0;
+    virtual INPUT GetInputType(const FeatureName& feature) const = 0;
 
     /*!
      * \brief A digital button has been pressed or released

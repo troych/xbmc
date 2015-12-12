@@ -252,13 +252,13 @@ bool CGenericJoystickInputHandling::OnPress(const FeatureName& feature)
   CLog::Log(LOGDEBUG, "CGenericJoystickInputHandling: %s feature [ %s ] pressed",
             m_handler->ControllerID().c_str(), feature.c_str());
 
-  const InputType inputType = m_handler->GetInputType(feature);
+  const INPUT inputType = m_handler->GetInputType(feature);
 
-  if (inputType == INPUT_TYPE_DIGITAL)
+  if (inputType == INPUT::DIGITAL)
   {
     bHandled = m_handler->OnButtonPress(feature, true);
   }
-  else if (inputType == INPUT_TYPE_ANALOG)
+  else if (inputType == INPUT::ANALOG)
   {
     StartDigitalRepeating(feature); // Analog actions repeat every frame
     bHandled = true;
