@@ -132,5 +132,6 @@ void CGUIFeatureList::CleanupButtons(void)
   m_buttons.clear();
 
   // Clear GUI
-  m_guiList->ClearAll();
+  if (m_guiList)
+    m_guiList->ClearAll();
 }

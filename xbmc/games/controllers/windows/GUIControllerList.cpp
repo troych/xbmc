@@ -95,5 +95,6 @@ void CGUIControllerList::OnSelect(unsigned int controllerIndex)
 
 void CGUIControllerList::CleanupButtons(void)
 {
-  m_controllerList->ClearAll();
+  if (m_controllerList)
+    m_controllerList->ClearAll();
 }
