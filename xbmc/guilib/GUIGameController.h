@@ -27,11 +27,12 @@ class CGUIGameController : public CGUIImage
 {
 public:
   CGUIGameController(int parentID, int controlID, float posX, float posY, float width, float height);
-  CGUIGameController(const CGUIGameController &from);
+  CGUIGameController(const CGUIGameController& other);
   virtual ~CGUIGameController(void) { }
-  virtual CGUIGameController *Clone() const { return new CGUIGameController(*this); }
 
-  virtual void Render();
+  // implementation of CGUIControl via CGUIImage
+  virtual CGUIGameController* Clone(void) const { return new CGUIGameController(*this); }
+  virtual void Render(void);
 
   void ActivateController(const GAME::GameControllerPtr& controller);
 

@@ -31,8 +31,8 @@ CGUIGameController::CGUIGameController(int parentID, int controlID, float posX, 
   ControlType = GUICONTROL_GAMECONTROLLER;
 }
 
-CGUIGameController::CGUIGameController(const CGUIGameController &from)
-  : CGUIImage(from)
+CGUIGameController::CGUIGameController(const CGUIGameController& other)
+  : CGUIImage(other)
 {
   ControlType = GUICONTROL_GAMECONTROLLER;
 }
