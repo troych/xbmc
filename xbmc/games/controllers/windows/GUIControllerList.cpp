@@ -48,6 +48,8 @@ bool CGUIControllerList::Initialize(void)
   if (m_controllerButton)
     m_controllerButton->SetVisible(false);
 
+  Refresh();
+
   return m_controllerList != nullptr &&
          m_controllerButton != nullptr;
 }
@@ -64,21 +66,24 @@ void CGUIControllerList::Refresh(void)
 {
   CleanupButtons();
 
-  m_controllers = CControllerManager::GetInstance().GetControllers();
-
-  unsigned int buttonId = 0;
-  for (const ControllerPtr& controller : m_controllers)
+  if (m_controllerList)
   {
-    CGUIButtonControl* pButton = new CGUIButtonControl(*m_controllerButton);
-    pButton->SetLabel(controller->Label());
-    pButton->SetID(CONTROL_CONTROLLER_BUTTONS_START + buttonId++);
-    pButton->SetVisible(true);
-    pButton->AllocResources();
-    m_controllerList->AddControl(pButton);
+    m_controllers = CControllerManager::GetInstance().GetControllers();
 
-    // Just in case
-    if (buttonId >= MAX_CONTROLLER_COUNT)
-      break;
+    unsigned int buttonId = 0;
+    for (const ControllerPtr& controller : m_controllers)
+    {
+      CGUIButtonControl* pButton = new CGUIButtonControl(*m_controllerButton);
+      pButton->SetLabel(controller->Label());
+      pButton->SetID(CONTROL_CONTROLLER_BUTTONS_START + buttonId++);
+      pButton->SetVisible(true);
+      pButton->AllocResources();
+      m_controllerList->AddControl(pButton);
+
+      // Just in case
+      if (buttonId >= MAX_CONTROLLER_COUNT)
+        break;
+    }
   }
 }
 
