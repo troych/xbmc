@@ -40,6 +40,7 @@ namespace GAME
     KEY,
     RELATIVE_POINTER,
     ABSOLUTE_POINTER,
+    MOTOR,
   };
 
   enum class GEOMETRY

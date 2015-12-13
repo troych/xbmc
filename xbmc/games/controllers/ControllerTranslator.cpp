@@ -33,6 +33,7 @@ const char* CControllerTranslator::TranslateFeatureType(FEATURE type)
     case FEATURE::KEY:              return LAYOUT_XML_ELM_KEY;
     case FEATURE::RELATIVE_POINTER: return LAYOUT_XML_ELM_RELATIVE_POINTER;
     case FEATURE::ABSOLUTE_POINTER: return LAYOUT_XML_ELM_ABSOLUTE_POINTER;
+    case FEATURE::MOTOR:            return LAYOUT_XML_ELM_MOTOR;
     default:
       break;
   }
@@ -47,6 +48,7 @@ FEATURE CControllerTranslator::TranslateFeatureType(const std::string& strType)
   if (strType == LAYOUT_XML_ELM_KEY)              return FEATURE::KEY;
   if (strType == LAYOUT_XML_ELM_RELATIVE_POINTER) return FEATURE::RELATIVE_POINTER;
   if (strType == LAYOUT_XML_ELM_ABSOLUTE_POINTER) return FEATURE::ABSOLUTE_POINTER;
+  if (strType == LAYOUT_XML_ELM_MOTOR)            return FEATURE::MOTOR;
 
   return FEATURE::UNKNOWN;
 }
