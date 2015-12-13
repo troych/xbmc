@@ -72,7 +72,7 @@ bool CGUIControllerWindow::OnMessage(CGUIMessage& message)
     }
     case GUI_MSG_FOCUSED:
     {
-      int controlId = message.GetSenderId();
+      int controlId = message.GetControlId();
 
       if (CONTROL_CONTROLLER_BUTTONS_START <= controlId && controlId < CONTROL_CONTROLLER_BUTTONS_END)
       {
@@ -84,6 +84,7 @@ bool CGUIControllerWindow::OnMessage(CGUIMessage& message)
         OnFeatureFocused(controlId - CONTROL_FEATURE_BUTTONS_START);
         return true;
       }
+      break;
     }
   }
 
