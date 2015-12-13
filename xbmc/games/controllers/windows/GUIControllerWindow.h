@@ -35,9 +35,9 @@ namespace GAME
     virtual bool OnMessage(CGUIMessage& message) override;
 
     // implementation of IConfigurationWindow
+    virtual void FocusController(unsigned int controllerIndex) override;
     virtual void FocusFeature(unsigned int featureIndex) override;
     virtual void SetLabel(unsigned int featureIndex, const std::string& strLabel) override;
-    virtual void FocusController(unsigned int controllerIndex) override;
 
   protected:
     // implementation of CGUIWindow

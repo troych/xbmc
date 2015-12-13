@@ -149,6 +149,13 @@ void CGUIControllerWindow::OnDeinitWindow(int nextWindowID)
   CGUIWindow::OnDeinitWindow(nextWindowID);
 }
 
+void CGUIControllerWindow::FocusController(unsigned int controllerIndex)
+{
+  // TODO: App messenger
+  CGUIMessage msg(GUI_MSG_SETFOCUS, GetID(), CONTROL_CONTROLLER_BUTTONS_START + controllerIndex);
+  OnMessage(msg);
+}
+
 void CGUIControllerWindow::FocusFeature(unsigned int featureIndex)
 {
   // TODO: App messenger
@@ -161,13 +168,6 @@ void CGUIControllerWindow::SetLabel(unsigned int featureIndex, const std::string
   // TODO: App messenger
   CGUIMessage msg(GUI_MSG_LABEL_SET, GetID(), CONTROL_FEATURE_BUTTONS_START + featureIndex);
   msg.SetLabel(strLabel);
-  OnMessage(msg);
-}
-
-void CGUIControllerWindow::FocusController(unsigned int controllerIndex)
-{
-  // TODO: App messenger
-  CGUIMessage msg(GUI_MSG_SETFOCUS, GetID(), CONTROL_CONTROLLER_BUTTONS_START + controllerIndex);
   OnMessage(msg);
 }
 
