@@ -19,6 +19,7 @@
  */
 
 #include "GUIControllerList.h"
+#include "GUIControllerWindow.h"
 #include "GUIFeatureList.h"
 #include "GUIGameDefines.h"
 #include "games/controllers/Controller.h"
@@ -27,23 +28,25 @@
 #include "guilib/GUIControlGroupList.h"
 #include "guilib/GUIWindow.h"
 
+#include <assert.h>
+
 using namespace GAME;
 
-CGUIControllerList::CGUIControllerList(CGUIWindow* window, IFeatureList* featureList) :
-  m_window(window),
+CGUIControllerList::CGUIControllerList(CGUIControllerWindow* window, IFeatureList* featureList) :
+  m_guiWindow(window),
   m_featureList(featureList),
   m_controllerList(nullptr),
-  m_controllerButton(nullptr)
+  m_controllerButton(nullptr),
+  m_window(window),
+  m_focusedController(0)
 {
+  assert(m_featureList != nullptr);
 }
 
 bool CGUIControllerList::Initialize(void)
 {
-  if (m_featureList == nullptr)
-    return false;
-
-  m_controllerList = dynamic_cast<CGUIControlGroupList*>(m_window->GetControl(CONTROL_CONTROLLER_LIST));
-  m_controllerButton = dynamic_cast<CGUIButtonControl*>(m_window->GetControl(CONTROL_CONTROLLER_BUTTON_TEMPLATE));
+  m_controllerList = dynamic_cast<CGUIControlGroupList*>(m_guiWindow->GetControl(CONTROL_CONTROLLER_LIST));
+  m_controllerButton = dynamic_cast<CGUIButtonControl*>(m_guiWindow->GetControl(CONTROL_CONTROLLER_BUTTON_TEMPLATE));
 
   if (m_controllerButton)
     m_controllerButton->SetVisible(false);
@@ -68,6 +71,11 @@ void CGUIControllerList::Refresh(void)
 
   if (m_controllerList)
   {
+    // Remember which controller is focused
+    std::string strFocusedControllerId;
+    if (m_focusedController < m_controllers.size())
+      strFocusedControllerId = m_controllers[m_focusedController]->ID();
+
     m_controllers = CControllerManager::GetInstance().GetControllers();
 
     unsigned int buttonId = 0;
@@ -84,13 +92,35 @@ void CGUIControllerList::Refresh(void)
       if (buttonId >= MAX_CONTROLLER_COUNT)
         break;
     }
+
+    // Reselect previous controller
+    if (strFocusedControllerId.empty())
+    {
+      m_focusedController = 0;
+    }
+    else
+    {
+      for (unsigned int i = 0; i < m_controllers.size(); i++)
+      {
+        if (strFocusedControllerId == m_controllers[i]->ID())
+        {
+          m_focusedController = i;
+          break;
+        }
+      }
+    }
+
+    m_window->FocusController(m_focusedController);
   }
 }
 
 void CGUIControllerList::OnFocus(unsigned int controllerIndex)
 {
   if (controllerIndex < m_controllers.size())
+  {
+    m_focusedController = controllerIndex;
     m_featureList->Load(m_controllers[controllerIndex]);
+  }
 }
 
 void CGUIControllerList::OnSelect(unsigned int controllerIndex)

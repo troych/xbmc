@@ -28,10 +28,12 @@ class CGUIWindow;
 
 namespace GAME
 {
+  class CGUIControllerWindow;
+
   class CGUIControllerList : public IControllerList
   {
   public:
-    CGUIControllerList(CGUIWindow* window, IFeatureList* featureList);
+    CGUIControllerList(CGUIControllerWindow* window, IFeatureList* featureList);
     virtual ~CGUIControllerList(void) { Deinitialize(); }
 
     // implementation of IControllerList
@@ -45,12 +47,14 @@ namespace GAME
     void CleanupButtons(void);
 
     // GUI stuff
-    CGUIWindow* const     m_window;
+    CGUIWindow* const     m_guiWindow;
     IFeatureList* const   m_featureList;
     CGUIControlGroupList* m_controllerList;
     CGUIButtonControl*    m_controllerButton;
 
     // Game stuff
-    ControllerVector  m_controllers;
+    IConfigurationWindow* const m_window;
+    ControllerVector            m_controllers;
+    unsigned int                m_focusedController;
   };
 }
