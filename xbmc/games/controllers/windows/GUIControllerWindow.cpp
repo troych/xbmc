@@ -63,6 +63,11 @@ bool CGUIControllerWindow::OnMessage(CGUIMessage& message)
         GetMoreControllers();
         return true;
       }
+      if (CONTROL_CONTROLLER_BUTTONS_START <= controlId && controlId < CONTROL_CONTROLLER_BUTTONS_END)
+      {
+        OnControllerSelected(controlId - CONTROL_FEATURE_BUTTONS_START);
+        return true;
+      }
       else if (CONTROL_FEATURE_BUTTONS_START <= controlId && controlId < CONTROL_FEATURE_BUTTONS_END)
       {
         OnFeatureSelected(controlId - CONTROL_FEATURE_BUTTONS_START);
@@ -173,6 +178,12 @@ void CGUIControllerWindow::OnControllerFocused(unsigned int controllerIndex)
 {
   if (m_controllerList)
     m_controllerList->OnFocus(controllerIndex);
+}
+
+void CGUIControllerWindow::OnControllerSelected(unsigned int controllerIndex)
+{
+  if (m_controllerList)
+    m_controllerList->OnSelect(controllerIndex);
 }
 
 void CGUIControllerWindow::OnFeatureFocused(unsigned int featureIndex)

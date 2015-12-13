@@ -46,6 +46,7 @@ namespace GAME
 
   private:
     void OnControllerFocused(unsigned int controllerIndex);
+    void OnControllerSelected(unsigned int controllerIndex);
     void OnFeatureFocused(unsigned int featureIndex);
     void OnFeatureSelected(unsigned int featureIndex);
 
