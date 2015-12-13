@@ -195,7 +195,7 @@ void CGUIControllerWindow::OnFeatureFocused(unsigned int featureIndex)
 void CGUIControllerWindow::OnFeatureSelected(unsigned int featureIndex)
 {
   if (m_featureList)
-    m_featureList->OnFocus(featureIndex);
+    m_featureList->OnSelect(featureIndex);
 }
 
 void CGUIControllerWindow::GetMoreControllers(void)
