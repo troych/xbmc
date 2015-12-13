@@ -77,12 +77,10 @@ bool CGUIControllerWindow::OnMessage(CGUIMessage& message)
       if (CONTROL_CONTROLLER_BUTTONS_START <= controlId && controlId < CONTROL_CONTROLLER_BUTTONS_END)
       {
         OnControllerFocused(controlId - CONTROL_CONTROLLER_BUTTONS_START);
-        return true;
       }
       else if (CONTROL_FEATURE_BUTTONS_START <= controlId && controlId < CONTROL_FEATURE_BUTTONS_END)
       {
         OnFeatureFocused(controlId - CONTROL_FEATURE_BUTTONS_START);
-        return true;
       }
       break;
     }
