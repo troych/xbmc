@@ -33,11 +33,11 @@ namespace JOYSTICK
    */
   enum class HAT_DIRECTION
   {
-    UNKNOWN = 0,
-    UP      = 1,
-    DOWN    = 2,
-    RIGHT   = 3,
-    LEFT    = 4,
+    UNKNOWN = 0x0,
+    UP      = 0x1,
+    DOWN    = 0x2,
+    RIGHT   = 0x4,
+    LEFT    = 0x8,
   };
 
   /*!
