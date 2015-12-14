@@ -21,6 +21,7 @@
 
 #include "IConfigurationWindow.h"
 #include "games/controllers/ControllerTypes.h"
+#include "utils/Observer.h"
 
 class CGUIButtonControl;
 class CGUIControlGroupList;
@@ -30,7 +31,8 @@ namespace GAME
 {
   class CGUIControllerWindow;
 
-  class CGUIControllerList : public IControllerList
+  class CGUIControllerList : public IControllerList,
+                             public Observer
   {
   public:
     CGUIControllerList(CGUIControllerWindow* window, IFeatureList* featureList);
@@ -43,7 +45,12 @@ namespace GAME
     virtual void OnFocus(unsigned int controllerIndex) override;
     virtual void OnSelect(unsigned int controllerIndex) override;
 
+    // implementation of Observer
+    virtual void Notify(const Observable& obs, const ObservableMessage msg) override;
+
   private:
+    bool RefreshControllers(void);
+
     void CleanupButtons(void);
 
     // GUI stuff

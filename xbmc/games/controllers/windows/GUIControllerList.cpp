@@ -22,14 +22,17 @@
 #include "GUIControllerWindow.h"
 #include "GUIFeatureList.h"
 #include "GUIGameDefines.h"
+#include "addons/AddonManager.h"
 #include "games/controllers/Controller.h"
 #include "games/controllers/ControllerManager.h"
+#include "games/controllers/DefaultController.h"
 #include "guilib/GUIButtonControl.h"
 #include "guilib/GUIControlGroupList.h"
 #include "guilib/GUIWindow.h"
 
 #include <assert.h>
 
+using namespace ADDON;
 using namespace GAME;
 
 CGUIControllerList::CGUIControllerList(CGUIControllerWindow* window, IFeatureList* featureList) :
@@ -53,12 +56,16 @@ bool CGUIControllerList::Initialize(void)
 
   Refresh();
 
+  CAddonMgr::GetInstance().RegisterObserver(this);
+
   return m_controllerList != nullptr &&
          m_controllerButton != nullptr;
 }
 
 void CGUIControllerList::Deinitialize(void)
 {
+  CAddonMgr::GetInstance().UnregisterObserver(this);
+
   CleanupButtons();
 
   m_controllerList = nullptr;
@@ -69,6 +76,9 @@ void CGUIControllerList::Refresh(void)
 {
   CleanupButtons();
 
+  if (!RefreshControllers())
+    return;
+
   if (m_controllerList)
   {
     // Remember which controller is focused
@@ -76,11 +86,11 @@ void CGUIControllerList::Refresh(void)
     if (0 <= m_focusedController && m_focusedController < (int)m_controllers.size())
       strFocusedControllerId = m_controllers[m_focusedController]->ID();
 
-    m_controllers = CControllerManager::GetInstance().GetControllers();
-
     unsigned int buttonId = 0;
-    for (const ControllerPtr& controller : m_controllers)
+    for (ControllerVector::const_iterator it = m_controllers.begin(); it != m_controllers.end(); ++it)
     {
+      const ControllerPtr& controller = *it;
+
       CGUIButtonControl* pButton = new CGUIButtonControl(*m_controllerButton);
       pButton->SetLabel(controller->Label());
       pButton->SetID(CONTROL_CONTROLLER_BUTTONS_START + buttonId++);
@@ -130,6 +140,92 @@ void CGUIControllerList::OnSelect(unsigned int controllerIndex)
   {
     // TODO
   }
+}
+
+void CGUIControllerList::Notify(const Observable& obs, const ObservableMessage msg)
+{
+  if (msg == ObservableMessageAddons)
+    Refresh();
+}
+
+bool CGUIControllerList::RefreshControllers(void)
+{
+  bool bChanged = false;
+
+  // Get controller add-ons
+  ADDON::VECADDONS addons;
+  CAddonMgr::GetInstance().GetAddons(ADDON_GAME_CONTROLLER, addons, true);
+
+  // Convert to controllers
+  ControllerVector controllers;
+  std::transform(addons.begin(), addons.end(), std::back_inserter(controllers),
+    [](const AddonPtr& addon)
+    {
+      return std::static_pointer_cast<CController>(addon);
+    });
+
+  // Look for new controllers
+  ControllerVector newControllers;
+  for (ControllerVector::const_iterator it = controllers.begin(); it != controllers.end(); ++it)
+  {
+    const ControllerPtr& controller = *it;
+
+    if (std::find_if(m_controllers.begin(), m_controllers.end(),
+      [controller](const ControllerPtr& ctrl)
+      {
+        return ctrl->ID() == controller->ID();
+      }) == m_controllers.end())
+    {
+      newControllers.push_back(controller);
+    }
+  }
+
+  // Remove old controllers
+  for (ControllerVector::iterator it = m_controllers.begin(); it != m_controllers.end(); /* ++it */)
+  {
+    ControllerPtr& controller = *it;
+
+    if (std::find_if(controllers.begin(), controllers.end(),
+      [controller](const ControllerPtr& ctrl)
+      {
+        return ctrl->ID() == controller->ID();
+      }) == newControllers.end())
+    {
+      it = m_controllers.erase(it); // Not found, remove it
+      bChanged = true;
+    }
+    else
+    {
+      ++it;
+    }
+  }
+
+  // Add new controllers
+  for (ControllerVector::iterator it = newControllers.begin(); it != newControllers.end(); ++it)
+  {
+    ControllerPtr& newController = *it;
+
+    if (newController->LoadLayout())
+    {
+      m_controllers.push_back(newController);
+      bChanged = true;
+    }
+  }
+
+  // Sort add-ons, with default controller first
+  if (bChanged)
+  {
+    std::sort(m_controllers.begin(), m_controllers.end(),
+      [](const ControllerPtr& i, const ControllerPtr& j)
+      {
+        if (i->ID() == DEFAULT_CONTROLLER_ID && j->ID() != DEFAULT_CONTROLLER_ID) return true;
+        if (i->ID() != DEFAULT_CONTROLLER_ID && j->ID() == DEFAULT_CONTROLLER_ID) return false;
+
+        return i->ID() < j->ID();
+      });
+  }
+
+  return bChanged;
 }
 
 void CGUIControllerList::CleanupButtons(void)
