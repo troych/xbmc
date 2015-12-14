@@ -189,8 +189,6 @@ namespace GAME
 
     virtual void Run(unsigned int featureIndex) = 0;
 
-    virtual bool IsWizardRunning(void) const = 0;
-
     virtual bool Abort(void) = 0;
   };
 }

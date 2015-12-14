@@ -38,7 +38,6 @@ namespace GAME
 
     // implementation of IConfigurationWizard
     virtual void Run(unsigned int featureIndex) override;
-    virtual bool IsWizardRunning(void) const override;
     virtual bool Abort(void) override;
 
     // implementation of IJoystickButtonMapper

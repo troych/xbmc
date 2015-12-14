@@ -43,11 +43,6 @@ void CGUIConfigurationWizard::Run(unsigned int featureIndex)
   Create();
 }
 
-bool CGUIConfigurationWizard::IsWizardRunning(void) const
-{
-  return CThread::IsRunning();
-}
-
 bool CGUIConfigurationWizard::Abort(void)
 {
   if (IsRunning())
