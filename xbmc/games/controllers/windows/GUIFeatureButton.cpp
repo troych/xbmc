@@ -74,7 +74,7 @@ bool CGUIFeatureButton::PromptForInput(void)
 
   m_bIsMapping = false;
 
-  return m_bAborted;
+  return !m_bAborted;
 }
 
 void CGUIFeatureButton::PromptButton(void)
