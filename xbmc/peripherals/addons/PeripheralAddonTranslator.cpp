@@ -160,7 +160,7 @@ SEMIAXIS_DIRECTION CPeripheralAddonTranslator::TranslateSemiAxisDirection(JOYSTI
     default:
       break;
   }
-  return SEMIAXIS_DIRECTION::UNKNOWN;
+  return SEMIAXIS_DIRECTION::ZERO;
 }
 
 JOYSTICK_DRIVER_SEMIAXIS_DIRECTION CPeripheralAddonTranslator::TranslateSemiAxisDirection(SEMIAXIS_DIRECTION dir)
