@@ -47,13 +47,6 @@ namespace JOYSTICK
     virtual std::string ControllerID(void) const = 0;
 
     /*!
-     * \brief Check if the button mapper is waiting for button input
-     *
-     * \return True if the button mapper is expecting input, false otherwise
-     */
-    virtual bool IsMapping(void) const = 0;
-
-    /*!
      * \brief Handle button/hat press or axis threshold
      *
      * \param buttonMap  The button map being manipulated
