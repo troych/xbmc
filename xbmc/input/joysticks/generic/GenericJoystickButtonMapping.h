@@ -19,7 +19,6 @@
  */
 #pragma once
 
-#include "input/joysticks/DriverPrimitive.h"
 #include "input/joysticks/IJoystickDriverHandler.h"
 
 #include <vector>
@@ -29,15 +28,19 @@ namespace JOYSTICK
   class IJoystickButtonMap;
   class IJoystickButtonMapper;
 
-  /*!
-   * \ingroup joysticks_generic
-   *
-   * \brief Generic implementation of IJoystickDriverHandler to translate raw
-   *        actions into physical joystick features using the provided button map
+  /*
+   * \brief Generic implementation of a class that provides button mapping by
+   *        translating driver events to button mapping commands
    */
   class CGenericJoystickButtonMapping : public IJoystickDriverHandler
   {
   public:
+    /*
+     * \brief Constructor for CGenericJoystickButtonMapping
+     *
+     * \param buttonMapper Carries out button-mapping commands using <buttonMap>
+     * \param buttonMap The button map given to <buttonMapper> on each command
+     */
     CGenericJoystickButtonMapping(IJoystickButtonMapper* buttonMapper, IJoystickButtonMap* buttonMap);
 
     virtual ~CGenericJoystickButtonMapping(void) { }
@@ -49,13 +52,7 @@ namespace JOYSTICK
     virtual void ProcessAxisMotions(void) { }
 
   private:
-    void Activate(const CDriverPrimitive& semiAxis);
-    void Deactivate(const CDriverPrimitive& semiAxis);
-    bool IsActive(const CDriverPrimitive& semiAxis);
-
     IJoystickButtonMapper* const m_buttonMapper;
     IJoystickButtonMap* const    m_buttonMap;
-
-    std::vector<CDriverPrimitive> m_activatedAxes;
   };
 }
