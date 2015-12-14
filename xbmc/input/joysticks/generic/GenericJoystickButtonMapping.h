@@ -19,6 +19,7 @@
  */
 #pragma once
 
+#include "input/joysticks/DriverPrimitive.h"
 #include "input/joysticks/IJoystickDriverHandler.h"
 
 #include <vector>
@@ -31,6 +32,11 @@ namespace JOYSTICK
   /*
    * \brief Generic implementation of a class that provides button mapping by
    *        translating driver events to button mapping commands
+   *
+   * Button mapping commands are invoked instantly for buttons and hats.
+   *
+   * Button mapping commands are deferred for a short while after an axis is
+   * activated, and only one command will be invoked per activation.
    */
   class CGenericJoystickButtonMapping : public IJoystickDriverHandler
   {
@@ -49,10 +55,23 @@ namespace JOYSTICK
     virtual bool OnButtonMotion(unsigned int buttonIndex, bool bPressed) override;
     virtual bool OnHatMotion(unsigned int hatIndex, HAT_STATE state) override;
     virtual bool OnAxisMotion(unsigned int axisIndex, float position) override;
-    virtual void ProcessAxisMotions(void) { }
+    virtual void ProcessAxisMotions(void) override;
 
   private:
+    void Activate(const CDriverPrimitive& semiAxis);
+    void Deactivate(const CDriverPrimitive& semiAxis);
+    bool IsActive(const CDriverPrimitive& semiAxis);
+
     IJoystickButtonMapper* const m_buttonMapper;
     IJoystickButtonMap* const    m_buttonMap;
+
+    struct ActivatedAxis
+    {
+      unsigned int     timestamp;
+      CDriverPrimitive driverPrimitive;
+      bool             bEmitted; // true if this axis has emited a button-mapping command
+    };
+
+    std::vector<ActivatedAxis> m_activatedAxes;
   };
 }
