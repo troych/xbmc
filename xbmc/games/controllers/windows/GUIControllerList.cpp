@@ -82,9 +82,11 @@ void CGUIControllerList::Refresh(void)
   if (m_controllerList)
   {
     // Remember which controller is focused
+    /* TODO
     std::string strFocusedControllerId;
     if (0 <= m_focusedController && m_focusedController < (int)m_controllers.size())
       strFocusedControllerId = m_controllers[m_focusedController]->ID();
+    */
 
     unsigned int buttonId = 0;
     for (ControllerVector::const_iterator it = m_controllers.begin(); it != m_controllers.end(); ++it)
@@ -106,6 +108,7 @@ void CGUIControllerList::Refresh(void)
     // Reselect previous controller
     unsigned int previousController = 0;
 
+    /* TODO
     if (!strFocusedControllerId.empty())
     {
       for (unsigned int i = 0; i < m_controllers.size(); i++)
@@ -117,6 +120,7 @@ void CGUIControllerList::Refresh(void)
         }
       }
     }
+    */
 
     m_window->FocusController(previousController);
   }
