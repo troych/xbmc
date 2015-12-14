@@ -748,7 +748,7 @@ PeripheralAddonPtr CPeripherals::GetAddon(const CPeripheral* device)
 
 void CPeripherals::RegisterJoystickButtonMapper(IJoystickButtonMapper* mapper)
 {
-  CSingleLock lock(m_critSection);
+  //CSingleLock lock(m_critSection); // TODO: Causes deadlock
 
   std::vector<CPeripheral*> peripherals;
 
@@ -761,7 +761,7 @@ void CPeripherals::RegisterJoystickButtonMapper(IJoystickButtonMapper* mapper)
 
 void CPeripherals::UnregisterJoystickButtonMapper(IJoystickButtonMapper* mapper)
 {
-  CSingleLock lock(m_critSection);
+  //CSingleLock lock(m_critSection); // TODO: Causes deadlock
 
   std::vector<CPeripheral*> peripherals;
 
