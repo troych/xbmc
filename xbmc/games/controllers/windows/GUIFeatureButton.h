@@ -44,7 +44,6 @@ namespace GAME
 
     // implementation of IJoystickButtonMapper
     virtual std::string ControllerID(void) const override { return m_strControllerId; }
-    virtual bool IsMapping(void) const override { return true; }
     virtual bool MapPrimitive(JOYSTICK::IJoystickButtonMap* buttonMap, const JOYSTICK::CDriverPrimitive& primitive) override;
 
   private:

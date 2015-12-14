@@ -43,7 +43,6 @@ namespace GAME
 
     // implementation of IJoystickButtonMapper
     virtual std::string ControllerID(void) const override;
-    virtual bool IsMapping(void) const override { return true; } // Absorb all input while wizard is running
     virtual bool MapPrimitive(JOYSTICK::IJoystickButtonMap* buttonMap, const JOYSTICK::CDriverPrimitive& primitive) override;
 
     // implementation of Observer

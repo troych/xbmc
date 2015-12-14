@@ -180,11 +180,8 @@ bool CGUIFeatureButton::MapPrimitive(IJoystickButtonMap* buttonMap, const JOYSTI
   if (primitive.Type() == JOYSTICK::CDriverPrimitive::Button &&
       primitive.Index() == ESC_KEY_CODE)
   {
-    if (IsMapping())
-    {
-      bHandled = true;
-      Abort();
-    }
+    bHandled = true;
+    Abort();
   }
   else
   {
