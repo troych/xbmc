@@ -55,6 +55,6 @@ namespace GAME
     // Game stuff
     IConfigurationWindow* const m_window;
     ControllerVector            m_controllers;
-    unsigned int                m_focusedController;
+    int                         m_focusedController;
   };
 }

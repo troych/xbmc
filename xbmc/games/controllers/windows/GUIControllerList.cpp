@@ -38,7 +38,7 @@ CGUIControllerList::CGUIControllerList(CGUIControllerWindow* window, IFeatureLis
   m_controllerList(nullptr),
   m_controllerButton(nullptr),
   m_window(window),
-  m_focusedController(0)
+  m_focusedController(-1)
 {
   assert(m_featureList != nullptr);
 }
@@ -73,7 +73,7 @@ void CGUIControllerList::Refresh(void)
   {
     // Remember which controller is focused
     std::string strFocusedControllerId;
-    if (m_focusedController < m_controllers.size())
+    if (0 <= m_focusedController && m_focusedController < (int)m_controllers.size())
       strFocusedControllerId = m_controllers[m_focusedController]->ID();
 
     m_controllers = CControllerManager::GetInstance().GetControllers();
@@ -94,23 +94,21 @@ void CGUIControllerList::Refresh(void)
     }
 
     // Reselect previous controller
-    if (strFocusedControllerId.empty())
-    {
-      m_focusedController = 0;
-    }
-    else
+    unsigned int previousController = 0;
+
+    if (!strFocusedControllerId.empty())
     {
       for (unsigned int i = 0; i < m_controllers.size(); i++)
       {
         if (strFocusedControllerId == m_controllers[i]->ID())
         {
-          m_focusedController = i;
+          previousController = i;
           break;
         }
       }
     }
 
-    m_window->FocusController(m_focusedController);
+    m_window->FocusController(previousController);
   }
 }
 
@@ -118,8 +116,11 @@ void CGUIControllerList::OnFocus(unsigned int controllerIndex)
 {
   if (controllerIndex < m_controllers.size())
   {
-    m_focusedController = controllerIndex;
-    m_featureList->Load(m_controllers[controllerIndex]);
+    if (m_focusedController != (int)controllerIndex)
+    {
+      m_focusedController = controllerIndex;
+      m_featureList->Load(m_controllers[controllerIndex]);
+    }
   }
 }
 
