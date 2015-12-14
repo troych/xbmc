@@ -20,12 +20,16 @@
 #pragma once
 
 #include "IConfigurationWindow.h"
+#include "input/joysticks/IJoystickButtonMapper.h"
 #include "threads/Thread.h"
+#include "utils/Observer.h"
 
 namespace GAME
 {
   class CGUIConfigurationWizard : public IConfigurationWizard,
-                                  public CThread
+                                  public JOYSTICK::IJoystickButtonMapper,
+                                  public CThread,
+                                  public Observer
   {
   public:
     CGUIConfigurationWizard(IFeatureList* featureList);
@@ -34,14 +38,27 @@ namespace GAME
 
     // implementation of IConfigurationWizard
     virtual void Run(unsigned int featureIndex) override;
+    virtual bool IsWizardRunning(void) const override;
     virtual bool Abort(void) override;
+
+    // implementation of IJoystickButtonMapper
+    virtual std::string ControllerID(void) const override;
+    virtual bool IsMapping(void) const override { return true; } // Absorb all input while wizard is running
+    virtual bool MapPrimitive(JOYSTICK::IJoystickButtonMap* buttonMap, const JOYSTICK::CDriverPrimitive& primitive) override;
+
+    // implementation of Observer
+    virtual void Notify(const Observable& obs, const ObservableMessage msg) override;
 
   protected:
     // implementation of CThread
     virtual void Process(void) override;
 
   private:
+    void InstallHooks(void);
+    void RemoveHooks(void);
+
     IFeatureList* const m_features;
+    JOYSTICK::IJoystickButtonMapper* m_buttonMapper;
     unsigned int        m_featureIndex;
     bool                m_bAborted;
   };

@@ -89,14 +89,22 @@ void CGUIFeatureList::Load(const ControllerPtr& controller)
   }
 }
 
+JOYSTICK::IJoystickButtonMapper* CGUIFeatureList::GetButtonMapper(void)
+{
+  return m_buttons[m_focusedFeature];
+}
+
 void CGUIFeatureList::OnFocus(unsigned int index)
 {
-  if (m_focusedFeature == index)
-    return; // Already focused
+  if (index < m_buttons.size())
+  {
+    if (m_focusedFeature == index)
+      return; // Already focused
 
-  OnUnfocus();
+    OnUnfocus();
 
-  m_focusedFeature = index;
+    m_focusedFeature = index;
+  }
 }
 
 void CGUIFeatureList::OnSelect(unsigned int index)
@@ -126,7 +134,7 @@ bool CGUIFeatureList::PromptForInput(unsigned int featureIndex)
 
 void CGUIFeatureList::AbortPrompt(void)
 {
-  for (std::vector<IFeatureButton*>::iterator it = m_buttons.begin(); it != m_buttons.end(); ++it)
+  for (std::vector<CGUIFeatureButton*>::iterator it = m_buttons.begin(); it != m_buttons.end(); ++it)
     (*it)->Abort();
 }
 

@@ -25,13 +25,11 @@
 #include "input/joysticks/IJoystickButtonMapper.h"
 #include "input/joysticks/JoystickTypes.h"
 #include "threads/Event.h"
-#include "utils/Observer.h"
 
 namespace GAME
 {
   class CGUIFeatureButton : public IFeatureButton,
-                            public JOYSTICK::IJoystickButtonMapper,
-                            public Observer
+                            public JOYSTICK::IJoystickButtonMapper
   {
   public:
     CGUIFeatureButton(IConfigurationWindow* window,
@@ -46,11 +44,8 @@ namespace GAME
 
     // implementation of IJoystickButtonMapper
     virtual std::string ControllerID(void) const override { return m_strControllerId; }
-    virtual bool IsMapping(void) const override { return m_bIsMapping; }
+    virtual bool IsMapping(void) const override { return true; }
     virtual bool MapPrimitive(JOYSTICK::IJoystickButtonMap* buttonMap, const JOYSTICK::CDriverPrimitive& primitive) override;
-
-    // implementation of Observer
-    virtual void Notify(const Observable& obs, const ObservableMessage msg) override;
 
   private:
     void PromptButton(void);
@@ -58,14 +53,10 @@ namespace GAME
 
     void SetLabel(const std::string& strPromptMsg);
 
-    void InstallHooks(void);
-    void RemoveHooks(void);
-
     IConfigurationWindow* const  m_window;
     const std::string            m_strControllerId;
     const CControllerFeature     m_feature;
     const unsigned int           m_featureIndex;
-    bool                         m_bIsMapping;
     JOYSTICK::CARDINAL_DIRECTION m_analogStickDirection;
     JOYSTICK::CDriverPrimitive   m_lastPrimtive; // Equal to the most recent primitive being mapped
     bool                         m_bAborted;

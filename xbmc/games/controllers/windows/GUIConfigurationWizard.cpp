@@ -19,8 +19,11 @@
  */
 
 #include "GUIConfigurationWizard.h"
+#include "games/controllers/Controller.h"
+#include "peripherals/Peripherals.h"
 
 using namespace GAME;
+using namespace PERIPHERALS;
 
 CGUIConfigurationWizard::CGUIConfigurationWizard(IFeatureList* featureList) :
   CThread("GUIConfigurationWizard"),
@@ -40,6 +43,11 @@ void CGUIConfigurationWizard::Run(unsigned int featureIndex)
   Create();
 }
 
+bool CGUIConfigurationWizard::IsWizardRunning(void) const
+{
+  return CThread::IsRunning();
+}
+
 bool CGUIConfigurationWizard::Abort(void)
 {
   if (IsRunning())
@@ -54,9 +62,56 @@ bool CGUIConfigurationWizard::Abort(void)
 
 void CGUIConfigurationWizard::Process(void)
 {
+  InstallHooks();
   for (m_bAborted = false; !m_bAborted; m_featureIndex++)
   {
     if (!m_features->PromptForInput(m_featureIndex))
       m_bAborted = true;
+  }
+  RemoveHooks();
+}
+
+std::string CGUIConfigurationWizard::ControllerID(void) const
+{
+  ControllerPtr controller = m_features->GetActiveController();
+  if (controller)
+    return controller->ID();
+
+  return "";
+}
+
+bool CGUIConfigurationWizard::MapPrimitive(JOYSTICK::IJoystickButtonMap* buttonMap, const JOYSTICK::CDriverPrimitive& primitive)
+{
+  JOYSTICK::IJoystickButtonMapper* buttonMapper = m_features->GetButtonMapper();
+  if (buttonMapper)
+    return buttonMapper->MapPrimitive(buttonMap, primitive);
+
+  return false;
+}
+
+void CGUIConfigurationWizard::InstallHooks(void)
+{
+  g_peripherals.RegisterJoystickButtonMapper(this);
+  g_peripherals.RegisterObserver(this);
+}
+
+void CGUIConfigurationWizard::RemoveHooks(void)
+{
+  g_peripherals.UnregisterObserver(this);
+  g_peripherals.UnregisterJoystickButtonMapper(this);
+}
+
+void CGUIConfigurationWizard::Notify(const Observable& obs, const ObservableMessage msg)
+{
+  switch (msg)
+  {
+    case ObservableMessagePeripheralsChanged:
+    {
+      g_peripherals.UnregisterJoystickButtonMapper(this);
+      g_peripherals.RegisterJoystickButtonMapper(this);
+      break;
+    }
+    default:
+      break;
   }
 }

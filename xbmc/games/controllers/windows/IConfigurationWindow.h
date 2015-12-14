@@ -23,6 +23,11 @@
 
 #include <string>
 
+namespace JOYSTICK
+{
+  class IJoystickButtonMapper;
+}
+
 namespace GAME
 {
   /*!
@@ -130,6 +135,13 @@ namespace GAME
      */
     virtual void Load(const ControllerPtr& controller) = 0;
 
+    virtual ControllerPtr GetActiveController(void) = 0;
+
+    /*!
+     * \brief Return a button mapper for the focused feature
+     */
+    virtual JOYSTICK::IJoystickButtonMapper* GetButtonMapper(void) = 0;
+
     /*!
      * \brief  Focus has been set to the specified feature
      * \param  featureIndex The index of the feature being focused
@@ -176,6 +188,8 @@ namespace GAME
     virtual ~IConfigurationWizard(void) { }
 
     virtual void Run(unsigned int featureIndex) = 0;
+
+    virtual bool IsWizardRunning(void) const = 0;
 
     virtual bool Abort(void) = 0;
   };

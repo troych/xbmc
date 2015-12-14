@@ -28,12 +28,10 @@
 #include "guilib/LocalizeStrings.h"
 #include "input/joysticks/DriverPrimitive.h"
 #include "input/joysticks/IJoystickButtonMap.h"
-#include "peripherals/Peripherals.h"
 #include "utils/StringUtils.h"
 
 using namespace GAME;
 using namespace JOYSTICK;
-using namespace PERIPHERALS;
 
 #define ESC_KEY_CODE  27
 
@@ -45,7 +43,6 @@ CGUIFeatureButton::CGUIFeatureButton(IConfigurationWindow* window,
   m_strControllerId(strControllerId),
   m_feature(feature),
   m_featureIndex(featureIndex),
-  m_bIsMapping(false),
   m_analogStickDirection(CARDINAL_DIRECTION::UNKNOWN),
   m_bAborted(false)
 {
@@ -54,7 +51,6 @@ CGUIFeatureButton::CGUIFeatureButton(IConfigurationWindow* window,
 bool CGUIFeatureButton::PromptForInput(void)
 {
   m_bAborted = false;
-  m_bIsMapping = true;
 
   switch (m_feature.Type())
   {
@@ -72,15 +68,11 @@ bool CGUIFeatureButton::PromptForInput(void)
       break;
   }
 
-  m_bIsMapping = false;
-
   return !m_bAborted;
 }
 
 void CGUIFeatureButton::PromptButton(void)
 {
-  InstallHooks();
-
   std::string strPromptTemplate = g_localizeStrings.Get(35051); // "Press %s..."
   std::string strPrompt = StringUtils::Format(strPromptTemplate.c_str(), m_feature.Label().c_str());
   SetLabel(strPrompt);
@@ -88,14 +80,10 @@ void CGUIFeatureButton::PromptButton(void)
   m_waitCondition.Wait();
 
   SetLabel(m_feature.Label());
-
-  RemoveHooks();
 }
 
 void CGUIFeatureButton::PromptAnalogStick(void)
 {
-  InstallHooks();
-
   m_analogStickDirection = CARDINAL_DIRECTION::UP;
 
   while (m_analogStickDirection != CARDINAL_DIRECTION::UNKNOWN)
@@ -176,8 +164,6 @@ void CGUIFeatureButton::PromptAnalogStick(void)
   }
 
   SetLabel(m_feature.Label());
-
-  RemoveHooks();
 }
 
 void CGUIFeatureButton::Abort(void)
@@ -249,31 +235,4 @@ bool CGUIFeatureButton::MapPrimitive(IJoystickButtonMap* buttonMap, const JOYSTI
 void CGUIFeatureButton::SetLabel(const std::string& strPromptMsg)
 {
   m_window->SetLabel(m_featureIndex, strPromptMsg);
-}
-
-void CGUIFeatureButton::Notify(const Observable& obs, const ObservableMessage msg)
-{
-  switch (msg)
-  {
-    case ObservableMessagePeripheralsChanged:
-    {
-      g_peripherals.UnregisterJoystickButtonMapper(this);
-      g_peripherals.RegisterJoystickButtonMapper(this);
-      break;
-    }
-    default:
-      break;
-  }
-}
-
-void CGUIFeatureButton::InstallHooks(void)
-{
-  g_peripherals.RegisterJoystickButtonMapper(this);
-  g_peripherals.RegisterObserver(this);
-}
-
-void CGUIFeatureButton::RemoveHooks(void)
-{
-  g_peripherals.UnregisterObserver(this);
-  g_peripherals.UnregisterJoystickButtonMapper(this);
 }
