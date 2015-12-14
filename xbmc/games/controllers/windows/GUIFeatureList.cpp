@@ -120,14 +120,17 @@ void CGUIFeatureList::OnUnfocus(void)
 
 bool CGUIFeatureList::PromptForInput(unsigned int featureIndex)
 {
-  if (featureIndex != m_focusedFeature)
-  {
-    m_focusedFeature = featureIndex;
-    m_window->FocusFeature(featureIndex);
-  }
-
   if (featureIndex < m_buttons.size())
+  {
+    // Focus the feature
+    if (featureIndex != m_focusedFeature)
+    {
+      m_focusedFeature = featureIndex;
+      m_window->FocusFeature(featureIndex);
+    }
+
     return m_buttons[featureIndex]->PromptForInput();
+  }
 
   return false;
 }
