@@ -72,7 +72,7 @@ namespace JOYSTICK
   enum class SEMIAXIS_DIRECTION
   {
     NEGATIVE = -1,  // semiaxis lies in the interval [-1.0, 0.0]
-    UNKNOWN  =  0,  // semiaxis is unknown or invalid
+    ZERO     =  0,  // semiaxis is unknown or invalid
     POSITIVE =  1,  // semiaxis lies in the interval [0.0, 1.0]
   };
 

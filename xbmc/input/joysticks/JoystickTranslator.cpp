@@ -47,7 +47,7 @@ SEMIAXIS_DIRECTION CJoystickTranslator::PositionToSemiAxisDirection(float positi
   if      (position > 0) return SEMIAXIS_DIRECTION::POSITIVE;
   else if (position < 0) return SEMIAXIS_DIRECTION::NEGATIVE;
 
-  return SEMIAXIS_DIRECTION::UNKNOWN;
+  return SEMIAXIS_DIRECTION::ZERO;
 }
 
 CARDINAL_DIRECTION CJoystickTranslator::VectorToCardinalDirection(float x, float y)
