@@ -533,8 +533,9 @@ void CPeripheral::RegisterJoystickInputHandler(IJoystickInputHandler* handler)
   std::map<IJoystickInputHandler*, IJoystickDriverHandler*>::iterator it = m_inputHandlers.find(handler);
   if (it == m_inputHandlers.end())
   {
-    m_inputHandlers[handler] = new CAddonJoystickInputHandling(this, handler);
-    RegisterJoystickDriverHandler(m_inputHandlers[handler], false);
+    CAddonJoystickInputHandling* inputHandling = new CAddonJoystickInputHandling(this, handler);
+    RegisterJoystickDriverHandler(inputHandling, false);
+    m_inputHandlers[handler] = inputHandling;
   }
 }
 
