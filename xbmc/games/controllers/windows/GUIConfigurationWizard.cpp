@@ -21,6 +21,7 @@
 #include "GUIConfigurationWizard.h"
 #include "games/controllers/Controller.h"
 #include "peripherals/Peripherals.h"
+#include "utils/log.h"
 
 using namespace GAME;
 using namespace PERIPHERALS;
@@ -57,6 +58,7 @@ bool CGUIConfigurationWizard::Abort(void)
 
 void CGUIConfigurationWizard::Process(void)
 {
+  CLog::Log(LOGDEBUG, "Starting configuration wizard at feature %u", m_featureIndex);
   InstallHooks();
   for (m_bAborted = false; !m_bAborted; m_featureIndex++)
   {
@@ -64,6 +66,7 @@ void CGUIConfigurationWizard::Process(void)
       m_bAborted = true;
   }
   RemoveHooks();
+  CLog::Log(LOGDEBUG, "Configuration wizard ended");
 }
 
 std::string CGUIConfigurationWizard::ControllerID(void) const
