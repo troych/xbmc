@@ -24,7 +24,6 @@
 #include "GUIGameDefines.h"
 #include "addons/AddonManager.h"
 #include "games/controllers/Controller.h"
-#include "games/controllers/ControllerManager.h"
 #include "games/controllers/DefaultController.h"
 #include "guilib/GUIButtonControl.h"
 #include "guilib/GUIControlGroupList.h"

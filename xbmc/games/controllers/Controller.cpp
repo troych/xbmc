@@ -20,7 +20,6 @@
 
 #include "Controller.h"
 #include "ControllerDefinitions.h"
-#include "ControllerManager.h"
 #include "utils/log.h"
 #include "utils/URIUtils.h"
 #include "utils/XBMCTinyXML.h"
@@ -39,18 +38,6 @@ CController::CController(const cp_extension_t* ext) :
   CAddon(ext),
   m_bLoaded(false)
 {
-}
-
-ADDON::AddonPtr CController::GetRunningInstance(void) const
-{
-  ControllerPtr controller;
-  if (CControllerManager::GetInstance().GetController(ID(), controller))
-  {
-    if (controller->Version() == Version())
-      return std::dynamic_pointer_cast<CAddon>(controller);
-  }
-
-  return CAddon::GetRunningInstance();
 }
 
 std::string CController::Label(void)

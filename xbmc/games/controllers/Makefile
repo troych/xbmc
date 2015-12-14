@@ -1,7 +1,6 @@
 SRCS=Controller.cpp \
      ControllerFeature.cpp \
      ControllerLayout.cpp \
-     ControllerManager.cpp \
      ControllerTranslator.cpp \
      DefaultController.cpp \
      EasterEgg.cpp \
