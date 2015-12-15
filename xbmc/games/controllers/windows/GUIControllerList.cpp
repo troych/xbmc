@@ -56,7 +56,7 @@ bool CGUIControllerList::Initialize(void)
 
   Refresh();
 
-  CAddonMgr::GetInstance().RegisterObserver(this);
+  CAddonMgr::Get().RegisterObserver(this);
 
   return m_controllerList != nullptr &&
          m_controllerButton != nullptr;
@@ -64,7 +64,7 @@ bool CGUIControllerList::Initialize(void)
 
 void CGUIControllerList::Deinitialize(void)
 {
-  CAddonMgr::GetInstance().UnregisterObserver(this);
+  CAddonMgr::Get().UnregisterObserver(this);
 
   CleanupButtons();
 
@@ -165,7 +165,7 @@ bool CGUIControllerList::RefreshControllers(void)
 
   // Get controller add-ons
   ADDON::VECADDONS addons;
-  CAddonMgr::GetInstance().GetAddons(ADDON_GAME_CONTROLLER, addons, true);
+  CAddonMgr::Get().GetAddons(ADDON_GAME_CONTROLLER, addons, true);
 
   // Convert to controllers
   ControllerVector controllers;
