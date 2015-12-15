@@ -13257,17 +13257,17 @@ msgstr ""
 
 #: system/settings/settings.xml
 msgctxt "#27020"
-msgid "No info available yet."
+msgid "Configure input for game add-ons."
 msgstr ""
 
 #: system/settings/settings.xml
 msgctxt "#27021"
-msgid "Configure game controllers"
+msgid "Configure input for game systems"
 msgstr ""
 
 #: system/settings/settings.xml
 msgctxt "#27022"
-msgid "No info available yet."
+msgid "Pair your controller with the various input devices of different game systems."
 msgstr ""
 
 #: xbmc/filesystem/AddonsDirectory.cpp
