@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
-	<defaultcontrol always="true">1</defaultcontrol>
+	<defaultcontrol>3</defaultcontrol>
 	<allowoverlay>no</allowoverlay>
 	<controls>
 		<include>CommonBackground</include>
@@ -24,140 +24,139 @@
 			<include>VisibleFadeEffect</include>
 			<include>Window_OpenClose_Animation</include>
 		</control>
-		<control type="focusplane" id="2">
-			<left>300</left>
-			<top>50</top>
-			<width>680</width>
-			<height>425</height>
-			<control type="gamecontroller" id="3">
-				<left>100</left>
-				<top>75</top>
-				<width>480</width>
-				<height>286</height>
-				<include>VisibleFadeEffect</include>
-				<include>Window_OpenClose_Animation</include>
+		<control type="group">
+			<left>50</left>
+			<top>70</top>
+			<animation type="WindowOpen" reversible="false">
+				<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="225" />
+				<effect type="fade" start="0" end="100" time="225" />
+			</animation>
+			<animation type="WindowClose" reversible="false">
+				<effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="225" />
+				<effect type="fade" start="100" end="0" time="225" />
+			</animation>
+			<control type="image">
+				<description>Left Panel</description>
+				<left>0</left>
+				<top>0</top>
+				<width>300</width>
+				<height>620</height>
+				<texture border="20">ContentPanel.png</texture>
+			</control>
+			<control type="image">
+				<left>0</left>
+				<top>612</top>
+				<width>300</width>
+				<height>64</height>
+				<texture border="10">ContentPanelMirror.png</texture>
+			</control>
+			<control type="grouplist" id="3">
+				<description>Area for controller buttons</description>
+				<left>20</left>
+				<top>40</top>
+				<width>260</width>
+				<height>700</height>
+				<usecontrolcoords>true</usecontrolcoords>
+				<onleft>5</onleft>
+				<onright>5</onright>
+				<onup>20</onup>
+				<ondown>20</ondown>
+			</control>
+			<control type="button" id="10">
+				<description>Controller button template</description>
+				<width>260</width>
+				<height>50</height>
+				<textoffsetx>20</textoffsetx>
+				<aligny>center</aligny>
+				<font>font13_title</font>
+				<textcolor>white</textcolor>
+				<texturefocus border="0,2,0,2">MenuItemFO.png</texturefocus>
+				<texturenofocus border="0,2,0,2">MenuItemNF.png</texturenofocus>
+			</control>
+			<control type="radiobutton" id="20">
+				<description>Link to install more controllers</description>
+				<width>260</width>
+				<left>20</left>
+				<top>540</top>
+				<height>50</height>
+				<label>$LOCALIZE[21452]</label>
+				<aligny>center</aligny>
+				<!--<onclick>SettingsLevelChange</onclick>--> <!-- TODO: Open dialog to install controller add-ons -->
+				<textoffsetx>80</textoffsetx>
+				<textoffsety>0</textoffsety>
+				<texturefocus border="0,2,0,2">MenuItemFO.png</texturefocus>
+				<texturenofocus border="0,2,0,2">MenuItemNF.png</texturenofocus>
+				<radioposx>26</radioposx>
+				<radioposy>0</radioposy>
+				<radiowidth>40</radiowidth>
+				<radioheight>40</radioheight>
+				<onleft>5</onleft>
+				<onright>5</onright>
+				<onup>3</onup>
+				<ondown>3</ondown>
+				<textureradioonfocus>DefaultAddon.png</textureradioonfocus>
+				<textureradioonnofocus>DefaultAddon.png</textureradioonnofocus>
+				<textureradioofffocus>DefaultAddon.png</textureradioofffocus>
+				<textureradiooffnofocus>DefaultAddon.png</textureradiooffnofocus>
 			</control>
 		</control>
 		<control type="group">
-			<top>500</top>
+			<left>930</left>
+			<top>60</top>
 			<animation type="WindowOpen" reversible="false">
-				<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="300"/>
-				<effect type="fade" start="0" end="100" time="300"/>
+				<effect type="zoom" start="80" end="100" center="640,360" easing="out" tween="back" time="225" />
+				<effect type="fade" start="0" end="100" time="225" />
 			</animation>
 			<animation type="WindowClose" reversible="false">
-				<effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="300"/>
-				<effect type="fade" start="100" end="0" time="300"/>
+				<effect type="zoom" start="100" end="80" center="640,360" easing="in" tween="back" time="225" />
+				<effect type="fade" start="100" end="0" time="225" />
 			</animation>
 			<control type="image">
-				<left>-100</left>
+				<description>Right Panel</description>
+				<left>0</left>
 				<top>0</top>
-				<width>1480</width>
-				<height>75</height>
-				<texture border="0,6,0,6">HomeBack.png</texture>
+				<width>300</width>
+				<height>620</height>
+				<texture border="20">ContentPanel.png</texture>
 			</control>
 			<control type="image">
 				<left>0</left>
-				<top>5</top>
-				<width>1280</width>
-				<height>6</height>
-				<texture>HomeOverlay1.png</texture>
+				<top>612</top>
+				<width>300</width>
+				<height>64</height>
+				<texture border="10">ContentPanelMirror.png</texture>
 			</control>
-			<control type="fixedlist" id="1">
-				<left>-110</left>
-				<top>5</top>
-				<width>1500</width>
-				<height>60</height>
-				<onleft>1</onleft>
-				<onright>1</onright>
-				<onup>1</onup>
-				<ondown>1</ondown>
-				<pagecontrol>-</pagecontrol>
-				<scrolltime>300</scrolltime>
-				<focusposition>2</focusposition>
-				<movement>1</movement>
-				<orientation>Horizontal</orientation>
-				<itemlayout height="60" width="300">
-					<control type="image">
-						<left>0</left>
-						<top>4</top>
-						<width>1</width>
-						<height>52</height>
-						<texture>HomeSeperator.png</texture>
-					</control>
-					<control type="image">
-						<left>299</left>
-						<top>4</top>
-						<width>1</width>
-						<height>52</height>
-						<texture>HomeSeperator.png</texture>
-					</control>
-					<control type="label">
-						<left>5</left>
-						<top>0</top>
-						<width>290</width>
-						<height>60</height>
-						<font>font_MainMenu</font>
-						<textcolor>grey3</textcolor>
-						<align>center</align>
-						<aligny>center</aligny>
-						<label>$INFO[ListItem.Label]</label>
-					</control>
-				</itemlayout>
-				<focusedlayout height="60" width="300">
-					<control type="image">
-						<left>0</left>
-						<top>4</top>
-						<width>1</width>
-						<height>52</height>
-						<texture>HomeSeperator.png</texture>
-					</control>
-					<control type="image">
-						<left>299</left>
-						<top>4</top>
-						<width>1</width>
-						<height>52</height>
-						<texture>HomeSeperator.png</texture>
-					</control>
-					<control type="label">
-						<left>5</left>
-						<top>0</top>
-						<width>290</width>
-						<height>60</height>
-						<font>font_MainMenu</font>
-						<textcolor>grey3</textcolor>
-						<align>center</align>
-						<aligny>center</aligny>
-						<label>$INFO[ListItem.Label]</label>
-					</control>
-					<control type="label">
-						<left>5</left>
-						<top>0</top>
-						<width>290</width>
-						<height>60</height>
-						<font>font_MainMenu</font>
-						<textcolor>blue</textcolor>
-						<align>center</align>
-						<aligny>center</aligny>
-						<label>$INFO[ListItem.Label]</label>
-						<visible>Control.HasFocus(1)</visible>
-						<include>VisibleFadeEffect</include>
-					</control>
-				</focusedlayout>
+			<control type="grouplist" id="5">
+				<description>Area for feature buttons</description>
+				<left>20</left>
+				<top>40</top>
+				<width>260</width>
+				<height>546</height>
+				<usecontrolcoords>true</usecontrolcoords>
+				<onleft>3</onleft>
+				<onright>3</onright>
+				<onup>5</onup>
+				<ondown>5</ondown>
 			</control>
-			<control type="image">
-				<left>0</left>
-				<top>6</top>
-				<width>128</width>
-				<height>63</height>
-				<texture>SideFade.png</texture>
+			<control type="button" id="7">
+				<description>Feature button template</description>
+				<width>260</width>
+				<height>50</height>
+				<textoffsetx>20</textoffsetx>
+				<aligny>center</aligny>
+				<font>font13_title</font>
+				<textcolor>white</textcolor>
+				<texturefocus border="0,2,0,2">MenuItemFO.png</texturefocus>
+				<texturenofocus border="0,2,0,2">MenuItemNF.png</texturenofocus>
 			</control>
-			<control type="image">
-				<left>128r</left>
-				<top>6</top>
-				<width>128</width>
-				<height>63</height>
-				<texture flipx="true">SideFade.png</texture>
-			</control>
+		</control>
+		<control type="gamecontroller" id="31">
+			<left>400</left>
+			<top>200</top>
+			<width>480</width>
+			<height>286</height>
+			<include>VisibleFadeEffect</include>
+			<include>Window_OpenClose_Animation</include>
 		</control>
 		<include>Clock</include>
 		<control type="label">
