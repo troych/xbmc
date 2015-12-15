@@ -29,6 +29,8 @@
 #include "guilib/GUIControlGroupList.h"
 #include "guilib/GUIWindow.h"
 
+#include "guilib/GUIGameController.h" // TODO
+
 #include <assert.h>
 
 using namespace ADDON;
@@ -129,11 +131,18 @@ void CGUIControllerList::OnFocus(unsigned int controllerIndex)
 {
   if (controllerIndex < m_controllers.size())
   {
+    const ControllerPtr& controller = m_controllers[controllerIndex];
+
     if (m_focusedController != (int)controllerIndex)
     {
       m_focusedController = controllerIndex;
-      m_featureList->Load(m_controllers[controllerIndex]);
+      m_featureList->Load(controller);
     }
+
+    // TODO: Activate controller for all game controller controls
+    CGUIGameController* pController = dynamic_cast<CGUIGameController*>(m_guiWindow->GetControl(CONTROL_GAME_CONTROLLER));
+    if (pController)
+      pController->ActivateController(controller);
   }
 }
 
