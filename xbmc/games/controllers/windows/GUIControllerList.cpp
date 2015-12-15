@@ -41,7 +41,7 @@ CGUIControllerList::CGUIControllerList(CGUIControllerWindow* window, IFeatureLis
   m_controllerList(nullptr),
   m_controllerButton(nullptr),
   m_window(window),
-  m_focusedController(-1)
+  m_focusedController(-1) // Initially unfocused
 {
   assert(m_featureList != nullptr);
 }

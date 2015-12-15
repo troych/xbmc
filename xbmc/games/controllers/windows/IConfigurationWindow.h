@@ -190,7 +190,6 @@ namespace GAME
 
     /*!
      * \brief Abort an input prompt
-     * \return True if aborted, false if button wasn't prompting for input
      */
     virtual void Abort(void) = 0;
   };
