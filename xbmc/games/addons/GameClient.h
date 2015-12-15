@@ -63,6 +63,7 @@
 #include "addons/Addon.h"
 #include "addons/AddonDll.h"
 #include "addons/DllGameClient.h"
+#include "games/controllers/ControllerTypes.h"
 #include "games/GameTypes.h"
 #include "games/SerialState.h"
 #include "input/IKeyboardHandler.h"
@@ -79,6 +80,8 @@ class IPlayer;
 
 namespace GAME
 {
+
+class CGameClientInput;
 
 class CGameClient : public ADDON::CAddonDll<DllGameClient, GameClient, game_client_properties>,
                     public IKeyboardHandler
@@ -133,6 +136,7 @@ public:
 
   bool OpenPort(unsigned int port);
   void ClosePort(unsigned int port);
+  void UpdatePort(unsigned int port, const ControllerPtr& controller);
 
   bool OnButtonPress(int port, const std::string& feature, bool bPressed);
   bool OnButtonMotion(int port, const std::string& feature, float magnitude);
@@ -154,6 +158,7 @@ private:
   void ClearPorts(void);
   void OpenKeyboard(void);
   void CloseKeyboard(void);
+  ControllerVector GetControllers(void) const;
 
   // Helper functions
   static std::string ToArchivePath(const std::string& strPath);
@@ -190,6 +195,9 @@ private:
   unsigned int          m_serializeSize;
   bool                  m_bRewindEnabled;
   CSerialState          m_serialState;
+
+  // Input
+  std::vector<CGameClientInput*> m_controllers;
 
   CCriticalSection      m_critSection;
 };
