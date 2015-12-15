@@ -361,9 +361,6 @@
     <Filter Include="games\windows">
       <UniqueIdentifier>{c8349d48-8f55-476d-80d6-47e98135f37a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="games\windows\wizards">
-      <UniqueIdentifier>{f984f4e3-8778-4967-b819-ff171950a0b6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="games\tags">
       <UniqueIdentifier>{43ec8ed7-e2f3-4e78-8d03-350479c4b40a}</UniqueIdentifier>
     </Filter>
@@ -372,6 +369,15 @@
     </Filter>
     <Filter Include="games\windows">
       <UniqueIdentifier>{b27eff5a-49e1-4e7d-b4c2-f4e46d18629a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="games\controllers">
+      <UniqueIdentifier>{f5443e7e-59aa-4e97-9bff-a262f4735413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="games\controllers\windows">
+      <UniqueIdentifier>{4950a2fa-4c7e-4110-b71a-8ae4f18b0ede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="games\controllers\guicontrols">
+      <UniqueIdentifier>{6f9a8428-d82e-4ff0-80f0-a359b8532a06}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3184,12 +3190,6 @@
     <ClCompile Include="..\..\xbmc\peripherals\addons\AddonJoystickButtonMapping.cpp">
       <Filter>peripherals\addons</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\peripherals\addons\AddonJoystickButtonMapRO.cpp">
-      <Filter>peripherals\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\peripherals\addons\AddonJoystickButtonMapWO.cpp">
-      <Filter>peripherals\addons</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\peripherals\addons\AddonJoystickInputHandling.cpp">
       <Filter>peripherals\addons</Filter>
     </ClCompile>
@@ -3199,34 +3199,7 @@
     <ClCompile Include="..\..\xbmc\peripherals\bus\virtual\PeripheralBusAddon.cpp">
       <Filter>peripherals\bus\virtual</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\games\ControllerManager.cpp">
-      <Filter>games</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\games\GameTranslator.cpp">
-      <Filter>games</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\games\addons\GameController.cpp">
-      <Filter>games\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\games\addons\GameControllerFeature.cpp">
-      <Filter>games\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\games\addons\GameControllerLayout.cpp">
-      <Filter>games\addons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\games\windows\GUIDialogControllerInput.cpp">
-      <Filter>games\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\games\windows\GUIWindowGameControllers.cpp">
-      <Filter>games\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\games\windows\wizards\GUIControllerWizard.cpp">
-      <Filter>games\windows\wizards</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\guilib\GUIFocusPlane.cpp">
-      <Filter>guilib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\guilib\GUIGameController.cpp">
       <Filter>guilib</Filter>
     </ClCompile>
     <ClCompile Include="..\..\xbmc\games\tags\GameInfoTag.cpp">
@@ -3270,6 +3243,45 @@
     </ClCompile>
     <ClCompile Include="..\..\xbmc\games\windows\GUIWindowGames.cpp">
       <Filter>games\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\Controller.cpp">
+      <Filter>games\controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\ControllerFeature.cpp">
+      <Filter>games\controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\ControllerLayout.cpp">
+      <Filter>games\controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\ControllerTranslator.cpp">
+      <Filter>games\controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\DefaultController.cpp">
+      <Filter>games\controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\EasterEgg.cpp">
+      <Filter>games\controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\guicontrols\GUIGameController.cpp">
+      <Filter>games\controllers\guicontrols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\windows\GUIFeatureButton.cpp">
+      <Filter>games\controllers\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\windows\GUIFeatureList.cpp">
+      <Filter>games\controllers\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\windows\GUIConfigurationWizard.cpp">
+      <Filter>games\controllers\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\windows\GUIControllerList.cpp">
+      <Filter>games\controllers\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\windows\GUIControllerWindow.cpp">
+      <Filter>games\controllers\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\peripherals\addons\PeripheralAddonTranslator.cpp">
+      <Filter>peripherals\addons</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -6242,12 +6254,6 @@
     <ClInclude Include="..\..\xbmc\peripherals\addons\AddonJoystickButtonMapping.h">
       <Filter>peripherals\addons</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\peripherals\addons\AddonJoystickButtonMapRO.h">
-      <Filter>peripherals\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\peripherals\addons\AddonJoystickButtonMapWO.h">
-      <Filter>peripherals\addons</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\peripherals\addons\AddonJoystickInputHandling.h">
       <Filter>peripherals\addons</Filter>
     </ClInclude>
@@ -6257,44 +6263,8 @@
     <ClInclude Include="..\..\xbmc\peripherals\bus\virtual\PeripheralBusAddon.h">
       <Filter>peripherals\bus\virtual</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\games\ControllerManager.h">
-      <Filter>games</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\games\GameDefinitions.h">
-      <Filter>games</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\games\GameTranslator.h">
-      <Filter>games</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\games\addons\GameController.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\games\addons\GameControllerFeature.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\games\addons\GameControllerLayout.h">
-      <Filter>games\addons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\games\windows\GUIDialogControllerInput.h">
-      <Filter>games\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\games\windows\GUIWindowGameControllers.h">
-      <Filter>games\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\games\windows\wizards\GUIControllerWizard.h">
-      <Filter>games\windows\wizards</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\games\windows\wizards\IGUIControllerWizard.h">
-      <Filter>games\windows\wizards</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\guilib\GUIFocusPlane.h">
       <Filter>guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\guilib\GUIGameController.h">
-      <Filter>guilib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\games\ControllerTypes.h">
-      <Filter>games</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\games\tags\GameInfoTag.h">
       <Filter>games\tags</Filter>
@@ -6343,6 +6313,57 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\games\windows\GUIWindowGames.h">
       <Filter>games\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\Controller.h">
+      <Filter>games\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\ControllerDefinitions.h">
+      <Filter>games\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\ControllerFeature.h">
+      <Filter>games\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\ControllerLayout.h">
+      <Filter>games\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\ControllerTranslator.h">
+      <Filter>games\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\ControllerTypes.h">
+      <Filter>games\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\DefaultController.h">
+      <Filter>games\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\EasterEgg.h">
+      <Filter>games\controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\guicontrols\GUIGameController.h">
+      <Filter>games\controllers\guicontrols</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\windows\GUIFeatureButton.h">
+      <Filter>games\controllers\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\windows\GUIFeatureList.h">
+      <Filter>games\controllers\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\windows\IConfigurationWindow.h">
+      <Filter>games\controllers\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\windows\GUIConfigurationWizard.h">
+      <Filter>games\controllers\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\windows\GUIControllerDefines.h">
+      <Filter>games\controllers\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\windows\GUIControllerList.h">
+      <Filter>games\controllers\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\windows\GUIControllerWindow.h">
+      <Filter>games\controllers\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\peripherals\addons\PeripheralAddonTranslator.h">
+      <Filter>peripherals\addons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
