@@ -49,6 +49,7 @@ DIRECTORY_ARCHIVES=$(DVDPLAYER_ARCHIVES) \
                    xbmc/filesystem/VideoDatabaseDirectory/videodatabasedirectory.a \
                    xbmc/filesystem/filesystem.a \
                    xbmc/games/controllers/controllers.a \
+                   xbmc/games/controllers/guicontrols/controllerguicontrols.a \
                    xbmc/games/controllers/windows/controllerwindows.a \
                    xbmc/games/games.a \
                    xbmc/games/addons/gameaddons.a \

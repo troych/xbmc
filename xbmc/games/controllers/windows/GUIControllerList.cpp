@@ -25,11 +25,10 @@
 #include "addons/AddonManager.h"
 #include "games/controllers/Controller.h"
 #include "games/controllers/DefaultController.h"
+#include "games/controllers/guicontrols/GUIGameController.h"
 #include "guilib/GUIButtonControl.h"
 #include "guilib/GUIControlGroupList.h"
 #include "guilib/GUIWindow.h"
-
-#include "guilib/GUIGameController.h" // TODO
 
 #include <assert.h>
 

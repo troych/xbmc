@@ -19,23 +19,28 @@
  */
 #pragma once
 
-#include "GUIImage.h"
 #include "games/controllers/ControllerTypes.h"
+#include "guilib/GUIImage.h"
 #include "threads/CriticalSection.h"
 
-class CGUIGameController : public CGUIImage
+namespace GAME
 {
-public:
-  CGUIGameController(int parentID, int controlID, float posX, float posY, float width, float height);
-  CGUIGameController(const CGUIGameController &from);
-  virtual ~CGUIGameController(void) { }
-  virtual CGUIGameController* Clone() const { return new CGUIGameController(*this); }
+  class CGUIGameController : public CGUIImage
+  {
+  public:
+    CGUIGameController(int parentID, int controlID, float posX, float posY, float width, float height);
+    CGUIGameController(const CGUIGameController &from);
 
-  virtual void Render();
+    virtual ~CGUIGameController(void) { }
 
-  void ActivateController(const GAME::ControllerPtr& controller);
+    // implementation of CGUIControl via CGUIImage
+    virtual CGUIGameController* Clone(void) const override;
+    virtual void Render(void) override;
 
-private:
-  GAME::ControllerPtr m_currentController;
-  CCriticalSection    m_mutex;
-};
+    void ActivateController(const ControllerPtr& controller);
+
+  private:
+    ControllerPtr       m_currentController;
+    CCriticalSection    m_mutex;
+  };
+}

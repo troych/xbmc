@@ -37,6 +37,11 @@ CGUIGameController::CGUIGameController(const CGUIGameController &from)
   ControlType = GUICONTROL_GAMECONTROLLER;
 }
 
+CGUIGameController* CGUIGameController::Clone(void) const
+{
+  return new CGUIGameController(*this);
+}
+
 void CGUIGameController::Render(void)
 {
   CGUIImage::Render();
