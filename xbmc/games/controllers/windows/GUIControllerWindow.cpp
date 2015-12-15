@@ -108,7 +108,7 @@ void CGUIControllerWindow::OnInitWindow(void)
     }
   }
 
-  if (!m_controllerList)
+  if (!m_controllerList && m_featureList)
   {
     m_controllerList = new CGUIControllerList(this, m_featureList);
     if (!m_controllerList->Initialize())
