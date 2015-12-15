@@ -42,7 +42,8 @@ namespace GAME
    *      controller's features.
    *
    *   2) When a feature is selected, the user is prompted for controller input.
-   *      This initiates a "wizard" that
+   *      This initiates a "wizard" that walks the user through the remaining
+   *      features.
    */
   class IConfigurationWindow
   {
@@ -154,15 +155,27 @@ namespace GAME
      */
     virtual void OnSelect(unsigned int index) = 0;
 
+    /*!
+     * \brief Focus has left the list
+     */
     virtual void OnUnfocus(void) = 0;
 
+    /*!
+     * \brief Prompt the user for input
+     * \param featureIndex The feature requesting input
+     * \return true if the feature received input, false if the prompt was aborted
+     * \remark Blocks until input is received or prompt is aborted
+     */
     virtual bool PromptForInput(unsigned int featureIndex) = 0;
 
+    /*!
+     * \brief Abort an active prompt for input
+     */
     virtual void AbortPrompt(void) = 0;
   };
 
   /*!
-   * \brief IFeatureButton
+   * \brief A button representing a feature on a controller
    */
   class IFeatureButton
   {
@@ -182,13 +195,24 @@ namespace GAME
     virtual void Abort(void) = 0;
   };
 
+  /*!
+   * \brief A wizard to direct user input
+   */
   class IConfigurationWizard
   {
   public:
     virtual ~IConfigurationWizard(void) { }
 
+    /*!
+     * \brief Start the wizard at the specified feature
+     * \param featureIndex The index of the feature to start at
+     */
     virtual void Run(unsigned int featureIndex) = 0;
 
+    /*!
+     * \brief Abort a running wizard
+     * \return true if aborted, or false if the wizard wasn't running
+     */
     virtual bool Abort(void) = 0;
   };
 }
