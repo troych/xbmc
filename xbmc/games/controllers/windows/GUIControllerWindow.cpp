@@ -19,9 +19,9 @@
  */
 
 #include "GUIControllerWindow.h"
+#include "GUIControllerDefines.h"
 #include "GUIControllerList.h"
 #include "GUIFeatureList.h"
-#include "GUIGameDefines.h"
 #include "addons/GUIWindowAddonBrowser.h"
 #include "addons/IAddon.h"
 #include "guilib/GUIMessage.h"

@@ -19,7 +19,7 @@
  */
 
 #include "GUIFeatureButton.h"
-#include "GUIGameDefines.h"
+#include "GUIControllerDefines.h"
 #include "games/controllers/Controller.h"
 #include "games/controllers/ControllerFeature.h"
 #include "guilib/GUIButtonControl.h"

@@ -20,9 +20,9 @@
 
 #include "GUIFeatureList.h"
 #include "GUIConfigurationWizard.h"
+#include "GUIControllerDefines.h"
 #include "GUIControllerWindow.h"
 #include "GUIFeatureButton.h"
-#include "GUIGameDefines.h"
 #include "games/controllers/Controller.h"
 #include "guilib/GUIButtonControl.h"
 #include "guilib/GUIControlGroupList.h"
