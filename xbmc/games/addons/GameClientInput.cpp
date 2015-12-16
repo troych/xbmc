@@ -25,7 +25,6 @@
 #include <assert.h>
 
 using namespace GAME;
-using namespace JOYSTICK;
 
 CGameClientInput::CGameClientInput(CGameClient* addon, int port, const ControllerPtr& controller) :
   m_addon(addon),
@@ -41,7 +40,7 @@ std::string CGameClientInput::ControllerID(void) const
   return m_controller->ID();
 }
 
-INPUT CGameClientInput::GetInputType(const std::string& feature) const
+JOYSTICK::INPUT CGameClientInput::GetInputType(const std::string& feature) const
 {
   const std::vector<CControllerFeature>& features = m_controller->Layout().Features();
 
@@ -55,7 +54,7 @@ INPUT CGameClientInput::GetInputType(const std::string& feature) const
       return it->ButtonType();
   }
 
-  return INPUT::UNKNOWN;
+  return JOYSTICK::INPUT::UNKNOWN;
 }
 
 bool CGameClientInput::OnButtonPress(const std::string& feature, bool bPressed)
