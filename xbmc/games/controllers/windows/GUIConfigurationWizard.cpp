@@ -29,8 +29,7 @@ using namespace PERIPHERALS;
 CGUIConfigurationWizard::CGUIConfigurationWizard(IFeatureList* featureList) :
   CThread("GUIConfigurationWizard"),
   m_features(featureList),
-  m_featureIndex(0),
-  m_bAborted(false)
+  m_featureIndex(0)
 {
 }
 
@@ -48,7 +47,7 @@ bool CGUIConfigurationWizard::Abort(void)
 {
   if (IsRunning())
   {
-    m_bAborted = true;
+    StopThread(false);
     m_features->AbortPrompt();
     StopThread(true);
     return true;
@@ -60,10 +59,10 @@ void CGUIConfigurationWizard::Process(void)
 {
   CLog::Log(LOGDEBUG, "Starting configuration wizard at feature %u", m_featureIndex);
   InstallHooks();
-  for (m_bAborted = false; !m_bAborted; m_featureIndex++)
+  for (m_bStop = false; !m_bStop; m_featureIndex++)
   {
     if (!m_features->PromptForInput(m_featureIndex))
-      m_bAborted = true;
+      m_bStop = true;
   }
   RemoveHooks();
   CLog::Log(LOGDEBUG, "Configuration wizard ended");

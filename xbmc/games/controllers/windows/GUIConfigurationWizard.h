@@ -55,9 +55,8 @@ namespace GAME
     void InstallHooks(void);
     void RemoveHooks(void);
 
-    IFeatureList* const m_features;
+    IFeatureList* const              m_features;
     JOYSTICK::IJoystickButtonMapper* m_buttonMapper;
-    unsigned int        m_featureIndex;
-    bool                m_bAborted;
+    unsigned int                     m_featureIndex;
   };
 }
