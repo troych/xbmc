@@ -28,7 +28,7 @@
 
 namespace JOYSTICK
 {
-  class IButtonKeyHandler;
+  class IKeymapHandler;
   class IButtonSequence;
 }
 
@@ -56,19 +56,22 @@ namespace GAME
 
   private:
     /*!
-     * \brief Get the button key, as defined in guilib/Key.h, for the specified
+     * \brief Get the keymap key, as defined in Key.h, for the specified
      *        joystick feature/direction
      *
-     * \return The button key ID
+     * \param           feature The name of the feature on the default controller
+     * \param[optional] dir     The direction (used for analog sticks)
+     *
+     * \return The key ID, or 0 if unknown
      */
-    static unsigned int GetButtonKeyID(const JOYSTICK::FeatureName& feature, JOYSTICK::CARDINAL_DIRECTION dir = JOYSTICK::CARDINAL_DIRECTION::UNKNOWN);
+    static unsigned int GetKeyID(const JOYSTICK::FeatureName& feature, JOYSTICK::CARDINAL_DIRECTION dir = JOYSTICK::CARDINAL_DIRECTION::UNKNOWN);
 
     /*!
      * \brief Return a vector of the four cardinal directions
      */
     static const std::vector<JOYSTICK::CARDINAL_DIRECTION>& GetDirections(void);
 
-    JOYSTICK::IButtonKeyHandler* const m_handler;
-    JOYSTICK::IButtonSequence*         m_easterEgg;
+    JOYSTICK::IKeymapHandler* const  m_handler;
+    JOYSTICK::IButtonSequence*       m_easterEgg;
   };
 }

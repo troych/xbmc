@@ -20,7 +20,7 @@
 
 #include "DefaultController.h"
 #include "EasterEgg.h"
-#include "input/joysticks/ButtonKeyHandler.h"
+#include "input/joysticks/KeymapHandler.h"
 #include "input/joysticks/JoystickTranslator.h"
 #include "input/Key.h"
 
@@ -38,7 +38,7 @@ using namespace GAME;
 using namespace JOYSTICK;
 
 CDefaultController::CDefaultController(void) :
-  m_handler(new CButtonKeyHandler),
+  m_handler(new CKeymapHandler),
   m_easterEgg(new CEasterEgg)
 {
 }
@@ -56,7 +56,7 @@ std::string CDefaultController::ControllerID(void) const
 
 INPUT_TYPE CDefaultController::GetInputType(const FeatureName& feature) const
 {
-  return m_handler->GetInputType(GetButtonKeyID(feature));
+  return m_handler->GetInputType(GetKeyID(feature));
 }
 
 bool CDefaultController::OnButtonPress(const FeatureName& feature, bool bPressed)
@@ -64,11 +64,11 @@ bool CDefaultController::OnButtonPress(const FeatureName& feature, bool bPressed
   if (bPressed && m_easterEgg->OnButtonPress(feature))
     return true;
 
-  const unsigned int buttonKeyId = GetButtonKeyID(feature);
+  const unsigned int keyId = GetKeyID(feature);
 
-  if (m_handler->GetInputType(buttonKeyId) == INPUT_TYPE::DIGITAL)
+  if (m_handler->GetInputType(keyId) == INPUT_TYPE::DIGITAL)
   {
-    m_handler->OnDigitalButtonKey(buttonKeyId, bPressed);
+    m_handler->OnDigitalKey(keyId, bPressed);
     return true;
   }
 
@@ -77,11 +77,11 @@ bool CDefaultController::OnButtonPress(const FeatureName& feature, bool bPressed
 
 bool CDefaultController::OnButtonMotion(const FeatureName& feature, float magnitude)
 {
-  const unsigned int buttonKeyId = GetButtonKeyID(feature);
+  const unsigned int keyId = GetKeyID(feature);
 
-  if (m_handler->GetInputType(buttonKeyId) == INPUT_TYPE::ANALOG)
+  if (m_handler->GetInputType(keyId) == INPUT_TYPE::ANALOG)
   {
-    m_handler->OnAnalogButtonKey(buttonKeyId, magnitude);
+    m_handler->OnAnalogKey(keyId, magnitude);
     return true;
   }
 
@@ -100,20 +100,20 @@ bool CDefaultController::OnAnalogStickMotion(const FeatureName& feature, float x
       continue;
 
     // Calculate the button key ID and input type for this direction
-    const unsigned int buttonKeyId = GetButtonKeyID(feature, *it);
-    const INPUT_TYPE inputType = m_handler->GetInputType(buttonKeyId);
+    const unsigned int keyId = GetKeyID(feature, *it);
+    const INPUT_TYPE inputType = m_handler->GetInputType(keyId);
 
     if (inputType == INPUT_TYPE::DIGITAL)
-      m_handler->OnDigitalButtonKey(buttonKeyId, false);
+      m_handler->OnDigitalKey(keyId, false);
     else if (inputType == INPUT_TYPE::ANALOG)
-      m_handler->OnAnalogButtonKey(buttonKeyId, 0.0f);
+      m_handler->OnAnalogKey(keyId, 0.0f);
   }
 
   // Process analog stick direction last to avoid prematurely clearing the hold timer
 
   // Calculate the button key ID and input type for the analog stick's direction
-  const unsigned int buttonKeyId = GetButtonKeyID(feature, analogStickDir);
-  const INPUT_TYPE inputType = m_handler->GetInputType(buttonKeyId);
+  const unsigned int keyId = GetKeyID(feature, analogStickDir);
+  const INPUT_TYPE inputType = m_handler->GetInputType(keyId);
 
   // Calculate the magnitude in the cardinal direction
   const float magnitude = MAX(ABS(x), ABS(y));
@@ -121,12 +121,12 @@ bool CDefaultController::OnAnalogStickMotion(const FeatureName& feature, float x
   if (inputType == INPUT_TYPE::DIGITAL)
   {
     const bool bIsPressed = (magnitude >= ANALOG_DIGITAL_THRESHOLD);
-    m_handler->OnDigitalButtonKey(buttonKeyId, bIsPressed);
+    m_handler->OnDigitalKey(keyId, bIsPressed);
     return true;
   }
   else if (inputType == INPUT_TYPE::ANALOG)
   {
-    m_handler->OnAnalogButtonKey(buttonKeyId, magnitude);
+    m_handler->OnAnalogKey(keyId, magnitude);
     return true;
   }
 
@@ -138,7 +138,7 @@ bool CDefaultController::OnAccelerometerMotion(const FeatureName& feature, float
   return false; // TODO
 }
 
-unsigned int CDefaultController::GetButtonKeyID(const FeatureName& feature, CARDINAL_DIRECTION dir /* = CARDINAL_DIRECTION::UNKNOWN */)
+unsigned int CDefaultController::GetKeyID(const FeatureName& feature, CARDINAL_DIRECTION dir /* = CARDINAL_DIRECTION::UNKNOWN */)
 {
   if      (feature == "a")             return KEY_BUTTON_A;
   else if (feature == "b")             return KEY_BUTTON_B;
