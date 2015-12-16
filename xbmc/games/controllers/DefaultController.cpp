@@ -24,15 +24,10 @@
 #include "input/joysticks/JoystickTranslator.h"
 #include "input/Key.h"
 
+#include <cmath>
+#include <cstdlib>
+
 #define ANALOG_DIGITAL_THRESHOLD   0.5f
-
-#ifndef ABS
-#define ABS(x)  ((x) >= 0 ? (x) : (-x))
-#endif
-
-#ifndef MAX
-#define MAX(x, y)  ((x) >= (y) ? (x) : (y))
-#endif
 
 using namespace GAME;
 using namespace JOYSTICK;
@@ -94,7 +89,7 @@ bool CDefaultController::OnAnalogStickMotion(const FeatureName& feature, float x
   const CARDINAL_DIRECTION analogStickDir = CJoystickTranslator::VectorToCardinalDirection(x, y);
 
   // Calculate the magnitude projected onto that direction
-  const float magnitude = MAX(ABS(x), ABS(y));
+  const float magnitude = std::max(std::abs(x), std::abs(y));
 
   // Deactivate directions in which the stick is not pointing first
   for (std::vector<CARDINAL_DIRECTION>::const_iterator it = GetDirections().begin(); it != GetDirections().end(); ++it)
