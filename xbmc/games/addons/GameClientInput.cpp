@@ -40,7 +40,7 @@ std::string CGameClientInput::ControllerID(void) const
   return m_controller->ID();
 }
 
-JOYSTICK::INPUT CGameClientInput::GetInputType(const std::string& feature) const
+JOYSTICK::INPUT_TYPE CGameClientInput::GetInputType(const std::string& feature) const
 {
   const std::vector<CControllerFeature>& features = m_controller->Layout().Features();
 
@@ -54,7 +54,7 @@ JOYSTICK::INPUT CGameClientInput::GetInputType(const std::string& feature) const
       return it->ButtonType();
   }
 
-  return JOYSTICK::INPUT::UNKNOWN;
+  return JOYSTICK::INPUT_TYPE::UNKNOWN;
 }
 
 bool CGameClientInput::OnButtonPress(const std::string& feature, bool bPressed)

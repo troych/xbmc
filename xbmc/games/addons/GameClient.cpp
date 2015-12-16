@@ -668,13 +668,13 @@ void CGameClient::UpdatePort(unsigned int port, const ControllerPtr& controller)
     game_controller controllerStruct;
 
     controllerStruct.controller_id        = strId.c_str();
-    controllerStruct.digital_button_count = controller->Layout().FeatureCount(FEATURE::SCALAR, INPUT::DIGITAL);
-    controllerStruct.analog_button_count  = controller->Layout().FeatureCount(FEATURE::SCALAR, INPUT::ANALOG);
-    controllerStruct.analog_stick_count   = controller->Layout().FeatureCount(FEATURE::ANALOG_STICK);
-    controllerStruct.accelerometer_count  = controller->Layout().FeatureCount(FEATURE::ACCELEROMETER);
-    controllerStruct.key_count            = controller->Layout().FeatureCount(FEATURE::KEY);
-    controllerStruct.rel_pointer_count    = controller->Layout().FeatureCount(FEATURE::RELATIVE_POINTER);
-    controllerStruct.abs_pointer_count    = controller->Layout().FeatureCount(FEATURE::ABSOLUTE_POINTER);
+    controllerStruct.digital_button_count = controller->Layout().FeatureCount(FEATURE_TYPE::SCALAR, INPUT_TYPE::DIGITAL);
+    controllerStruct.analog_button_count  = controller->Layout().FeatureCount(FEATURE_TYPE::SCALAR, INPUT_TYPE::ANALOG);
+    controllerStruct.analog_stick_count   = controller->Layout().FeatureCount(FEATURE_TYPE::ANALOG_STICK);
+    controllerStruct.accelerometer_count  = controller->Layout().FeatureCount(FEATURE_TYPE::ACCELEROMETER);
+    controllerStruct.key_count            = controller->Layout().FeatureCount(FEATURE_TYPE::KEY);
+    controllerStruct.rel_pointer_count    = controller->Layout().FeatureCount(FEATURE_TYPE::RELATIVE_POINTER);
+    controllerStruct.abs_pointer_count    = controller->Layout().FeatureCount(FEATURE_TYPE::ABSOLUTE_POINTER);
 
     try { m_pStruct->UpdatePort(port, true, &controllerStruct); }
     catch (...) { LogException("UpdatePort()"); }
