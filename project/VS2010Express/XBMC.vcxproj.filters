@@ -3283,6 +3283,9 @@
     <ClCompile Include="..\..\xbmc\peripherals\addons\PeripheralAddonTranslator.cpp">
       <Filter>peripherals\addons</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\addons\GameClientInput.cpp">
+      <Filter>games\addons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\xbmc\win32\pch.h">
@@ -6364,6 +6367,9 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\peripherals\addons\PeripheralAddonTranslator.h">
       <Filter>peripherals\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\addons\GameClientInput.h">
+      <Filter>games\addons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
