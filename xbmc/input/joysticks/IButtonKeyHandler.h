@@ -42,7 +42,7 @@ namespace JOYSTICK
      * \return The type of action mapped to buttonKeyId, or INPUT::UNKNOWN if
      *         no action is mapped to the specified key
      */
-    virtual INPUT GetInputType(unsigned int buttonKeyId) const = 0;
+    virtual INPUT_TYPE GetInputType(unsigned int buttonKeyId) const = 0;
 
     /*!
      * \brief A button mapped to a digital action has been pressed or released

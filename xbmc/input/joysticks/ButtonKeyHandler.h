@@ -36,7 +36,7 @@ namespace JOYSTICK
     virtual ~CButtonKeyHandler(void);
 
     // implementation of IButtonKeyHandler
-    virtual INPUT GetInputType(unsigned int buttonKeyId) const override;
+    virtual INPUT_TYPE GetInputType(unsigned int buttonKeyId) const override;
     virtual void OnDigitalButtonKey(unsigned int buttonKeyId, bool bPressed) override;
     virtual void OnAnalogButtonKey(unsigned int buttonKeyId, float magnitude) override;
 

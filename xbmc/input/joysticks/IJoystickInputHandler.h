@@ -43,10 +43,10 @@ namespace JOYSTICK
     /*!
      * \brief Get the type of input handled by the specified feature
      *
-     * \return INPUT::DIGITAL for digital buttons, INPUT::ANALOG for analog
+     * \return INPUT_TYPE::DIGITAL for digital buttons, INPUT::ANALOG for analog
      *         buttons, or INPUT::UNKNOWN otherwise
      */
-    virtual INPUT GetInputType(const FeatureName& feature) const = 0;
+    virtual INPUT_TYPE GetInputType(const FeatureName& feature) const = 0;
 
     /*!
      * \brief A digital button has been pressed or released

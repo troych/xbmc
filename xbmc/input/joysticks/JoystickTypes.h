@@ -79,7 +79,7 @@ namespace JOYSTICK
   /*!
    * \brief Types of input available for scalar features
    */
-  enum class INPUT
+  enum class INPUT_TYPE
   {
     UNKNOWN,
     DIGITAL,

@@ -44,7 +44,7 @@ CButtonKeyHandler::~CButtonKeyHandler(void)
   StopThread(true);
 }
 
-INPUT CButtonKeyHandler::GetInputType(unsigned int buttonKeyId) const
+INPUT_TYPE CButtonKeyHandler::GetInputType(unsigned int buttonKeyId) const
 {
   if (buttonKeyId != 0)
   {
@@ -52,13 +52,13 @@ INPUT CButtonKeyHandler::GetInputType(unsigned int buttonKeyId) const
     if (action.GetID() > 0)
     {
       if (action.IsAnalog())
-        return INPUT::ANALOG;
+        return INPUT_TYPE::ANALOG;
       else
-        return INPUT::DIGITAL;
+        return INPUT_TYPE::DIGITAL;
     }
   }
 
-  return INPUT::UNKNOWN;
+  return INPUT_TYPE::UNKNOWN;
 }
 
 void CButtonKeyHandler::OnDigitalButtonKey(unsigned int buttonKeyId, bool bPressed)
