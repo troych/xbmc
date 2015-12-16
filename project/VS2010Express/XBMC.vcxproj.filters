@@ -3160,12 +3160,6 @@
     <ClCompile Include="..\..\xbmc\input\joysticks\ButtonKeyHandler.cpp">
       <Filter>input\joysticks</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\input\joysticks\DefaultController.cpp">
-      <Filter>input\joysticks</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\xbmc\input\joysticks\JoystickEasterEgg.cpp">
-      <Filter>input\joysticks</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\input\joysticks\JoystickMonitor.cpp">
       <Filter>input\joysticks</Filter>
     </ClCompile>
@@ -6218,16 +6212,10 @@
     <ClInclude Include="..\..\xbmc\input\joysticks\ButtonKeyHandler.h">
       <Filter>input\joysticks</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\input\joysticks\DefaultController.h">
-      <Filter>input\joysticks</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\input\joysticks\IButtonKeyHandler.h">
       <Filter>input\joysticks</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\input\joysticks\IJoystickButtonMapper.h">
-      <Filter>input\joysticks</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\input\joysticks\JoystickEasterEgg.h">
       <Filter>input\joysticks</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\input\joysticks\JoystickMonitor.h">
@@ -6370,6 +6358,9 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\games\addons\GameClientInput.h">
       <Filter>games\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\input\joysticks\IButtonSequence.h">
+      <Filter>input\joysticks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
