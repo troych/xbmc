@@ -100,7 +100,7 @@ bool CAddonJoystickButtonMap::GetScalar(const FeatureName& feature, CDriverPrimi
 
 bool CAddonJoystickButtonMap::AddScalar(const FeatureName& feature, const CDriverPrimitive& primitive)
 {
-  if (primitive.Type() == CDriverPrimitive::Unknown)
+  if (!primitive.IsValid())
   {
     FeatureMap::iterator it = m_features.find(feature);
     if (it != m_features.end())
@@ -153,10 +153,7 @@ bool CAddonJoystickButtonMap::AddAnalogStick(const FeatureName& feature,
                                              const CDriverPrimitive& right,
                                              const CDriverPrimitive& left)
 {
-  if (up.Type() == CDriverPrimitive::Unknown &&
-      down.Type() == CDriverPrimitive::Unknown &&
-      right.Type() == CDriverPrimitive::Unknown &&
-      left.Type() == CDriverPrimitive::Unknown)
+  if (!up.IsValid() && !down.IsValid() && !right.IsValid() && !left.IsValid())
   {
     FeatureMap::iterator it = m_features.find(feature);
     if (it != m_features.end())
@@ -166,22 +163,22 @@ bool CAddonJoystickButtonMap::AddAnalogStick(const FeatureName& feature,
   {
     ADDON::JoystickFeature analogStick(feature, JOYSTICK_FEATURE_TYPE_ANALOG_STICK);
 
-    if (up.Type() != CDriverPrimitive::Unknown)
+    if (up.IsValid())
     {
       UnmapPrimitive(up);
       analogStick.SetUp(CPeripheralAddonTranslator::TranslatePrimitive(up));
     }
-    if (down.Type() != CDriverPrimitive::Unknown)
+    if (down.IsValid())
     {
       UnmapPrimitive(down);
       analogStick.SetDown(CPeripheralAddonTranslator::TranslatePrimitive(down));
     }
-    if (right.Type() != CDriverPrimitive::Unknown)
+    if (right.IsValid())
     {
       UnmapPrimitive(right);
       analogStick.SetRight(CPeripheralAddonTranslator::TranslatePrimitive(right));
     }
-    if (left.Type() != CDriverPrimitive::Unknown)
+    if (left.IsValid())
     {
       UnmapPrimitive(left);
       analogStick.SetLeft(CPeripheralAddonTranslator::TranslatePrimitive(left));
@@ -224,9 +221,7 @@ bool CAddonJoystickButtonMap::AddAccelerometer(const FeatureName& feature,
                                                const CDriverPrimitive& positiveY,
                                                const CDriverPrimitive& positiveZ)
 {
-  if (positiveX.Type() == CDriverPrimitive::Unknown &&
-      positiveY.Type() == CDriverPrimitive::Unknown &&
-      positiveZ.Type() == CDriverPrimitive::Unknown)
+  if (positiveX.IsValid() && positiveY.IsValid() && positiveZ.IsValid())
   {
     FeatureMap::iterator it = m_features.find(feature);
     if (it != m_features.end())
@@ -236,17 +231,17 @@ bool CAddonJoystickButtonMap::AddAccelerometer(const FeatureName& feature,
   {
     ADDON::JoystickFeature accelerometer(feature, JOYSTICK_FEATURE_TYPE_ACCELEROMETER);
 
-    if (positiveX.Type() != CDriverPrimitive::Unknown)
+    if (positiveX.IsValid())
     {
       UnmapPrimitive(positiveX);
       accelerometer.SetPositiveX(CPeripheralAddonTranslator::TranslatePrimitive(positiveX));
     }
-    if (positiveY.Type() != CDriverPrimitive::Unknown)
+    if (positiveY.IsValid())
     {
       UnmapPrimitive(positiveY);
       accelerometer.SetPositiveY(CPeripheralAddonTranslator::TranslatePrimitive(positiveY));
     }
-    if (positiveZ.Type() != CDriverPrimitive::Unknown)
+    if (positiveZ.IsValid())
     {
       UnmapPrimitive(positiveZ);
       accelerometer.SetPositiveZ(CPeripheralAddonTranslator::TranslatePrimitive(positiveZ));

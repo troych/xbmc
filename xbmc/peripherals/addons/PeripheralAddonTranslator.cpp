@@ -89,17 +89,17 @@ ADDON::DriverPrimitive CPeripheralAddonTranslator::TranslatePrimitive(const CDri
 
   switch (primitive.Type())
   {
-    case CDriverPrimitive::Button:
+    case CDriverPrimitive::BUTTON:
     {
       retVal = ADDON::DriverPrimitive(primitive.Index());
       break;
     }
-    case CDriverPrimitive::Hat:
+    case CDriverPrimitive::HAT:
     {
       retVal = ADDON::DriverPrimitive(primitive.Index(), TranslateHatDirection(primitive.HatDirection()));
       break;
     }
-    case CDriverPrimitive::SemiAxis:
+    case CDriverPrimitive::SEMIAXIS:
     {
       retVal = ADDON::DriverPrimitive(primitive.Index(), TranslateSemiAxisDirection(primitive.SemiAxisDirection()));
       break;
