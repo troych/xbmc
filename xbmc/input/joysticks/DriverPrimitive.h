@@ -39,10 +39,10 @@ namespace JOYSTICK
      */
     enum PrimitiveType
     {
-      Unknown = 0,
-      Button,
-      Hat,       // one of the four direction arrows on a dpad
-      SemiAxis,  // the positive or negative half of an axis
+      UNKNOWN = 0, // primitive has no type (invalid)
+      BUTTON,      // a digital button
+      HAT,         // one of the four direction arrows on a dpad
+      SEMIAXIS,    // the positive or negative half of an axis
     };
 
     /*!

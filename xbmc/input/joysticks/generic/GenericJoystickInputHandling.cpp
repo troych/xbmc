@@ -213,10 +213,10 @@ void CGenericJoystickInputHandling::ProcessAxisMotions(void)
       float horizPos = 0.0f;
       float vertPos = 0.0f;
 
-      if (right.Type() == CDriverPrimitive::SemiAxis)
+      if (right.Type() == CDriverPrimitive::SEMIAXIS)
         horizPos = GetAxisState(right.Index()) * static_cast<int>(right.SemiAxisDirection());
 
-      if (up.Type() == CDriverPrimitive::SemiAxis)
+      if (up.Type() == CDriverPrimitive::SEMIAXIS)
         vertPos  = GetAxisState(up.Index())  * static_cast<int>(up.SemiAxisDirection());
 
       m_handler->OnAnalogStickMotion(feature, horizPos, vertPos);
@@ -227,13 +227,13 @@ void CGenericJoystickInputHandling::ProcessAxisMotions(void)
       float yPos = 0.0f;
       float zPos = 0.0f;
 
-      if (positiveX.Type() == CDriverPrimitive::SemiAxis)
+      if (positiveX.Type() == CDriverPrimitive::SEMIAXIS)
         xPos = GetAxisState(positiveX.Index()) * static_cast<int>(positiveX.SemiAxisDirection());
 
-      if (positiveY.Type() == CDriverPrimitive::SemiAxis)
+      if (positiveY.Type() == CDriverPrimitive::SEMIAXIS)
         yPos = GetAxisState(positiveY.Index()) * static_cast<int>(positiveY.SemiAxisDirection());
 
-      if (positiveZ.Type() == CDriverPrimitive::SemiAxis)
+      if (positiveZ.Type() == CDriverPrimitive::SEMIAXIS)
         zPos = GetAxisState(positiveZ.Index()) * static_cast<int>(positiveZ.SemiAxisDirection());
 
       m_handler->OnAccelerometerMotion(feature, xPos, yPos, zPos);

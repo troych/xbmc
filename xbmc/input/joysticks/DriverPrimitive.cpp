@@ -31,7 +31,7 @@ CDriverPrimitive::CDriverPrimitive(void)
 }
 
 CDriverPrimitive::CDriverPrimitive(unsigned int buttonIndex)
-  : m_type(CDriverPrimitive::Button),
+  : m_type(BUTTON),
     m_driverIndex(buttonIndex),
     m_hatDirection(),
     m_semiAxisDirection()
@@ -39,7 +39,7 @@ CDriverPrimitive::CDriverPrimitive(unsigned int buttonIndex)
 }
 
 CDriverPrimitive::CDriverPrimitive(unsigned int hatIndex, HAT_DIRECTION direction)
-  : m_type(CDriverPrimitive::Hat),
+  : m_type(HAT),
     m_driverIndex(hatIndex),
     m_hatDirection(direction),
     m_semiAxisDirection()
@@ -47,7 +47,7 @@ CDriverPrimitive::CDriverPrimitive(unsigned int hatIndex, HAT_DIRECTION directio
 }
 
 CDriverPrimitive::CDriverPrimitive(unsigned int axisIndex, SEMIAXIS_DIRECTION direction)
-  : m_type(CDriverPrimitive::SemiAxis),
+  : m_type(SEMIAXIS),
     m_driverIndex(axisIndex),
     m_hatDirection(),
     m_semiAxisDirection(direction)
@@ -60,11 +60,11 @@ bool CDriverPrimitive::operator==(const CDriverPrimitive& rhs) const
   {
     switch (m_type)
     {
-    case CDriverPrimitive::Button:
+    case BUTTON:
       return m_driverIndex == rhs.m_driverIndex;
-    case CDriverPrimitive::Hat:
+    case HAT:
       return m_driverIndex == rhs.m_driverIndex && m_hatDirection == rhs.m_hatDirection;
-    case CDriverPrimitive::SemiAxis:
+    case SEMIAXIS:
       return m_driverIndex == rhs.m_driverIndex && m_semiAxisDirection == rhs.m_semiAxisDirection;
     default:
       return true;
@@ -78,19 +78,20 @@ bool CDriverPrimitive::operator<(const CDriverPrimitive& rhs) const
   if (m_type < rhs.m_type) return true;
   if (m_type > rhs.m_type) return false;
 
-  if (m_type != CDriverPrimitive::Unknown)
+  // Driver index is common to all valid primitives
+  if (m_type != UNKNOWN)
   {
     if (m_driverIndex < rhs.m_driverIndex) return true;
     if (m_driverIndex > rhs.m_driverIndex) return false;
   }
 
-  if (m_type == CDriverPrimitive::Hat)
+  if (m_type == HAT)
   {
     if (m_hatDirection < rhs.m_hatDirection) return true;
     if (m_hatDirection > rhs.m_hatDirection) return false;
   }
 
-  if (m_type == CDriverPrimitive::SemiAxis)
+  if (m_type == SEMIAXIS)
   {
     if (m_semiAxisDirection < rhs.m_semiAxisDirection) return true;
     if (m_semiAxisDirection > rhs.m_semiAxisDirection) return false;
@@ -101,13 +102,22 @@ bool CDriverPrimitive::operator<(const CDriverPrimitive& rhs) const
 
 bool CDriverPrimitive::IsValid(void) const
 {
-  return m_type == CDriverPrimitive::Button ||
+  if (m_type == BUTTON)
+    return true;
 
-        (m_type == CDriverPrimitive::Hat && (m_hatDirection == HAT_DIRECTION::UP     ||
-                                             m_hatDirection == HAT_DIRECTION::DOWN   ||
-                                             m_hatDirection == HAT_DIRECTION::RIGHT  ||
-                                             m_hatDirection == HAT_DIRECTION::LEFT)) ||
+  if (m_type == HAT)
+  {
+    return m_hatDirection == HAT_DIRECTION::UP    ||
+           m_hatDirection == HAT_DIRECTION::DOWN  ||
+           m_hatDirection == HAT_DIRECTION::RIGHT ||
+           m_hatDirection == HAT_DIRECTION::LEFT;
+  }
 
-        (m_type == CDriverPrimitive::SemiAxis && (m_semiAxisDirection == SEMIAXIS_DIRECTION::POSITIVE ||
-                                                  m_semiAxisDirection == SEMIAXIS_DIRECTION::NEGATIVE));
+  if (m_type == SEMIAXIS)
+  {
+    return m_semiAxisDirection == SEMIAXIS_DIRECTION::POSITIVE ||
+           m_semiAxisDirection == SEMIAXIS_DIRECTION::NEGATIVE;
+  }
+
+  return false;
 }
