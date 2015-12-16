@@ -93,30 +93,30 @@ bool CDefaultController::OnAnalogStickMotion(const FeatureName& feature, float x
   // Calculate the direction of the stick's position
   const CARDINAL_DIRECTION analogStickDir = CJoystickTranslator::VectorToCardinalDirection(x, y);
 
-  // Process directions in which the stick is not pointing first
+  // Calculate the magnitude projected onto that direction
+  const float magnitude = MAX(ABS(x), ABS(y));
+
+  // Deactivate directions in which the stick is not pointing first
   for (std::vector<CARDINAL_DIRECTION>::const_iterator it = GetDirections().begin(); it != GetDirections().end(); ++it)
   {
-    if (*it == analogStickDir)
-      continue;
-
-    // Calculate the button key ID and input type for this direction
-    const unsigned int keyId = GetKeyID(feature, *it);
-    const INPUT_TYPE inputType = m_handler->GetInputType(keyId);
-
-    if (inputType == INPUT_TYPE::DIGITAL)
-      m_handler->OnDigitalKey(keyId, false);
-    else if (inputType == INPUT_TYPE::ANALOG)
-      m_handler->OnAnalogKey(keyId, 0.0f);
+    if (*it != analogStickDir)
+      DeactivateDirection(feature, *it);
   }
 
-  // Process analog stick direction last to avoid prematurely clearing the hold timer
+  // Now activate direction the analog stick is pointing
+  return ActivateDirection(feature, magnitude, analogStickDir);
+}
 
+bool CDefaultController::OnAccelerometerMotion(const FeatureName& feature, float x, float y, float z)
+{
+  return false; // TODO
+}
+
+bool CDefaultController::ActivateDirection(const JOYSTICK::FeatureName& feature, float magnitude, JOYSTICK::CARDINAL_DIRECTION dir)
+{
   // Calculate the button key ID and input type for the analog stick's direction
-  const unsigned int keyId = GetKeyID(feature, analogStickDir);
-  const INPUT_TYPE inputType = m_handler->GetInputType(keyId);
-
-  // Calculate the magnitude in the cardinal direction
-  const float magnitude = MAX(ABS(x), ABS(y));
+  const unsigned int  keyId     = GetKeyID(feature, dir);
+  const INPUT_TYPE    inputType = m_handler->GetInputType(keyId);
 
   if (inputType == INPUT_TYPE::DIGITAL)
   {
@@ -133,9 +133,20 @@ bool CDefaultController::OnAnalogStickMotion(const FeatureName& feature, float x
   return false;
 }
 
-bool CDefaultController::OnAccelerometerMotion(const FeatureName& feature, float x, float y, float z)
+void CDefaultController::DeactivateDirection(const JOYSTICK::FeatureName& feature, JOYSTICK::CARDINAL_DIRECTION dir)
 {
-  return false; // TODO
+  // Calculate the button key ID and input type for this direction
+  const unsigned int  keyId     = GetKeyID(feature, dir);
+  const INPUT_TYPE    inputType = m_handler->GetInputType(keyId);
+
+  if (inputType == INPUT_TYPE::DIGITAL)
+  {
+    m_handler->OnDigitalKey(keyId, false);
+  }
+  else if (inputType == INPUT_TYPE::ANALOG)
+  {
+    m_handler->OnAnalogKey(keyId, 0.0f);
+  }
 }
 
 unsigned int CDefaultController::GetKeyID(const FeatureName& feature, CARDINAL_DIRECTION dir /* = CARDINAL_DIRECTION::UNKNOWN */)

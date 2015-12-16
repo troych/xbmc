@@ -55,6 +55,9 @@ namespace GAME
     virtual bool OnAccelerometerMotion(const JOYSTICK::FeatureName& feature, float x, float y, float z) override;
 
   private:
+    bool ActivateDirection(const JOYSTICK::FeatureName& feature, float magnitude, JOYSTICK::CARDINAL_DIRECTION dir);
+    void DeactivateDirection(const JOYSTICK::FeatureName& feature, JOYSTICK::CARDINAL_DIRECTION dir);
+
     /*!
      * \brief Get the keymap key, as defined in Key.h, for the specified
      *        joystick feature/direction
