@@ -35,3 +35,8 @@ inline JOYSTICK::SEMIAXIS_DIRECTION operator*(JOYSTICK::SEMIAXIS_DIRECTION lhs, 
 {
   return static_cast<JOYSTICK::SEMIAXIS_DIRECTION>(static_cast<int>(lhs) * rhs);
 }
+
+inline float operator*(float lhs, JOYSTICK::SEMIAXIS_DIRECTION rhs)
+{
+  return lhs * static_cast<int>(rhs);
+}

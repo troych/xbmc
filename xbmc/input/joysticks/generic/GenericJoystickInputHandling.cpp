@@ -24,6 +24,7 @@
 #include "input/joysticks/IJoystickButtonMap.h"
 #include "input/joysticks/IJoystickInputHandler.h"
 #include "input/joysticks/JoystickTranslator.h"
+#include "input/joysticks/JoystickUtils.h"
 #include "utils/log.h"
 
 #include <algorithm>
@@ -228,13 +229,13 @@ void CGenericJoystickInputHandling::ProcessAxisMotions(void)
       float zPos = 0.0f;
 
       if (positiveX.Type() == CDriverPrimitive::SEMIAXIS)
-        xPos = GetAxisState(positiveX.Index()) * static_cast<int>(positiveX.SemiAxisDirection());
+        xPos = GetAxisState(positiveX.Index()) * positiveX.SemiAxisDirection();
 
       if (positiveY.Type() == CDriverPrimitive::SEMIAXIS)
-        yPos = GetAxisState(positiveY.Index()) * static_cast<int>(positiveY.SemiAxisDirection());
+        yPos = GetAxisState(positiveY.Index()) * positiveY.SemiAxisDirection();
 
       if (positiveZ.Type() == CDriverPrimitive::SEMIAXIS)
-        zPos = GetAxisState(positiveZ.Index()) * static_cast<int>(positiveZ.SemiAxisDirection());
+        zPos = GetAxisState(positiveZ.Index()) * positiveZ.SemiAxisDirection();
 
       m_handler->OnAccelerometerMotion(feature, xPos, yPos, zPos);
     }
