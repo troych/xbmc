@@ -132,7 +132,7 @@ void CGUIFeatureButton::PromptAnalogStick(void)
       case CARDINAL_DIRECTION::UP:
       {
         // If last primitive was a semiaxis, we can skip the opposite direction
-        if (m_lastPrimtive.Type() == CDriverPrimitive::SemiAxis)
+        if (m_lastPrimtive.Type() == CDriverPrimitive::SEMIAXIS)
           m_analogStickDirection = CARDINAL_DIRECTION::RIGHT;
         else
           m_analogStickDirection = CARDINAL_DIRECTION::DOWN;
@@ -147,7 +147,7 @@ void CGUIFeatureButton::PromptAnalogStick(void)
       case CARDINAL_DIRECTION::RIGHT:
       {
         // If last primitive was a semiaxis, we can skip to the end
-        if (m_lastPrimtive.Type() == CDriverPrimitive::SemiAxis)
+        if (m_lastPrimtive.Type() == CDriverPrimitive::SEMIAXIS)
           m_analogStickDirection = CARDINAL_DIRECTION::UNKNOWN;
         else
           m_analogStickDirection = CARDINAL_DIRECTION::LEFT;
@@ -172,12 +172,12 @@ void CGUIFeatureButton::Abort(void)
   m_waitCondition.Set();
 }
 
-bool CGUIFeatureButton::MapPrimitive(IJoystickButtonMap* buttonMap, const JOYSTICK::CDriverPrimitive& primitive)
+bool CGUIFeatureButton::MapPrimitive(IJoystickButtonMap* buttonMap, const CDriverPrimitive& primitive)
 {
   bool bHandled = false;
 
   // Handle esc key separately
-  if (primitive.Type() == JOYSTICK::CDriverPrimitive::Button &&
+  if (primitive.Type() == CDriverPrimitive::BUTTON &&
       primitive.Index() == ESC_KEY_CODE)
   {
     bHandled = true;
