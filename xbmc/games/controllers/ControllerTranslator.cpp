@@ -23,54 +23,54 @@
 
 using namespace GAME;
 
-const char* CControllerTranslator::TranslateFeatureType(FEATURE type)
+const char* CControllerTranslator::TranslateFeatureType(FEATURE_TYPE type)
 {
   switch (type)
   {
-    case FEATURE::SCALAR:           return LAYOUT_XML_ELM_BUTTON;
-    case FEATURE::ANALOG_STICK:     return LAYOUT_XML_ELM_ANALOG_STICK;
-    case FEATURE::ACCELEROMETER:    return LAYOUT_XML_ELM_ACCELEROMETER;
-    case FEATURE::KEY:              return LAYOUT_XML_ELM_KEY;
-    case FEATURE::RELATIVE_POINTER: return LAYOUT_XML_ELM_RELATIVE_POINTER;
-    case FEATURE::ABSOLUTE_POINTER: return LAYOUT_XML_ELM_ABSOLUTE_POINTER;
-    case FEATURE::MOTOR:            return LAYOUT_XML_ELM_MOTOR;
+    case FEATURE_TYPE::SCALAR:           return LAYOUT_XML_ELM_BUTTON;
+    case FEATURE_TYPE::ANALOG_STICK:     return LAYOUT_XML_ELM_ANALOG_STICK;
+    case FEATURE_TYPE::ACCELEROMETER:    return LAYOUT_XML_ELM_ACCELEROMETER;
+    case FEATURE_TYPE::KEY:              return LAYOUT_XML_ELM_KEY;
+    case FEATURE_TYPE::RELATIVE_POINTER: return LAYOUT_XML_ELM_RELATIVE_POINTER;
+    case FEATURE_TYPE::ABSOLUTE_POINTER: return LAYOUT_XML_ELM_ABSOLUTE_POINTER;
+    case FEATURE_TYPE::MOTOR:            return LAYOUT_XML_ELM_MOTOR;
     default:
       break;
   }
   return "";
 }
 
-FEATURE CControllerTranslator::TranslateFeatureType(const std::string& strType)
+FEATURE_TYPE CControllerTranslator::TranslateFeatureType(const std::string& strType)
 {
-  if (strType == LAYOUT_XML_ELM_BUTTON)           return FEATURE::SCALAR;
-  if (strType == LAYOUT_XML_ELM_ANALOG_STICK)     return FEATURE::ANALOG_STICK;
-  if (strType == LAYOUT_XML_ELM_ACCELEROMETER)    return FEATURE::ACCELEROMETER;
-  if (strType == LAYOUT_XML_ELM_KEY)              return FEATURE::KEY;
-  if (strType == LAYOUT_XML_ELM_RELATIVE_POINTER) return FEATURE::RELATIVE_POINTER;
-  if (strType == LAYOUT_XML_ELM_ABSOLUTE_POINTER) return FEATURE::ABSOLUTE_POINTER;
-  if (strType == LAYOUT_XML_ELM_MOTOR)            return FEATURE::MOTOR;
+  if (strType == LAYOUT_XML_ELM_BUTTON)           return FEATURE_TYPE::SCALAR;
+  if (strType == LAYOUT_XML_ELM_ANALOG_STICK)     return FEATURE_TYPE::ANALOG_STICK;
+  if (strType == LAYOUT_XML_ELM_ACCELEROMETER)    return FEATURE_TYPE::ACCELEROMETER;
+  if (strType == LAYOUT_XML_ELM_KEY)              return FEATURE_TYPE::KEY;
+  if (strType == LAYOUT_XML_ELM_RELATIVE_POINTER) return FEATURE_TYPE::RELATIVE_POINTER;
+  if (strType == LAYOUT_XML_ELM_ABSOLUTE_POINTER) return FEATURE_TYPE::ABSOLUTE_POINTER;
+  if (strType == LAYOUT_XML_ELM_MOTOR)            return FEATURE_TYPE::MOTOR;
 
-  return FEATURE::UNKNOWN;
+  return FEATURE_TYPE::UNKNOWN;
 }
 
-const char* CControllerTranslator::TranslateButtonType(JOYSTICK::INPUT type)
+const char* CControllerTranslator::TranslateButtonType(JOYSTICK::INPUT_TYPE type)
 {
   switch (type)
   {
-    case JOYSTICK::INPUT::DIGITAL: return "digital";
-    case JOYSTICK::INPUT::ANALOG:  return "analog";
+    case JOYSTICK::INPUT_TYPE::DIGITAL: return "digital";
+    case JOYSTICK::INPUT_TYPE::ANALOG:  return "analog";
     default:
       break;
   }
   return "";
 }
 
-JOYSTICK::INPUT CControllerTranslator::TranslateButtonType(const std::string& strType)
+JOYSTICK::INPUT_TYPE CControllerTranslator::TranslateButtonType(const std::string& strType)
 {
-  if (strType == "digital") return JOYSTICK::INPUT::DIGITAL;
-  if (strType == "analog")  return JOYSTICK::INPUT::ANALOG;
+  if (strType == "digital") return JOYSTICK::INPUT_TYPE::DIGITAL;
+  if (strType == "analog")  return JOYSTICK::INPUT_TYPE::ANALOG;
 
-  return JOYSTICK::INPUT::UNKNOWN;
+  return JOYSTICK::INPUT_TYPE::UNKNOWN;
 }
 
 const char* CControllerTranslator::TranslateGeometry(GEOMETRY geometry)

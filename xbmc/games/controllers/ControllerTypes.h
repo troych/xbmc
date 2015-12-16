@@ -31,7 +31,7 @@ namespace GAME
   /*!
    * \brief Types of features used in the controller abstraction
    */
-  enum class FEATURE
+  enum class FEATURE_TYPE
   {
     UNKNOWN,
     SCALAR,

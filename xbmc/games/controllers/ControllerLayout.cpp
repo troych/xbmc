@@ -33,16 +33,16 @@ using namespace JOYSTICK;
 
 struct FeatureTypeEqual
 {
-  FeatureTypeEqual(FEATURE type, INPUT buttonType) : type(type), buttonType(buttonType) { }
+  FeatureTypeEqual(FEATURE_TYPE type, INPUT_TYPE buttonType) : type(type), buttonType(buttonType) { }
 
   bool operator()(const CControllerFeature& feature) const
   {
-    if (type == FEATURE::UNKNOWN)
+    if (type == FEATURE_TYPE::UNKNOWN)
       return true; // Match all feature types
 
-    if (type == FEATURE::SCALAR && feature.Type() == FEATURE::SCALAR)
+    if (type == FEATURE_TYPE::SCALAR && feature.Type() == FEATURE_TYPE::SCALAR)
     {
-      if (buttonType == INPUT::UNKNOWN)
+      if (buttonType == INPUT_TYPE::UNKNOWN)
         return true; // Match all button types
 
       return buttonType == feature.ButtonType();
@@ -51,8 +51,8 @@ struct FeatureTypeEqual
     return type == feature.Type();
   }
 
-  const FEATURE type;
-  const INPUT   buttonType;
+  const FEATURE_TYPE type;
+  const INPUT_TYPE   buttonType;
 };
 
 // --- CControllerLayout ---------------------------------------------------
@@ -67,8 +67,8 @@ void CControllerLayout::Reset(void)
   m_features.clear();
 }
 
-unsigned int CControllerLayout::FeatureCount(FEATURE type       /* = FEATURE::UNKNOWN */,
-                                             INPUT   buttonType /* = INPUT::UNKNOWN */) const
+unsigned int CControllerLayout::FeatureCount(FEATURE_TYPE type       /* = FEATURE_TYPE::UNKNOWN */,
+                                             INPUT_TYPE   buttonType /* = INPUT_TYPE::UNKNOWN */) const
 {
   return std::count_if(m_features.begin(), m_features.end(), FeatureTypeEqual(type, buttonType));
 }

@@ -36,12 +36,12 @@ using namespace JOYSTICK;
 
 void CControllerFeature::Reset(void)
 {
-  m_type = FEATURE::UNKNOWN;
+  m_type = FEATURE_TYPE::UNKNOWN;
   m_strName.clear();
   m_strLabel.clear();
   m_labelId = 0;
   SAFE_DELETE(m_geometry);
-  m_buttonType = INPUT::UNKNOWN;
+  m_buttonType = INPUT_TYPE::UNKNOWN;
 }
 
 CControllerFeature& CControllerFeature::operator=(const CControllerFeature& rhs)
@@ -71,7 +71,7 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
 
   // Type
   m_type = CControllerTranslator::TranslateFeatureType(strType);
-  if (m_type == FEATURE::UNKNOWN)
+  if (m_type == FEATURE_TYPE::UNKNOWN)
   {
     CLog::Log(LOGERROR, "Invalid feature: <%s> ", pElement->Value());
     return false;
@@ -87,7 +87,7 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
 
   // Label ID
   std::string strLabel = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_FEATURE_LABEL);
-  if (m_type != FEATURE::KEY && strLabel.empty())
+  if (m_type != FEATURE_TYPE::KEY && strLabel.empty())
   {
     CLog::Log(LOGERROR, "<%s> tag has no \"%s\" attribute", strType.c_str(), LAYOUT_XML_ATTR_FEATURE_LABEL);
     return false;
@@ -101,7 +101,7 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
   m_geometry = CreateGeometry(pElement);
 
   // Button type
-  if (m_type == FEATURE::SCALAR)
+  if (m_type == FEATURE_TYPE::SCALAR)
   {
     std::string strButtonType = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_BUTTON_TYPE);
     if (strButtonType.empty())
@@ -112,7 +112,7 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
     else
     {
       m_buttonType = CControllerTranslator::TranslateButtonType(strButtonType);
-      if (m_buttonType == INPUT::UNKNOWN)
+      if (m_buttonType == INPUT_TYPE::UNKNOWN)
       {
         CLog::Log(LOGERROR, "<%s> tag - attribute \"%s\" is invalid: \"%s\"",
                   strType.c_str(), LAYOUT_XML_ATTR_BUTTON_TYPE, strButtonType.c_str());

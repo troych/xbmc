@@ -30,11 +30,11 @@ namespace GAME
 class CControllerTranslator
 {
 public:
-  static const char* TranslateFeatureType(FEATURE type);
-  static FEATURE TranslateFeatureType(const std::string& strType);
+  static const char* TranslateFeatureType(FEATURE_TYPE type);
+  static FEATURE_TYPE TranslateFeatureType(const std::string& strType);
 
-  static const char* TranslateButtonType(JOYSTICK::INPUT type);
-  static JOYSTICK::INPUT TranslateButtonType(const std::string& strType);
+  static const char* TranslateButtonType(JOYSTICK::INPUT_TYPE type);
+  static JOYSTICK::INPUT_TYPE TranslateButtonType(const std::string& strType);
 
   static const char* TranslateGeometry(GEOMETRY geometry);
   static GEOMETRY TranslateGeometry(const std::string& strGeometry);
