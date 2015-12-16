@@ -18,7 +18,7 @@
  *
  */
 
-#include "ButtonKeyHandler.h"
+#include "KeymapHandler.h"
 #include "guilib/GUIWindowManager.h"
 #include "input/ButtonTranslator.h"
 #include "input/Key.h"
@@ -31,24 +31,24 @@
 
 using namespace JOYSTICK;
 
-CButtonKeyHandler::CButtonKeyHandler(void)
-  : CThread("ButtonKeyHandler"),
+CKeymapHandler::CKeymapHandler(void)
+  : CThread("KeymapHandler"),
     m_state(STATE_UNPRESSED),
     m_lastButtonPress(0)
 {
   Create(false);
 }
 
-CButtonKeyHandler::~CButtonKeyHandler(void)
+CKeymapHandler::~CKeymapHandler(void)
 {
   StopThread(true);
 }
 
-INPUT_TYPE CButtonKeyHandler::GetInputType(unsigned int buttonKeyId) const
+INPUT_TYPE CKeymapHandler::GetInputType(unsigned int keyId) const
 {
-  if (buttonKeyId != 0)
+  if (keyId != 0)
   {
-    CAction action(CButtonTranslator::GetInstance().GetAction(g_windowManager.GetActiveWindowID(), CKey(buttonKeyId, 0)));
+    CAction action(CButtonTranslator::GetInstance().GetAction(g_windowManager.GetActiveWindowID(), CKey(keyId, 0)));
     if (action.GetID() > 0)
     {
       if (action.IsAnalog())
@@ -61,26 +61,26 @@ INPUT_TYPE CButtonKeyHandler::GetInputType(unsigned int buttonKeyId) const
   return INPUT_TYPE::UNKNOWN;
 }
 
-void CButtonKeyHandler::OnDigitalButtonKey(unsigned int buttonKeyId, bool bPressed)
+void CKeymapHandler::OnDigitalKey(unsigned int keyId, bool bPressed)
 {
-  if (buttonKeyId != 0)
+  if (keyId != 0)
   {
     CSingleLock lock(m_digitalMutex);
 
-    if (bPressed && !IsHeld(buttonKeyId))
-      ProcessButtonPress(buttonKeyId);
-    else if (!bPressed && IsHeld(buttonKeyId))
-      ProcessButtonRelease(buttonKeyId);
+    if (bPressed && !IsHeld(keyId))
+      ProcessButtonPress(keyId);
+    else if (!bPressed && IsHeld(keyId))
+      ProcessButtonRelease(keyId);
   }
 }
 
-void CButtonKeyHandler::OnAnalogButtonKey(unsigned int buttonKeyId, float magnitude)
+void CKeymapHandler::OnAnalogKey(unsigned int keyId, float magnitude)
 {
-  if (buttonKeyId != 0)
-    SendAnalogAction(buttonKeyId, magnitude);
+  if (keyId != 0)
+    SendAnalogAction(keyId, magnitude);
 }
 
-void CButtonKeyHandler::Process()
+void CKeymapHandler::Process()
 {
   unsigned int holdStartTime = 0;
   unsigned int pressedButton = 0;
@@ -157,13 +157,13 @@ void CButtonKeyHandler::Process()
   }
 }
 
-bool CButtonKeyHandler::ProcessButtonPress(unsigned int buttonKeyId)
+bool CKeymapHandler::ProcessButtonPress(unsigned int keyId)
 {
-  m_pressedButtons.push_back(buttonKeyId);
+  m_pressedButtons.push_back(keyId);
 
-  if (SendDigitalAction(buttonKeyId))
+  if (SendDigitalAction(keyId))
   {
-    m_lastButtonPress = buttonKeyId;
+    m_lastButtonPress = keyId;
     m_pressEvent.Set();
     return true;
   }
@@ -171,25 +171,25 @@ bool CButtonKeyHandler::ProcessButtonPress(unsigned int buttonKeyId)
   return false;
 }
 
-void CButtonKeyHandler::ProcessButtonRelease(unsigned int buttonKeyId)
+void CKeymapHandler::ProcessButtonRelease(unsigned int keyId)
 {
-  m_pressedButtons.erase(std::remove(m_pressedButtons.begin(), m_pressedButtons.end(), buttonKeyId), m_pressedButtons.end());
+  m_pressedButtons.erase(std::remove(m_pressedButtons.begin(), m_pressedButtons.end(), keyId), m_pressedButtons.end());
 
-  if (buttonKeyId == m_lastButtonPress || m_pressedButtons.empty())
+  if (keyId == m_lastButtonPress || m_pressedButtons.empty())
   {
     m_lastButtonPress = 0;
     m_pressEvent.Set();
   }
 }
 
-bool CButtonKeyHandler::IsHeld(unsigned int buttonKeyId) const
+bool CKeymapHandler::IsHeld(unsigned int keyId) const
 {
-  return std::find(m_pressedButtons.begin(), m_pressedButtons.end(), buttonKeyId) != m_pressedButtons.end();
+  return std::find(m_pressedButtons.begin(), m_pressedButtons.end(), keyId) != m_pressedButtons.end();
 }
 
-bool CButtonKeyHandler::SendDigitalAction(unsigned int buttonKeyId, unsigned int holdTimeMs /* = 0 */)
+bool CKeymapHandler::SendDigitalAction(unsigned int keyId, unsigned int holdTimeMs /* = 0 */)
 {
-  CAction action(CButtonTranslator::GetInstance().GetAction(g_windowManager.GetActiveWindowID(), CKey(buttonKeyId, holdTimeMs)));
+  CAction action(CButtonTranslator::GetInstance().GetAction(g_windowManager.GetActiveWindowID(), CKey(keyId, holdTimeMs)));
   if (action.GetID() > 0)
   {
     CApplicationMessenger::Get().SendAction(action, WINDOW_INVALID, false);
@@ -199,9 +199,9 @@ bool CButtonKeyHandler::SendDigitalAction(unsigned int buttonKeyId, unsigned int
   return false;
 }
 
-bool CButtonKeyHandler::SendAnalogAction(unsigned int buttonKeyId, float magnitude)
+bool CKeymapHandler::SendAnalogAction(unsigned int keyId, float magnitude)
 {
-  CAction action(CButtonTranslator::GetInstance().GetAction(g_windowManager.GetActiveWindowID(), CKey(buttonKeyId, 0)));
+  CAction action(CButtonTranslator::GetInstance().GetAction(g_windowManager.GetActiveWindowID(), CKey(keyId, 0)));
   if (action.GetID() > 0)
   {
     CAction actionWithAmount(action.GetID(), magnitude, 0.0f, action.GetName());

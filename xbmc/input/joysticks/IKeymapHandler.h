@@ -24,42 +24,42 @@
 namespace JOYSTICK
 {
   /*!
-   * \brief Interface for handling joystick.xml button keys
+   * \brief Interface for handling keymap keys
    *
    * Keys can be mapped to analog actions (e.g. "AnalogSeekForward") or digital
    * actions (e.g. "Up").
    */
-  class IButtonKeyHandler
+  class IKeymapHandler
   {
   public:
-    virtual ~IButtonKeyHandler(void) { }
+    virtual ~IKeymapHandler(void) { }
 
     /*!
-     * \brief Get the type of action mapped to the specified button key ID
+     * \brief Get the type of action mapped to the specified key ID
      *
-     * \param buttonKeyId  The button key ID from Key.h
+     * \param keyId  The key ID from Key.h
      *
-     * \return The type of action mapped to buttonKeyId, or INPUT::UNKNOWN if
+     * \return The type of action mapped to keyId, or INPUT_TYPE::UNKNOWN if
      *         no action is mapped to the specified key
      */
-    virtual INPUT_TYPE GetInputType(unsigned int buttonKeyId) const = 0;
+    virtual INPUT_TYPE GetInputType(unsigned int keyId) const = 0;
 
     /*!
-     * \brief A button mapped to a digital action has been pressed or released
+     * \brief A key mapped to a digital action has been pressed or released
      *
-     * \param buttonKeyId  The button key ID from Key.h
-     * \param bPressed     true if the button is activated, false if deactivated
+     * \param keyId     The key ID from Key.h
+     * \param bPressed  true if the key's button/axis is activated, false if deactivated
      */
-    virtual void OnDigitalButtonKey(unsigned int buttonKeyId, bool bPressed) = 0;
+    virtual void OnDigitalKey(unsigned int keyId, bool bPressed) = 0;
 
     /*!
      * \brief Callback for keys mapped to analog actions
      *
-     * \param buttonKeyId  The button key ID from Key.h
-     * \param magnitude    The amount of the analog action
+     * \param keyId      The button key ID from Key.h
+     * \param magnitude  The amount of the analog action
      *
-     * If buttonKeyId is not mapped to an analog action, no action need be taken
+     * If keyId is not mapped to an analog action, no action need be taken
      */
-    virtual void OnAnalogButtonKey(unsigned int buttonKeyId, float magnitude) = 0;
+    virtual void OnAnalogKey(unsigned int buttonKeyId, float magnitude) = 0;
   };
 }

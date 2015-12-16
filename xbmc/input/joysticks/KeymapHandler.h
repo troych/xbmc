@@ -19,7 +19,7 @@
  */
 #pragma once
 
-#include "input/joysticks/IButtonKeyHandler.h"
+#include "input/joysticks/IKeymapHandler.h"
 #include "threads/CriticalSection.h"
 #include "threads/Event.h"
 #include "threads/Thread.h"
@@ -28,17 +28,18 @@
 
 namespace JOYSTICK
 {
-  class CButtonKeyHandler : public IButtonKeyHandler, protected CThread
+  class CKeymapHandler : public IKeymapHandler,
+                         protected CThread
   {
   public:
-    CButtonKeyHandler(void);
+    CKeymapHandler(void);
 
-    virtual ~CButtonKeyHandler(void);
+    virtual ~CKeymapHandler(void);
 
-    // implementation of IButtonKeyHandler
-    virtual INPUT_TYPE GetInputType(unsigned int buttonKeyId) const override;
-    virtual void OnDigitalButtonKey(unsigned int buttonKeyId, bool bPressed) override;
-    virtual void OnAnalogButtonKey(unsigned int buttonKeyId, float magnitude) override;
+    // implementation of IKeymapHandler
+    virtual INPUT_TYPE GetInputType(unsigned int keyId) const override;
+    virtual void OnDigitalKey(unsigned int keyId, bool bPressed) override;
+    virtual void OnAnalogKey(unsigned int keyId, float magnitude) override;
 
   protected:
     // implementation of CThread
@@ -52,12 +53,12 @@ namespace JOYSTICK
       STATE_BUTTON_HELD,
     };
 
-    bool ProcessButtonPress(unsigned int buttonKeyId);
-    void ProcessButtonRelease(unsigned int buttonKeyId);
-    bool IsHeld(unsigned int buttonKeyId) const;
+    bool ProcessButtonPress(unsigned int keyId);
+    void ProcessButtonRelease(unsigned int keyId);
+    bool IsHeld(unsigned int keyId) const;
 
-    static bool SendDigitalAction(unsigned int buttonKeyId, unsigned int holdTimeMs = 0);
-    static bool SendAnalogAction(unsigned int buttonKeyId, float magnitude);
+    static bool SendDigitalAction(unsigned int keyId, unsigned int holdTimeMs = 0);
+    static bool SendAnalogAction(unsigned int keyId, float magnitude);
 
     BUTTON_STATE              m_state;
     unsigned int              m_lastButtonPress;

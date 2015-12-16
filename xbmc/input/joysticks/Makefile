@@ -1,7 +1,7 @@
-SRCS=ButtonKeyHandler.cpp \
-     DriverPrimitive.cpp \
+SRCS=DriverPrimitive.cpp \
      JoystickMonitor.cpp \
      JoystickTranslator.cpp \
+     KeymapHandler.cpp \
 
 LIB=input_joysticks.a
 
