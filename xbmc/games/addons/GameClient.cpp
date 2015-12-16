@@ -611,25 +611,32 @@ unsigned int CGameClient::RewindFrames(unsigned int frames)
 bool CGameClient::OpenPort(unsigned int port)
 {
   ControllerVector controllers = GetControllers();
-  if (!controllers.empty()) // TODO: Choose controller
+  if (!controllers.empty())
   {
-    if (port >= m_controllers.size())
-      m_controllers.resize(port + 1);
+    // TODO: Choose controller
+    ControllerPtr& controller = controllers[0];
 
-    ClosePort(port);
+    if (controller->LoadLayout())
+    {
+      ClosePort(port);
 
-    m_controllers[port] = new CGameClientInput(this, port, controllers[0]);
+      // Ensure port exists
+      if (port >= m_controllers.size())
+        m_controllers.resize(port + 1);
 
-    // If keyboard input is being captured by this add-on, force the port type to PERIPHERAL_JOYSTICK
-    PERIPHERALS::PeripheralType device = PERIPHERALS::PERIPHERAL_UNKNOWN;
-    if (m_bSupportsKeyboard)
-      device = PERIPHERALS::PERIPHERAL_JOYSTICK;
+      m_controllers[port] = new CGameClientInput(this, port, controller);
 
-    CPortManager::Get().OpenPort(m_controllers[port], port, device);
+      // If keyboard input is being captured by this add-on, force the port type to PERIPHERAL_JOYSTICK
+      PERIPHERALS::PeripheralType device = PERIPHERALS::PERIPHERAL_UNKNOWN;
+      if (m_bSupportsKeyboard)
+        device = PERIPHERALS::PERIPHERAL_JOYSTICK;
 
-    UpdatePort(port, controllers[0]);
+      CPortManager::Get().OpenPort(m_controllers[port], port, device);
 
-    return true;
+      UpdatePort(port, controllers[0]);
+
+      return true;
+    }
   }
 
   return false;
@@ -637,6 +644,7 @@ bool CGameClient::OpenPort(unsigned int port)
 
 void CGameClient::ClosePort(unsigned int port)
 {
+  // Can't close port if it doesn't exist
   if (port >= m_controllers.size())
     return;
 
