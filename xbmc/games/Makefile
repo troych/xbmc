@@ -1,9 +1,7 @@
-SRCS=ControllerManager.cpp \
-     GameFileAutoLauncher.cpp \
+SRCS=GameFileAutoLauncher.cpp \
      GameManager.cpp \
      GameSettings.cpp \
-     GameTranslator.cpp \
-     SerialState.cpp
+     SerialState.cpp \
 
 LIB=games.a
 
