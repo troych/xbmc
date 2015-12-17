@@ -24,6 +24,7 @@
 #include "input/joysticks/JoystickTranslator.h"
 #include "input/Key.h"
 
+#include <algorithm>
 #include <cmath>
 #include <cstdlib>
 
