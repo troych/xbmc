@@ -22,6 +22,7 @@
 #include "input/joysticks/generic/GenericJoystickButtonMapping.h"
 #include "input/joysticks/IJoystickButtonMapper.h"
 #include "peripherals/addons/AddonJoystickButtonMap.h"
+#include "peripherals/Peripherals.h"
 
 using namespace JOYSTICK;
 using namespace PERIPHERALS;
@@ -33,11 +34,20 @@ using namespace PERIPHERALS;
 CAddonJoystickButtonMapping::CAddonJoystickButtonMapping(CPeripheral* peripheral, IJoystickButtonMapper* mapper)
   : m_driverHandler(NULL)
 {
-  m_buttonMap = new CAddonJoystickButtonMap(peripheral, mapper->ControllerID());
-  if (m_buttonMap->Load())
-    m_driverHandler = new CGenericJoystickButtonMapping(mapper, m_buttonMap);
+  PeripheralAddonPtr addon = g_peripherals.GetAddon(peripheral);
+
+  if (!addon)
+  {
+    CLog::Log(LOGDEBUG, "Failed to locate add-on for \"%s\"", peripheral->DeviceName().c_str());
+  }
   else
-    SAFE_DELETE(m_buttonMap);
+  {
+    m_buttonMap = new CAddonJoystickButtonMap(peripheral, addon, mapper->ControllerID());
+    if (m_buttonMap->Load())
+      m_driverHandler = new CGenericJoystickButtonMapping(mapper, m_buttonMap);
+    else
+      SAFE_DELETE(m_buttonMap);
+  }
 }
 
 CAddonJoystickButtonMapping::~CAddonJoystickButtonMapping(void)

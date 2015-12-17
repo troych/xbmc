@@ -33,7 +33,7 @@ namespace PERIPHERALS
   class CAddonJoystickButtonMap : public JOYSTICK::IJoystickButtonMap
   {
   public:
-    CAddonJoystickButtonMap(CPeripheral* device, const std::string& strControllerId);
+    CAddonJoystickButtonMap(CPeripheral* device, const PeripheralAddonPtr& addon, const std::string& strControllerId);
 
     virtual ~CAddonJoystickButtonMap(void);
 

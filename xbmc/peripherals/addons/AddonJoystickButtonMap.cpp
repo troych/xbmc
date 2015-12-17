@@ -21,60 +21,55 @@
 #include "AddonJoystickButtonMap.h"
 #include "PeripheralAddonTranslator.h"
 #include "input/joysticks/JoystickUtils.h"
-#include "peripherals/Peripherals.h"
 #include "peripherals/devices/Peripheral.h"
 #include "utils/log.h"
+
+#include <assert.h>
 
 using namespace JOYSTICK;
 using namespace PERIPHERALS;
 
-CAddonJoystickButtonMap::CAddonJoystickButtonMap(CPeripheral* device, const std::string& strControllerId)
+CAddonJoystickButtonMap::CAddonJoystickButtonMap(CPeripheral* device, const PeripheralAddonPtr& addon, const std::string& strControllerId)
   : m_device(device),
-    m_addon(g_peripherals.GetAddon(device)),
+    m_addon(addon),
     m_strControllerId(strControllerId)
 {
-  if (m_addon)
-    m_addon->RegisterButtonMap(device, this);
-  else
-    CLog::Log(LOGDEBUG, "Failed to locate add-on for device \"%s\"", device->DeviceName().c_str());
+  assert(m_addon.get() != nullptr);
+
+  m_addon->RegisterButtonMap(device, this);
 }
 
 CAddonJoystickButtonMap::~CAddonJoystickButtonMap(void)
 {
-  if (m_addon)
-    m_addon->UnregisterButtonMap(this);
+  m_addon->UnregisterButtonMap(this);
 }
 
 bool CAddonJoystickButtonMap::Load(void)
 {
-  if (m_addon)
+  m_features.clear();
+  m_driverMap.clear();
+
+  bool bSuccess = m_addon->GetFeatures(m_device, m_strControllerId, m_features);
+
+  // GetFeatures() was changed to always return false if no features were
+  // retrieved. Check here, just in case, in case its contract is changed or
+  // violated in the future.
+  if (bSuccess && m_features.empty())
+    bSuccess = false;
+
+  if (bSuccess)
   {
-    m_features.clear();
-    m_driverMap.clear();
+    CLog::Log(LOGDEBUG, "Loaded button map with %lu features for controller %s",
+              m_features.size(), m_strControllerId.c_str());
 
-    bool bSuccess = m_addon->GetFeatures(m_device, m_strControllerId, m_features);
-
-    // GetFeatures() was changed to always return false if no features were
-    // retrieved. Check here, just in case, in case its contract is changed or
-    // violated in the future.
-    if (bSuccess && m_features.empty())
-      bSuccess = false;
-
-    if (bSuccess)
-    {
-      CLog::Log(LOGDEBUG, "Loaded button map with %lu features for controller %s",
-                m_features.size(), m_strControllerId.c_str());
-
-      m_driverMap = CreateLookupTable(m_features);
-    }
-    else
-    {
-      CLog::Log(LOGDEBUG, "Failed to load button map for device \"%s\"", m_device->DeviceName().c_str());
-    }
-
-    return true;
+    m_driverMap = CreateLookupTable(m_features);
   }
-  return false;
+  else
+  {
+    CLog::Log(LOGDEBUG, "Failed to load button map for \"%s\"", m_device->DeviceName().c_str());
+  }
+
+  return true;
 }
 
 bool CAddonJoystickButtonMap::GetFeature(const CDriverPrimitive& primitive, FeatureName& feature)
