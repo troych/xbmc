@@ -66,11 +66,13 @@ bool CAddonJoystickButtonMap::Load(void)
                 m_features.size(), m_strControllerId.c_str());
 
       m_driverMap = CreateLookupTable(m_features);
-
-      return true;
+    }
+    else
+    {
+      CLog::Log(LOGDEBUG, "Failed to load button map for device \"%s\"", m_device->DeviceName().c_str());
     }
 
-    CLog::Log(LOGDEBUG, "Failed to load button map for device \"%s\"", m_device->DeviceName().c_str());
+    return true;
   }
   return false;
 }
