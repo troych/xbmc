@@ -3157,9 +3157,6 @@
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickInputHandling.cpp">
       <Filter>input\joysticks\generic</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\input\joysticks\ButtonKeyHandler.cpp">
-      <Filter>input\joysticks</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\input\joysticks\JoystickMonitor.cpp">
       <Filter>input\joysticks</Filter>
     </ClCompile>
@@ -3279,6 +3276,9 @@
     </ClCompile>
     <ClCompile Include="..\..\xbmc\games\addons\GameClientInput.cpp">
       <Filter>games\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\input\joysticks\KeymapHandler.cpp">
+      <Filter>input\joysticks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -6209,12 +6209,6 @@
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickInputHandling.h">
       <Filter>input\joysticks\generic</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\input\joysticks\ButtonKeyHandler.h">
-      <Filter>input\joysticks</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\input\joysticks\IButtonKeyHandler.h">
-      <Filter>input\joysticks</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\input\joysticks\IJoystickButtonMapper.h">
       <Filter>input\joysticks</Filter>
     </ClInclude>
@@ -6360,6 +6354,12 @@
       <Filter>games\addons</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\input\joysticks\IButtonSequence.h">
+      <Filter>input\joysticks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\input\joysticks\KeymapHandler.h">
+      <Filter>input\joysticks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\input\joysticks\IKeymapHandler.h">
       <Filter>input\joysticks</Filter>
     </ClInclude>
   </ItemGroup>
