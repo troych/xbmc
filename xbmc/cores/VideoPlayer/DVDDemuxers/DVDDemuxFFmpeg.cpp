@@ -953,11 +953,16 @@ DemuxPacket* CDVDDemuxFFmpeg::Read()
 
 bool CDVDDemuxFFmpeg::SeekTime(int time, bool backwords, double *startpts)
 {
+  bool hitEnd = false;
+
   if (!m_pInput)
     return false;
 
-  if(time < 0)
+  if (time < 0)
+  {
     time = 0;
+    hitEnd = true;
+  }
 
   m_pkt.result = -1;
   av_packet_unref(&m_pkt.pkt);
@@ -979,8 +984,8 @@ bool CDVDDemuxFFmpeg::SeekTime(int time, bool backwords, double *startpts)
     return true;
   }
 
-  if(!m_pInput->Seek(0, SEEK_POSSIBLE)
-  && !m_pInput->IsStreamType(DVDSTREAM_TYPE_FFMPEG))
+  if (!m_pInput->Seek(0, SEEK_POSSIBLE) &&
+      !m_pInput->IsStreamType(DVDSTREAM_TYPE_FFMPEG))
   {
     CLog::Log(LOGDEBUG, "%s - input stream reports it is not seekable", __FUNCTION__);
     return false;
@@ -1002,7 +1007,7 @@ bool CDVDDemuxFFmpeg::SeekTime(int time, bool backwords, double *startpts)
     else if (ret < 0 && m_pInput->IsEOF())
       ret = 0;
 
-    if(ret >= 0)
+    if (ret >= 0)
       UpdateCurrentPTS();
   }
 
@@ -1012,10 +1017,18 @@ bool CDVDDemuxFFmpeg::SeekTime(int time, bool backwords, double *startpts)
     CLog::Log(LOGDEBUG, "%s - seek ended up on time %d", __FUNCTION__, (int)(m_currentPts / DVD_TIME_BASE * 1000));
 
   // in this case the start time is requested time
-  if(startpts)
+  if (startpts)
     *startpts = DVD_MSEC_TO_TIME(time);
 
-  return (ret >= 0);
+  if (ret >= 0)
+  {
+    if (!hitEnd)
+      return true;
+    else
+      return false;
+  }
+  else
+    return false;
 }
 
 bool CDVDDemuxFFmpeg::SeekByte(int64_t pos)
