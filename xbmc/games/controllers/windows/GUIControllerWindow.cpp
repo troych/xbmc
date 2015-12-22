@@ -26,7 +26,6 @@
 #include "addons/IAddon.h"
 #include "guilib/GUIMessage.h"
 #include "guilib/WindowIDs.h"
-//#include "input/Key.h"
 
 // To check for button mapping support
 #include "dialogs/GUIDialogOK.h"
