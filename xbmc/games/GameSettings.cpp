@@ -42,6 +42,6 @@ void CGameSettings::OnSettingAction(const CSetting* setting)
   const std::string& settingId = setting->GetId();
   if (settingId == "gamesinput.controllerconfig")
   {
-    g_windowManager.ActivateWindow(WINDOW_GAME_CONTROLLERS);
+    g_windowManager.ActivateWindow(WINDOW_DIALOG_GAME_CONTROLLERS);
   }
 }

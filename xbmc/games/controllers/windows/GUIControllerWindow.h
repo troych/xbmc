@@ -20,18 +20,18 @@
 #pragma once
 
 #include "IConfigurationWindow.h"
-#include "guilib/GUIWindow.h"
+#include "guilib/GUIDialog.h"
 
 namespace GAME
 {
-  class CGUIControllerWindow : public CGUIWindow,
+  class CGUIControllerWindow : public CGUIDialog,
                                public IConfigurationWindow
   {
   public:
     CGUIControllerWindow(void);
     virtual ~CGUIControllerWindow(void);
 
-    // implementation of CGUIControl via CGUIWindow
+    // implementation of CGUIControl via CGUIDialog
     virtual bool OnMessage(CGUIMessage& message) override;
 
     // implementation of IConfigurationWindow
@@ -40,7 +40,7 @@ namespace GAME
     virtual void SetLabel(unsigned int featureIndex, const std::string& strLabel) override;
 
   protected:
-    // implementation of CGUIWindow
+    // implementation of CGUIWindow via CGUIDialog
     virtual void OnInitWindow(void) override;
     virtual void OnDeinitWindow(int nextWindowID) override;
 

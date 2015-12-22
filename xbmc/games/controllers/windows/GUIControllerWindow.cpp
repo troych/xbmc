@@ -38,7 +38,7 @@ using namespace GAME;
 using namespace PERIPHERALS;
 
 CGUIControllerWindow::CGUIControllerWindow(void) :
-  CGUIWindow(WINDOW_GAME_CONTROLLERS, "GameControllers.xml"),
+  CGUIDialog(WINDOW_DIALOG_GAME_CONTROLLERS, "DialogGameControllers.xml"),
   m_controllerList(nullptr),
   m_featureList(nullptr)
 {
@@ -91,12 +91,12 @@ bool CGUIControllerWindow::OnMessage(CGUIMessage& message)
     }
   }
 
-  return CGUIWindow::OnMessage(message);
+  return CGUIDialog::OnMessage(message);
 }
 
 void CGUIControllerWindow::OnInitWindow(void)
 {
-  CGUIWindow::OnInitWindow();
+  CGUIDialog::OnInitWindow();
 
   if (!m_featureList)
   {
@@ -149,7 +149,7 @@ void CGUIControllerWindow::OnDeinitWindow(int nextWindowID)
     m_featureList = nullptr;
   }
 
-  CGUIWindow::OnDeinitWindow(nextWindowID);
+  CGUIDialog::OnDeinitWindow(nextWindowID);
 }
 
 void CGUIControllerWindow::FocusController(unsigned int controllerIndex)
