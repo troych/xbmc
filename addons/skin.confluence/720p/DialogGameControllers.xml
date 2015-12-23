@@ -11,7 +11,7 @@
 			<param name="DialogBackgroundWidth" value="1120" />
 			<param name="DialogBackgroundHeight" value="590" />
 			<param name="DialogHeaderWidth" value="1020" />
-			<param name="DialogHeaderLabel" value="Controller Configuration" />			-- Needs localization
+			<param name="DialogHeaderLabel" value="35058" />
 			<param name="DialogHeaderId" value="2" />
 			<param name="CloseButtonLeft" value="1030" />
 			<param name="CloseButtonNav" value="3" />
@@ -26,7 +26,7 @@
 				<width>220</width>
 				<height>25</height>
 				<font>font12</font>
-				<label>Controller types</label>											-- Needs localization
+				<label>35050</label>
 				<align>center</align>
 				<aligny>center</aligny>
 				<textcolor>blue</textcolor>
@@ -67,7 +67,7 @@
 				<width>220</width>
 				<height>25</height>
 				<font>font12</font>
-				<label>Feature types</label>											-- Needs localization
+				<label>35059</label>
 				<align>center</align>
 				<aligny>center</aligny>
 				<textcolor>blue</textcolor>
