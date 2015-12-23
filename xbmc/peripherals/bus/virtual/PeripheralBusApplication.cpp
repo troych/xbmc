@@ -35,7 +35,7 @@ bool CPeripheralBusApplication::PerformDeviceScan(PeripheralScanResults& results
 {
   PeripheralScanResult result(Type());
   result.m_type = PERIPHERAL_KEYBOARD;
-  result.m_strDeviceName = g_localizeStrings.Get(35013); // "Keyboard"
+  result.m_strDeviceName = g_localizeStrings.Get(35011); // "Keyboard"
   result.m_strLocation   = KEYBOARD_LOCATION;
   result.m_iVendorId     = 0;
   result.m_iProductId    = 0;
