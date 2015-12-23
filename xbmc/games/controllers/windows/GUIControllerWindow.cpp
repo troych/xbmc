@@ -41,6 +41,8 @@ CGUIControllerWindow::CGUIControllerWindow(void) :
   m_controllerList(nullptr),
   m_featureList(nullptr)
 {
+  // initialize CGUIWindow
+  m_loadType = KEEP_IN_MEMORY;
 }
 
 CGUIControllerWindow::~CGUIControllerWindow(void)
