@@ -13996,7 +13996,15 @@ msgctxt "#35011"
 msgid "Keyboard"
 msgstr ""
 
-#empty strings from id 35012 to 35099
+#empty strings from id 35012 to 35049
+
+#. Name of controller add-ons
+#: xbmc/addons/Addon.cpp
+msgctxt "#35050"
+msgid "Controller profiles"
+msgstr ""
+
+#empty strings from id 35051 to 35099
 
 #: system/settings/settings.xml
 msgctxt "#35100"
