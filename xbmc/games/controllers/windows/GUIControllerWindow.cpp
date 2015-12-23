@@ -59,12 +59,17 @@ bool CGUIControllerWindow::OnMessage(CGUIMessage& message)
     {
       int controlId = message.GetSenderId();
 
-      if (controlId == CONTROL_GET_MORE)
+      if (controlId == CONTROL_CLOSE_BUTTON)
+      {
+        Close();
+        return true;
+      }
+      else if (controlId == CONTROL_GET_MORE)
       {
         GetMoreControllers();
         return true;
       }
-      if (CONTROL_CONTROLLER_BUTTONS_START <= controlId && controlId < CONTROL_CONTROLLER_BUTTONS_END)
+      else if (CONTROL_CONTROLLER_BUTTONS_START <= controlId && controlId < CONTROL_CONTROLLER_BUTTONS_END)
       {
         OnControllerSelected(controlId - CONTROL_FEATURE_BUTTONS_START);
         return true;

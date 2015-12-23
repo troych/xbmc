@@ -23,6 +23,7 @@
 #define CONTROL_FEATURE_LIST                5
 #define CONTROL_FEATURE_BUTTON_TEMPLATE     7
 #define CONTROL_CONTROLLER_BUTTON_TEMPLATE  10
+#define CONTROL_CLOSE_BUTTON                18
 #define CONTROL_GET_MORE                    20
 #define CONTROL_GAME_CONTROLLER             31
 
