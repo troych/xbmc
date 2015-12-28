@@ -733,7 +733,10 @@ bool CGameClient::OnButtonPress(int port, const std::string& feature, bool bPres
 {
   // Only allow activated input in fullscreen game
   if (bPressed && g_windowManager.GetActiveWindowID() != WINDOW_FULLSCREEN_GAME)
+  {
+    CLog::Log(LOGDEBUG, "GameClient: button press ignored, not in fullscreen game");
     return false;
+  }
 
   std::string strControllerId = m_controllers[port]->ControllerID();
 
@@ -832,7 +835,10 @@ bool CGameClient::OnKeyPress(const CKey& key)
 {
   // Only allow activated input in fullscreen game
   if (g_windowManager.GetActiveWindowID() != WINDOW_FULLSCREEN_GAME)
+  {
+    CLog::Log(LOGDEBUG, "GameClient: key press ignored, not in fullscreen game");
     return false;
+  }
 
   bool bHandled = false;
 
