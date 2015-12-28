@@ -66,9 +66,15 @@ namespace JOYSTICK
 
     float GetAxisState(int axisIndex) const;
 
+    struct ButtonEvent
+    {
+      bool state;
+      bool bHandled; // Needed to absorb keyboard repeat events
+    };
+
     IJoystickInputHandler* const m_handler;
     IJoystickButtonMap* const    m_buttonMap;
-    std::vector<char>            m_buttonStates; // std::vector is specialized for <bool>
+    std::vector<ButtonEvent>     m_buttonStates;
     std::vector<HAT_STATE>       m_hatStates;
     std::vector<float>           m_axisStates;
     std::vector<FeatureName> m_featuresWithMotion;

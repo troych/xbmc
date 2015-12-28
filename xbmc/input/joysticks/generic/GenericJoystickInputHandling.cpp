@@ -44,8 +44,6 @@ CGenericJoystickInputHandling::~CGenericJoystickInputHandling(void)
 
 bool CGenericJoystickInputHandling::OnButtonMotion(unsigned int buttonIndex, bool bPressed)
 {
-  const char pressed = bPressed ? 1 : 0;
-
   // Ensure buttonIndex will fit in vector
   if (m_buttonStates.size() <= buttonIndex)
     m_buttonStates.resize(buttonIndex + 1);
@@ -55,19 +53,30 @@ bool CGenericJoystickInputHandling::OnButtonMotion(unsigned int buttonIndex, boo
   FeatureName feature;
   if (m_buttonMap->GetFeature(CDriverPrimitive(buttonIndex), feature))
   {
-    char& wasPressed = m_buttonStates[buttonIndex];
+    ButtonEvent& event = m_buttonStates[buttonIndex];
 
-    if (!wasPressed && pressed)
+    const bool bWasPressed = event.state;
+    const bool bWasHandled = event.bHandled;
+
+    if (bPressed)
     {
-      bHandled = OnPress(feature);
+      if (!bWasPressed)
+      {
+        bHandled = OnPress(feature);
+      }
+      else
+      {
+        bHandled = bWasHandled;
+      }
     }
-    else if (wasPressed && !pressed)
+    else
     {
-      OnRelease(feature);
-      bHandled = true;
+      if (bWasPressed)
+        OnRelease(feature);
     }
 
-    wasPressed = pressed;
+    event.state = bPressed;
+    event.bHandled = bHandled;
   }
   else if (bPressed)
   {
