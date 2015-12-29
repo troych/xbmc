@@ -35,10 +35,24 @@ namespace PERIPHERALS
     CPeripheralBusAddon(CPeripherals *manager);
     virtual ~CPeripheralBusAddon(void) { }
 
+    /*!
+     * \brief Get peripheral add-on by ID
+     */
     bool GetAddon(const std::string &strId, ADDON::AddonPtr &addon) const;
+
+    /*!
+     * \brief Get peripheral add-on that can provide button maps for the given device
+     */
     bool GetAddonWithButtonMap(const CPeripheral* device, PeripheralAddonPtr &addon) const;
+
+    /*!
+     * \brief Get the number of peripheral add-on libraries
+     */
     unsigned int GetAddonCount(void) const;
 
+    /*!
+     * \brief Poll for events from peripheral add-ons
+     */
     void ProcessEvents(void);
 
     // Inherited from CPeripheralBus
