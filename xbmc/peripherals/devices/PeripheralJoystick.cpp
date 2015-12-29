@@ -20,7 +20,6 @@
 
 #include "PeripheralJoystick.h"
 #include "peripherals/Peripherals.h"
-#include "peripherals/addons/PeripheralAddon.h"
 #include "peripherals/bus/virtual/PeripheralBusAddon.h"
 #include "threads/SingleLock.h"
 #include "utils/log.h"
@@ -59,10 +58,8 @@ bool CPeripheralJoystick::InitialiseFeature(const PeripheralFeature feature)
         CPeripheralBusAddon* addonBus = static_cast<CPeripheralBusAddon*>(g_peripherals.GetBusByType(PERIPHERAL_BUS_ADDON));
         if (addonBus)
         {
-          PeripheralAddonPtr addon;
-          unsigned int index;
-          if (addonBus->SplitLocation(m_strLocation, addon, index))
-            bSuccess = addon->GetJoystickProperties(index, *this);
+          if (addonBus->InitializeProperties(this))
+            bSuccess = true;
           else
             CLog::Log(LOGERROR, "CPeripheralJoystick: Invalid location (%s)", m_strLocation.c_str());
         }

@@ -51,6 +51,11 @@ namespace PERIPHERALS
     unsigned int GetAddonCount(void) const;
 
     /*!
+     * \brief Initialize the properties of a peripheral by its location
+     */
+    bool InitializeProperties(CPeripheral* peripheral);
+
+    /*!
      * \brief Poll for events from peripheral add-ons
      */
     void ProcessEvents(void);

@@ -23,6 +23,7 @@
 #include "addons/AddonManager.h"
 #include "peripherals/Peripherals.h"
 #include "peripherals/addons/PeripheralAddon.h"
+#include "peripherals/devices/PeripheralJoystick.h"
 #include "threads/SingleLock.h"
 #include "utils/log.h"
 
@@ -94,6 +95,29 @@ bool CPeripheralBusAddon::PerformDeviceScan(PeripheralScanResults &results)
 
   // Scan during bus initialization must return true or bus gets deleted
   return true;
+}
+
+bool CPeripheralBusAddon::InitializeProperties(CPeripheral* peripheral)
+{
+  bool bSuccess = false;
+
+  PeripheralAddonPtr addon;
+  unsigned int index;
+
+  if (SplitLocation(peripheral->Location(), addon, index))
+  {
+    switch (peripheral->Type())
+    {
+      case PERIPHERAL_JOYSTICK:
+        bSuccess = addon->GetJoystickProperties(index, *static_cast<CPeripheralJoystick*>(peripheral));
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  return bSuccess;
 }
 
 void CPeripheralBusAddon::ProcessEvents(void)
