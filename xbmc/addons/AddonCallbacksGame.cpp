@@ -96,7 +96,7 @@ void CAddonCallbacksGame::CloseGame(void* addonData)
   if (!retroPlayer)
     return;
 
-  retroPlayer->CloseFile();
+  //retroPlayer->CloseFile(); // TODO
 }
 
 void CAddonCallbacksGame::VideoFrame(void* addonData, const uint8_t* data, unsigned int size, unsigned int width, unsigned int height, GAME_RENDER_FORMAT format)
