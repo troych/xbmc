@@ -88,6 +88,7 @@ void CGUIFeatureButton::PromptAnalogStick(void)
 
   while (m_analogStickDirection != CARDINAL_DIRECTION::UNKNOWN)
   {
+    // Process direection
     switch (m_analogStickDirection)
     {
       case CARDINAL_DIRECTION::UP:
@@ -127,36 +128,27 @@ void CGUIFeatureButton::PromptAnalogStick(void)
     if (m_bAborted)
       break;
 
+    // Update direction
     switch (m_analogStickDirection)
     {
       case CARDINAL_DIRECTION::UP:
       {
-        // If last primitive was a semiaxis, we can skip the opposite direction
-        if (m_lastPrimtive.Type() == CDriverPrimitive::SEMIAXIS)
-          m_analogStickDirection = CARDINAL_DIRECTION::RIGHT;
-        else
-          m_analogStickDirection = CARDINAL_DIRECTION::DOWN;
-        break;
-      }
-      case CARDINAL_DIRECTION::DOWN:
-      {
-        // Proceed to the next direction
         m_analogStickDirection = CARDINAL_DIRECTION::RIGHT;
         break;
       }
       case CARDINAL_DIRECTION::RIGHT:
       {
-        // If last primitive was a semiaxis, we can skip to the end
-        if (m_lastPrimtive.Type() == CDriverPrimitive::SEMIAXIS)
-          m_analogStickDirection = CARDINAL_DIRECTION::UNKNOWN;
-        else
-          m_analogStickDirection = CARDINAL_DIRECTION::LEFT;
+        m_analogStickDirection = CARDINAL_DIRECTION::DOWN;
+        break;
+      }
+      case CARDINAL_DIRECTION::DOWN:
+      {
+        m_analogStickDirection = CARDINAL_DIRECTION::LEFT;
         break;
       }
       case CARDINAL_DIRECTION::LEFT:
       default:
       {
-        // Prompt has ended
         m_analogStickDirection = CARDINAL_DIRECTION::UNKNOWN;
         break;
       }
