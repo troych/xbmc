@@ -20,7 +20,6 @@
 #pragma once
 
 #include "ControllerTypes.h"
-#include "guilib/Geometry.h"
 #include "input/joysticks/JoystickTypes.h"
 
 #include <string>
@@ -33,9 +32,8 @@ namespace GAME
 class CControllerFeature
 {
 public:
-  CControllerFeature(void) : m_geometry(NULL) { Reset(); }
-  CControllerFeature(const CControllerFeature& other) : m_geometry(NULL) { *this = other; }
-  ~CControllerFeature(void) { Reset(); }
+  CControllerFeature(void) { Reset(); }
+  CControllerFeature(const CControllerFeature& other) { *this = other; }
 
   void Reset(void);
 
@@ -45,19 +43,15 @@ public:
   const std::string&   Name(void) const       { return m_strName; }
   const std::string&   Label(void) const      { return m_strLabel; }
   unsigned int         LabelID(void) const    { return m_labelId; }
-  CShape*              Geometry(void) const   { return m_geometry; }
   JOYSTICK::INPUT_TYPE ButtonType(void) const { return m_buttonType; }
 
   bool Deserialize(const TiXmlElement* pElement, const CController* controller);
 
 private:
-  static CShape* CreateGeometry(const TiXmlElement* pElement);
-
   FEATURE_TYPE         m_type;
   std::string          m_strName;
   std::string          m_strLabel;
   unsigned int         m_labelId;
-  CShape*              m_geometry;
   JOYSTICK::INPUT_TYPE m_buttonType;
 };
 

@@ -72,23 +72,3 @@ JOYSTICK::INPUT_TYPE CControllerTranslator::TranslateButtonType(const std::strin
 
   return JOYSTICK::INPUT_TYPE::UNKNOWN;
 }
-
-const char* CControllerTranslator::TranslateGeometry(GEOMETRY geometry)
-{
-  switch (geometry)
-  {
-    case GEOMETRY::RECTANGLE: return "rectangle";
-    case GEOMETRY::CIRCLE:    return "circle";
-    default:
-      break;
-  }
-  return "none";
-}
-
-GEOMETRY CControllerTranslator::TranslateGeometry(const std::string& strGeometry)
-{
-  if (strGeometry == "rectangle") return GEOMETRY::RECTANGLE;
-  if (strGeometry == "circle")    return GEOMETRY::CIRCLE;
-
-  return GEOMETRY::NONE;
-}

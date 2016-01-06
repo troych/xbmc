@@ -42,11 +42,4 @@ namespace GAME
     ABSOLUTE_POINTER,
     MOTOR,
   };
-
-  enum class GEOMETRY
-  {
-    NONE,
-    RECTANGLE,
-    CIRCLE,
-  };
 }

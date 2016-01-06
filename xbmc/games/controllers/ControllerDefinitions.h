@@ -37,16 +37,7 @@
 
 #define LAYOUT_XML_ATTR_FEATURE_NAME       "name"
 #define LAYOUT_XML_ATTR_FEATURE_LABEL      "label"
-#define LAYOUT_XML_ATTR_FEATURE_GEOMETRY   "geometry"
 
 #define LAYOUT_XML_ATTR_BUTTON_TYPE        "type"
 
 #define LAYOUT_XML_ATTR_KEYBOARD_CODE      "code"
-
-#define LAYOUT_XML_ATTR_GEOMETRY_X1        "x1"
-#define LAYOUT_XML_ATTR_GEOMETRY_Y1        "y1"
-#define LAYOUT_XML_ATTR_GEOMETRY_X2        "x2"
-#define LAYOUT_XML_ATTR_GEOMETRY_Y2        "y2"
-#define LAYOUT_XML_ATTR_GEOMETRY_X         "x"
-#define LAYOUT_XML_ATTR_GEOMETRY_Y         "y"
-#define LAYOUT_XML_ATTR_GEOMETRY_R         "radius"

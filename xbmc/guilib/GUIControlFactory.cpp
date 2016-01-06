@@ -64,7 +64,6 @@
 #include "utils/RssManager.h"
 #include "utils/StringUtils.h"
 #include "GUIAction.h"
-#include "GUIFocusPlane.h"
 #include "games/controllers/guicontrols/GUIGameController.h"
 #include "Util.h"
 
@@ -1464,9 +1463,6 @@ CGUIControl* CGUIControlFactory::Create(int parentID, const CRect &rect, TiXmlEl
     break;
   case CGUIControl::GUICONTROL_RENDERADDON:
     control = new CGUIRenderingControl(parentID, id, posX, posY, width, height);
-    break;
-  case CGUIControl::GUICONTROL_FOCUSPLANE:
-    control = new CGUIFocusPlane(parentID, id, posX, posY, width, height);
     break;
   case CGUIControl::GUICONTROL_GAMECONTROLLER:
     control = new GAME::CGUIGameController(parentID, id, posX, posY, width, height);

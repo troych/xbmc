@@ -30,17 +30,12 @@
 using namespace GAME;
 using namespace JOYSTICK;
 
-#ifndef SAFE_DELETE
-#define SAFE_DELETE(x)  do { delete (x); (x) = NULL; } while (0)
-#endif
-
 void CControllerFeature::Reset(void)
 {
   m_type = FEATURE_TYPE::UNKNOWN;
   m_strName.clear();
   m_strLabel.clear();
   m_labelId = 0;
-  SAFE_DELETE(m_geometry);
   m_buttonType = INPUT_TYPE::UNKNOWN;
 }
 
@@ -48,13 +43,10 @@ CControllerFeature& CControllerFeature::operator=(const CControllerFeature& rhs)
 {
   if (this != &rhs)
   {
-    Reset();
-
     m_type       = rhs.m_type;
     m_strName    = rhs.m_strName;
     m_strLabel   = rhs.m_strLabel;
     m_labelId    = rhs.m_labelId;
-    m_geometry   = rhs.m_geometry ? rhs.m_geometry->Clone() : NULL;
     m_buttonType = rhs.m_buttonType;
   }
   return *this;
@@ -87,7 +79,7 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
 
   // Label ID
   std::string strLabel = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_FEATURE_LABEL);
-  if (m_type != FEATURE_TYPE::KEY && strLabel.empty())
+  if (strLabel.empty())
   {
     CLog::Log(LOGERROR, "<%s> tag has no \"%s\" attribute", strType.c_str(), LAYOUT_XML_ATTR_FEATURE_LABEL);
     return false;
@@ -96,9 +88,6 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
 
   // Label (string)
   m_strLabel = const_cast<CController*>(controller)->GetString(m_labelId);
-
-  // Geometry
-  m_geometry = CreateGeometry(pElement);
 
   // Button type
   if (m_type == FEATURE_TYPE::SCALAR)
@@ -122,107 +111,4 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
   }
 
   return true;
-}
-
-CShape* CControllerFeature::CreateGeometry(const TiXmlElement* pElement)
-{
-  CShape* geometry = NULL;
-
-  std::string strGeometry;
-  if (pElement && XMLUtils::GetString(pElement, LAYOUT_XML_ATTR_FEATURE_GEOMETRY, strGeometry))
-  {
-    switch (CControllerTranslator::TranslateGeometry(strGeometry))
-    {
-      case GEOMETRY::RECTANGLE:
-      {
-        int x1, y1, x2, y2;
-
-        // x1
-        std::string strX1 = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_GEOMETRY_X1);
-        if (strX1.empty())
-        {
-          CLog::Log(LOGERROR, "Geometry of type \"%s\" has no \"%s\" attribute",
-                    strGeometry.c_str(), LAYOUT_XML_ATTR_GEOMETRY_X1);
-          break;
-        }
-        std::istringstream(strX1) >> x1;
-
-        // y1
-        std::string strY1 = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_GEOMETRY_Y1);
-        if (strY1.empty())
-        {
-          CLog::Log(LOGERROR, "Geometry of type \"%s\" has no \"%s\" attribute",
-                    strGeometry.c_str(), LAYOUT_XML_ATTR_GEOMETRY_Y1);
-          break;
-        }
-        std::istringstream(strY1) >> y1;
-
-        // x2
-        std::string strX2 = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_GEOMETRY_X2);
-        if (strX2.empty())
-        {
-          CLog::Log(LOGERROR, "Geometry of type \"%s\" has no \"%s\" attribute",
-                    strGeometry.c_str(), LAYOUT_XML_ATTR_GEOMETRY_X2);
-          break;
-        }
-        std::istringstream(strX2) >> x2;
-
-        // y2
-        std::string strY2 = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_GEOMETRY_Y2);
-        if (strY2.empty())
-        {
-          CLog::Log(LOGERROR, "Geometry of type \"%s\" has no \"%s\" attribute",
-                    strGeometry.c_str(), LAYOUT_XML_ATTR_GEOMETRY_Y2);
-          break;
-        }
-        std::istringstream(strY2) >> y2;
-
-        geometry = new CRect(x1, y1, x2, y2);
-        break;
-      }
-      case GEOMETRY::CIRCLE:
-      {
-        int x, y, r;
-
-        // x
-        std::string strX = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_GEOMETRY_X);
-        if (strX.empty())
-        {
-          CLog::Log(LOGERROR, "Geometry of type \"%s\" has no \"%s\" attribute",
-                    strGeometry.c_str(), LAYOUT_XML_ATTR_GEOMETRY_X);
-          break;
-        }
-        std::istringstream(strX) >> x;
-
-        // y
-        std::string strY = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_GEOMETRY_Y);
-        if (strY.empty())
-        {
-          CLog::Log(LOGERROR, "Geometry of type \"%s\" has no \"%s\" attribute",
-                    strGeometry.c_str(), LAYOUT_XML_ATTR_GEOMETRY_Y);
-          break;
-        }
-        std::istringstream(strY) >> y;
-
-        // r
-        std::string strR = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_GEOMETRY_R);
-        if (strR.empty())
-        {
-          CLog::Log(LOGERROR, "Geometry of type \"%s\" has no \"%s\" attribute",
-                    strGeometry.c_str(), LAYOUT_XML_ATTR_GEOMETRY_R);
-          break;
-        }
-        std::istringstream(strR) >> r;
-
-        geometry = new CCircle(x, y, r);
-        break;
-      }
-      default:
-      {
-        CLog::Log(LOGERROR, "<%s> tag - attribute \"%s\" is invalid: \"%s\"",
-                  pElement->Value(), LAYOUT_XML_ATTR_FEATURE_GEOMETRY, strGeometry.c_str());
-      }
-    }
-  }
-  return geometry;
 }

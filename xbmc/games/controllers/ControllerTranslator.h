@@ -35,9 +35,6 @@ public:
 
   static const char* TranslateButtonType(JOYSTICK::INPUT_TYPE type);
   static JOYSTICK::INPUT_TYPE TranslateButtonType(const std::string& strType);
-
-  static const char* TranslateGeometry(GEOMETRY geometry);
-  static GEOMETRY TranslateGeometry(const std::string& strGeometry);
 };
 
 }
