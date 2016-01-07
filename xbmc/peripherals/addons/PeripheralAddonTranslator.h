@@ -42,6 +42,9 @@ namespace PERIPHERALS
     static JOYSTICK::SEMIAXIS_DIRECTION       TranslateSemiAxisDirection(JOYSTICK_DRIVER_SEMIAXIS_DIRECTION dir);
     static JOYSTICK_DRIVER_SEMIAXIS_DIRECTION TranslateSemiAxisDirection(JOYSTICK::SEMIAXIS_DIRECTION dir);
 
+    static JOYSTICK::FEATURE_TYPE TranslateFeatureType(JOYSTICK_FEATURE_TYPE type);
+    static JOYSTICK_FEATURE_TYPE  TranslateFeatureType(JOYSTICK::FEATURE_TYPE type);
+
     static ADDON::DriverPrimitive Opposite(const ADDON::DriverPrimitive& semiaxis);
   };
 }

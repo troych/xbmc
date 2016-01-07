@@ -175,6 +175,32 @@ JOYSTICK_DRIVER_SEMIAXIS_DIRECTION CPeripheralAddonTranslator::TranslateSemiAxis
   return JOYSTICK_DRIVER_SEMIAXIS_UNKNOWN;
 }
 
+JOYSTICK::FEATURE_TYPE CPeripheralAddonTranslator::TranslateFeatureType(JOYSTICK_FEATURE_TYPE type)
+{
+  switch (type)
+  {
+    case JOYSTICK_FEATURE_TYPE_SCALAR:        return JOYSTICK::FEATURE_TYPE::SCALAR;
+    case JOYSTICK_FEATURE_TYPE_ANALOG_STICK:  return JOYSTICK::FEATURE_TYPE::ANALOG_STICK;
+    case JOYSTICK_FEATURE_TYPE_ACCELEROMETER: return JOYSTICK::FEATURE_TYPE::ACCELEROMETER;
+    default:
+      break;
+  }
+  return JOYSTICK::FEATURE_TYPE::UNKNOWN;
+}
+
+JOYSTICK_FEATURE_TYPE CPeripheralAddonTranslator::TranslateFeatureType(JOYSTICK::FEATURE_TYPE type)
+{
+  switch (type)
+  {
+    case JOYSTICK::FEATURE_TYPE::SCALAR:        return JOYSTICK_FEATURE_TYPE_SCALAR;
+    case JOYSTICK::FEATURE_TYPE::ANALOG_STICK:  return JOYSTICK_FEATURE_TYPE_ANALOG_STICK;
+    case JOYSTICK::FEATURE_TYPE::ACCELEROMETER: return JOYSTICK_FEATURE_TYPE_ACCELEROMETER;
+    default:
+      break;
+  }
+  return JOYSTICK_FEATURE_TYPE_UNKNOWN;
+}
+
 ADDON::DriverPrimitive CPeripheralAddonTranslator::Opposite(const ADDON::DriverPrimitive& primitive)
 {
   return ADDON::DriverPrimitive(primitive.DriverIndex(), primitive.SemiAxisDirection() * -1);

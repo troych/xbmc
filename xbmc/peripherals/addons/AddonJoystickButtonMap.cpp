@@ -84,6 +84,17 @@ bool CAddonJoystickButtonMap::GetFeature(const CDriverPrimitive& primitive, Feat
   return false;
 }
 
+FEATURE_TYPE CAddonJoystickButtonMap::GetFeatureType(const FeatureName& feature)
+{
+  FEATURE_TYPE type = FEATURE_TYPE::UNKNOWN;
+
+  FeatureMap::const_iterator it = m_features.find(feature);
+  if (it != m_features.end())
+    type = CPeripheralAddonTranslator::TranslateFeatureType(it->second.Type());
+
+  return type;
+}
+
 bool CAddonJoystickButtonMap::GetScalar(const FeatureName& feature, CDriverPrimitive& primitive)
 {
   bool retVal(false);

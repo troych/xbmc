@@ -47,6 +47,10 @@ namespace PERIPHERALS
       JOYSTICK::FeatureName& feature
     ) override;
 
+    virtual JOYSTICK::FEATURE_TYPE GetFeatureType(
+      const JOYSTICK::FeatureName& feature
+    ) override;
+
     virtual bool GetScalar(
       const JOYSTICK::FeatureName& feature,
       JOYSTICK::CDriverPrimitive& primitive
