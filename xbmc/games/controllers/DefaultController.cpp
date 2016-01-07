@@ -50,6 +50,18 @@ std::string CDefaultController::ControllerID(void) const
   return DEFAULT_CONTROLLER_ID;
 }
 
+bool CDefaultController::HasFeature(const FeatureName& feature) const
+{
+  if (GetKeyID(feature) != 0)
+    return true;
+
+  // Try analog stick direction
+  if (GetKeyID(feature, CARDINAL_DIRECTION::UP) != 0)
+    return true;
+
+  return false;
+}
+
 INPUT_TYPE CDefaultController::GetInputType(const FeatureName& feature) const
 {
   return m_handler->GetInputType(GetKeyID(feature));
