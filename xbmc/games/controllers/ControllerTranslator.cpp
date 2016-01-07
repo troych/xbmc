@@ -30,10 +30,6 @@ const char* CControllerTranslator::TranslateFeatureType(FEATURE_TYPE type)
     case FEATURE_TYPE::SCALAR:           return LAYOUT_XML_ELM_BUTTON;
     case FEATURE_TYPE::ANALOG_STICK:     return LAYOUT_XML_ELM_ANALOG_STICK;
     case FEATURE_TYPE::ACCELEROMETER:    return LAYOUT_XML_ELM_ACCELEROMETER;
-    case FEATURE_TYPE::KEY:              return LAYOUT_XML_ELM_KEY;
-    case FEATURE_TYPE::RELATIVE_POINTER: return LAYOUT_XML_ELM_RELATIVE_POINTER;
-    case FEATURE_TYPE::ABSOLUTE_POINTER: return LAYOUT_XML_ELM_ABSOLUTE_POINTER;
-    case FEATURE_TYPE::MOTOR:            return LAYOUT_XML_ELM_MOTOR;
     default:
       break;
   }
@@ -45,10 +41,6 @@ FEATURE_TYPE CControllerTranslator::TranslateFeatureType(const std::string& strT
   if (strType == LAYOUT_XML_ELM_BUTTON)           return FEATURE_TYPE::SCALAR;
   if (strType == LAYOUT_XML_ELM_ANALOG_STICK)     return FEATURE_TYPE::ANALOG_STICK;
   if (strType == LAYOUT_XML_ELM_ACCELEROMETER)    return FEATURE_TYPE::ACCELEROMETER;
-  if (strType == LAYOUT_XML_ELM_KEY)              return FEATURE_TYPE::KEY;
-  if (strType == LAYOUT_XML_ELM_RELATIVE_POINTER) return FEATURE_TYPE::RELATIVE_POINTER;
-  if (strType == LAYOUT_XML_ELM_ABSOLUTE_POINTER) return FEATURE_TYPE::ABSOLUTE_POINTER;
-  if (strType == LAYOUT_XML_ELM_MOTOR)            return FEATURE_TYPE::MOTOR;
 
   return FEATURE_TYPE::UNKNOWN;
 }

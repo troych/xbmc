@@ -24,20 +24,12 @@
 #define LAYOUT_XML_ELM_BUTTON              "button"
 #define LAYOUT_XML_ELM_ANALOG_STICK        "analogstick"
 #define LAYOUT_XML_ELM_ACCELEROMETER       "accelerometer"
-#define LAYOUT_XML_ELM_KEY                 "key"
-#define LAYOUT_XML_ELM_RELATIVE_POINTER    "relative-pointer"
-#define LAYOUT_XML_ELM_ABSOLUTE_POINTER    "absolute-pointer"
-#define LAYOUT_XML_ELM_MOTOR               "motor"
 
 #define LAYOUT_XML_ATTR_LAYOUT_LABEL       "label"
 #define LAYOUT_XML_ATTR_LAYOUT_IMAGE       "image"
 #define LAYOUT_XML_ATTR_LAYOUT_OVERLAY     "overlay"
-#define LAYOUT_XML_ATTR_LAYOUT_WIDTH       "width"
-#define LAYOUT_XML_ATTR_LAYOUT_HEIGHT      "height"
 
 #define LAYOUT_XML_ATTR_FEATURE_NAME       "name"
 #define LAYOUT_XML_ATTR_FEATURE_LABEL      "label"
 
 #define LAYOUT_XML_ATTR_BUTTON_TYPE        "type"
-
-#define LAYOUT_XML_ATTR_KEYBOARD_CODE      "code"

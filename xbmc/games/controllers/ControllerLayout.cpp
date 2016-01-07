@@ -99,20 +99,6 @@ bool CControllerLayout::Deserialize(const TiXmlElement* pElement, const CControl
   if (m_strOverlay.empty())
     CLog::Log(LOGDEBUG, "<%s> tag has no \"%s\" attribute", LAYOUT_XML_ROOT, LAYOUT_XML_ATTR_LAYOUT_OVERLAY);
 
-  // Width
-  std::string strWidth = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_LAYOUT_WIDTH);
-  if (strWidth.empty())
-    CLog::Log(LOGDEBUG, "<%s> tag has no \"%s\" attribute", LAYOUT_XML_ROOT, LAYOUT_XML_ATTR_LAYOUT_WIDTH);
-  else
-    std::istringstream(strWidth) >> m_width;
-
-  // Height
-  std::string strHeight = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_LAYOUT_HEIGHT);
-  if (strHeight.empty())
-    CLog::Log(LOGDEBUG, "<%s> tag has no \"%s\" attribute", LAYOUT_XML_ROOT, LAYOUT_XML_ATTR_LAYOUT_HEIGHT);
-  else
-    std::istringstream(strHeight) >> m_height;
-
   // Features
   for (const TiXmlElement* pCategory = pElement->FirstChildElement(); pCategory != NULL; pCategory = pCategory->NextSiblingElement())
   {
