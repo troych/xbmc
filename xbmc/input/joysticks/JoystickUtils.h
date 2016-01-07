@@ -26,6 +26,11 @@ inline JOYSTICK::HAT_DIRECTION& operator|=(JOYSTICK::HAT_DIRECTION& lhs, JOYSTIC
   return lhs = static_cast<JOYSTICK::HAT_DIRECTION>(static_cast<int>(lhs) | static_cast<int>(rhs));
 }
 
+inline bool operator&(JOYSTICK::HAT_STATE lhs, JOYSTICK::HAT_DIRECTION rhs)
+{
+  return static_cast<bool>(static_cast<int>(lhs) & static_cast<int>(rhs));
+}
+
 inline JOYSTICK::HAT_STATE& operator|=(JOYSTICK::HAT_STATE& lhs, JOYSTICK::HAT_STATE rhs)
 {
   return lhs = static_cast<JOYSTICK::HAT_STATE>(static_cast<int>(lhs) | static_cast<int>(rhs));

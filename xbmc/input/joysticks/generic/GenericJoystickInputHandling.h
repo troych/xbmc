@@ -22,13 +22,105 @@
 #include "input/joysticks/IJoystickDriverHandler.h"
 #include "input/joysticks/JoystickTypes.h"
 
-#include <string>
-#include <vector>
+#include <map>
+#include <memory>
 
 namespace JOYSTICK
 {
+  class CDriverPrimitive;
   class IJoystickInputHandler;
   class IJoystickButtonMap;
+
+  class CJoystickFeature
+  {
+  public:
+    CJoystickFeature(const FeatureName& name, IJoystickInputHandler* handler, IJoystickButtonMap* buttonMap);
+    virtual ~CJoystickFeature(void) { }
+
+    virtual bool OnDigitalMotion(const CDriverPrimitive& source, bool bPressed) = 0;
+    virtual bool OnAnalogMotion(const CDriverPrimitive& source, float magnitude) = 0;
+    virtual void ProcessMotions(void) = 0;
+
+  protected:
+    const FeatureName            m_name;
+    IJoystickInputHandler* const m_handler;
+    IJoystickButtonMap* const    m_buttonMap;
+  };
+
+  typedef std::shared_ptr<CJoystickFeature> FeaturePtr;
+
+  class CScalarFeature : public CJoystickFeature
+  {
+  public:
+    CScalarFeature(const FeatureName& name, IJoystickInputHandler* handler, IJoystickButtonMap* buttonMap);
+    virtual ~CScalarFeature(void) { }
+
+    // implementation of CJoystickFeature
+    virtual bool OnDigitalMotion(const CDriverPrimitive& source, bool bPressed) override;
+    virtual bool OnAnalogMotion(const CDriverPrimitive& source, float magnitude) override;
+    virtual void ProcessMotions(void) override { }
+
+  private:
+    const INPUT_TYPE m_inputType;
+    bool             m_bDigitalState;
+    float            m_analogState;
+  };
+
+  class CFeatureAxis
+  {
+  public:
+    CFeatureAxis(void);
+
+    void SetPositiveDistance(float distance) { m_positiveDistance = distance; }
+    void SetNegativeDistance(float distance) { m_negativeDistance = distance; }
+
+    float GetPosition(void) const;
+    void Reset(void);
+
+  protected:
+    float m_positiveDistance;
+    float m_negativeDistance;
+  };
+
+  class CAnalogStick : public CJoystickFeature
+  {
+  public:
+    CAnalogStick(const FeatureName& name, IJoystickInputHandler* handler, IJoystickButtonMap* buttonMap);
+    virtual ~CAnalogStick(void) { }
+
+    // implementation of CJoystickFeature
+    virtual bool OnDigitalMotion(const CDriverPrimitive& source, bool bPressed) override;
+    virtual bool OnAnalogMotion(const CDriverPrimitive& source, float magnitude) override;
+    virtual void ProcessMotions(void) override;
+
+  protected:
+    CFeatureAxis m_vertAxis;
+    CFeatureAxis m_horizAxis;
+
+    float m_vertState;
+    float m_horizState;
+  };
+
+  class CAccelerometer : public CJoystickFeature
+  {
+  public:
+    CAccelerometer(const FeatureName& name, IJoystickInputHandler* handler, IJoystickButtonMap* buttonMap);
+    virtual ~CAccelerometer(void) { }
+
+    // implementation of CJoystickFeature
+    virtual bool OnDigitalMotion(const CDriverPrimitive& source, bool bPressed) override;
+    virtual bool OnAnalogMotion(const CDriverPrimitive& source, float magnitude) override;
+    virtual void ProcessMotions(void) override;
+
+  protected:
+    CFeatureAxis m_xAxis;
+    CFeatureAxis m_yAxis;
+    CFeatureAxis m_zAxis;
+
+    float m_xAxisState;
+    float m_yAxisState;
+    float m_zAxisState;
+  };
 
   /*!
    * \brief Class to translate input from the driver into higher-level features
@@ -56,28 +148,14 @@ namespace JOYSTICK
     virtual void ProcessAxisMotions(void) override;
 
   private:
-    bool ProcessHatDirection(int index, HAT_STATE oldState, HAT_STATE newState, HAT_DIRECTION targetDir);
+    bool OnDigitalMotion(const CDriverPrimitive& source, bool bPressed);
+    bool OnAnalogMotion(const CDriverPrimitive& source, float magnitude);
 
-    bool OnPress(const FeatureName& feature);
-    void OnRelease(const FeatureName& feature);
-
-    void StartDigitalRepeating(const FeatureName& feature);
-    void StopDigitalRepeating(const FeatureName& feature);
-
-    float GetAxisState(int axisIndex) const;
-
-    struct ButtonEvent
-    {
-      bool state;
-      bool bHandled; // Needed to absorb keyboard repeat events
-    };
+    CJoystickFeature* CreateFeature(const FeatureName& featureName);
 
     IJoystickInputHandler* const m_handler;
     IJoystickButtonMap* const    m_buttonMap;
-    std::vector<ButtonEvent>     m_buttonStates;
-    std::vector<HAT_STATE>       m_hatStates;
-    std::vector<float>           m_axisStates;
-    std::vector<FeatureName> m_featuresWithMotion;
-    std::vector<FeatureName> m_repeatingFeatures;
+
+    std::map<FeatureName, FeaturePtr> m_features;
   };
 }

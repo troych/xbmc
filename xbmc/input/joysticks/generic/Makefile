@@ -1,5 +1,4 @@
-SRCS=DigitalAnalogButtonConverter.cpp \
-     GenericJoystickButtonMapping.cpp \
+SRCS=GenericJoystickButtonMapping.cpp \
      GenericJoystickInputHandling.cpp \
      GenericJoystickKeyboardHandler.cpp \
 

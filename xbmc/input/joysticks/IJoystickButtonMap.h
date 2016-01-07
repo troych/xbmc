@@ -72,6 +72,15 @@ namespace JOYSTICK
     ) = 0;
 
     /*!
+     * \brief Get the type of the feature for the given name
+     *
+     * \param feature      The feature to look up
+     *
+     * \return The feature's type
+     */
+    virtual FEATURE_TYPE GetFeatureType(const FeatureName& feature) = 0;
+
+    /*!
      * \brief Get the driver primitive for a scalar feature
      *
      * When a feature can be represented by a single driver primitive, it is

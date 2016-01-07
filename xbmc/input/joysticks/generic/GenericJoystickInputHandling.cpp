@@ -19,7 +19,6 @@
  */
 
 #include "GenericJoystickInputHandling.h"
-#include "DigitalAnalogButtonConverter.h"
 #include "input/joysticks/DriverPrimitive.h"
 #include "input/joysticks/IJoystickButtonMap.h"
 #include "input/joysticks/IJoystickInputHandler.h"
@@ -31,275 +30,303 @@
 
 using namespace JOYSTICK;
 
+#define ANALOG_DIGITAL_THRESHOLD  0.5f
+
+// --- CJoystickFeature --------------------------------------------------------
+
+CJoystickFeature::CJoystickFeature(const FeatureName& name, IJoystickInputHandler* handler, IJoystickButtonMap* buttonMap) :
+  m_name(name),
+  m_handler(handler),
+  m_buttonMap(buttonMap)
+{
+}
+
+// --- CScalarFeature ----------------------------------------------------------
+
+CScalarFeature::CScalarFeature(const FeatureName& name, IJoystickInputHandler* handler, IJoystickButtonMap* buttonMap) :
+  CJoystickFeature(name, handler, buttonMap),
+  m_inputType(handler->GetInputType(name)),
+  m_bDigitalState(false),
+  m_analogState(0.0f)
+{
+}
+
+bool CScalarFeature::OnDigitalMotion(const CDriverPrimitive& source, bool bPressed)
+{
+  if (m_inputType == INPUT_TYPE::DIGITAL)
+  {
+    if (m_bDigitalState != bPressed)
+    {
+      m_bDigitalState = bPressed;
+      m_handler->OnButtonPress(m_name, bPressed);
+    }
+  }
+  else if (m_inputType == INPUT_TYPE::ANALOG)
+  {
+    OnAnalogMotion(source, bPressed ? 1.0f : 0.0f);
+  }
+
+  return true;
+}
+
+bool CScalarFeature::OnAnalogMotion(const CDriverPrimitive& source, float magnitude)
+{
+  if (m_inputType == INPUT_TYPE::DIGITAL)
+  {
+    OnDigitalMotion(source, magnitude >= ANALOG_DIGITAL_THRESHOLD);
+  }
+  else if (m_inputType == INPUT_TYPE::ANALOG)
+  {
+    if (m_analogState != 0.0f || magnitude != 0.0f)
+    {
+      m_analogState = magnitude;
+      m_handler->OnButtonMotion(m_name, magnitude);
+    }
+  }
+
+  return true;
+}
+
+// --- CFeatureAxis ------------------------------------------------------------
+
+CFeatureAxis::CFeatureAxis(void) :
+  m_positiveDistance(0.0f),
+  m_negativeDistance(0.0f)
+{
+}
+
+float CFeatureAxis::GetPosition(void) const
+{
+  return m_positiveDistance - m_negativeDistance;
+}
+
+void CFeatureAxis::Reset(void)
+{
+  m_positiveDistance = 0.0f;
+  m_negativeDistance = 0.0f;
+}
+
+// --- CAnalogStick ------------------------------------------------------------
+
+CAnalogStick::CAnalogStick(const FeatureName& name, IJoystickInputHandler* handler, IJoystickButtonMap* buttonMap) :
+  CJoystickFeature(name, handler, buttonMap),
+  m_vertState(0.0f),
+  m_horizState(0.0f)
+{
+}
+
+bool CAnalogStick::OnDigitalMotion(const CDriverPrimitive& source, bool bPressed)
+{
+  return OnAnalogMotion(source, bPressed ? 1.0f : 0.0f);
+}
+
+bool CAnalogStick::OnAnalogMotion(const CDriverPrimitive& source, float magnitude)
+{
+  CDriverPrimitive up;
+  CDriverPrimitive down;
+  CDriverPrimitive right;
+  CDriverPrimitive left;
+
+  m_buttonMap->GetAnalogStick(m_name, up, down, right,  left);
+
+  if (source == up)
+    m_vertAxis.SetPositiveDistance(magnitude);
+  else if (source == down)
+    m_vertAxis.SetNegativeDistance(magnitude);
+  else if (source == right)
+    m_horizAxis.SetPositiveDistance(magnitude);
+  else if (source == left)
+    m_horizAxis.SetNegativeDistance(magnitude);
+  else
+  {
+    // Just in case, avoid sticking
+    m_vertAxis.Reset();
+    m_horizAxis.Reset();
+  }
+
+  return true;
+}
+
+void CAnalogStick::ProcessMotions(void)
+{
+  const float newVertState = m_vertAxis.GetPosition();
+  const float newHorizState = m_horizAxis.GetPosition();
+
+  if (m_vertState != 0 || m_horizState != 0 ||
+      newVertState != 0 || newHorizState != 0)
+  {
+    m_vertState = newVertState;
+    m_horizState = newHorizState;
+    m_handler->OnAnalogStickMotion(m_name, newHorizState, newVertState);
+  }
+}
+
+// --- CAccelerometer ----------------------------------------------------------
+
+CAccelerometer::CAccelerometer(const FeatureName& name, IJoystickInputHandler* handler, IJoystickButtonMap* buttonMap) :
+  CJoystickFeature(name, handler, buttonMap),
+  m_xAxisState(0.0f),
+  m_yAxisState(0.0f),
+  m_zAxisState(0.0f)
+{
+}
+
+bool CAccelerometer::OnDigitalMotion(const CDriverPrimitive& source, bool bPressed)
+{
+  return OnAnalogMotion(source, bPressed ? 1.0f : 0.0f);
+}
+
+bool CAccelerometer::OnAnalogMotion(const CDriverPrimitive& source, float magnitude)
+{
+  CDriverPrimitive positiveX;
+  CDriverPrimitive positiveY;
+  CDriverPrimitive positiveZ;
+
+  m_buttonMap->GetAccelerometer(m_name, positiveX, positiveY, positiveZ);
+
+  if (source == positiveX)
+    m_xAxis.SetPositiveDistance(magnitude);
+  else if (source == positiveY)
+    m_yAxis.SetPositiveDistance(magnitude);
+  else if (source == positiveZ)
+    m_zAxis.SetPositiveDistance(magnitude);
+  else
+  {
+    // Just in case, avoid sticking
+    m_xAxis.Reset();
+    m_xAxis.Reset();
+    m_yAxis.Reset();
+  }
+
+  return true;
+}
+
+void CAccelerometer::ProcessMotions(void)
+{
+  const float newXAxis = m_xAxis.GetPosition();
+  const float newYAxis = m_yAxis.GetPosition();
+  const float newZAxis = m_zAxis.GetPosition();
+
+  if (m_xAxisState != 0 || m_yAxisState != 0 || m_zAxisState != 0 ||
+      newXAxis != 0 || newYAxis != 0 || newZAxis)
+  {
+    m_xAxisState = newXAxis;
+    m_yAxisState = newYAxis;
+    m_zAxisState = newZAxis;
+    m_handler->OnAccelerometerMotion(m_name, newXAxis, newYAxis, newZAxis);
+  }
+}
+
+// --- CGenericJoystickInputHandling -------------------------------------------
+
 CGenericJoystickInputHandling::CGenericJoystickInputHandling(IJoystickInputHandler* handler, IJoystickButtonMap* buttonMap)
- : m_handler(new CDigitalAnalogButtonConverter(handler)),
+ : m_handler(handler),
    m_buttonMap(buttonMap)
 {
 }
 
 CGenericJoystickInputHandling::~CGenericJoystickInputHandling(void)
 {
-  delete m_handler;
 }
 
 bool CGenericJoystickInputHandling::OnButtonMotion(unsigned int buttonIndex, bool bPressed)
 {
-  // Ensure buttonIndex will fit in vector
-  if (m_buttonStates.size() <= buttonIndex)
-    m_buttonStates.resize(buttonIndex + 1);
+  return OnDigitalMotion(CDriverPrimitive(buttonIndex), bPressed);
+}
 
+bool CGenericJoystickInputHandling::OnHatMotion(unsigned int hatIndex, HAT_STATE state)
+{
   bool bHandled = false;
 
-  FeatureName feature;
-  if (m_buttonMap->GetFeature(CDriverPrimitive(buttonIndex), feature))
-  {
-    ButtonEvent& event = m_buttonStates[buttonIndex];
-
-    const bool bWasPressed = event.state;
-    const bool bWasHandled = event.bHandled;
-
-    if (bPressed)
-    {
-      if (!bWasPressed)
-      {
-        bHandled = OnPress(feature);
-      }
-      else
-      {
-        bHandled = bWasHandled;
-      }
-    }
-    else
-    {
-      if (bWasPressed)
-        OnRelease(feature);
-    }
-
-    event.state = bPressed;
-    event.bHandled = bHandled;
-  }
-  else if (bPressed)
-  {
-    CLog::Log(LOGDEBUG, "Joystick handling: No feature mapped to button %u", buttonIndex);
-  }
+  bHandled |= OnDigitalMotion(CDriverPrimitive(hatIndex, HAT_DIRECTION::UP),    state & HAT_DIRECTION::UP);
+  bHandled |= OnDigitalMotion(CDriverPrimitive(hatIndex, HAT_DIRECTION::RIGHT), state & HAT_DIRECTION::RIGHT);
+  bHandled |= OnDigitalMotion(CDriverPrimitive(hatIndex, HAT_DIRECTION::DOWN),  state & HAT_DIRECTION::DOWN);
+  bHandled |= OnDigitalMotion(CDriverPrimitive(hatIndex, HAT_DIRECTION::LEFT),  state & HAT_DIRECTION::LEFT);
 
   return bHandled;
 }
 
-bool CGenericJoystickInputHandling::OnHatMotion(unsigned int hatIndex, HAT_STATE newState)
-{
-  // Ensure hatIndex will fit in vector
-  if (m_hatStates.size() <= hatIndex)
-    m_hatStates.resize(hatIndex + 1);
-
-  HAT_STATE& oldState = m_hatStates[hatIndex];
-
-  bool bHandled = false;
-
-  bHandled |= ProcessHatDirection(hatIndex, oldState, newState, HAT_DIRECTION::UP);
-  bHandled |= ProcessHatDirection(hatIndex, oldState, newState, HAT_DIRECTION::RIGHT);
-  bHandled |= ProcessHatDirection(hatIndex, oldState, newState, HAT_DIRECTION::DOWN);
-  bHandled |= ProcessHatDirection(hatIndex, oldState, newState, HAT_DIRECTION::LEFT);
-
-  oldState = newState;
-
-  return bHandled;
-}
-
-bool CGenericJoystickInputHandling::ProcessHatDirection(int index,
-    HAT_STATE oldState, HAT_STATE newState, HAT_DIRECTION targetDir)
+bool CGenericJoystickInputHandling::OnAxisMotion(unsigned int axisIndex, float position)
 {
   bool bHandled = false;
 
-  if (((int)oldState & (int)targetDir) != ((int)newState & (int)targetDir))
-  {
-    const bool bActivated = ((int)newState & (int)targetDir) != (int)HAT_STATE::UNPRESSED;
+  CDriverPrimitive positiveSemiaxis(axisIndex, SEMIAXIS_DIRECTION::POSITIVE);
+  CDriverPrimitive negativeSemiaxis(axisIndex, SEMIAXIS_DIRECTION::NEGATIVE);
 
-    FeatureName feature;
-    if (m_buttonMap->GetFeature(CDriverPrimitive(index, targetDir), feature))
-    {
-      if (bActivated)
-      {
-        bHandled = OnPress(feature);
-      }
-      else
-      {
-        OnRelease(feature);
-        bHandled = true;
-      }
-    }
-  }
-
-  return bHandled;
-}
-
-bool CGenericJoystickInputHandling::OnAxisMotion(unsigned int axisIndex, float newPosition)
-{
-  // Ensure axisIndex will fit in vector
-  if (m_axisStates.size() <= axisIndex)
-    m_axisStates.resize(axisIndex + 1);
-
-  if (m_axisStates[axisIndex] == 0.0f && newPosition == 0.0f)
-    return false;
-
-  float oldPosition = m_axisStates[axisIndex];
-  m_axisStates[axisIndex] = newPosition;
-
-  CDriverPrimitive positiveAxis(axisIndex, SEMIAXIS_DIRECTION::POSITIVE);
-  CDriverPrimitive negativeAxis(axisIndex, SEMIAXIS_DIRECTION::NEGATIVE);
-
-  FeatureName positiveFeature;
-  FeatureName negativeFeature;
-
-  bool bHasFeaturePositive = m_buttonMap->GetFeature(positiveAxis, positiveFeature);
-  bool bHasFeatureNegative = m_buttonMap->GetFeature(negativeAxis, negativeFeature);
-
-  bool bHandled = false;
-
-  if (bHasFeaturePositive || bHasFeatureNegative)
-  {
-    bHandled = true;
-
-    // If the positive and negative semiaxis correspond to the same feature,
-    // then we must be dealing with an analog stick or accelerometer. These both
-    // require multiple axes, so record the axis and batch-process later during
-    // ProcessAxisMotions()
-
-    bool bNeedsMoreAxes = (positiveFeature == negativeFeature);
-
-    if (bNeedsMoreAxes)
-    {
-      if (std::find(m_featuresWithMotion.begin(), m_featuresWithMotion.end(), positiveFeature) == m_featuresWithMotion.end())
-        m_featuresWithMotion.push_back(positiveFeature);
-    }
-    else
-    {
-      if (bHasFeaturePositive)
-      {
-        // If new position passes through the origin, 0.0f is sent exactly once
-        // until the position becomes positive again
-        if (newPosition > 0)
-          m_handler->OnButtonMotion(positiveFeature, newPosition);
-        else if (oldPosition > 0)
-          m_handler->OnButtonMotion(positiveFeature, 0.0f);
-      }
-
-      if (bHasFeatureNegative)
-      {
-        // If new position passes through the origin, 0.0f is sent exactly once
-        // until the position becomes negative again
-        if (newPosition < 0)
-          m_handler->OnButtonMotion(negativeFeature, -1.0f * newPosition); // magnitude is >= 0
-        else if (oldPosition < 0)
-          m_handler->OnButtonMotion(negativeFeature, 0.0f);
-      }
-    }
-  }
+  bHandled |= OnAnalogMotion(positiveSemiaxis, position > 0.0f ? position : 0.0f);
+  bHandled |= OnAnalogMotion(negativeSemiaxis, position < 0.0f ? -position : 0.0f);
 
   return bHandled;
 }
 
 void CGenericJoystickInputHandling::ProcessAxisMotions(void)
 {
-  std::vector<FeatureName> featuresToProcess;
-  featuresToProcess.swap(m_featuresWithMotion);
-
-  // Invoke callbacks for features with motion
-  for (std::vector<FeatureName>::const_iterator it = featuresToProcess.begin(); it != featuresToProcess.end(); ++it)
-  {
-    const FeatureName& feature = *it;
-
-    CDriverPrimitive up;
-    CDriverPrimitive down;
-    CDriverPrimitive right;
-    CDriverPrimitive left;
-
-    CDriverPrimitive positiveX;
-    CDriverPrimitive positiveY;
-    CDriverPrimitive positiveZ;
-
-    if (m_buttonMap->GetAnalogStick(feature, up, down, right,  left))
-    {
-      float horizPos = 0.0f;
-      float vertPos = 0.0f;
-
-      if (right.Type() == CDriverPrimitive::SEMIAXIS)
-        horizPos = GetAxisState(right.Index()) * static_cast<int>(right.SemiAxisDirection());
-
-      if (up.Type() == CDriverPrimitive::SEMIAXIS)
-        vertPos  = GetAxisState(up.Index())  * static_cast<int>(up.SemiAxisDirection());
-
-      m_handler->OnAnalogStickMotion(feature, horizPos, vertPos);
-    }
-    else if (m_buttonMap->GetAccelerometer(feature, positiveX, positiveY, positiveZ))
-    {
-      float xPos = 0.0f;
-      float yPos = 0.0f;
-      float zPos = 0.0f;
-
-      if (positiveX.Type() == CDriverPrimitive::SEMIAXIS)
-        xPos = GetAxisState(positiveX.Index()) * positiveX.SemiAxisDirection();
-
-      if (positiveY.Type() == CDriverPrimitive::SEMIAXIS)
-        yPos = GetAxisState(positiveY.Index()) * positiveY.SemiAxisDirection();
-
-      if (positiveZ.Type() == CDriverPrimitive::SEMIAXIS)
-        zPos = GetAxisState(positiveZ.Index()) * positiveZ.SemiAxisDirection();
-
-      m_handler->OnAccelerometerMotion(feature, xPos, yPos, zPos);
-    }
-  }
-
-  // Digital buttons emulating analog buttons need to be repeated every frame
-  for (std::vector<FeatureName>::const_iterator it = m_repeatingFeatures.begin(); it != m_repeatingFeatures.end(); ++it)
-    m_handler->OnButtonPress(*it, true);
+  for (std::map<FeatureName, FeaturePtr>::iterator it = m_features.begin(); it != m_features.end(); ++it)
+    it->second->ProcessMotions();
 }
 
-bool CGenericJoystickInputHandling::OnPress(const FeatureName& feature)
+bool CGenericJoystickInputHandling::OnDigitalMotion(const CDriverPrimitive& source, bool bPressed)
 {
   bool bHandled = false;
 
-  CLog::Log(LOGDEBUG, "CGenericJoystickInputHandling: %s feature [ %s ] pressed",
-            m_handler->ControllerID().c_str(), feature.c_str());
-
-  const INPUT_TYPE inputType = m_handler->GetInputType(feature);
-
-  if (inputType == INPUT_TYPE::DIGITAL)
+  FeatureName featureName;
+  if (m_buttonMap->GetFeature(source, featureName))
   {
-    bHandled = m_handler->OnButtonPress(feature, true);
-  }
-  else if (inputType == INPUT_TYPE::ANALOG)
-  {
-    StartDigitalRepeating(feature); // Analog actions repeat every frame
-    bHandled = true;
+    FeaturePtr& feature = m_features[featureName];
+
+    if (!feature)
+      feature = FeaturePtr(CreateFeature(featureName));
+
+    if (feature)
+      bHandled = feature->OnDigitalMotion(source, bPressed);
   }
 
   return bHandled;
 }
 
-void CGenericJoystickInputHandling::OnRelease(const FeatureName& feature)
+bool CGenericJoystickInputHandling::OnAnalogMotion(const CDriverPrimitive& source, float magnitude)
 {
-  CLog::Log(LOGDEBUG, "CGenericJoystickInputHandling: %s feature [ %s ] released",
-            m_handler->ControllerID().c_str(), feature.c_str());
+  bool bHandled = false;
 
-  m_handler->OnButtonPress(feature, false);
-  StopDigitalRepeating(feature);
+  FeatureName featureName;
+  if (m_buttonMap->GetFeature(source, featureName))
+  {
+    FeaturePtr& feature = m_features[featureName];
+
+    if (!feature)
+      feature = FeaturePtr(CreateFeature(featureName));
+
+    if (feature)
+      bHandled = feature->OnAnalogMotion(source, magnitude);
+  }
+
+  return bHandled;
 }
 
-void CGenericJoystickInputHandling::StartDigitalRepeating(const FeatureName& feature)
+CJoystickFeature* CGenericJoystickInputHandling::CreateFeature(const FeatureName& featureName)
 {
-  m_repeatingFeatures.push_back(feature);
-}
+  CJoystickFeature* feature = nullptr;
 
-void CGenericJoystickInputHandling::StopDigitalRepeating(const FeatureName& feature)
-{
-  m_repeatingFeatures.erase(std::remove(m_repeatingFeatures.begin(), m_repeatingFeatures.end(), feature), m_repeatingFeatures.end());
-}
-
-float CGenericJoystickInputHandling::GetAxisState(int axisIndex) const
-{
-  if (0 <= axisIndex && axisIndex < (int)m_axisStates.size())
-    return m_axisStates[axisIndex];
-
-  return 0;
+  switch (m_buttonMap->GetFeatureType(featureName))
+  {
+    case FEATURE_TYPE::SCALAR:
+    {
+      feature = new CScalarFeature(featureName, m_handler, m_buttonMap);
+      break;
+    }
+    case FEATURE_TYPE::ANALOG_STICK:
+    {
+      feature = new CAnalogStick(featureName, m_handler, m_buttonMap);
+      break;
+    }
+    case FEATURE_TYPE::ACCELEROMETER:
+    {
+      feature = new CAccelerometer(featureName, m_handler, m_buttonMap);
+      break;
+    }
+    default:
+      break;
+  }
+  
+  return feature;
 }

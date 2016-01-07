@@ -40,6 +40,8 @@ namespace JOYSTICK
      */
     virtual std::string ControllerID(void) const = 0;
 
+    virtual bool HasFeature(const FeatureName& feature) const = 0;
+
     /*!
      * \brief Get the type of input handled by the specified feature
      *
