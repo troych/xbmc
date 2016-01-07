@@ -33,8 +33,8 @@ public:
   static const char* TranslateFeatureType(FEATURE_TYPE type);
   static FEATURE_TYPE TranslateFeatureType(const std::string& strType);
 
-  static const char* TranslateButtonType(JOYSTICK::INPUT_TYPE type);
-  static JOYSTICK::INPUT_TYPE TranslateButtonType(const std::string& strType);
+  static const char* TranslateInputType(JOYSTICK::INPUT_TYPE type);
+  static JOYSTICK::INPUT_TYPE TranslateInputType(const std::string& strType);
 };
 
 }

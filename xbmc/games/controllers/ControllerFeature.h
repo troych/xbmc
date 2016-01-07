@@ -43,7 +43,7 @@ public:
   const std::string&   Name(void) const       { return m_strName; }
   const std::string&   Label(void) const      { return m_strLabel; }
   unsigned int         LabelID(void) const    { return m_labelId; }
-  JOYSTICK::INPUT_TYPE ButtonType(void) const { return m_buttonType; }
+  JOYSTICK::INPUT_TYPE InputType(void) const  { return m_inputType; }
 
   bool Deserialize(const TiXmlElement* pElement, const CController* controller);
 
@@ -52,7 +52,7 @@ private:
   std::string          m_strName;
   std::string          m_strLabel;
   unsigned int         m_labelId;
-  JOYSTICK::INPUT_TYPE m_buttonType;
+  JOYSTICK::INPUT_TYPE m_inputType;
 };
 
 }

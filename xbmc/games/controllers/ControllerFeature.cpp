@@ -36,7 +36,7 @@ void CControllerFeature::Reset(void)
   m_strName.clear();
   m_strLabel.clear();
   m_labelId = 0;
-  m_buttonType = INPUT_TYPE::UNKNOWN;
+  m_inputType = INPUT_TYPE::UNKNOWN;
 }
 
 CControllerFeature& CControllerFeature::operator=(const CControllerFeature& rhs)
@@ -47,7 +47,7 @@ CControllerFeature& CControllerFeature::operator=(const CControllerFeature& rhs)
     m_strName    = rhs.m_strName;
     m_strLabel   = rhs.m_strLabel;
     m_labelId    = rhs.m_labelId;
-    m_buttonType = rhs.m_buttonType;
+    m_inputType  = rhs.m_inputType;
   }
   return *this;
 }
@@ -89,22 +89,22 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
   // Label (string)
   m_strLabel = const_cast<CController*>(controller)->GetString(m_labelId);
 
-  // Button type
+  // Input type
   if (m_type == FEATURE_TYPE::SCALAR)
   {
-    std::string strButtonType = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_BUTTON_TYPE);
-    if (strButtonType.empty())
+    std::string strInputType = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_INPUT_TYPE);
+    if (strInputType.empty())
     {
-      CLog::Log(LOGERROR, "<%s> tag has no \"%s\" attribute", strType.c_str(), LAYOUT_XML_ATTR_BUTTON_TYPE);
+      CLog::Log(LOGERROR, "<%s> tag has no \"%s\" attribute", strType.c_str(), LAYOUT_XML_ATTR_INPUT_TYPE);
       return false;
     }
     else
     {
-      m_buttonType = CControllerTranslator::TranslateButtonType(strButtonType);
-      if (m_buttonType == INPUT_TYPE::UNKNOWN)
+      m_inputType = CControllerTranslator::TranslateInputType(strInputType);
+      if (m_inputType == INPUT_TYPE::UNKNOWN)
       {
         CLog::Log(LOGERROR, "<%s> tag - attribute \"%s\" is invalid: \"%s\"",
-                  strType.c_str(), LAYOUT_XML_ATTR_BUTTON_TYPE, strButtonType.c_str());
+                  strType.c_str(), LAYOUT_XML_ATTR_INPUT_TYPE, strInputType.c_str());
         return false;
       }
     }

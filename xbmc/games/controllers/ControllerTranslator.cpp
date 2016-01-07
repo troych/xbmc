@@ -45,7 +45,7 @@ FEATURE_TYPE CControllerTranslator::TranslateFeatureType(const std::string& strT
   return FEATURE_TYPE::UNKNOWN;
 }
 
-const char* CControllerTranslator::TranslateButtonType(JOYSTICK::INPUT_TYPE type)
+const char* CControllerTranslator::TranslateInputType(JOYSTICK::INPUT_TYPE type)
 {
   switch (type)
   {
@@ -57,7 +57,7 @@ const char* CControllerTranslator::TranslateButtonType(JOYSTICK::INPUT_TYPE type
   return "";
 }
 
-JOYSTICK::INPUT_TYPE CControllerTranslator::TranslateButtonType(const std::string& strType)
+JOYSTICK::INPUT_TYPE CControllerTranslator::TranslateInputType(const std::string& strType)
 {
   if (strType == "digital") return JOYSTICK::INPUT_TYPE::DIGITAL;
   if (strType == "analog")  return JOYSTICK::INPUT_TYPE::ANALOG;

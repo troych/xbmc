@@ -32,4 +32,4 @@
 #define LAYOUT_XML_ATTR_FEATURE_NAME       "name"
 #define LAYOUT_XML_ATTR_FEATURE_LABEL      "label"
 
-#define LAYOUT_XML_ATTR_BUTTON_TYPE        "type"
+#define LAYOUT_XML_ATTR_INPUT_TYPE         "type"

@@ -33,7 +33,7 @@ using namespace JOYSTICK;
 
 struct FeatureTypeEqual
 {
-  FeatureTypeEqual(FEATURE_TYPE type, INPUT_TYPE buttonType) : type(type), buttonType(buttonType) { }
+  FeatureTypeEqual(FEATURE_TYPE type, INPUT_TYPE inputType) : type(type), inputType(inputType) { }
 
   bool operator()(const CControllerFeature& feature) const
   {
@@ -42,17 +42,17 @@ struct FeatureTypeEqual
 
     if (type == FEATURE_TYPE::SCALAR && feature.Type() == FEATURE_TYPE::SCALAR)
     {
-      if (buttonType == INPUT_TYPE::UNKNOWN)
-        return true; // Match all button types
+      if (inputType == INPUT_TYPE::UNKNOWN)
+        return true; // Match all input types
 
-      return buttonType == feature.ButtonType();
+      return inputType == feature.InputType();
     }
 
     return type == feature.Type();
   }
 
   const FEATURE_TYPE type;
-  const INPUT_TYPE   buttonType;
+  const INPUT_TYPE   inputType;
 };
 
 // --- CControllerLayout ---------------------------------------------------
@@ -67,10 +67,10 @@ void CControllerLayout::Reset(void)
   m_features.clear();
 }
 
-unsigned int CControllerLayout::FeatureCount(FEATURE_TYPE type       /* = FEATURE_TYPE::UNKNOWN */,
-                                             INPUT_TYPE   buttonType /* = INPUT_TYPE::UNKNOWN */) const
+unsigned int CControllerLayout::FeatureCount(FEATURE_TYPE type      /* = FEATURE_TYPE::UNKNOWN */,
+                                             INPUT_TYPE   inputType /* = INPUT_TYPE::UNKNOWN */) const
 {
-  return std::count_if(m_features.begin(), m_features.end(), FeatureTypeEqual(type, buttonType));
+  return std::count_if(m_features.begin(), m_features.end(), FeatureTypeEqual(type, inputType));
 }
 
 bool CControllerLayout::Deserialize(const TiXmlElement* pElement, const CController* controller)
