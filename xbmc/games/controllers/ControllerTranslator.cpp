@@ -22,6 +22,7 @@
 #include "ControllerDefinitions.h"
 
 using namespace GAME;
+using namespace JOYSTICK;
 
 const char* CControllerTranslator::TranslateFeatureType(FEATURE_TYPE type)
 {
@@ -45,22 +46,22 @@ FEATURE_TYPE CControllerTranslator::TranslateFeatureType(const std::string& strT
   return FEATURE_TYPE::UNKNOWN;
 }
 
-const char* CControllerTranslator::TranslateInputType(JOYSTICK::INPUT_TYPE type)
+const char* CControllerTranslator::TranslateInputType(INPUT_TYPE type)
 {
   switch (type)
   {
-    case JOYSTICK::INPUT_TYPE::DIGITAL: return "digital";
-    case JOYSTICK::INPUT_TYPE::ANALOG:  return "analog";
+    case INPUT_TYPE::DIGITAL: return "digital";
+    case INPUT_TYPE::ANALOG:  return "analog";
     default:
       break;
   }
   return "";
 }
 
-JOYSTICK::INPUT_TYPE CControllerTranslator::TranslateInputType(const std::string& strType)
+INPUT_TYPE CControllerTranslator::TranslateInputType(const std::string& strType)
 {
-  if (strType == "digital") return JOYSTICK::INPUT_TYPE::DIGITAL;
-  if (strType == "analog")  return JOYSTICK::INPUT_TYPE::ANALOG;
+  if (strType == "digital") return INPUT_TYPE::DIGITAL;
+  if (strType == "analog")  return INPUT_TYPE::ANALOG;
 
-  return JOYSTICK::INPUT_TYPE::UNKNOWN;
+  return INPUT_TYPE::UNKNOWN;
 }

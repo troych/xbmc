@@ -27,19 +27,4 @@ namespace GAME
   class CController;
   typedef std::shared_ptr<CController> ControllerPtr;
   typedef std::vector<ControllerPtr>   ControllerVector;
-
-  /*!
-   * \brief Types of features used in the controller abstraction
-   */
-  enum class FEATURE_TYPE
-  {
-    UNKNOWN,
-    SCALAR,
-    ANALOG_STICK,
-    ACCELEROMETER,
-    KEY,
-    RELATIVE_POINTER,
-    ABSOLUTE_POINTER,
-    MOTOR,
-  };
 }

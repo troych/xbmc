@@ -29,6 +29,27 @@ namespace JOYSTICK
   typedef std::string FeatureName;
 
   /*!
+   * \brief Types of features used in the joystick library
+   *
+   * Available types:
+   *
+   *   1) scalar[1]
+   *   2) analog stick
+   *   3) accelerometer
+   *
+   * [1] All three driver primitives (buttons, hats and axes) have a state that
+   *     can be represented using a single scalar value. For this reason,
+   *     features that map to a single primitive are called "scalar features".
+   */
+  enum class FEATURE_TYPE
+  {
+    UNKNOWN,
+    SCALAR,
+    ANALOG_STICK,
+    ACCELEROMETER,
+  };
+
+  /*!
    * \brief Direction arrows on the hat (directional pad)
    */
   enum class HAT_DIRECTION

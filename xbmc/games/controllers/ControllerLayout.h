@@ -44,7 +44,7 @@ public:
 
   const std::vector<CControllerFeature>& Features(void) const { return m_features; }
 
-  unsigned int FeatureCount(FEATURE_TYPE type = FEATURE_TYPE::UNKNOWN,
+  unsigned int FeatureCount(JOYSTICK::FEATURE_TYPE type = JOYSTICK::FEATURE_TYPE::UNKNOWN,
                             JOYSTICK::INPUT_TYPE buttonType = JOYSTICK::INPUT_TYPE::UNKNOWN) const;
 
   bool Deserialize(const TiXmlElement* pLayoutElement, const CController* controller);
