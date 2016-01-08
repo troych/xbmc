@@ -3280,6 +3280,9 @@
     <ClCompile Include="..\..\xbmc\input\joysticks\KeymapHandler.cpp">
       <Filter>input\joysticks</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickFeatureHandling.cpp">
+      <Filter>input\joysticks\generic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\xbmc\win32\pch.h">
@@ -6361,6 +6364,9 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\input\joysticks\IKeymapHandler.h">
       <Filter>input\joysticks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickFeatureHandling.h">
+      <Filter>input\joysticks\generic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

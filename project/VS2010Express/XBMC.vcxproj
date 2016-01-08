@@ -527,6 +527,7 @@
     <ClCompile Include="..\..\xbmc\input\joysticks\DriverPrimitive.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\DigitalAnalogButtonConverter.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickButtonMapping.cpp" />
+    <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickFeatureHandling.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickInputHandling.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickKeyboardHandler.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\JoystickMonitor.cpp" />
@@ -990,6 +991,7 @@
     <ClInclude Include="..\..\xbmc\input\joysticks\DriverPrimitive.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\DigitalAnalogButtonConverter.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickButtonMapping.h" />
+    <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickFeatureHandling.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickInputHandling.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickKeyboardHandler.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\IButtonSequence.h" />

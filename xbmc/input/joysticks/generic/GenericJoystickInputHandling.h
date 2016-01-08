@@ -19,11 +19,11 @@
  */
 #pragma once
 
+#include "GenericJoystickFeatureHandling.h"
 #include "input/joysticks/IJoystickDriverHandler.h"
 #include "input/joysticks/JoystickTypes.h"
 
 #include <map>
-#include <memory>
 
 namespace JOYSTICK
 {
@@ -31,108 +31,17 @@ namespace JOYSTICK
   class IJoystickInputHandler;
   class IJoystickButtonMap;
 
-  class CJoystickFeature
-  {
-  public:
-    CJoystickFeature(const FeatureName& name, IJoystickInputHandler* handler, IJoystickButtonMap* buttonMap);
-    virtual ~CJoystickFeature(void) { }
-
-    virtual bool OnDigitalMotion(const CDriverPrimitive& source, bool bPressed) = 0;
-    virtual bool OnAnalogMotion(const CDriverPrimitive& source, float magnitude) = 0;
-    virtual void ProcessMotions(void) = 0;
-
-  protected:
-    const FeatureName            m_name;
-    IJoystickInputHandler* const m_handler;
-    IJoystickButtonMap* const    m_buttonMap;
-  };
-
-  typedef std::shared_ptr<CJoystickFeature> FeaturePtr;
-
-  class CScalarFeature : public CJoystickFeature
-  {
-  public:
-    CScalarFeature(const FeatureName& name, IJoystickInputHandler* handler, IJoystickButtonMap* buttonMap);
-    virtual ~CScalarFeature(void) { }
-
-    // implementation of CJoystickFeature
-    virtual bool OnDigitalMotion(const CDriverPrimitive& source, bool bPressed) override;
-    virtual bool OnAnalogMotion(const CDriverPrimitive& source, float magnitude) override;
-    virtual void ProcessMotions(void) override { }
-
-  private:
-    const INPUT_TYPE m_inputType;
-    bool             m_bDigitalState;
-    float            m_analogState;
-  };
-
-  class CFeatureAxis
-  {
-  public:
-    CFeatureAxis(void);
-
-    void SetPositiveDistance(float distance) { m_positiveDistance = distance; }
-    void SetNegativeDistance(float distance) { m_negativeDistance = distance; }
-
-    float GetPosition(void) const;
-    void Reset(void);
-
-  protected:
-    float m_positiveDistance;
-    float m_negativeDistance;
-  };
-
-  class CAnalogStick : public CJoystickFeature
-  {
-  public:
-    CAnalogStick(const FeatureName& name, IJoystickInputHandler* handler, IJoystickButtonMap* buttonMap);
-    virtual ~CAnalogStick(void) { }
-
-    // implementation of CJoystickFeature
-    virtual bool OnDigitalMotion(const CDriverPrimitive& source, bool bPressed) override;
-    virtual bool OnAnalogMotion(const CDriverPrimitive& source, float magnitude) override;
-    virtual void ProcessMotions(void) override;
-
-  protected:
-    CFeatureAxis m_vertAxis;
-    CFeatureAxis m_horizAxis;
-
-    float m_vertState;
-    float m_horizState;
-  };
-
-  class CAccelerometer : public CJoystickFeature
-  {
-  public:
-    CAccelerometer(const FeatureName& name, IJoystickInputHandler* handler, IJoystickButtonMap* buttonMap);
-    virtual ~CAccelerometer(void) { }
-
-    // implementation of CJoystickFeature
-    virtual bool OnDigitalMotion(const CDriverPrimitive& source, bool bPressed) override;
-    virtual bool OnAnalogMotion(const CDriverPrimitive& source, float magnitude) override;
-    virtual void ProcessMotions(void) override;
-
-  protected:
-    CFeatureAxis m_xAxis;
-    CFeatureAxis m_yAxis;
-    CFeatureAxis m_zAxis;
-
-    float m_xAxisState;
-    float m_yAxisState;
-    float m_zAxisState;
-  };
-
   /*!
    * \brief Class to translate input from the driver into higher-level features
    *
    * Raw driver input arrives for three elements: buttons, hats and axes. When
-   * driver input is handled by this class, it translates the raw driver elements
-   * into physical joystick features, such as buttons, analog sticks, etc.
+   * driver input is handled by this class, it translates the raw driver
+   * elements into physical joystick features, such as buttons, analog sticks,
+   * etc.
    *
-   * The provided button map instructs this class on how driver input should be
-   * mapped to higher-level features. The button map has been abstracted away
-   * behind the IJoystickButtonMap interface so that it can be provided by an
-   * add-on.
+   * A button map is used to translate driver primitives to controller features.
+   * The button map has been abstracted away behind the IJoystickButtonMap
+   * interface so that it can be provided by an add-on.
    */
   class CGenericJoystickInputHandling : public IJoystickDriverHandler
   {

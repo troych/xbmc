@@ -1,4 +1,5 @@
 SRCS=GenericJoystickButtonMapping.cpp \
+     GenericJoystickFeatureHandling.cpp \
      GenericJoystickInputHandling.cpp \
      GenericJoystickKeyboardHandler.cpp \
 
