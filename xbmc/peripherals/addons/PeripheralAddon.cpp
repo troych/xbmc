@@ -440,7 +440,7 @@ bool CPeripheralAddon::ProcessEvents(void)
     }
 
     try { m_pStruct->FreeEvents(eventCount, pEvents); }
-    catch (std::exception &e) { LogException(e, "FreeJoysticks()"); }
+    catch (std::exception &e) { LogException(e, "FreeEvents()"); }
 
     return true;
   }
