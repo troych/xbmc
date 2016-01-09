@@ -3144,9 +3144,6 @@
     <ClCompile Include="..\..\xbmc\input\joysticks\JoystickTranslator.cpp">
       <Filter>input\joysticks</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\input\joysticks\generic\DigitalAnalogButtonConverter.cpp">
-      <Filter>input\joysticks\generic</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickKeyboardHandler.cpp">
       <Filter>input\joysticks\generic</Filter>
     </ClCompile>
@@ -6199,9 +6196,6 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\input\joysticks\JoystickTypes.h">
       <Filter>input\joysticks</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\input\joysticks\generic\DigitalAnalogButtonConverter.h">
-      <Filter>input\joysticks\generic</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickKeyboardHandler.h">
       <Filter>input\joysticks\generic</Filter>
