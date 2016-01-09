@@ -1,1 +1,1 @@
-game.libretro https://github.com/kodi-game/game.libretro 9f57c5a
+game.libretro https://github.com/kodi-game/game.libretro p8-platform
