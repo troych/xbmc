@@ -22,6 +22,7 @@
 #include "GameClient.h"
 #include "games/controllers/Controller.h"
 
+#include <algorithm>
 #include <assert.h>
 
 using namespace GAME;
@@ -40,18 +41,30 @@ std::string CGameClientInput::ControllerID(void) const
   return m_controller->ID();
 }
 
+bool CGameClientInput::HasFeature(const std::string& feature) const
+{
+  const std::vector<CControllerFeature>& features = m_controller->Layout().Features();
+
+  // TODO: Return false if feature isn't handled by the add-on, for example if
+  //       a libretro add-on doesn't include the feature in its buttonmap.xml
+
+  const bool bHasFeature = std::find_if(features.begin(), features.end(),
+    [feature](const CControllerFeature& ftr)
+    {
+      return feature == ftr.Name();
+    }) != features.end();
+
+  return bHasFeature;
+}
+
 JOYSTICK::INPUT_TYPE CGameClientInput::GetInputType(const std::string& feature) const
 {
   const std::vector<CControllerFeature>& features = m_controller->Layout().Features();
 
-  // TODO: Return INPUT_TYPE_UNKNOWN if feature isn't handled by the add-on, for
-  //       example if a libretro add-on doesn't include the feature in its
-  //       buttonmap.xml
-
   for (std::vector<CControllerFeature>::const_iterator it = features.begin(); it != features.end(); ++it)
   {
     if (feature == it->Name())
-      return it->ButtonType();
+      return it->InputType();
   }
 
   return JOYSTICK::INPUT_TYPE::UNKNOWN;

@@ -672,9 +672,9 @@ void CGameClient::UpdatePort(unsigned int port, const ControllerPtr& controller)
     controllerStruct.analog_button_count  = controller->Layout().FeatureCount(FEATURE_TYPE::SCALAR, INPUT_TYPE::ANALOG);
     controllerStruct.analog_stick_count   = controller->Layout().FeatureCount(FEATURE_TYPE::ANALOG_STICK);
     controllerStruct.accelerometer_count  = controller->Layout().FeatureCount(FEATURE_TYPE::ACCELEROMETER);
-    controllerStruct.key_count            = controller->Layout().FeatureCount(FEATURE_TYPE::KEY);
-    controllerStruct.rel_pointer_count    = controller->Layout().FeatureCount(FEATURE_TYPE::RELATIVE_POINTER);
-    controllerStruct.abs_pointer_count    = controller->Layout().FeatureCount(FEATURE_TYPE::ABSOLUTE_POINTER);
+    controllerStruct.key_count            = 0; // TODO
+    controllerStruct.rel_pointer_count    = 0; // TODO
+    controllerStruct.abs_pointer_count    = 0; // TODO
 
     try { m_pStruct->UpdatePort(port, true, &controllerStruct); }
     catch (...) { LogException("UpdatePort()"); }
