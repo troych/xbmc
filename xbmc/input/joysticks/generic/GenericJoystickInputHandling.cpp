@@ -23,7 +23,6 @@
 #include "input/joysticks/IJoystickButtonMap.h"
 #include "input/joysticks/IJoystickInputHandler.h"
 #include "input/joysticks/JoystickUtils.h"
-#include "utils/log.h"
 
 using namespace JOYSTICK;
 
@@ -80,8 +79,6 @@ bool CGenericJoystickInputHandling::OnDigitalMotion(const CDriverPrimitive& sour
   FeatureName featureName;
   if (m_buttonMap->GetFeature(source, featureName))
   {
-    CLog::Log(LOGDEBUG, "Feature [ %s ] pressed on %s", featureName.c_str(), m_handler->ControllerID().c_str());
-
     FeaturePtr& feature = m_features[featureName];
 
     if (!feature)

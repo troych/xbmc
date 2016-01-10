@@ -22,6 +22,7 @@
 #include "input/joysticks/DriverPrimitive.h"
 #include "input/joysticks/IJoystickButtonMap.h"
 #include "input/joysticks/IJoystickInputHandler.h"
+#include "utils/log.h"
 
 using namespace JOYSTICK;
 
@@ -53,7 +54,7 @@ bool CScalarFeature::OnDigitalMotion(const CDriverPrimitive& source, bool bPress
     if (m_bDigitalState != bPressed)
     {
       m_bDigitalState = bPressed;
-      m_handler->OnButtonPress(m_name, bPressed);
+      OnDigitalMotion(bPressed);
     }
   }
   else if (m_inputType == INPUT_TYPE::ANALOG)
@@ -75,11 +76,34 @@ bool CScalarFeature::OnAnalogMotion(const CDriverPrimitive& source, float magnit
     if (m_analogState != 0.0f || magnitude != 0.0f)
     {
       m_analogState = magnitude;
-      m_handler->OnButtonMotion(m_name, magnitude);
+      OnAnalogMotion(magnitude);
     }
   }
 
   return true;
+}
+
+void CScalarFeature::OnDigitalMotion(bool bPressed)
+{
+  CLog::Log(LOGDEBUG, "Feature [ %s ] on %s %s",
+            m_name.c_str(), m_handler->ControllerID().c_str(), bPressed ? "pressed" : "released");
+
+  m_handler->OnButtonPress(m_name, bPressed);
+}
+
+void CScalarFeature::OnAnalogMotion(float magnitude)
+{
+  const bool bActivated = (magnitude != 0.0f);
+
+  if (m_bDigitalState != bActivated)
+  {
+    m_bDigitalState = bActivated;
+
+    CLog::Log(LOGDEBUG, "Feature [ %s ] on %s %s",
+              m_name.c_str(), m_handler->ControllerID().c_str(), bActivated ? "activated" : "deactivated");
+  }
+
+  m_handler->OnButtonMotion(m_name, magnitude);
 }
 
 // --- CAnalogStick ------------------------------------------------------------

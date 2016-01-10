@@ -94,6 +94,9 @@ namespace JOYSTICK
     virtual void ProcessMotions(void) override { } // Actions are dispatched immediately
 
   private:
+    void OnDigitalMotion(bool bPressed);
+    void OnAnalogMotion(float magnitude);
+
     const INPUT_TYPE m_inputType;
     bool             m_bDigitalState;
     float            m_analogState;
