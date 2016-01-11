@@ -188,11 +188,38 @@ bool CInputManager::ProcessEventServer(int windowId, float frameTime)
     g_application.WakeUpScreenSaverAndDPMS();
   }
 
+  // now handle any buttons or axis
+  std::string joystickName;
+  bool isAxis = false;
+  float fAmount = 0.0;
+
   // es->ExecuteNextAction() invalidates the ref to the CEventServer instance
   // when the action exits XBMC
   es = CEventServer::GetInstance();
   if (!es || !es->Running() || es->GetNumberOfClients() == 0)
     return false;
+  unsigned int wKeyID = es->GetButtonCode(joystickName, isAxis, fAmount);
+
+  if (wKeyID)
+  {
+    if (joystickName.length() > 0)
+    {
+      return false;
+    }
+    else
+    {
+      CKey key;
+      if (wKeyID & ES_FLAG_UNICODE)
+      {
+        key = CKey((uint8_t)0, wKeyID & ~ES_FLAG_UNICODE, 0, 0, 0);
+        return OnKey(key);
+      }
+
+      key = CKey(wKeyID);
+      key.SetFromService(true);
+      return OnKey(key);
+    }
+  }
 
   {
     CPoint pos;
