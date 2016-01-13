@@ -28,6 +28,7 @@
 #include "addons/IAddon.h"
 #include "guilib/GUIMessage.h"
 #include "guilib/WindowIDs.h"
+#include "ApplicationMessenger.h"
 
 // To check for button mapping support
 #include "dialogs/GUIDialogOK.h"
@@ -168,24 +169,21 @@ void CGUIControllerWindow::OnDeinitWindow(int nextWindowID)
 
 void CGUIControllerWindow::FocusController(unsigned int controllerIndex)
 {
-  // TODO: App messenger
   CGUIMessage msg(GUI_MSG_SETFOCUS, GetID(), CONTROL_CONTROLLER_BUTTONS_START + controllerIndex);
-  OnMessage(msg);
+  CApplicationMessenger::Get().SendGUIMessage(msg, WINDOW_INVALID, false);
 }
 
 void CGUIControllerWindow::FocusFeature(unsigned int featureIndex)
 {
-  // TODO: App messenger
   CGUIMessage msg(GUI_MSG_SETFOCUS, GetID(), CONTROL_FEATURE_BUTTONS_START + featureIndex);
-  OnMessage(msg);
+  CApplicationMessenger::Get().SendGUIMessage(msg, WINDOW_INVALID, false);
 }
 
 void CGUIControllerWindow::SetLabel(unsigned int featureIndex, const std::string& strLabel)
 {
-  // TODO: App messenger
   CGUIMessage msg(GUI_MSG_LABEL_SET, GetID(), CONTROL_FEATURE_BUTTONS_START + featureIndex);
   msg.SetLabel(strLabel);
-  OnMessage(msg);
+  CApplicationMessenger::Get().SendGUIMessage(msg, WINDOW_INVALID, false);
 }
 
 void CGUIControllerWindow::OnControllerFocused(unsigned int controllerIndex)
