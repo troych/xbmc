@@ -551,6 +551,21 @@ bool CPeripheralAddon::MapFeatures(const CPeripheral* device,
   return retVal == PERIPHERAL_NO_ERROR;
 }
 
+void CPeripheralAddon::ResetButtonMap(const CPeripheral* device, const std::string& strControllerId)
+{
+  if (!HasFeature(FEATURE_JOYSTICK))
+    return;
+
+  ADDON::Joystick joystickInfo;
+  GetJoystickInfo(device, joystickInfo);
+
+  JOYSTICK_INFO joystickStruct;
+  joystickInfo.ToStruct(joystickStruct);
+
+  try { m_pStruct->ResetButtonMap(&joystickStruct, strControllerId.c_str()); }
+  catch (std::exception &e) { LogException(e, "ResetButtonMap()"); return; }
+}
+
 void CPeripheralAddon::RegisterButtonMap(CPeripheral* device, IJoystickButtonMap* buttonMap)
 {
   UnregisterButtonMap(buttonMap);

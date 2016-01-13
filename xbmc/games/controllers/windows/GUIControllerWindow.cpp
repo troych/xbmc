@@ -69,6 +69,11 @@ bool CGUIControllerWindow::OnMessage(CGUIMessage& message)
         GetMoreControllers();
         return true;
       }
+      else if (controlId == CONTROL_RESET_BUTTON)
+      {
+        ResetController();
+        return true;
+      }
       else if (CONTROL_CONTROLLER_BUTTONS_START <= controlId && controlId < CONTROL_CONTROLLER_BUTTONS_END)
       {
         OnControllerSelected(controlId - CONTROL_FEATURE_BUTTONS_START);
@@ -208,4 +213,10 @@ void CGUIControllerWindow::GetMoreControllers(void)
 {
   std::string strAddonId;
   CGUIWindowAddonBrowser::SelectAddonID(ADDON::ADDON_GAME_CONTROLLER, strAddonId, false, true, false, true, false);
+}
+
+void CGUIControllerWindow::ResetController(void)
+{
+  if (m_controllerList)
+    m_controllerList->ResetController();
 }

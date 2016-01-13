@@ -51,6 +51,7 @@ namespace GAME
     void OnFeatureSelected(unsigned int featureIndex);
 
     void GetMoreControllers(void);
+    void ResetController(void);
 
     IControllerList* m_controllerList;
     IFeatureList*    m_featureList;

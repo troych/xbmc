@@ -42,6 +42,8 @@ namespace PERIPHERALS
 
     virtual bool Load(void) override;
 
+    virtual void Reset(void) override;
+
     virtual bool GetFeature(
       const JOYSTICK::CDriverPrimitive& primitive,
       JOYSTICK::FeatureName& feature

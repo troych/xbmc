@@ -20,6 +20,7 @@
 
 #include "Peripherals.h"
 #include "addons/PeripheralAddon.h"
+#include "addons/AddonJoystickButtonMap.h"
 #include "bus/PeripheralBus.h"
 #include "devices/PeripheralBluetooth.h"
 #include "devices/PeripheralDisk.h"
@@ -34,6 +35,7 @@
 #include "bus/PeripheralBusUSB.h"
 #include "bus/virtual/PeripheralBusAddon.h"
 #include "bus/virtual/PeripheralBusApplication.h"
+#include "dialogs/GUIDialogYesNo.h"
 #include "dialogs/GUIDialogPeripheralManager.h"
 
 #if defined(HAVE_LIBCEC)
@@ -744,6 +746,36 @@ PeripheralAddonPtr CPeripherals::GetAddon(const CPeripheral* device)
   }
 
   return addon;
+}
+
+void CPeripherals::ResetButtonMaps(const std::string& controllerId)
+{
+  CPeripheralBusAddon* addonBus = static_cast<CPeripheralBusAddon*>(GetBusByType(PERIPHERAL_BUS_ADDON));
+
+  // TODO: Choose peripheral
+  // For now, ask the user if they would like to reset all peripherals
+  // "Reset controller profile"
+  // "Would you like to reset this controller profile for all devices?"
+  if (!CGUIDialogYesNo::ShowAndGetInput(35060, 35061))
+    return;
+
+  CSingleLock lock(m_critSection);
+
+  std::vector<CPeripheral*> peripherals;
+  GetPeripheralsWithFeature(peripherals, FEATURE_KEYBOARD);
+  GetPeripheralsWithFeature(peripherals, FEATURE_JOYSTICK);
+
+  for (std::vector<CPeripheral*>::iterator it = peripherals.begin(); it != peripherals.end(); ++it)
+  {
+    CPeripheral* peripheral = *it;
+
+    PeripheralAddonPtr addon;
+    if (addonBus->GetAddonWithButtonMap(peripheral, addon))
+    {
+      CAddonJoystickButtonMap buttonMap(peripheral, addon, controllerId);
+      buttonMap.Reset();
+    }
+  }
 }
 
 void CPeripherals::RegisterJoystickButtonMapper(IJoystickButtonMapper* mapper)

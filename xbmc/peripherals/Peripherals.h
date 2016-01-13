@@ -215,6 +215,8 @@ namespace PERIPHERALS
 
     virtual PeripheralAddonPtr GetAddon(const CPeripheral* device);
 
+    virtual void ResetButtonMaps(const std::string& controllerId);
+
     void RegisterJoystickButtonMapper(JOYSTICK::IJoystickButtonMapper* mapper);
     void UnregisterJoystickButtonMapper(JOYSTICK::IJoystickButtonMapper* mapper);
 

@@ -29,11 +29,13 @@
 #include "guilib/GUIButtonControl.h"
 #include "guilib/GUIControlGroupList.h"
 #include "guilib/GUIWindow.h"
+#include "peripherals/Peripherals.h"
 
 #include <assert.h>
 
 using namespace ADDON;
 using namespace GAME;
+using namespace PERIPHERALS;
 
 CGUIControllerList::CGUIControllerList(CGUIControllerWindow* window, IFeatureList* featureList) :
   m_guiWindow(window),
@@ -150,6 +152,15 @@ void CGUIControllerList::OnSelect(unsigned int controllerIndex)
   if (controllerIndex < m_controllers.size())
   {
     // TODO
+  }
+}
+
+void CGUIControllerList::ResetController(void)
+{
+  if (0 <= m_focusedController && m_focusedController < m_controllers.size())
+  {
+    const std::string strControllerId = m_controllers[m_focusedController]->ID();
+    g_peripherals.ResetButtonMaps(strControllerId);
   }
 }
 

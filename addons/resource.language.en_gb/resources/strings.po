@@ -14059,7 +14059,19 @@ msgctxt "#35059"
 msgid "Buttons"
 msgstr ""
 
-#empty strings from id 35060 to 35099
+#. Heading for prompt to reset a controller profile for all devices
+#: xbmc/peripherals/Peripherals.cpp
+msgctxt "#35060"
+msgid "Reset controller profile"
+msgstr ""
+
+#. Prompt to reset a controller profile for all devices
+#: xbmc/peripherals/Peripherals.cpp
+msgctxt "#35061"
+msgid "Would you like to reset this controller profile for all devices?"
+msgstr ""
+
+#empty strings from id 35062 to 35099
 
 #: system/settings/settings.xml
 msgctxt "#35100"

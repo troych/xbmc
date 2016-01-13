@@ -107,6 +107,11 @@ namespace GAME
      * \param  controllerIndex The index of the controller being selected
      */
     virtual void OnSelect(unsigned int controllerIndex) = 0;
+
+    /*!
+     * \brief Reset the focused controller
+     */
+    virtual void ResetController(void) = 0;
   };
 
   /*!

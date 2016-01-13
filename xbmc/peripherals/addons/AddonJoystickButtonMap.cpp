@@ -72,6 +72,11 @@ bool CAddonJoystickButtonMap::Load(void)
   return true;
 }
 
+void CAddonJoystickButtonMap::Reset(void)
+{
+  m_addon->ResetButtonMap(m_device, m_strControllerId);
+}
+
 bool CAddonJoystickButtonMap::GetFeature(const CDriverPrimitive& primitive, FeatureName& feature)
 {
   DriverMap::const_iterator it = m_driverMap.find(primitive);

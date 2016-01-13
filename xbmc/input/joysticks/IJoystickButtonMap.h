@@ -55,6 +55,11 @@ namespace JOYSTICK
     virtual bool Load(void) = 0;
 
     /*!
+     * \brief Reset the button map to its defaults, or clear button map if no defaults
+     */
+    virtual void Reset(void) = 0;
+
+    /*!
      * \brief Get the feature associated with a driver primitive
      *
      * Multiple primitives can be mapped to the same feature. For example,

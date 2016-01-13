@@ -96,7 +96,7 @@
 			</control>
 		</control>
 		<control type="group" id="9001">
-			<left>355</left>
+			<left>250</left>
 			<top>525</top>
 			<control type="button" id="20">
 				<description>Link to install more controllers</description>
@@ -110,7 +110,7 @@
 				<textcolor>white</textcolor>
 				<pulseonselect>false</pulseonselect>
 				<label>$LOCALIZE[21452]</label>
-				<onleft>18</onleft>
+				<onleft>19</onleft>
 				<onright>18</onright>
 				<onup>9000</onup>
 				<ondown>9000</ondown>
@@ -128,6 +128,23 @@
 				<label>186</label>
 				<font>font12_title</font>
 				<onleft>20</onleft>
+				<onright>19</onright>
+				<onup>9000</onup>
+				<ondown>9000</ondown>
+			</control>
+			<control type="button" id="19">
+				<description>Reset Button</description>
+				<left>420</left>
+				<top>0</top>
+				<width>200</width>
+				<height>40</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<texturenofocus border="5">button-nofocus.png</texturenofocus>
+				<texturefocus border="5">button-focus.png</texturefocus>
+				<label>10035</label>
+				<font>font12_title</font>
+				<onleft>18</onleft>
 				<onright>20</onright>
 				<onup>9000</onup>
 				<ondown>9000</ondown>
