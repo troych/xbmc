@@ -3253,9 +3253,6 @@
     <ClCompile Include="..\..\xbmc\games\controllers\guicontrols\GUIGameController.cpp">
       <Filter>games\controllers\guicontrols</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\games\controllers\windows\GUIFeatureButton.cpp">
-      <Filter>games\controllers\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\games\controllers\windows\GUIFeatureList.cpp">
       <Filter>games\controllers\windows</Filter>
     </ClCompile>
@@ -3279,6 +3276,18 @@
     </ClCompile>
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickFeatureHandling.cpp">
       <Filter>input\joysticks\generic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\guicontrols\GUIFeatureButton.cpp">
+      <Filter>games\controllers\guicontrols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\guicontrols\GUIScalarFeatureButton.cpp">
+      <Filter>games\controllers\guicontrols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\guicontrols\GUIAnalogStickButton.cpp">
+      <Filter>games\controllers\guicontrols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\controllers\guicontrols\GUIControllerButton.cpp">
+      <Filter>games\controllers\guicontrols</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -6323,9 +6332,6 @@
     <ClInclude Include="..\..\xbmc\games\controllers\guicontrols\GUIGameController.h">
       <Filter>games\controllers\guicontrols</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\games\controllers\windows\GUIFeatureButton.h">
-      <Filter>games\controllers\windows</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\games\controllers\windows\GUIFeatureList.h">
       <Filter>games\controllers\windows</Filter>
     </ClInclude>
@@ -6361,6 +6367,18 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickFeatureHandling.h">
       <Filter>input\joysticks\generic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\guicontrols\GUIControllerButton.h">
+      <Filter>games\controllers\guicontrols</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\guicontrols\GUIFeatureButton.h">
+      <Filter>games\controllers\guicontrols</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\guicontrols\GUIScalarFeatureButton.h">
+      <Filter>games\controllers\guicontrols</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\controllers\guicontrols\GUIAnalogStickButton.h">
+      <Filter>games\controllers\guicontrols</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
