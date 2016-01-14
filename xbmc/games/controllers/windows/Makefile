@@ -1,7 +1,6 @@
 SRCS=GUIConfigurationWizard.cpp \
      GUIControllerList.cpp \
      GUIControllerWindow.cpp \
-     GUIFeatureButton.cpp \
      GUIFeatureList.cpp \
 
 LIB=controllerwindows.a

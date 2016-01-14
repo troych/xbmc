@@ -25,6 +25,7 @@
 #include "addons/AddonManager.h"
 #include "games/controllers/Controller.h"
 #include "games/controllers/DefaultController.h"
+#include "games/controllers/guicontrols/GUIControllerButton.h"
 #include "games/controllers/guicontrols/GUIGameController.h"
 #include "guilib/GUIButtonControl.h"
 #include "guilib/GUIControlGroupList.h"
@@ -36,12 +37,11 @@
 using namespace ADDON;
 using namespace GAME;
 
-CGUIControllerList::CGUIControllerList(CGUIControllerWindow* window, IFeatureList* featureList) :
+CGUIControllerList::CGUIControllerList(CGUIWindow* window, IFeatureList* featureList) :
   m_guiWindow(window),
   m_featureList(featureList),
   m_controllerList(nullptr),
   m_controllerButton(nullptr),
-  m_window(window),
   m_focusedController(-1) // Initially unfocused
 {
   assert(m_featureList != nullptr);
@@ -94,11 +94,7 @@ void CGUIControllerList::Refresh(void)
     {
       const ControllerPtr& controller = *it;
 
-      CGUIButtonControl* pButton = new CGUIButtonControl(*m_controllerButton);
-      pButton->SetLabel(controller->Label());
-      pButton->SetID(CONTROL_CONTROLLER_BUTTONS_START + buttonId++);
-      pButton->SetVisible(true);
-      pButton->AllocResources();
+      CGUIButtonControl* pButton = new CGUIControllerButton(*m_controllerButton, controller->Label(), buttonId++);
       m_controllerList->AddControl(pButton);
 
       // Just in case
@@ -106,10 +102,10 @@ void CGUIControllerList::Refresh(void)
         break;
     }
 
+    /* TODO
     // Reselect previous controller
     unsigned int previousController = 0;
 
-    /* TODO
     if (!strFocusedControllerId.empty())
     {
       for (unsigned int i = 0; i < m_controllers.size(); i++)
@@ -121,9 +117,9 @@ void CGUIControllerList::Refresh(void)
         }
       }
     }
-    */
 
     m_window->FocusController(previousController);
+    */
   }
 }
 
@@ -133,11 +129,7 @@ void CGUIControllerList::OnFocus(unsigned int controllerIndex)
   {
     const ControllerPtr& controller = m_controllers[controllerIndex];
 
-    if (m_focusedController != (int)controllerIndex)
-    {
-      m_focusedController = controllerIndex;
-      m_featureList->Load(controller);
-    }
+    m_featureList->Load(controller);
 
     // TODO: Activate controller for all game controller controls
     CGUIGameController* pController = dynamic_cast<CGUIGameController*>(m_guiWindow->GetControl(CONTROL_GAME_CONTROLLER));

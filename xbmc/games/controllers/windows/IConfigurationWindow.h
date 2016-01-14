@@ -20,55 +20,30 @@
 #pragma once
 
 #include "games/controllers/ControllerTypes.h"
+#include "input/joysticks/JoystickTypes.h"
 
 #include <string>
 
-namespace JOYSTICK
-{
-  class IJoystickButtonMapper;
-}
+class CEvent;
 
+/*!
+ * \brief Controller configuration window
+ *
+ * The configuration window presents a list of controllers. Also on the screen
+ * is a list of features belonging to that controller.
+ *
+ * The configuration utility reacts to several events:
+ *
+ *   1) When a controller is focused, the feature list is populated with the
+ *      controller's features.
+ *
+ *   2) When a feature is selected, the user is prompted for controller input.
+ *      This initiates a "wizard" that walks the user through the remaining
+ *      features.
+ */
 namespace GAME
 {
-  /*!
-   * \brief Controller configuration window
-   *
-   * The configuration window presents a list of controllers. Also on the screen
-   * is a list of features belonging to that controller.
-   *
-   * The configuration utility reacts to several events:
-   *
-   *   1) When a controller is focused, the feature list is populated with the
-   *      controller's features.
-   *
-   *   2) When a feature is selected, the user is prompted for controller input.
-   *      This initiates a "wizard" that walks the user through the remaining
-   *      features.
-   */
-  class IConfigurationWindow
-  {
-  public:
-    virtual ~IConfigurationWindow(void) { }
-
-    /*!
-     * \brief Focus the specified controller
-     * \param controllerIndex The index of the controller in the list of controllers
-     */
-    virtual void FocusController(unsigned int controllerIndex) = 0;
-
-    /*!
-     * \brief Focus the specified feature
-     * \param featureIndex The index of the feature in the list of features
-     */
-    virtual void FocusFeature(unsigned int featureIndex) = 0;
-
-    /*!
-     * \brief Set the label of an item in the feature list
-     * \param featureIndex The index of the feature in the list of features
-     * \param strLabel the desired label
-     */
-    virtual void SetLabel(unsigned int featureIndex, const std::string& strLabel) = 0;
-  };
+  class CControllerFeature;
 
   /*!
    * \brief A list populated by installed controllers
@@ -141,13 +116,6 @@ namespace GAME
      */
     virtual void Load(const ControllerPtr& controller) = 0;
 
-    virtual ControllerPtr GetActiveController(void) = 0;
-
-    /*!
-     * \brief Return a button mapper for the focused feature
-     */
-    virtual JOYSTICK::IJoystickButtonMapper* GetButtonMapper(void) = 0;
-
     /*!
      * \brief  Focus has been set to the specified feature
      * \param  featureIndex The index of the feature being focused
@@ -159,28 +127,10 @@ namespace GAME
      * \param  featureIndex The index of the feature being selected
      */
     virtual void OnSelect(unsigned int index) = 0;
-
-    /*!
-     * \brief Focus has left the list
-     */
-    virtual void OnUnfocus(void) = 0;
-
-    /*!
-     * \brief Prompt the user for input
-     * \param featureIndex The feature requesting input
-     * \return true if the feature received input, false if the prompt was aborted
-     * \remark Blocks until input is received or prompt is aborted
-     */
-    virtual bool PromptForInput(unsigned int featureIndex) = 0;
-
-    /*!
-     * \brief Abort an active prompt for input
-     */
-    virtual void AbortPrompt(void) = 0;
   };
 
   /*!
-   * \brief A button representing a feature on a controller
+   * \brief A button in a feature list
    */
   class IFeatureButton
   {
@@ -188,15 +138,37 @@ namespace GAME
     virtual ~IFeatureButton(void) { }
 
     /*!
-     * \brief Prompt the user for input to map to the button's feature
-     * \return true input was mapped to the button's feature, false if the prompt was aborted
+     * \brief Get the feature represented by this button
      */
-    virtual bool PromptForInput(void) = 0;
+    virtual const CControllerFeature& Feature(void) const = 0;
 
     /*!
-     * \brief Abort an input prompt
+     * \brief Prompt the user for a single input element
+     * \param waitEvent The event to block on while prompting for input
+     * \return true if input was received (event fired), false if the prompt timed out
+     *
+     * After the button has finished prompting the user for all the input
+     * elements it requires, this will return false until Reset() is called.
      */
-    virtual void Abort(void) = 0;
+    virtual bool PromptForInput(CEvent& waitEvent) = 0;
+
+    /*!
+     * \brief Check if the button supports further calls to PromptForInput()
+     * \return true if the button requires no more input elements from the user
+     */
+    virtual bool IsFinished(void) const = 0;
+
+    /*!
+     * \brief Get the direction of the next analog stick prompt
+     * \return The next direction to be prompted, or UNKNOWN if this isn't an
+     *         analog stick or the prompt is finished
+     */
+    virtual JOYSTICK::CARDINAL_DIRECTION GetDirection(void) const = 0;
+
+    /*!
+     * \brief Reset button after prompting for input has finished
+     */
+    virtual void Reset(void) = 0;
   };
 
   /*!
@@ -211,12 +183,23 @@ namespace GAME
      * \brief Start the wizard at the specified feature
      * \param featureIndex The index of the feature to start at
      */
-    virtual void Run(unsigned int featureIndex) = 0;
+    virtual void Run(const std::string& strControllerId, const std::vector<IFeatureButton*>& buttons) = 0;
+
+    /*!
+     * \brief Check if the specified feature is currently prompting for input
+     * \param button The feature's button
+     * \return True if the feature is prompting for input, false otherwise
+     *
+     * Due to race conditions, false positives are allowed, but false negatives
+     * are guaranteed not to occur.
+     */
+    virtual bool IsPrompting(IFeatureButton* button) = 0;
 
     /*!
      * \brief Abort a running wizard
+     * \param bWait True if the call should block until the wizard is fully aborted
      * \return true if aborted, or false if the wizard wasn't running
      */
-    virtual bool Abort(void) = 0;
+    virtual bool Abort(bool bWait = true) = 0;
   };
 }

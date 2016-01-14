@@ -21,8 +21,11 @@
 
 #include "IConfigurationWindow.h"
 #include "input/joysticks/IJoystickButtonMapper.h"
+#include "threads/Event.h"
 #include "threads/Thread.h"
 #include "utils/Observer.h"
+
+#include <string>
 
 namespace GAME
 {
@@ -32,16 +35,17 @@ namespace GAME
                                   public Observer
   {
   public:
-    CGUIConfigurationWizard(IFeatureList* featureList);
+    CGUIConfigurationWizard(void);
 
     virtual ~CGUIConfigurationWizard(void) { }
 
     // implementation of IConfigurationWizard
-    virtual void Run(unsigned int featureIndex) override;
-    virtual bool Abort(void) override;
+    virtual void Run(const std::string& strControllerId, const std::vector<IFeatureButton*>& buttons) override;
+    virtual bool IsPrompting(IFeatureButton* button) override { return m_currentButton == button; }
+    virtual bool Abort(bool bWait = true) override;
 
     // implementation of IJoystickButtonMapper
-    virtual std::string ControllerID(void) const override;
+    virtual std::string ControllerID(void) const override { return m_strControllerId; }
     virtual bool MapPrimitive(JOYSTICK::IJoystickButtonMap* buttonMap, const JOYSTICK::CDriverPrimitive& primitive) override;
 
     // implementation of Observer
@@ -55,8 +59,10 @@ namespace GAME
     void InstallHooks(void);
     void RemoveHooks(void);
 
-    IFeatureList* const              m_features;
-    JOYSTICK::IJoystickButtonMapper* m_buttonMapper;
-    unsigned int                     m_featureIndex;
+    std::string                      m_strControllerId;
+    std::vector<IFeatureButton*>     m_buttons;
+    IFeatureButton*                  m_currentButton;
+    JOYSTICK::CARDINAL_DIRECTION     m_currentDirection;
+    CEvent                           m_inputEvent;
   };
 }

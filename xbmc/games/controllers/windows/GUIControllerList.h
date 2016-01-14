@@ -35,7 +35,7 @@ namespace GAME
                              public Observer
   {
   public:
-    CGUIControllerList(CGUIControllerWindow* window, IFeatureList* featureList);
+    CGUIControllerList(CGUIWindow* window, IFeatureList* featureList);
     virtual ~CGUIControllerList(void) { Deinitialize(); }
 
     // implementation of IControllerList
@@ -61,8 +61,7 @@ namespace GAME
     CGUIButtonControl*    m_controllerButton;
 
     // Game stuff
-    IConfigurationWindow* const m_window;
-    ControllerVector            m_controllers;
-    int                         m_focusedController;
+    ControllerVector      m_controllers;
+    int                   m_focusedController;
   };
 }

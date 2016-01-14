@@ -22,8 +22,7 @@
 #include "GUIControllerDefines.h"
 #include "GUIControllerList.h"
 #include "GUIFeatureList.h"
-#include "addons/AddonDatabase.h"
-#include "addons/AddonManager.h"
+#include "IConfigurationWindow.h"
 #include "addons/GUIWindowAddonBrowser.h"
 #include "addons/IAddon.h"
 #include "guilib/GUIMessage.h"
@@ -36,9 +35,11 @@
 #include "peripherals/Peripherals.h"
 #include "utils/log.h"
 
-using namespace ADDON;
+// To check for installable controllers
+#include "addons/AddonDatabase.h"
+#include "addons/AddonManager.h"
+
 using namespace GAME;
-using namespace PERIPHERALS;
 
 CGUIControllerWindow::CGUIControllerWindow(void) :
   CGUIDialog(WINDOW_DIALOG_GAME_CONTROLLERS, "DialogGameControllers.xml"),
@@ -104,6 +105,22 @@ bool CGUIControllerWindow::OnMessage(CGUIMessage& message)
       }
       break;
     }
+    case GUI_MSG_SETFOCUS:
+    {
+      int controlId = message.GetControlId();
+
+      if (CONTROL_CONTROLLER_BUTTONS_START <= controlId && controlId < CONTROL_CONTROLLER_BUTTONS_END)
+      {
+        OnControllerFocused(controlId - CONTROL_CONTROLLER_BUTTONS_START);
+      }
+      else if (CONTROL_FEATURE_BUTTONS_START <= controlId && controlId < CONTROL_FEATURE_BUTTONS_END)
+      {
+        OnFeatureFocused(controlId - CONTROL_FEATURE_BUTTONS_START);
+      }
+      break;
+    }
+    default:
+      break;
   }
 
   return CGUIDialog::OnMessage(message);
@@ -111,6 +128,9 @@ bool CGUIControllerWindow::OnMessage(CGUIMessage& message)
 
 void CGUIControllerWindow::OnInitWindow(void)
 {
+  using namespace KODI::MESSAGING;
+  using namespace PERIPHERALS;
+
   CGUIDialog::OnInitWindow();
 
   if (!m_featureList)
@@ -132,6 +152,10 @@ void CGUIControllerWindow::OnInitWindow(void)
       m_controllerList = nullptr;
     }
   }
+
+  // Focus the first controller so that the feature list is loaded properly
+  CGUIMessage msgFocus(GUI_MSG_SETFOCUS, GetID(), CONTROL_CONTROLLER_BUTTONS_START);
+  CApplicationMessenger::GetInstance().SendGUIMessage(msgFocus, WINDOW_INVALID, false);
 
   // Check for button mapping support (TODO: remove this)
   CPeripheralBusAddon* bus = static_cast<CPeripheralBusAddon*>(g_peripherals.GetBusByType(PERIPHERAL_BUS_ADDON));
@@ -167,25 +191,6 @@ void CGUIControllerWindow::OnDeinitWindow(int nextWindowID)
   CGUIDialog::OnDeinitWindow(nextWindowID);
 }
 
-void CGUIControllerWindow::FocusController(unsigned int controllerIndex)
-{
-  CGUIMessage msg(GUI_MSG_SETFOCUS, GetID(), CONTROL_CONTROLLER_BUTTONS_START + controllerIndex);
-  CApplicationMessenger::Get().SendGUIMessage(msg, WINDOW_INVALID, false);
-}
-
-void CGUIControllerWindow::FocusFeature(unsigned int featureIndex)
-{
-  CGUIMessage msg(GUI_MSG_SETFOCUS, GetID(), CONTROL_FEATURE_BUTTONS_START + featureIndex);
-  CApplicationMessenger::Get().SendGUIMessage(msg, WINDOW_INVALID, false);
-}
-
-void CGUIControllerWindow::SetLabel(unsigned int featureIndex, const std::string& strLabel)
-{
-  CGUIMessage msg(GUI_MSG_LABEL_SET, GetID(), CONTROL_FEATURE_BUTTONS_START + featureIndex);
-  msg.SetLabel(strLabel);
-  CApplicationMessenger::Get().SendGUIMessage(msg, WINDOW_INVALID, false);
-}
-
 void CGUIControllerWindow::OnControllerFocused(unsigned int controllerIndex)
 {
   if (m_controllerList)
@@ -212,6 +217,8 @@ void CGUIControllerWindow::OnFeatureSelected(unsigned int featureIndex)
 
 void CGUIControllerWindow::GetMoreControllers(void)
 {
+  using namespace ADDON;
+
   // TODO: Move this check into CGUIWindowAddonBrowser::SelectAddonID().
   //
   // CGUIWindowAddonBrowser::SelectAddonID() will silently fail if there are

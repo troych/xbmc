@@ -41,17 +41,12 @@ namespace GAME
     virtual bool Initialize(void) override;
     virtual void Deinitialize(void) override;
     virtual void Load(const ControllerPtr& controller) override;
-    virtual ControllerPtr GetActiveController(void) override { return m_controller; }
-    virtual JOYSTICK::IJoystickButtonMapper* GetButtonMapper(void) override;
     virtual void OnFocus(unsigned int index) override;
     virtual void OnSelect(unsigned int index) override;
-    virtual void OnUnfocus(void) override;
-
-    // implementation of IConfigurationWizardCallbacks
-    virtual bool PromptForInput(unsigned int featureIndex) override;
-    virtual void AbortPrompt(void) override;
 
   private:
+    IFeatureButton* GetButtonControl(unsigned int featureIndex);
+
     void CleanupButtons(void);
 
     // GUI stuff
@@ -61,8 +56,6 @@ namespace GAME
     // Game window stuff
     CGUIControllerWindow* const     m_window;
     ControllerPtr                   m_controller;
-    std::vector<CGUIFeatureButton*> m_buttons;
-    unsigned int                    m_focusedFeature;
     IConfigurationWizard*           m_wizard;
   };
 }

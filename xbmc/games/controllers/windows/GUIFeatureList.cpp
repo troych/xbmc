@@ -22,7 +22,8 @@
 #include "GUIConfigurationWizard.h"
 #include "GUIControllerDefines.h"
 #include "GUIControllerWindow.h"
-#include "GUIFeatureButton.h"
+#include "games/controllers/guicontrols/GUIAnalogStickButton.h"
+#include "games/controllers/guicontrols/GUIScalarFeatureButton.h"
 #include "games/controllers/Controller.h"
 #include "guilib/GUIButtonControl.h"
 #include "guilib/GUIControlGroupList.h"
@@ -33,10 +34,9 @@ using namespace GAME;
 CGUIFeatureList::CGUIFeatureList(CGUIControllerWindow* window) :
   m_guiList(nullptr),
   m_guiButtonTemplate(nullptr),
-  m_window(window),
-  m_focusedFeature(0)
+  m_window(window)
 {
-  m_wizard = new CGUIConfigurationWizard(this);
+  m_wizard = new CGUIConfigurationWizard;
 }
 
 CGUIFeatureList::~CGUIFeatureList(void)
@@ -58,7 +58,6 @@ bool CGUIFeatureList::Initialize(void)
 
 void CGUIFeatureList::Deinitialize(void)
 {
-  OnUnfocus();
   CleanupButtons();
 
   m_guiList = nullptr;
@@ -67,88 +66,85 @@ void CGUIFeatureList::Deinitialize(void)
 
 void CGUIFeatureList::Load(const ControllerPtr& controller)
 {
+  if (m_controller && m_controller->ID() == controller->ID())
+    return; // Already loaded
+
   CleanupButtons();
 
   m_controller = controller;
-  m_focusedFeature = 0;
 
   const std::vector<CControllerFeature>& features = controller->Layout().Features();
 
-  for (unsigned int buttonIndex = 0; buttonIndex < features.size() && buttonIndex < MAX_FEATURE_COUNT; buttonIndex++)
+  for (unsigned int buttonIndex = 0; buttonIndex < features.size(); buttonIndex++)
   {
-    // Add to resources
-    m_buttons.push_back(new CGUIFeatureButton(m_window, features[buttonIndex], controller->ID(), buttonIndex));
+    const CControllerFeature& feature = features[buttonIndex];
 
-    // Add to GUI
-    CGUIButtonControl* pButton = new CGUIButtonControl(*m_guiButtonTemplate);
-    pButton->SetLabel(features[buttonIndex].Label());
-    pButton->SetID(CONTROL_FEATURE_BUTTONS_START + buttonIndex);
-    pButton->SetVisible(true);
-    pButton->AllocResources();
-    m_guiList->AddControl(pButton);
+    CGUIButtonControl* pButton = nullptr;
+
+    switch (feature.Type())
+    {
+      case JOYSTICK::FEATURE_TYPE::SCALAR:
+      {
+        pButton = new CGUIScalarFeatureButton(*m_guiButtonTemplate, m_wizard, feature, buttonIndex);
+        break;
+      }
+      case JOYSTICK::FEATURE_TYPE::ANALOG_STICK:
+      {
+        pButton = new CGUIAnalogStickButton(*m_guiButtonTemplate, m_wizard, feature, buttonIndex);
+        break;
+      }
+      default:
+        break;
+    }
+
+    if (pButton)
+      m_guiList->AddControl(pButton);
+
+    // Just in case
+    if (buttonIndex >= MAX_FEATURE_COUNT)
+      break;
   }
-}
-
-JOYSTICK::IJoystickButtonMapper* CGUIFeatureList::GetButtonMapper(void)
-{
-  return m_buttons[m_focusedFeature];
 }
 
 void CGUIFeatureList::OnFocus(unsigned int index)
 {
-  if (index < m_buttons.size())
+  IFeatureButton* button = GetButtonControl(index);
+  if (button)
   {
-    if (m_focusedFeature == index)
-      return; // Already focused
-
-    OnUnfocus();
-
-    m_focusedFeature = index;
+    if (!m_wizard->IsPrompting(button))
+      m_wizard->Abort();
   }
 }
 
 void CGUIFeatureList::OnSelect(unsigned int index)
 {
-  if (index < m_buttons.size())
-    m_wizard->Run(index);
-}
+  const unsigned int featureCount = m_controller->Layout().FeatureCount();
 
-void CGUIFeatureList::OnUnfocus(void)
-{
-  m_wizard->Abort();
-}
+  std::vector<IFeatureButton*> buttons;
 
-bool CGUIFeatureList::PromptForInput(unsigned int featureIndex)
-{
-  if (featureIndex < m_buttons.size())
+  for ( ; index < featureCount; index++)
   {
-    // Focus the feature
-    if (featureIndex != m_focusedFeature)
-    {
-      m_focusedFeature = featureIndex;
-      m_window->FocusFeature(featureIndex);
-    }
+    IFeatureButton* control = GetButtonControl(index);
+    if (!control)
+      break;
 
-    return m_buttons[featureIndex]->PromptForInput();
+    buttons.push_back(control);
   }
 
-  return false;
+  m_wizard->Run(m_controller->ID(), buttons);
 }
 
-void CGUIFeatureList::AbortPrompt(void)
+IFeatureButton* CGUIFeatureList::GetButtonControl(unsigned int featureIndex)
 {
-  for (std::vector<CGUIFeatureButton*>::iterator it = m_buttons.begin(); it != m_buttons.end(); ++it)
-    (*it)->Abort();
+  CGUIControl* control = m_guiList->GetControl(CONTROL_FEATURE_BUTTONS_START + featureIndex);
+
+  return dynamic_cast<CGUIFeatureButton*>(control);
 }
 
 void CGUIFeatureList::CleanupButtons(void)
 {
-  // Clear resources
-  for (IFeatureButton* button : m_buttons)
-    delete button;
-  m_buttons.clear();
+  m_wizard->Abort(true);
 
-  // Clear GUI
   if (m_guiList)
     m_guiList->ClearAll();
 }

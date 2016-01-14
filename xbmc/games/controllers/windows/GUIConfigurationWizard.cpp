@@ -19,37 +19,46 @@
  */
 
 #include "GUIConfigurationWizard.h"
+#include "games/controllers/guicontrols/GUIFeatureButton.h"
 #include "games/controllers/Controller.h"
+#include "games/controllers/ControllerFeature.h"
+#include "input/joysticks/DriverPrimitive.h"
+#include "input/joysticks/IJoystickButtonMap.h"
 #include "peripherals/Peripherals.h"
+#include "threads/SingleLock.h"
 #include "utils/log.h"
 
 using namespace GAME;
-using namespace PERIPHERALS;
 
-CGUIConfigurationWizard::CGUIConfigurationWizard(IFeatureList* featureList) :
-  CThread("GUIConfigurationWizard"),
-  m_features(featureList),
-  m_featureIndex(0)
+#define ESC_KEY_CODE  27
+
+CGUIConfigurationWizard::CGUIConfigurationWizard(void) :
+  CThread("GUIConfigurationWizard")
 {
 }
 
-void CGUIConfigurationWizard::Run(unsigned int featureIndex)
+void CGUIConfigurationWizard::Run(const std::string& strControllerId, const std::vector<IFeatureButton*>& buttons)
 {
-  if (IsRunning())
-    Abort();
+  Abort();
 
-  m_featureIndex = featureIndex;
+  m_strControllerId = strControllerId;
+  m_buttons = buttons;
+  m_currentButton = nullptr;
 
   Create();
 }
 
-bool CGUIConfigurationWizard::Abort(void)
+bool CGUIConfigurationWizard::Abort(bool bWait /* = true */)
 {
   if (IsRunning())
   {
     StopThread(false);
-    m_features->AbortPrompt();
-    StopThread(true);
+
+    m_inputEvent.Set();
+
+    if (bWait)
+      StopThread(true);
+
     return true;
   }
   return false;
@@ -57,49 +66,117 @@ bool CGUIConfigurationWizard::Abort(void)
 
 void CGUIConfigurationWizard::Process(void)
 {
-  CLog::Log(LOGDEBUG, "Starting configuration wizard at feature %u", m_featureIndex);
+  CLog::Log(LOGDEBUG, "Starting configuration wizard");
+
   InstallHooks();
-  for (m_bStop = false; !m_bStop; m_featureIndex++)
+
+  for (IFeatureButton* button : m_buttons)
   {
-    if (!m_features->PromptForInput(m_featureIndex))
-      m_bStop = true;
+    m_currentButton = button;
+
+    while (!button->IsFinished())
+    {
+      m_currentDirection = button->GetDirection();
+
+      if (!button->PromptForInput(m_inputEvent))
+        Abort(false);
+
+      if (m_bStop)
+        break;
+    }
+
+    button->Reset();
+
+    if (m_bStop)
+      break;
   }
+
+  m_currentButton = nullptr;
+
   RemoveHooks();
+
   CLog::Log(LOGDEBUG, "Configuration wizard ended");
-}
-
-std::string CGUIConfigurationWizard::ControllerID(void) const
-{
-  ControllerPtr controller = m_features->GetActiveController();
-  if (controller)
-    return controller->ID();
-
-  return "";
 }
 
 bool CGUIConfigurationWizard::MapPrimitive(JOYSTICK::IJoystickButtonMap* buttonMap, const JOYSTICK::CDriverPrimitive& primitive)
 {
-  JOYSTICK::IJoystickButtonMapper* buttonMapper = m_features->GetButtonMapper();
-  if (buttonMapper)
-    return buttonMapper->MapPrimitive(buttonMap, primitive);
+  using namespace JOYSTICK;
 
-  return false;
+  bool bHandled = false;
+
+  // Handle esc key separately
+  if (primitive.Type() == CDriverPrimitive::BUTTON &&
+      primitive.Index() == ESC_KEY_CODE)
+  {
+    bHandled = Abort(false);
+  }
+  else
+  {
+    IFeatureButton* currentButton = m_currentButton;
+
+    const CControllerFeature& feature = currentButton->Feature();
+
+    switch (feature.Type())
+    {
+      case FEATURE_TYPE::SCALAR:
+      {
+        bHandled = buttonMap->AddScalar(feature.Name(), primitive);
+        break;
+      }
+      case FEATURE_TYPE::ANALOG_STICK:
+      {
+        CDriverPrimitive up;
+        CDriverPrimitive down;
+        CDriverPrimitive right;
+        CDriverPrimitive left;
+
+        bHandled = buttonMap->GetAnalogStick(feature.Name(), up, down, right, left);
+
+        switch (m_currentDirection)
+        {
+          case CARDINAL_DIRECTION::UP:    up    = primitive; break;
+          case CARDINAL_DIRECTION::DOWN:  down  = primitive; break;
+          case CARDINAL_DIRECTION::RIGHT: right = primitive; break;
+          case CARDINAL_DIRECTION::LEFT:  left  = primitive; break;
+          default:
+            break;
+        }
+
+        bHandled = buttonMap->AddAnalogStick(feature.Name(), up, down, right, left);
+
+        break;
+      }
+      default:
+        break;
+    }
+
+    if (bHandled)
+      m_inputEvent.Set();
+  }
+  
+  return bHandled;
 }
 
 void CGUIConfigurationWizard::InstallHooks(void)
 {
+  using namespace PERIPHERALS;
+
   g_peripherals.RegisterJoystickButtonMapper(this);
   g_peripherals.RegisterObserver(this);
 }
 
 void CGUIConfigurationWizard::RemoveHooks(void)
 {
+  using namespace PERIPHERALS;
+
   g_peripherals.UnregisterObserver(this);
   g_peripherals.UnregisterJoystickButtonMapper(this);
 }
 
 void CGUIConfigurationWizard::Notify(const Observable& obs, const ObservableMessage msg)
 {
+  using namespace PERIPHERALS;
+
   switch (msg)
   {
     case ObservableMessagePeripheralsChanged:

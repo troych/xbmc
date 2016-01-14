@@ -1,4 +1,6 @@
-SRCS=GUIGameController.cpp \
+SRCS=GUIControllerButton.cpp \
+     GUIFeatureButton.cpp \
+     GUIGameController.cpp \
 
 LIB=controllerguicontrols.a
 

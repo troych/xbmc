@@ -19,13 +19,14 @@
  */
 #pragma once
 
-#include "IConfigurationWindow.h"
 #include "guilib/GUIDialog.h"
 
 namespace GAME
 {
-  class CGUIControllerWindow : public CGUIDialog,
-                               public IConfigurationWindow
+  class IControllerList;
+  class IFeatureList;
+
+  class CGUIControllerWindow : public CGUIDialog
   {
   public:
     CGUIControllerWindow(void);
@@ -33,11 +34,6 @@ namespace GAME
 
     // implementation of CGUIControl via CGUIDialog
     virtual bool OnMessage(CGUIMessage& message) override;
-
-    // implementation of IConfigurationWindow
-    virtual void FocusController(unsigned int controllerIndex) override;
-    virtual void FocusFeature(unsigned int featureIndex) override;
-    virtual void SetLabel(unsigned int featureIndex, const std::string& strLabel) override;
 
   protected:
     // implementation of CGUIWindow via CGUIDialog
