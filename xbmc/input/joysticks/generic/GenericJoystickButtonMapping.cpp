@@ -33,7 +33,7 @@
 using namespace JOYSTICK;
 using namespace XbmcThreads;
 
-#define MAPPING_COOLDOWN_MS  100  // Guard against rapid input
+#define MAPPING_COOLDOWN_MS  50   // Guard against rapid input
 #define AXIS_THRESHOLD       0.5f // Axis must exceed this value to be mapped
 #define AXIS_HOLDTIME_MS     100  // Axis must be activated for this long to be mapped
 
