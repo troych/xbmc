@@ -24,6 +24,7 @@
 #include "input/joysticks/JoystickTranslator.h"
 #include "input/joysticks/JoystickUtils.h"
 #include "threads/SystemClock.h"
+#include "utils/log.h"
 
 #include <algorithm>
 #include <assert.h>
@@ -32,12 +33,14 @@
 using namespace JOYSTICK;
 using namespace XbmcThreads;
 
-#define AXIS_THRESHOLD    0.5f
-#define AXIS_HOLDTIME_MS  100
+#define MAPPING_COOLDOWN_MS  100  // Guard against rapid input
+#define AXIS_THRESHOLD       0.5f // Axis must exceed this value to be mapped
+#define AXIS_HOLDTIME_MS     100  // Axis must be activated for this long to be mapped
 
 CGenericJoystickButtonMapping::CGenericJoystickButtonMapping(IJoystickButtonMapper* buttonMapper, IJoystickButtonMap* buttonMap)
   : m_buttonMapper(buttonMapper),
-    m_buttonMap(buttonMap)
+    m_buttonMap(buttonMap),
+    m_lastAction(0)
 {
   assert(m_buttonMapper != NULL);
   assert(m_buttonMap != NULL);
@@ -48,7 +51,8 @@ bool CGenericJoystickButtonMapping::OnButtonMotion(unsigned int buttonIndex, boo
   if (bPressed)
   {
     CDriverPrimitive buttonPrimitive(buttonIndex);
-    m_buttonMapper->MapPrimitive(m_buttonMap, buttonPrimitive);
+    if (buttonPrimitive.IsValid())
+      MapPrimitive(buttonPrimitive);
   }
 
   return true;
@@ -58,7 +62,7 @@ bool CGenericJoystickButtonMapping::OnHatMotion(unsigned int hatIndex, HAT_STATE
 {
   CDriverPrimitive hatPrimitive(hatIndex, static_cast<HAT_DIRECTION>(state));
   if (hatPrimitive.IsValid())
-    m_buttonMapper->MapPrimitive(m_buttonMap, hatPrimitive);
+    MapPrimitive(hatPrimitive);
 
   return true;
 }
@@ -102,9 +106,23 @@ void CGenericJoystickButtonMapping::ProcessAxisMotions(void)
       if (bHeld)
       {
         semiaxis.bEmitted = true;
-        m_buttonMapper->MapPrimitive(m_buttonMap, semiaxis.driverPrimitive);
+        MapPrimitive(semiaxis.driverPrimitive);
       }
     }
+  }
+}
+
+void CGenericJoystickButtonMapping::MapPrimitive(const CDriverPrimitive& primitive)
+{
+  bool bTimeoutElapsed = (SystemClockMillis() >= m_lastAction + MAPPING_COOLDOWN_MS);
+  if (bTimeoutElapsed)
+  {
+    m_lastAction = SystemClockMillis();
+    m_buttonMapper->MapPrimitive(m_buttonMap, primitive);
+  }
+  else
+  {
+    CLog::Log(LOGDEBUG, "Button mapping: rapid input dropped for profile \"%s\"", m_buttonMapper->ControllerID().c_str());
   }
 }
 

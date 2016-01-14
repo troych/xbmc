@@ -58,6 +58,8 @@ namespace JOYSTICK
     virtual void ProcessAxisMotions(void) override;
 
   private:
+    void MapPrimitive(const CDriverPrimitive& primitive);
+
     void Activate(const CDriverPrimitive& semiAxis);
     void Deactivate(const CDriverPrimitive& semiAxis);
     bool IsActive(const CDriverPrimitive& semiAxis);
@@ -73,5 +75,6 @@ namespace JOYSTICK
     };
 
     std::vector<ActivatedAxis> m_activatedAxes;
+    unsigned int               m_lastAction;
   };
 }
