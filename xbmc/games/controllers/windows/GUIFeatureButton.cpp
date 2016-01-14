@@ -51,6 +51,7 @@ CGUIFeatureButton::CGUIFeatureButton(IConfigurationWindow* window,
 bool CGUIFeatureButton::PromptForInput(void)
 {
   m_bAborted = false;
+  m_waitCondition.Reset();
 
   switch (m_feature.Type())
   {
