@@ -22,6 +22,8 @@
 #include "GUIControllerDefines.h"
 #include "GUIControllerList.h"
 #include "GUIFeatureList.h"
+#include "addons/AddonDatabase.h"
+#include "addons/AddonManager.h"
 #include "addons/GUIWindowAddonBrowser.h"
 #include "addons/IAddon.h"
 #include "guilib/GUIMessage.h"
@@ -33,6 +35,7 @@
 #include "peripherals/Peripherals.h"
 #include "utils/log.h"
 
+using namespace ADDON;
 using namespace GAME;
 using namespace PERIPHERALS;
 
@@ -211,6 +214,50 @@ void CGUIControllerWindow::OnFeatureSelected(unsigned int featureIndex)
 
 void CGUIControllerWindow::GetMoreControllers(void)
 {
+  // TODO: Move this check into CGUIWindowAddonBrowser::SelectAddonID().
+  //
+  // CGUIWindowAddonBrowser::SelectAddonID() will silently fail if there are
+  // no installable controller add-ons. It should be modified to show a dialog,
+  // but the function is such a mess that this could have negative
+  // repercussions. It should be refactored, and then this code can be removed.
+
+  bool bWillSilentlyFail = true;
+
+  VECADDONS installableAddons;
+  CAddonDatabase database;
+  if (database.Open() && database.GetAddons(installableAddons))
+  {
+    for (IVECADDONS it = installableAddons.begin(); it != installableAddons.end(); ++it)
+    {
+      const AddonPtr& addon = *it;
+
+      // Based on checks in CGUIWindowAddonBrowser::SelectAddonID()
+
+      if (!addon->IsType(ADDON_GAME_CONTROLLER))
+        continue;
+
+      if (CAddonMgr::Get().IsAddonDisabled(addon->ID()))
+        continue;
+
+      if (CAddonMgr::Get().IsAddonInstalled(addon->ID()))
+        continue;
+
+      if (!CAddonMgr::Get().CanAddonBeInstalled(addon))
+        continue;
+
+      bWillSilentlyFail = false;
+      break;
+    }
+  }
+
+  if (bWillSilentlyFail)
+  {
+    // "Controller profiles"
+    // "All available controller profiles are installed."
+    CGUIDialogOK::ShowAndGetInput(35050, 35062);
+    return;
+  }
+
   std::string strAddonId;
   CGUIWindowAddonBrowser::SelectAddonID(ADDON::ADDON_GAME_CONTROLLER, strAddonId, false, true, false, true, false);
 }

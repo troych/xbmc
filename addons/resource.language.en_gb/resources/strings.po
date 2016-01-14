@@ -13999,8 +13999,9 @@ msgstr ""
 #empty strings from id 35012 to 35049
 
 #. Name of controller add-ons
-#: xbmc/addons/Addon.cpp
 #: addons/skin.confluence/720p/DialogGameControllers.xml
+#: xbmc/addons/Addon.cpp
+#: xbmc/games/controllers/windows/GUIControllerWindow.cpp
 msgctxt "#35050"
 msgid "Controller profiles"
 msgstr ""
@@ -14071,7 +14072,13 @@ msgctxt "#35061"
 msgid "Would you like to reset this controller profile for all devices?"
 msgstr ""
 
-#empty strings from id 35062 to 35099
+#. Notice that all controller profiles are installed
+#: xbmc/games/controllers/windows/GUIControllerWindow.cpp
+msgctxt "#35062"
+msgid "All available controller profiles are installed."
+msgstr ""
+
+#empty strings from id 35063 to 35099
 
 #: system/settings/settings.xml
 msgctxt "#35100"
