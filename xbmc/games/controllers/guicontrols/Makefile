@@ -1,6 +1,8 @@
-SRCS=GUIControllerButton.cpp \
+SRCS=GUIAnalogStickButton.cpp \
+     GUIControllerButton.cpp \
      GUIFeatureButton.cpp \
      GUIGameController.cpp \
+     GUIScalarFeatureButton.cpp \
 
 LIB=controllerguicontrols.a
 
