@@ -21,7 +21,6 @@
 #include "GUIFeatureList.h"
 #include "GUIConfigurationWizard.h"
 #include "GUIControllerDefines.h"
-#include "GUIControllerWindow.h"
 #include "games/controllers/guicontrols/GUIAnalogStickButton.h"
 #include "games/controllers/guicontrols/GUIScalarFeatureButton.h"
 #include "games/controllers/Controller.h"
@@ -31,10 +30,10 @@
 
 using namespace GAME;
 
-CGUIFeatureList::CGUIFeatureList(CGUIControllerWindow* window) :
+CGUIFeatureList::CGUIFeatureList(CGUIWindow* window) :
+  m_window(window),
   m_guiList(nullptr),
-  m_guiButtonTemplate(nullptr),
-  m_window(window)
+  m_guiButtonTemplate(nullptr)
 {
   m_wizard = new CGUIConfigurationWizard;
 }
@@ -80,7 +79,6 @@ void CGUIFeatureList::Load(const ControllerPtr& controller)
     const CControllerFeature& feature = features[buttonIndex];
 
     CGUIButtonControl* pButton = nullptr;
-
     switch (feature.Type())
     {
       case JOYSTICK::FEATURE_TYPE::SCALAR:
@@ -96,7 +94,6 @@ void CGUIFeatureList::Load(const ControllerPtr& controller)
       default:
         break;
     }
-
     if (pButton)
       m_guiList->AddControl(pButton);
 
@@ -120,8 +117,8 @@ void CGUIFeatureList::OnSelect(unsigned int index)
 {
   const unsigned int featureCount = m_controller->Layout().FeatureCount();
 
+  // Generate list of buttons for the wizard
   std::vector<IFeatureButton*> buttons;
-
   for ( ; index < featureCount; index++)
   {
     IFeatureButton* control = GetButtonControl(index);

@@ -118,47 +118,48 @@ bool CGUIConfigurationWizard::MapPrimitive(JOYSTICK::IJoystickButtonMap* buttonM
   else
   {
     IFeatureButton* currentButton = m_currentButton;
-
-    const CControllerFeature& feature = currentButton->Feature();
-
-    switch (feature.Type())
+    if (currentButton)
     {
-      case FEATURE_TYPE::SCALAR:
+      const CControllerFeature& feature = currentButton->Feature();
+      switch (feature.Type())
       {
-        bHandled = buttonMap->AddScalar(feature.Name(), primitive);
-        break;
-      }
-      case FEATURE_TYPE::ANALOG_STICK:
-      {
-        CDriverPrimitive up;
-        CDriverPrimitive down;
-        CDriverPrimitive right;
-        CDriverPrimitive left;
-
-        bHandled = buttonMap->GetAnalogStick(feature.Name(), up, down, right, left);
-
-        switch (m_currentDirection)
+        case FEATURE_TYPE::SCALAR:
         {
-          case CARDINAL_DIRECTION::UP:    up    = primitive; break;
-          case CARDINAL_DIRECTION::DOWN:  down  = primitive; break;
-          case CARDINAL_DIRECTION::RIGHT: right = primitive; break;
-          case CARDINAL_DIRECTION::LEFT:  left  = primitive; break;
-          default:
-            break;
+          bHandled = buttonMap->AddScalar(feature.Name(), primitive);
+          break;
         }
+        case FEATURE_TYPE::ANALOG_STICK:
+        {
+          CDriverPrimitive up;
+          CDriverPrimitive down;
+          CDriverPrimitive right;
+          CDriverPrimitive left;
 
-        bHandled = buttonMap->AddAnalogStick(feature.Name(), up, down, right, left);
+          buttonMap->GetAnalogStick(feature.Name(), up, down, right, left);
 
-        break;
+          switch (m_currentDirection)
+          {
+            case CARDINAL_DIRECTION::UP:    up    = primitive; break;
+            case CARDINAL_DIRECTION::DOWN:  down  = primitive; break;
+            case CARDINAL_DIRECTION::RIGHT: right = primitive; break;
+            case CARDINAL_DIRECTION::LEFT:  left  = primitive; break;
+            default:
+              break;
+          }
+
+          bHandled = buttonMap->AddAnalogStick(feature.Name(), up, down, right, left);
+
+          break;
+        }
+        default:
+          break;
       }
-      default:
-        break;
-    }
 
-    if (bHandled)
-    {
-      m_history.insert(primitive);
-      m_inputEvent.Set();
+      if (bHandled)
+      {
+        m_history.insert(primitive);
+        m_inputEvent.Set();
+      }
     }
   }
   

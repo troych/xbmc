@@ -47,15 +47,10 @@ bool CGUIAnalogStickButton::PromptForInput(CEvent& waitEvent)
   {
     bInterrupted = DoPrompt(strPrompt, waitEvent);
 
-    // If we weren't interrupted, we timed out and should reset the internal state
     if (!bInterrupted)
-    {
-      m_state = STATE::FINISHED;
-    }
+      m_state = STATE::FINISHED; // Not interrupted, must have timed out
     else
-    {
-      m_state = GetNextState(m_state);
-    }
+      m_state = GetNextState(m_state); // Interrupted by input, proceed
   }
 
   return bInterrupted;
@@ -68,35 +63,17 @@ bool CGUIAnalogStickButton::IsFinished(void) const
 
 JOYSTICK::CARDINAL_DIRECTION CGUIAnalogStickButton::GetDirection(void) const
 {
-  JOYSTICK::CARDINAL_DIRECTION dir = JOYSTICK::CARDINAL_DIRECTION::UNKNOWN;
-
   switch (m_state)
   {
-    case STATE::ANALOG_STICK_UP:
-    {
-      dir = JOYSTICK::CARDINAL_DIRECTION::UP;
-      break;
-    }
-    case STATE::ANALOG_STICK_RIGHT:
-    {
-      dir = JOYSTICK::CARDINAL_DIRECTION::RIGHT;
-      break;
-    }
-    case STATE::ANALOG_STICK_DOWN:
-    {
-      dir = JOYSTICK::CARDINAL_DIRECTION::DOWN;
-      break;
-    }
-    case STATE::ANALOG_STICK_LEFT:
-    {
-      dir = JOYSTICK::CARDINAL_DIRECTION::LEFT;
-      break;
-    }
+    case STATE::ANALOG_STICK_UP:    return JOYSTICK::CARDINAL_DIRECTION::UP;
+    case STATE::ANALOG_STICK_RIGHT: return JOYSTICK::CARDINAL_DIRECTION::RIGHT;
+    case STATE::ANALOG_STICK_DOWN:  return JOYSTICK::CARDINAL_DIRECTION::DOWN;
+    case STATE::ANALOG_STICK_LEFT:  return JOYSTICK::CARDINAL_DIRECTION::LEFT;
     default:
       break;
   }
 
-  return dir;
+  return JOYSTICK::CARDINAL_DIRECTION::UNKNOWN;
 }
 
 void CGUIAnalogStickButton::Reset(void)

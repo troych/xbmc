@@ -38,7 +38,7 @@ class CEvent;
  *      controller's features.
  *
  *   2) When a feature is selected, the user is prompted for controller input.
- *      This initiates a "wizard" that walks the user through the remaining
+ *      This initiates a "wizard" that walks the user through the subsequent
  *      features.
  */
 namespace GAME
@@ -62,7 +62,6 @@ namespace GAME
 
     /*!
      * \brief  Deinitialize the resource
-     * \remark This must be called if Initialize() returned true
      */
     virtual void Deinitialize(void) = 0;
 

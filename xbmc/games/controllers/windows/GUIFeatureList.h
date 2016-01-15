@@ -25,16 +25,14 @@
 
 class CGUIButtonControl;
 class CGUIControlGroupList;
+class CGUIWindow;
 
 namespace GAME
 {
-  class CGUIControllerWindow;
-  class CGUIFeatureButton;
-
   class CGUIFeatureList : public IFeatureList
   {
   public:
-    CGUIFeatureList(CGUIControllerWindow* window);
+    CGUIFeatureList(CGUIWindow* window);
     virtual ~CGUIFeatureList(void);
 
     // implementation of IFeatureList
@@ -50,12 +48,12 @@ namespace GAME
     void CleanupButtons(void);
 
     // GUI stuff
-    CGUIControlGroupList*          m_guiList;
-    CGUIButtonControl*             m_guiButtonTemplate;
+    CGUIWindow* const       m_window;
+    CGUIControlGroupList*   m_guiList;
+    CGUIButtonControl*      m_guiButtonTemplate;
 
-    // Game window stuff
-    CGUIControllerWindow* const     m_window;
-    ControllerPtr                   m_controller;
-    IConfigurationWizard*           m_wizard;
+    // Game window stuff 
+    ControllerPtr           m_controller;
+    IConfigurationWizard*   m_wizard;
   };
 }
