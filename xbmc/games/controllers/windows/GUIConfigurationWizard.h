@@ -20,11 +20,13 @@
 #pragma once
 
 #include "IConfigurationWindow.h"
+#include "input/joysticks/DriverPrimitive.h"
 #include "input/joysticks/IJoystickButtonMapper.h"
 #include "threads/Event.h"
 #include "threads/Thread.h"
 #include "utils/Observer.h"
 
+#include <set>
 #include <string>
 
 namespace GAME
@@ -59,10 +61,11 @@ namespace GAME
     void InstallHooks(void);
     void RemoveHooks(void);
 
-    std::string                      m_strControllerId;
-    std::vector<IFeatureButton*>     m_buttons;
-    IFeatureButton*                  m_currentButton;
-    JOYSTICK::CARDINAL_DIRECTION     m_currentDirection;
-    CEvent                           m_inputEvent;
+    std::string                          m_strControllerId;
+    std::vector<IFeatureButton*>         m_buttons;
+    IFeatureButton*                      m_currentButton;
+    JOYSTICK::CARDINAL_DIRECTION         m_currentDirection;
+    std::set<JOYSTICK::CDriverPrimitive> m_history;
+    CEvent                               m_inputEvent;
   };
 }

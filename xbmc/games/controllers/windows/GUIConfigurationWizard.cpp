@@ -22,7 +22,6 @@
 #include "games/controllers/guicontrols/GUIFeatureButton.h"
 #include "games/controllers/Controller.h"
 #include "games/controllers/ControllerFeature.h"
-#include "input/joysticks/DriverPrimitive.h"
 #include "input/joysticks/IJoystickButtonMap.h"
 #include "peripherals/Peripherals.h"
 #include "threads/SingleLock.h"
@@ -44,6 +43,7 @@ void CGUIConfigurationWizard::Run(const std::string& strControllerId, const std:
   m_strControllerId = strControllerId;
   m_buttons = buttons;
   m_currentButton = nullptr;
+  m_history.clear();
 
   Create();
 }
@@ -110,6 +110,11 @@ bool CGUIConfigurationWizard::MapPrimitive(JOYSTICK::IJoystickButtonMap* buttonM
   {
     bHandled = Abort(false);
   }
+  else if (m_history.find(primitive) != m_history.end())
+  {
+    // Primitive has already been mapped this round, ignore it
+    bHandled = true;
+  }
   else
   {
     IFeatureButton* currentButton = m_currentButton;
@@ -151,7 +156,10 @@ bool CGUIConfigurationWizard::MapPrimitive(JOYSTICK::IJoystickButtonMap* buttonM
     }
 
     if (bHandled)
+    {
+      m_history.insert(primitive);
       m_inputEvent.Set();
+    }
   }
   
   return bHandled;
