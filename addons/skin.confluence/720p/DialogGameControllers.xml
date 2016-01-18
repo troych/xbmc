@@ -22,7 +22,7 @@
 			<control type="label">
 				<description>Controller types heading</description>
 				<top>5</top>
-				<left>15</left>
+				<left>30</left>
 				<width>220</width>
 				<height>25</height>
 				<font>font12</font>
@@ -32,16 +32,34 @@
 				<textcolor>blue</textcolor>
 				<shadowcolor>black</shadowcolor>
 			</control>
+			<control type="scrollbar" id="30">
+				<left>0</left>
+				<top>40</top>
+				<width>25</width>
+				<height>405</height>
+				<texturesliderbackground border="0,14,0,14">ScrollBarV.png</texturesliderbackground>
+				<texturesliderbar border="2,16,2,16">ScrollBarV_bar.png</texturesliderbar>
+				<texturesliderbarfocus border="2,16,2,16">ScrollBarV_bar_focus.png</texturesliderbarfocus>
+				<textureslidernib>-</textureslidernib>
+				<textureslidernibfocus>-</textureslidernibfocus>
+				<onleft>50</onleft>
+				<onright>3</onright>
+				<ondown>3</ondown>
+				<onup>3</onup>
+				<showonepage>false</showonepage>
+				<orientation>vertical</orientation>
+			</control>
 			<control type="grouplist" id="3">
 				<description>Controller types grouplist</description>
-				<left>15</left>
+				<left>30</left>
 				<top>40</top>
 				<width>220</width>
 				<height>405</height>
-				<onleft>5</onleft>
+				<onleft>30</onleft>
 				<onright>5</onright>
 				<onup>9001</onup>
 				<ondown>9001</ondown>
+				<pagecontrol>30</pagecontrol>
 			</control>
 			<control type="button" id="10">
 				<description>Default controller types button</description>
@@ -63,7 +81,7 @@
 			<control type="label">
 				<description>Feature types heading</description>
 				<top>5</top>
-				<left>845</left>
+				<left>828</left>
 				<width>220</width>
 				<height>25</height>
 				<font>font12</font>
@@ -73,16 +91,34 @@
 				<textcolor>blue</textcolor>
 				<shadowcolor>black</shadowcolor>
 			</control>
+			<control type="scrollbar" id="50">
+				<left>1053</left>
+				<top>40</top>
+				<width>25</width>
+				<height>405</height>
+				<texturesliderbackground border="0,14,0,14">ScrollBarV.png</texturesliderbackground>
+				<texturesliderbar border="2,16,2,16">ScrollBarV_bar.png</texturesliderbar>
+				<texturesliderbarfocus border="2,16,2,16">ScrollBarV_bar_focus.png</texturesliderbarfocus>
+				<textureslidernib>-</textureslidernib>
+				<textureslidernibfocus>-</textureslidernibfocus>
+				<onleft>5</onleft>
+				<onright>30</onright>
+				<ondown>5</ondown>
+				<onup>5</onup>
+				<showonepage>false</showonepage>
+				<orientation>vertical</orientation>
+			</control>
 			<control type="grouplist" id="5">
 				<description>Feature types grouplist</description>
-				<left>845</left>
+				<left>828</left>
 				<top>40</top>
 				<width>220</width>
 				<height>405</height>
 				<onleft>3</onleft>
-				<onright>3</onright>
+				<onright>50</onright>
 				<onup>9001</onup>
 				<ondown>9001</ondown>
+				<pagecontrol>50</pagecontrol>
 			</control>
 			<control type="button" id="7">
 				<description>Default feature types button</description>
