@@ -215,7 +215,28 @@ bool CInputManager::ProcessEventServer(int windowId, float frameTime)
         return OnKey(key);
       }
 
-      key = CKey(wKeyID);
+      if (wKeyID == KEY_BUTTON_LEFT_ANALOG_TRIGGER)
+        key = CKey(wKeyID, (BYTE)(255 * fAmount), 0, 0.0, 0.0, 0.0, 0.0, frameTime);
+      else if (wKeyID == KEY_BUTTON_RIGHT_ANALOG_TRIGGER)
+        key = CKey(wKeyID, 0, (BYTE)(255 * fAmount), 0.0, 0.0, 0.0, 0.0, frameTime);
+      else if (wKeyID == KEY_BUTTON_LEFT_THUMB_STICK_LEFT)
+        key = CKey(wKeyID, 0, 0, -fAmount, 0.0, 0.0, 0.0, frameTime);
+      else if (wKeyID == KEY_BUTTON_LEFT_THUMB_STICK_RIGHT)
+        key = CKey(wKeyID, 0, 0, fAmount, 0.0, 0.0, 0.0, frameTime);
+      else if (wKeyID == KEY_BUTTON_LEFT_THUMB_STICK_UP)
+        key = CKey(wKeyID, 0, 0, 0.0, fAmount, 0.0, 0.0, frameTime);
+      else if (wKeyID == KEY_BUTTON_LEFT_THUMB_STICK_DOWN)
+        key = CKey(wKeyID, 0, 0, 0.0, -fAmount, 0.0, 0.0, frameTime);
+      else if (wKeyID == KEY_BUTTON_RIGHT_THUMB_STICK_LEFT)
+        key = CKey(wKeyID, 0, 0, 0.0, 0.0, -fAmount, 0.0, frameTime);
+      else if (wKeyID == KEY_BUTTON_RIGHT_THUMB_STICK_RIGHT)
+        key = CKey(wKeyID, 0, 0, 0.0, 0.0, fAmount, 0.0, frameTime);
+      else if (wKeyID == KEY_BUTTON_RIGHT_THUMB_STICK_UP)
+        key = CKey(wKeyID, 0, 0, 0.0, 0.0, 0.0, fAmount, frameTime);
+      else if (wKeyID == KEY_BUTTON_RIGHT_THUMB_STICK_DOWN)
+        key = CKey(wKeyID, 0, 0, 0.0, 0.0, 0.0, -fAmount, frameTime);
+      else
+        key = CKey(wKeyID);
       key.SetFromService(true);
       return OnKey(key);
     }
@@ -464,8 +485,8 @@ bool CInputManager::OnKey(const CKey& key)
     else
       action = CButtonTranslator::GetInstance().GetAction(iWin, key);
   }
-
-  CLog::LogF(LOGDEBUG, "%s pressed, action is %s", m_Keyboard.GetKeyName((int)key.GetButtonCode()).c_str(), action.GetName().c_str());
+  if (!key.IsAnalogButton())
+    CLog::LogF(LOGDEBUG, "%s pressed, action is %s", m_Keyboard.GetKeyName((int)key.GetButtonCode()).c_str(), action.GetName().c_str());
 
   return ExecuteInputAction(action);
 }

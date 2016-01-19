@@ -31,19 +31,25 @@
 //  XBIRRemote.h
 //  XINPUT_IR_REMOTE-*
 
+// Analogue - don't change order
 #define KEY_BUTTON_A                        256
 #define KEY_BUTTON_B                        257
 #define KEY_BUTTON_X                        258
 #define KEY_BUTTON_Y                        259
-
+#define KEY_BUTTON_BLACK                    260
+#define KEY_BUTTON_WHITE                    261
 #define KEY_BUTTON_LEFT_TRIGGER             262
 #define KEY_BUTTON_RIGHT_TRIGGER            263
+
+#define KEY_BUTTON_LEFT_THUMB_STICK         264
+#define KEY_BUTTON_RIGHT_THUMB_STICK        265
 
 #define KEY_BUTTON_RIGHT_THUMB_STICK_UP     266 // right thumb stick directions
 #define KEY_BUTTON_RIGHT_THUMB_STICK_DOWN   267 // for defining different actions per direction
 #define KEY_BUTTON_RIGHT_THUMB_STICK_LEFT   268
 #define KEY_BUTTON_RIGHT_THUMB_STICK_RIGHT  269
 
+// Digital - don't change order
 #define KEY_BUTTON_DPAD_UP                  270
 #define KEY_BUTTON_DPAD_DOWN                271
 #define KEY_BUTTON_DPAD_LEFT                272
@@ -62,19 +68,6 @@
 #define KEY_BUTTON_LEFT_THUMB_STICK_DOWN    281 // for defining different actions per direction
 #define KEY_BUTTON_LEFT_THUMB_STICK_LEFT    282
 #define KEY_BUTTON_LEFT_THUMB_STICK_RIGHT   283
-
-#define KEY_BUTTON_GUIDE                    284
-
-#define KEY_BUTTON_LEFT_SHOULDER            285
-#define KEY_BUTTON_RIGHT_SHOULDER           286
-
-#define KEY_BUTTON_ACCELEROMETER            287
-
-// Backwards compatibility
-#define KEY_BUTTON_WHITE                    KEY_BUTTON_LEFT_SHOULDER
-#define KEY_BUTTON_BLACK                    KEY_BUTTON_RIGHT_SHOULDER
-#define KEY_BUTTON_LEFT_THUMB_STICK         KEY_BUTTON_LEFT_THUMB_BUTTON
-#define KEY_BUTTON_RIGHT_THUMB_STICK        KEY_BUTTON_RIGHT_THUMB_BUTTON
 
 // 0xF000 -> 0xF200 is reserved for the keyboard; a keyboard press is either
 #define KEY_VKEY            0xF000 // a virtual key/functional key e.g. cursor left
@@ -518,13 +511,22 @@ class CKey
 {
 public:
   CKey(void);
-  CKey(uint32_t buttonCode, unsigned int held = 0);
+  CKey(uint32_t buttonCode, uint8_t leftTrigger = 0, uint8_t rightTrigger = 0, float leftThumbX = 0.0f, float leftThumbY = 0.0f, float rightThumbX = 0.0f, float rightThumbY = 0.0f, float repeat = 0.0f);
+  CKey(uint32_t buttonCode, unsigned int held);
   CKey(uint8_t vkey, wchar_t unicode, char ascii, uint32_t modifiers, unsigned int held);
   CKey(const CKey& key);
 
   virtual ~CKey(void);
   CKey& operator=(const CKey& key);
+  uint8_t GetLeftTrigger() const;
+  uint8_t GetRightTrigger() const;
+  float GetLeftThumbX() const;
+  float GetLeftThumbY() const;
+  float GetRightThumbX() const;
+  float GetRightThumbY() const;
+  float GetRepeat() const;
   bool FromKeyboard() const;
+  bool IsAnalogButton() const;
   bool IsIRRemote() const;
   void SetFromService(bool fromService);
   bool GetFromService() const { return m_fromService; }
@@ -555,6 +557,13 @@ private:
   uint32_t m_modifiers;
   unsigned int m_held;
 
+  uint8_t m_leftTrigger;
+  uint8_t m_rightTrigger;
+  float m_leftThumbX;
+  float m_leftThumbY;
+  float m_rightThumbX;
+  float m_rightThumbY;
+  float m_repeat; // time since last keypress
   bool m_fromService;
 };
 #endif //undef SWIG
