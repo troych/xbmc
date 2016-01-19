@@ -48,7 +48,7 @@ INPUT_TYPE CKeymapHandler::GetInputType(unsigned int keyId) const
 {
   if (keyId != 0)
   {
-    CAction action(CButtonTranslator::GetInstance().GetAction(g_windowManager.GetActiveWindowID(), CKey(keyId, 0)));
+    CAction action(CButtonTranslator::GetInstance().GetAction(g_windowManager.GetActiveWindowID(), CKey(keyId)));
     if (action.GetID() > 0)
     {
       if (action.IsAnalog())
@@ -201,7 +201,7 @@ bool CKeymapHandler::SendDigitalAction(unsigned int keyId, unsigned int holdTime
 
 bool CKeymapHandler::SendAnalogAction(unsigned int keyId, float magnitude)
 {
-  CAction action(CButtonTranslator::GetInstance().GetAction(g_windowManager.GetActiveWindowID(), CKey(keyId, 0)));
+  CAction action(CButtonTranslator::GetInstance().GetAction(g_windowManager.GetActiveWindowID(), CKey(keyId)));
   if (action.GetID() > 0)
   {
     CAction actionWithAmount(action.GetID(), magnitude, 0.0f, action.GetName());
