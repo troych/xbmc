@@ -32,7 +32,7 @@ make -j8
 
 Joystick support is now provided through a binary add-on. Follow the out-of-tree instructions at https://github.com/kodi-game/peripheral.joystick.
 
-Game add-ons are hosted separately at https://github.com/kodi-game. If you would like to compile all game add-ons in one fell swoop, create a build directory out-of-tree and run the following command (assuming you cloned Kodi into `$HOME/workspace/kodi`):
+Game add-ons are hosted separately at https://github.com/kodi-game. If you would like to compile all game add-ons in one fell swoop, create a build directory out-of-tree and run the following commands:
 
 ```
 cmake -DADDONS_TO_BUILD=game.* \
@@ -42,3 +42,5 @@ cmake -DADDONS_TO_BUILD=game.* \
       $HOME/workspace/kodi/project/cmake/addons
 make
 ```
+
+where `$HOME/workspace/kodi` symlinks to the directory you cloned Kodi into.
