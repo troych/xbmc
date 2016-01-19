@@ -159,31 +159,31 @@ void CDefaultController::DeactivateDirection(const JOYSTICK::FeatureName& featur
 
 unsigned int CDefaultController::GetKeyID(const FeatureName& feature, CARDINAL_DIRECTION dir /* = CARDINAL_DIRECTION::UNKNOWN */)
 {
-  if      (feature == "a")             return KEY_BUTTON_A;
-  else if (feature == "b")             return KEY_BUTTON_B;
-  else if (feature == "x")             return KEY_BUTTON_X;
-  else if (feature == "y")             return KEY_BUTTON_Y;
-  else if (feature == "start")         return KEY_BUTTON_START;
-  else if (feature == "back")          return KEY_BUTTON_BACK;
-  else if (feature == "guide")         return KEY_BUTTON_GUIDE;
-  else if (feature == "leftbumper")    return KEY_BUTTON_LEFT_SHOULDER;
-  else if (feature == "rightbumper")   return KEY_BUTTON_RIGHT_SHOULDER;
-  else if (feature == "leftthumb")     return KEY_BUTTON_LEFT_THUMB_BUTTON;
-  else if (feature == "rightthumb")    return KEY_BUTTON_RIGHT_THUMB_BUTTON;
-  else if (feature == "up")            return KEY_BUTTON_DPAD_UP;
-  else if (feature == "down")          return KEY_BUTTON_DPAD_DOWN;
-  else if (feature == "right")         return KEY_BUTTON_DPAD_RIGHT;
-  else if (feature == "left")          return KEY_BUTTON_DPAD_LEFT;
-  else if (feature == "lefttrigger")   return KEY_BUTTON_LEFT_TRIGGER;
-  else if (feature == "righttrigger")  return KEY_BUTTON_RIGHT_TRIGGER;
+  if      (feature == "a")             return KEY_JOYSTICK_BUTTON_A;
+  else if (feature == "b")             return KEY_JOYSTICK_BUTTON_B;
+  else if (feature == "x")             return KEY_JOYSTICK_BUTTON_X;
+  else if (feature == "y")             return KEY_JOYSTICK_BUTTON_Y;
+  else if (feature == "start")         return KEY_JOYSTICK_BUTTON_START;
+  else if (feature == "back")          return KEY_JOYSTICK_BUTTON_BACK;
+  else if (feature == "guide")         return KEY_JOYSTICK_BUTTON_GUIDE;
+  else if (feature == "leftbumper")    return KEY_JOYSTICK_BUTTON_LEFT_SHOULDER;
+  else if (feature == "rightbumper")   return KEY_JOYSTICK_BUTTON_RIGHT_SHOULDER;
+  else if (feature == "leftthumb")     return KEY_JOYSTICK_BUTTON_LEFT_THUMB_BUTTON;
+  else if (feature == "rightthumb")    return KEY_JOYSTICK_BUTTON_RIGHT_THUMB_BUTTON;
+  else if (feature == "up")            return KEY_JOYSTICK_BUTTON_DPAD_UP;
+  else if (feature == "down")          return KEY_JOYSTICK_BUTTON_DPAD_DOWN;
+  else if (feature == "right")         return KEY_JOYSTICK_BUTTON_DPAD_RIGHT;
+  else if (feature == "left")          return KEY_JOYSTICK_BUTTON_DPAD_LEFT;
+  else if (feature == "lefttrigger")   return KEY_JOYSTICK_BUTTON_LEFT_TRIGGER;
+  else if (feature == "righttrigger")  return KEY_JOYSTICK_BUTTON_RIGHT_TRIGGER;
   else if (feature == "leftstick")
   {
     switch (dir)
     {
-      case CARDINAL_DIRECTION::UP:     return KEY_BUTTON_LEFT_THUMB_STICK_UP;
-      case CARDINAL_DIRECTION::DOWN:   return KEY_BUTTON_LEFT_THUMB_STICK_DOWN;
-      case CARDINAL_DIRECTION::RIGHT:  return KEY_BUTTON_LEFT_THUMB_STICK_RIGHT;
-      case CARDINAL_DIRECTION::LEFT:   return KEY_BUTTON_LEFT_THUMB_STICK_LEFT;
+      case CARDINAL_DIRECTION::UP:     return KEY_JOYSTICK_BUTTON_LEFT_THUMB_STICK_UP;
+      case CARDINAL_DIRECTION::DOWN:   return KEY_JOYSTICK_BUTTON_LEFT_THUMB_STICK_DOWN;
+      case CARDINAL_DIRECTION::RIGHT:  return KEY_JOYSTICK_BUTTON_LEFT_THUMB_STICK_RIGHT;
+      case CARDINAL_DIRECTION::LEFT:   return KEY_JOYSTICK_BUTTON_LEFT_THUMB_STICK_LEFT;
       default:
         break;
     }
@@ -192,10 +192,10 @@ unsigned int CDefaultController::GetKeyID(const FeatureName& feature, CARDINAL_D
   {
     switch (dir)
     {
-      case CARDINAL_DIRECTION::UP:     return KEY_BUTTON_RIGHT_THUMB_STICK_UP;
-      case CARDINAL_DIRECTION::DOWN:   return KEY_BUTTON_RIGHT_THUMB_STICK_DOWN;
-      case CARDINAL_DIRECTION::RIGHT:  return KEY_BUTTON_RIGHT_THUMB_STICK_RIGHT;
-      case CARDINAL_DIRECTION::LEFT:   return KEY_BUTTON_RIGHT_THUMB_STICK_LEFT;
+      case CARDINAL_DIRECTION::UP:     return KEY_JOYSTICK_BUTTON_RIGHT_THUMB_STICK_UP;
+      case CARDINAL_DIRECTION::DOWN:   return KEY_JOYSTICK_BUTTON_RIGHT_THUMB_STICK_DOWN;
+      case CARDINAL_DIRECTION::RIGHT:  return KEY_JOYSTICK_BUTTON_RIGHT_THUMB_STICK_RIGHT;
+      case CARDINAL_DIRECTION::LEFT:   return KEY_JOYSTICK_BUTTON_RIGHT_THUMB_STICK_LEFT;
       default:
         break;
     }
