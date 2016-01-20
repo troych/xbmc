@@ -1,1 +1,1 @@
-peripheral.joystick https://github.com/kodi-game/peripheral.joystick p8-platform
+peripheral.joystick https://github.com/kodi-game/peripheral.joystick e920eed
