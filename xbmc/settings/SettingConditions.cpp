@@ -38,6 +38,7 @@
 #if defined(HAS_LIBAMCODEC)
 #include "utils/AMLUtils.h"
 #endif // defined(HAS_LIBAMCODEC)
+#include "utils/StringUtils.h"
 #include "utils/SystemInfo.h"
 #include "windowing/WindowingFactory.h"
 #if defined(TARGET_DARWIN_OSX)
@@ -172,6 +173,23 @@ bool ProfileLockMode(const std::string &condition, const std::string &value, con
   return CProfilesManager::GetInstance().GetCurrentProfile().getLockMode() == lock;
 }
 
+bool GreaterThanOrEqual(const std::string &condition, const std::string &value, const CSetting *setting, void *data)
+{
+  if (setting == NULL)
+    return false;
+
+  const CSettingInt *settingInt = dynamic_cast<const CSettingInt*>(setting);
+  if (settingInt == NULL)
+    return false;
+
+  char *tmp = NULL;
+
+  int lhs = settingInt->GetValue();
+  int rhs = StringUtils::IsInteger(value) ? (int)strtol(value.c_str(), &tmp, 0) : 0;
+
+  return lhs >= rhs;
+}
+
 std::set<std::string> CSettingConditions::m_simpleConditions;
 std::map<std::string, SettingConditionCheck> CSettingConditions::m_complexConditions;
 
@@ -286,6 +304,7 @@ void CSettingConditions::Initialize()
   m_complexConditions.insert(std::pair<std::string, SettingConditionCheck>("profilelockmode",               ProfileLockMode));
   m_complexConditions.insert(std::pair<std::string, SettingConditionCheck>("aesettingvisible",              CAEFactory::IsSettingVisible));
   m_complexConditions.insert(std::pair<std::string, SettingConditionCheck>("codecoptionvisible",            CDVDVideoCodec::IsSettingVisible));
+  m_complexConditions.insert(std::pair<std::string, SettingConditionCheck>(">=",                            GreaterThanOrEqual));
 }
 
 bool CSettingConditions::Check(const std::string &condition, const std::string &value /* = "" */, const CSetting *setting /* = NULL */)
