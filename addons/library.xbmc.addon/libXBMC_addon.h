@@ -34,20 +34,26 @@ struct VFSDirEntry;
 typedef intptr_t      ssize_t;
 #define _SSIZE_T_DEFINED
 #endif // !_SSIZE_T_DEFINED
-#include "dlfcn-win32.h"
+
+#if defined(BUILD_KODI_ADDON)
+	#include "p8-platform/windows/dlfcn-win32.h"
+#else
+	#include "dlfcn-win32.h"
+#endif
+
 #define ADDON_DLL               "\\library.xbmc.addon\\libXBMC_addon" ADDON_HELPER_EXT
 #define ADDON_HELPER_EXT        ".dll"
 #else
+// the ADDON_HELPER_ARCH is the platform dependend name which is used
+// as part of the name of dynamic addon libraries. It has to match the 
+// strings which are set in configure.ac for the "ARCH" variable.
 #if defined(__APPLE__)          // osx
-#if defined(__POWERPC__)
-#define ADDON_HELPER_ARCH       "powerpc-osx"
-#elif defined(__arm__)
+#if defined(__arm__) || defined(__aarch64__)
 #define ADDON_HELPER_ARCH       "arm-osx"
-#elif defined(__x86_64__)
-#define ADDON_HELPER_ARCH       "x86-osx"
 #else
 #define ADDON_HELPER_ARCH       "x86-osx"
 #endif
+#define ADDON_HELPER_EXT        ".dylib"
 #else                           // linux
 #if defined(__x86_64__)
 #define ADDON_HELPER_ARCH       "x86_64-linux"
@@ -62,11 +68,14 @@ typedef intptr_t      ssize_t;
 #else
 #define ADDON_HELPER_ARCH       "i486-linux"
 #endif
+#define ADDON_HELPER_EXT        ".so"
 #endif
 #include <dlfcn.h>              // linux+osx
-#define ADDON_HELPER_EXT        ".so"
 #define ADDON_DLL_NAME "libXBMC_addon-" ADDON_HELPER_ARCH ADDON_HELPER_EXT
 #define ADDON_DLL "/library.xbmc.addon/" ADDON_DLL_NAME
+#endif
+#if defined(ANDROID)
+#include <sys/stat.h>
 #endif
 
 #ifdef LOG_DEBUG
@@ -80,21 +89,6 @@ typedef intptr_t      ssize_t;
 #endif
 #ifdef LOG_ERROR
 #undef LOG_ERROR
-#endif
-
-#include <sys/stat.h>
-#if !defined(__stat64)
-  #if defined(TARGET_DARWIN) || defined(TARGET_FREEBSD)
-    #define stat64 stat
-    #define __stat64 stat
-    #define fstat64 fstat
-    typedef int64_t off64_t;
-    #if defined(TARGET_FREEBSD)
-      #define statfs64 statfs
-    #endif
-  #else
-    #define __stat64 stat64
-  #endif
 #endif
 
 namespace ADDON
