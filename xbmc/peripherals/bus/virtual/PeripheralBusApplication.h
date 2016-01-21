@@ -35,7 +35,10 @@ namespace PERIPHERALS
     CPeripheralBusApplication(CPeripherals* manager);
     virtual ~CPeripheralBusApplication(void) { }
 
-    std::string MakeLocation(void) const;
+    /*!
+     * \brief Get the location for the specified controller index
+     */
+    std::string MakeLocation(unsigned int controllerIndex) const;
 
   protected:
     // implementation of CPeripheralBus

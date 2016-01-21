@@ -20,10 +20,10 @@
 
 #include "PeripheralBusApplication.h"
 #include "guilib/LocalizeStrings.h"
+#include "settings/Settings.h"
+#include "utils/StringUtils.h"
 
 using namespace PERIPHERALS;
-
-#define JOYSTICK_EMULATION_LOCATION  "keyboard" // TODO
 
 CPeripheralBusApplication::CPeripheralBusApplication(CPeripherals* manager) :
     CPeripheralBus("PeripBusApplication", manager, PERIPHERAL_BUS_APPLICATION)
@@ -34,23 +34,28 @@ CPeripheralBusApplication::CPeripheralBusApplication(CPeripherals* manager) :
 
 bool CPeripheralBusApplication::PerformDeviceScan(PeripheralScanResults& results)
 {
-  PeripheralScanResult result(Type());
-  result.m_type = PERIPHERAL_JOYSTICK_EMULATION;
-  result.m_strDeviceName = g_localizeStrings.Get(35011); // "Emulated controller"
-  result.m_strLocation   = MakeLocation();
-  result.m_iVendorId     = 0;
-  result.m_iProductId    = 0;
-  result.m_mappedType    = PERIPHERAL_JOYSTICK_EMULATION;
-  result.m_mappedBusType = Type();
-  result.m_iSequence     = 0;
+  const unsigned int controllerCount = CSettings::Get().GetInt("gamesinput.emulatedcontrollers");
 
-  if (!results.ContainsResult(result))
-    results.m_results.push_back(result);
+  for (unsigned int i = 1; i <= controllerCount; i++)
+  {
+    PeripheralScanResult result(Type());
+    result.m_type          = PERIPHERAL_JOYSTICK_EMULATION;
+    result.m_strDeviceName = g_localizeStrings.Get(35011); // "Emulated controller"
+    result.m_strLocation   = MakeLocation(i);
+    result.m_iVendorId     = 0;
+    result.m_iProductId    = 0;
+    result.m_mappedType    = PERIPHERAL_JOYSTICK_EMULATION;
+    result.m_mappedBusType = Type();
+    result.m_iSequence     = 0;
+
+    if (!results.ContainsResult(result))
+      results.m_results.push_back(result);
+  }
 
   return true;
 }
 
-std::string CPeripheralBusApplication::MakeLocation(void) const
+std::string CPeripheralBusApplication::MakeLocation(unsigned int controllerIndex) const
 {
-  return JOYSTICK_EMULATION_LOCATION;
+  return StringUtils::Format("%u", controllerIndex);
 }

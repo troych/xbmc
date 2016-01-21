@@ -37,6 +37,7 @@
 #include "bus/virtual/PeripheralBusApplication.h"
 #include "dialogs/GUIDialogYesNo.h"
 #include "dialogs/GUIDialogPeripheralManager.h"
+#include "input/joysticks/IJoystickButtonMapper.h"
 
 #if defined(HAVE_LIBCEC)
 #include "bus/virtual/PeripheralBusCEC.h"
@@ -335,8 +336,17 @@ void CPeripherals::OnDeviceAdded(const CPeripheralBus &bus, const CPeripheral &p
 {
   OnDeviceChanged();
 
+  bool bNotify = true;
+
   // don't show a notification for devices detected during the initial scan
   if (bus.IsInitialised())
+    bNotify = false;
+
+  // don't show a notification for emulated peripherals
+  if (peripheral.Type() == PERIPHERAL_JOYSTICK_EMULATION) // TODO: Change to peripheral.IsEmulated()
+    bNotify = false;
+
+  if (bNotify)
     CGUIDialogKaiToast::QueueNotification(CGUIDialogKaiToast::Info, g_localizeStrings.Get(35005), peripheral.DeviceName());
 }
 
@@ -344,7 +354,14 @@ void CPeripherals::OnDeviceDeleted(const CPeripheralBus &bus, const CPeripheral 
 {
   OnDeviceChanged();
 
-  CGUIDialogKaiToast::QueueNotification(CGUIDialogKaiToast::Info, g_localizeStrings.Get(35006), peripheral.DeviceName());
+  bool bNotify = true;
+
+  // don't show a notification for emulated peripherals
+  if (peripheral.Type() == PERIPHERAL_JOYSTICK_EMULATION) // TODO: Change to peripheral.IsEmulated()
+    bNotify = false;
+
+  if (bNotify)
+    CGUIDialogKaiToast::QueueNotification(CGUIDialogKaiToast::Info, g_localizeStrings.Get(35006), peripheral.DeviceName());
 }
 
 void CPeripherals::OnDeviceChanged()
@@ -758,7 +775,6 @@ void CPeripherals::ResetButtonMaps(const std::string& controllerId)
   CSingleLock lock(m_critSection);
 
   std::vector<CPeripheral*> peripherals;
-  GetPeripheralsWithFeature(peripherals, FEATURE_KEYBOARD);
   GetPeripheralsWithFeature(peripherals, FEATURE_JOYSTICK);
 
   for (std::vector<CPeripheral*>::iterator it = peripherals.begin(); it != peripherals.end(); ++it)
@@ -779,12 +795,28 @@ void CPeripherals::RegisterJoystickButtonMapper(IJoystickButtonMapper* mapper)
   //CSingleLock lock(m_critSection); // TODO: Causes deadlock
 
   std::vector<CPeripheral*> peripherals;
-
   GetPeripheralsWithFeature(peripherals, FEATURE_JOYSTICK);
-  GetPeripheralsWithFeature(peripherals, FEATURE_KEYBOARD);
 
   for (std::vector<CPeripheral*>::iterator it = peripherals.begin(); it != peripherals.end(); ++it)
+  {
+    if (mapper->Emulation())
+    {
+      if ((*it)->Type() != PERIPHERAL_JOYSTICK_EMULATION)
+        continue;
+
+      unsigned int controllerNumber = static_cast<const CPeripheralJoystickEmulation*>(*it)->ControllerNumber();
+
+      if (mapper->ControllerNumber() != controllerNumber)
+        continue;
+    }
+    else
+    {
+      if ((*it)->Type() != PERIPHERAL_JOYSTICK)
+        continue;
+    }
+
     (*it)->RegisterJoystickButtonMapper(mapper);
+  }
 }
 
 void CPeripherals::UnregisterJoystickButtonMapper(IJoystickButtonMapper* mapper)
@@ -794,7 +826,6 @@ void CPeripherals::UnregisterJoystickButtonMapper(IJoystickButtonMapper* mapper)
   std::vector<CPeripheral*> peripherals;
 
   GetPeripheralsWithFeature(peripherals, FEATURE_JOYSTICK);
-  GetPeripheralsWithFeature(peripherals, FEATURE_KEYBOARD);
 
   for (std::vector<CPeripheral*>::iterator it = peripherals.begin(); it != peripherals.end(); ++it)
     (*it)->UnregisterJoystickButtonMapper(mapper);

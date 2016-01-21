@@ -13262,12 +13262,12 @@ msgstr ""
 
 #: system/settings/settings.xml
 msgctxt "#27021"
-msgid "Configure input for game systems"
+msgid "Configure attached controllers"
 msgstr ""
 
 #: system/settings/settings.xml
 msgctxt "#27022"
-msgid "Pair your controller with the various input devices of different game systems."
+msgid "Pair your controllers with the various input devices of different game systems."
 msgstr ""
 
 #: xbmc/filesystem/AddonsDirectory.cpp
@@ -13280,7 +13280,44 @@ msgctxt "#27024"
 msgid "Game providers"
 msgstr ""
 
-#empty strings from id 27025 to 29799
+#: system/settings/settings.xml
+msgctxt "#27025"
+msgid "%i"
+msgstr ""
+
+#: system/settings/settings.xml
+msgctxt "#27026"
+msgid "Number of emulated controllers"
+msgstr ""
+
+#: system/settings/settings.xml
+msgctxt "#27027"
+msgid "Emulated controllers let you control additional players using the keyboard. This is intended for devices that use keyboard drivers, but you can also see how many people fit around a keyboard!"
+msgstr ""
+
+#empty string with id 27028
+
+#: system/settings/settings.xml
+msgctxt "#27029"
+msgid "Configure keyboard player 1"
+msgstr ""
+
+#: system/settings/settings.xml
+msgctxt "#27030"
+msgid "Configure keyboard player 2"
+msgstr ""
+
+#: system/settings/settings.xml
+msgctxt "#27031"
+msgid "Configure keyboard player 3"
+msgstr ""
+
+#: system/settings/settings.xml
+msgctxt "#27032"
+msgid "Configure keyboard player 4"
+msgstr ""
+
+#empty strings from id 27033 to 29799
 
 #strings 29800 thru 29998 reserved strings used only in the default Project Mayhem III skin and not c++ code
 

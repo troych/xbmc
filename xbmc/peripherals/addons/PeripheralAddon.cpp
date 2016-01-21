@@ -32,6 +32,7 @@
 #include "peripherals/Peripherals.h"
 #include "peripherals/bus/virtual/PeripheralBusAddon.h"
 #include "peripherals/devices/PeripheralJoystick.h"
+#include "peripherals/devices/PeripheralJoystickEmulation.h"
 #include "utils/log.h"
 #include "utils/StringUtils.h"
 
@@ -619,8 +620,10 @@ void CPeripheralAddon::GetJoystickInfo(const CPeripheral* device, ADDON::Joystic
   }
   else if (device->Type() == PERIPHERAL_JOYSTICK_EMULATION)
   {
+    const CPeripheralJoystickEmulation* joystick = static_cast<const CPeripheralJoystickEmulation*>(device);
     joystickInfo.SetName(JOYSTICK_EMULATION_BUTTON_MAP_NAME); // Override name with non-localized version
     joystickInfo.SetProvider(JOYSTICK_EMULATION_PROVIDER);
+    joystickInfo.SetIndex(joystick->ControllerNumber());
   }
 }
 

@@ -22,13 +22,15 @@
 #include "input/keyboard/generic/GenericKeyboardJoystick.h"
 #include "input/InputManager.h"
 
+#include <sstream>
+
 using namespace PERIPHERALS;
 
 CPeripheralJoystickEmulation::CPeripheralJoystickEmulation(const PeripheralScanResult& scanResult) :
   CPeripheral(scanResult),
   m_keyboardHandler(nullptr)
 {
-  m_features.push_back(FEATURE_KEYBOARD);
+  m_features.push_back(FEATURE_JOYSTICK);
 }
 
 CPeripheralJoystickEmulation::~CPeripheralJoystickEmulation(void)
@@ -46,7 +48,7 @@ bool CPeripheralJoystickEmulation::InitialiseFeature(const PeripheralFeature fea
 
   if (CPeripheral::InitialiseFeature(feature))
   {
-    if (feature == FEATURE_KEYBOARD)
+    if (feature == FEATURE_JOYSTICK)
     {
       m_keyboardHandler = new KEYBOARD::CGenericKeyboardJoystick;
       CInputManager::Get().RegisterKeyboardHandler(m_keyboardHandler);
@@ -65,4 +67,12 @@ void CPeripheralJoystickEmulation::RegisterJoystickDriverHandler(JOYSTICK::IJoys
 void CPeripheralJoystickEmulation::UnregisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler)
 {
   m_keyboardHandler->UnregisterJoystickDriverHandler(handler);
+}
+
+unsigned int CPeripheralJoystickEmulation::ControllerNumber(void) const
+{
+  unsigned int number;
+  std::istringstream str(m_strLocation);
+  str >> number;
+  return number;
 }

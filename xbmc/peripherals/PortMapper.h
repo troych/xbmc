@@ -44,8 +44,6 @@ namespace PERIPHERALS
   private:
     void ProcessPeripherals(void);
 
-    static std::vector<CPeripheral*> GetDevices(void);
-
     std::map<PERIPHERALS::CPeripheral*, JOYSTICK::IJoystickInputHandler*>  m_portMap;
   };
 }

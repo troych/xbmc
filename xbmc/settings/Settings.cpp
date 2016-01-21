@@ -836,6 +836,11 @@ void CSettings::InitializeISettingCallbacks()
 
   settingSet.clear();
   settingSet.insert("gamesinput.controllerconfig");
+  settingSet.insert("gamesinput.emulatedcontrollers");
+  settingSet.insert("gamesinput.emulatedcontroller1");
+  settingSet.insert("gamesinput.emulatedcontroller2");
+  settingSet.insert("gamesinput.emulatedcontroller3");
+  settingSet.insert("gamesinput.emulatedcontroller4");
   m_settingsManager->RegisterCallback(&GAME::CGameSettings::Get(), settingSet);
 
   settingSet.clear();

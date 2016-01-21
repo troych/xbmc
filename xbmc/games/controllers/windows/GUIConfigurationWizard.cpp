@@ -31,8 +31,10 @@ using namespace GAME;
 
 #define ESC_KEY_CODE  27
 
-CGUIConfigurationWizard::CGUIConfigurationWizard(void) :
-  CThread("GUIConfigurationWizard")
+CGUIConfigurationWizard::CGUIConfigurationWizard(bool bEmulation, unsigned int controllerNumber /* = 0 */) :
+  CThread("GUIConfigurationWizard"),
+  m_bEmulation(bEmulation),
+  m_controllerNumber(controllerNumber)
 {
   InitializeState();
 }

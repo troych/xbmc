@@ -28,7 +28,7 @@ namespace KEYBOARD
 
 namespace PERIPHERALS
 {
-  class CPeripheralJoystickEmulation : public CPeripheral // TODO: extend CPeripheralHID
+  class CPeripheralJoystickEmulation : public CPeripheral
   {
   public:
     CPeripheralJoystickEmulation(const PeripheralScanResult& scanResult);
@@ -40,7 +40,13 @@ namespace PERIPHERALS
     virtual void RegisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler, bool bPromiscuous) override;
     virtual void UnregisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler) override;
 
+    /*!
+     * \brief Number of the emulated controller (1-indexed)
+     */
+    unsigned int ControllerNumber(void) const;
+
   private:
+    // Joystick emulation
     KEYBOARD::CGenericKeyboardJoystick* m_keyboardHandler;
   };
 }

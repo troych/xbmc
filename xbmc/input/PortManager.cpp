@@ -81,7 +81,6 @@ void CPortManager::MapDevices(const std::vector<CPeripheral*>& devices,
             return portDevice.device == keyboard;
           }), portDevices.end());
       }
-      break;
     }
   }
 

@@ -23,7 +23,6 @@
 #include "peripherals/devices/Peripheral.h"
 #include "peripherals/Peripherals.h"
 
-using namespace JOYSTICK;
 using namespace PERIPHERALS;
 
 CPortMapper::CPortMapper(void)
@@ -51,9 +50,12 @@ void CPortMapper::Notify(const Observable &obs, const ObservableMessage msg)
 
 void CPortMapper::ProcessPeripherals(void)
 {
+  using namespace JOYSTICK;
+  
   std::map<CPeripheral*, IJoystickInputHandler*>& oldPortMap = m_portMap;
 
-  std::vector<CPeripheral*> devices = GetDevices();
+  std::vector<CPeripheral*> devices;
+  g_peripherals.GetPeripheralsWithFeature(devices, FEATURE_JOYSTICK);
 
   std::map<CPeripheral*, IJoystickInputHandler*> newPortMap;
   CPortManager::Get().MapDevices(devices, newPortMap);
@@ -81,16 +83,4 @@ void CPortMapper::ProcessPeripherals(void)
   }
 
   oldPortMap.swap(newPortMap);
-}
-
-std::vector<CPeripheral*> CPortMapper::GetDevices(void)
-{
-  std::vector<CPeripheral*> devices;
-  g_peripherals.GetPeripheralsWithFeature(devices, FEATURE_JOYSTICK);
-
-  std::vector<CPeripheral*> keyboards;
-  g_peripherals.GetPeripheralsWithFeature(keyboards, FEATURE_KEYBOARD);
-  devices.insert(devices.end(), keyboards.begin(), keyboards.end());
-
-  return devices;
 }
