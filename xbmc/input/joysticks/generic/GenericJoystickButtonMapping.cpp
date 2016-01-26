@@ -52,19 +52,25 @@ bool CGenericJoystickButtonMapping::OnButtonMotion(unsigned int buttonIndex, boo
   {
     CDriverPrimitive buttonPrimitive(buttonIndex);
     if (buttonPrimitive.IsValid())
+    {
       MapPrimitive(buttonPrimitive);
+      return true;
+    }
   }
 
-  return true;
+  return false;
 }
 
 bool CGenericJoystickButtonMapping::OnHatMotion(unsigned int hatIndex, HAT_STATE state)
 {
   CDriverPrimitive hatPrimitive(hatIndex, static_cast<HAT_DIRECTION>(state));
   if (hatPrimitive.IsValid())
+  {
     MapPrimitive(hatPrimitive);
+    return true;
+  }
 
-  return true;
+  return false;
 }
 
 bool CGenericJoystickButtonMapping::OnAxisMotion(unsigned int axisIndex, float position)

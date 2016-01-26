@@ -114,9 +114,16 @@ bool CPeripheralJoystick::OnButtonMotion(unsigned int buttonIndex, bool bPressed
   {
     if (!it->bPromiscuous)
     {
-      // If button is released, notify all handlers to avoid "sticking"
-      if (!bHandled || !bPressed)
-        bHandled |= it->handler->OnButtonMotion(buttonIndex, bPressed);
+      bHandled |= it->handler->OnButtonMotion(buttonIndex, bPressed);
+
+      // If button is released, force bHandled to false to notify all handlers.
+      // This avoids "sticking".
+      if (!bPressed)
+        bHandled = false;
+
+      // Once a button is handled, we're done
+      if (bHandled)
+        break;
     }
   }
 
@@ -141,9 +148,16 @@ bool CPeripheralJoystick::OnHatMotion(unsigned int hatIndex, HAT_STATE state)
   {
     if (!it->bPromiscuous)
     {
-      // If hat is centered, notify all handlers to avoid "sticking"
-      if (!bHandled || state == HAT_STATE::UNPRESSED)
-        bHandled |= it->handler->OnHatMotion(hatIndex, state);
+      bHandled |= it->handler->OnHatMotion(hatIndex, state);
+
+      // If hat is centered, force bHandled to false to notify all handlers.
+      // This avoids "sticking".
+      if (state == HAT_STATE::UNPRESSED)
+        bHandled = false;
+
+      // Once a hat is handled, we're done
+      if (bHandled)
+        break;
     }
   }
 
@@ -168,9 +182,16 @@ bool CPeripheralJoystick::OnAxisMotion(unsigned int axisIndex, float position)
   {
     if (!it->bPromiscuous)
     {
-      // If axis is centered, notify all handlers to avoid "sticking"
-      if (!bHandled || position == 0.0f)
-        bHandled |= it->handler->OnAxisMotion(axisIndex, position);
+      bHandled |= it->handler->OnAxisMotion(axisIndex, position);
+
+      // If axis is centered, force bHandled to false to notify all handlers.
+      // This avoids "sticking".
+      if (position == 0.0f)
+        bHandled = false;
+
+      // Once an axis is handled, we're done
+      if (bHandled)
+        break;
     }
   }
 

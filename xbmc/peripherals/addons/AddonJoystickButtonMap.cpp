@@ -59,9 +59,6 @@ bool CAddonJoystickButtonMap::Load(void)
 
   if (bSuccess)
   {
-    CLog::Log(LOGDEBUG, "Loaded button map with %lu features for controller %s",
-              m_features.size(), m_strControllerId.c_str());
-
     m_driverMap = CreateLookupTable(m_features);
   }
   else

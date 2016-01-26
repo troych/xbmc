@@ -406,7 +406,7 @@ bool CPeripheralAddon::ProcessEvents(void)
             CLog::Log(LOGDEBUG, "Joystick %s: Button %u %s", joystickDevice->DeviceName().c_str(),
                       event.DriverIndex(), bPressed ? "pressed" : "released");
             if (joystickDevice->OnButtonMotion(event.DriverIndex(), bPressed))
-              CLog::Log(LOGDEBUG, "Event handled");
+              CLog::Log(LOGDEBUG, "Joystick button event handled");
             break;
           }
           case PERIPHERAL_EVENT_TYPE_DRIVER_HAT:
@@ -415,7 +415,7 @@ bool CPeripheralAddon::ProcessEvents(void)
             CLog::Log(LOGDEBUG, "Joystick %s: Hat %u %s", joystickDevice->DeviceName().c_str(),
                       event.DriverIndex(), CJoystickTranslator::HatStateToString(state));
             if (joystickDevice->OnHatMotion(event.DriverIndex(), state))
-              CLog::Log(LOGDEBUG, "Event handled");
+              CLog::Log(LOGDEBUG, "Joystick hat event handled");
             break;
           }
           case PERIPHERAL_EVENT_TYPE_DRIVER_AXIS:
