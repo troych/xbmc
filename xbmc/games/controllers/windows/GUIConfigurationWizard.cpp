@@ -32,7 +32,9 @@ using namespace GAME;
 #define ESC_KEY_CODE  27
 
 CGUIConfigurationWizard::CGUIConfigurationWizard(void) :
-  CThread("GUIConfigurationWizard")
+  CThread("GUIConfigurationWizard"),
+  m_currentButton(nullptr),
+  m_currentDirection(JOYSTICK::CARDINAL_DIRECTION::UNKNOWN)
 {
 }
 
