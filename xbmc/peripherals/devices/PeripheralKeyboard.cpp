@@ -103,7 +103,10 @@ bool CPeripheralKeyboard::OnKeyPress(const CKey& key)
   for (KeyboardHandlerVector::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
   {
     if (!it->second.bPromiscuous)
-      bHandled = bHandled || it->second.handler->OnKeyPress(key);
+      bHandled |= it->second.handler->OnKeyPress(key);
+
+    if (bHandled)
+      break;
   }
 
   return bHandled;
