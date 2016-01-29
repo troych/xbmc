@@ -629,7 +629,7 @@ bool CGUIWindow::OnMessage(CGUIMessage& message)
       {
         // first unfocus the current control
         CGUIControl *control = GetFocusedControl();
-        if (control && control->GetID() != message.GetControlId())
+        if (control)
         {
           CGUIMessage msgLostFocus(GUI_MSG_LOSTFOCUS, GetID(), control->GetID(), message.GetControlId());
           control->OnMessage(msgLostFocus);
