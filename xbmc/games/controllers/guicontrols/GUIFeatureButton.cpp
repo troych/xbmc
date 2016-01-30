@@ -46,6 +46,8 @@ void CGUIFeatureButton::OnUnFocus(void)
 {
   if (m_wizard->IsPrompting(this))
     m_wizard->Abort(false);
+
+  CGUIButtonControl::OnUnFocus();
 }
 
 bool CGUIFeatureButton::DoPrompt(const std::string& strPrompt, CEvent& waitEvent)
