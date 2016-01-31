@@ -40,6 +40,9 @@ class CEvent;
  *   2) When a feature is selected, the user is prompted for controller input.
  *      This initiates a "wizard" that walks the user through the subsequent
  *      features.
+ *
+ *   3) When the wizard's active feature loses focus, the wizard is cancelled
+ *      and the prompt for input ends.
  */
 namespace GAME
 {
@@ -185,14 +188,10 @@ namespace GAME
     virtual void Run(const std::string& strControllerId, const std::vector<IFeatureButton*>& buttons) = 0;
 
     /*!
-     * \brief Check if the specified feature is currently prompting for input
-     * \param button The feature's button
-     * \return True if the feature is prompting for input, false otherwise
-     *
-     * Due to race conditions, false positives are allowed, but false negatives
-     * are guaranteed not to occur.
+     * \brief Callback for feature losing focus
+     * \param button The feature button losing focus
      */
-    virtual bool IsPrompting(IFeatureButton* button) = 0;
+    virtual void OnUnfocus(IFeatureButton* button) = 0;
 
     /*!
      * \brief Abort a running wizard

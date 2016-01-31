@@ -42,7 +42,7 @@ namespace GAME
     // implementation of CGUIControl via CGUIButtonControl
     virtual void OnUnFocus(void) override;
 
-    // implementation of IFeatureButton
+    // partial implementation of IFeatureButton
     virtual const CControllerFeature& Feature(void) const override { return m_feature; }
     virtual JOYSTICK::CARDINAL_DIRECTION GetDirection(void) const override { return JOYSTICK::CARDINAL_DIRECTION::UNKNOWN; }
 

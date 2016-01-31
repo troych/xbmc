@@ -32,22 +32,42 @@ using namespace GAME;
 #define ESC_KEY_CODE  27
 
 CGUIConfigurationWizard::CGUIConfigurationWizard(void) :
-  CThread("GUIConfigurationWizard"),
-  m_currentButton(nullptr),
-  m_currentDirection(JOYSTICK::CARDINAL_DIRECTION::UNKNOWN)
+  CThread("GUIConfigurationWizard")
 {
+  InitializeState();
+}
+
+void CGUIConfigurationWizard::InitializeState(void)
+{
+  m_currentButton = nullptr;
+  m_currentDirection = JOYSTICK::CARDINAL_DIRECTION::UNKNOWN;
+  m_history.clear();
 }
 
 void CGUIConfigurationWizard::Run(const std::string& strControllerId, const std::vector<IFeatureButton*>& buttons)
 {
   Abort();
 
-  m_strControllerId = strControllerId;
-  m_buttons = buttons;
-  m_currentButton = nullptr;
-  m_history.clear();
+  {
+    CSingleLock lock(m_stateMutex);
+
+    // Set Run() parameters
+    m_strControllerId = strControllerId;
+    m_buttons = buttons;
+
+    // Initialize state variables
+    InitializeState();
+  }
 
   Create();
+}
+
+void CGUIConfigurationWizard::OnUnfocus(IFeatureButton* button)
+{
+  CSingleLock lock(m_stateMutex);
+
+  if (button == m_currentButton)
+    Abort(false);
 }
 
 bool CGUIConfigurationWizard::Abort(bool bWait /* = true */)
@@ -72,28 +92,37 @@ void CGUIConfigurationWizard::Process(void)
 
   InstallHooks();
 
-  for (IFeatureButton* button : m_buttons)
   {
-    m_currentButton = button;
-
-    while (!button->IsFinished())
+    CSingleLock lock(m_stateMutex);
+    for (IFeatureButton* button : m_buttons)
     {
-      m_currentDirection = button->GetDirection();
+      // Allow other threads to access the button we're using
+      m_currentButton = button;
 
-      if (!button->PromptForInput(m_inputEvent))
-        Abort(false);
+      while (!button->IsFinished())
+      {
+        // Allow other threads to access which direction the analog stick is on
+        m_currentDirection = button->GetDirection();
+
+        // Wait for input
+        {
+          CSingleExit exit(m_stateMutex);
+          if (!button->PromptForInput(m_inputEvent))
+            Abort(false);
+        }
+
+        if (m_bStop)
+          break;
+      }
+
+      button->Reset();
 
       if (m_bStop)
         break;
     }
 
-    button->Reset();
-
-    if (m_bStop)
-      break;
+    m_currentButton = nullptr;
   }
-
-  m_currentButton = nullptr;
 
   RemoveHooks();
 
@@ -119,7 +148,15 @@ bool CGUIConfigurationWizard::MapPrimitive(JOYSTICK::IJoystickButtonMap* buttonM
   }
   else
   {
-    IFeatureButton* currentButton = m_currentButton;
+    // Get the current state of the thread
+    IFeatureButton* currentButton;
+    CARDINAL_DIRECTION currentDirection;
+    {
+      CSingleLock lock(m_stateMutex);
+      currentButton = m_currentButton;
+      currentDirection = m_currentDirection;
+    }
+
     if (currentButton)
     {
       const CControllerFeature& feature = currentButton->Feature();
@@ -139,7 +176,7 @@ bool CGUIConfigurationWizard::MapPrimitive(JOYSTICK::IJoystickButtonMap* buttonM
 
           buttonMap->GetAnalogStick(feature.Name(), up, down, right, left);
 
-          switch (m_currentDirection)
+          switch (currentDirection)
           {
             case CARDINAL_DIRECTION::UP:    up    = primitive; break;
             case CARDINAL_DIRECTION::DOWN:  down  = primitive; break;

@@ -22,12 +22,14 @@
 #include "IConfigurationWindow.h"
 #include "input/joysticks/DriverPrimitive.h"
 #include "input/joysticks/IJoystickButtonMapper.h"
+#include "threads/CriticalSection.h"
 #include "threads/Event.h"
 #include "threads/Thread.h"
 #include "utils/Observer.h"
 
 #include <set>
 #include <string>
+#include <vector>
 
 namespace GAME
 {
@@ -43,7 +45,7 @@ namespace GAME
 
     // implementation of IConfigurationWizard
     virtual void Run(const std::string& strControllerId, const std::vector<IFeatureButton*>& buttons) override;
-    virtual bool IsPrompting(IFeatureButton* button) override { return m_currentButton == button; }
+    virtual void OnUnfocus(IFeatureButton* button) override;
     virtual bool Abort(bool bWait = true) override;
 
     // implementation of IJoystickButtonMapper
@@ -58,14 +60,22 @@ namespace GAME
     virtual void Process(void) override;
 
   private:
+    void InitializeState(void);
+
     void InstallHooks(void);
     void RemoveHooks(void);
 
+    // Run() parameters
     std::string                          m_strControllerId;
     std::vector<IFeatureButton*>         m_buttons;
+
+    // State variables and mutex
     IFeatureButton*                      m_currentButton;
     JOYSTICK::CARDINAL_DIRECTION         m_currentDirection;
-    std::set<JOYSTICK::CDriverPrimitive> m_history;
+    std::set<JOYSTICK::CDriverPrimitive> m_history; // History to avoid repeated features
+    CCriticalSection                     m_stateMutex;
+
+    // Synchronization event
     CEvent                               m_inputEvent;
   };
 }

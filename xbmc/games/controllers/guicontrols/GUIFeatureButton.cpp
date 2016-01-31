@@ -44,21 +44,21 @@ CGUIFeatureButton::CGUIFeatureButton(const CGUIButtonControl& buttonTemplate,
 
 void CGUIFeatureButton::OnUnFocus(void)
 {
-  if (m_wizard->IsPrompting(this))
-    m_wizard->Abort(false);
-
   CGUIButtonControl::OnUnFocus();
+  m_wizard->OnUnfocus(this);
 }
 
 bool CGUIFeatureButton::DoPrompt(const std::string& strPrompt, CEvent& waitEvent)
 {
   bool bInterrupted = false;
 
-  CGUIMessage msgFocus(GUI_MSG_SETFOCUS, GetID(), GetID());
-  CGUIMessage msgLabel(GUI_MSG_LABEL_SET, GetID(), GetID());
+  if (!HasFocus())
+  {
+    CGUIMessage msgFocus(GUI_MSG_SETFOCUS, GetID(), GetID());
+    CApplicationMessenger::Get().SendGUIMessage(msgFocus, WINDOW_INVALID, false);
+  }
 
-  // Acquire focus
-  CApplicationMessenger::Get().SendGUIMessage(msgFocus, WINDOW_INVALID, false);
+  CGUIMessage msgLabel(GUI_MSG_LABEL_SET, GetID(), GetID());
 
   // Set label
   msgLabel.SetLabel(strPrompt);

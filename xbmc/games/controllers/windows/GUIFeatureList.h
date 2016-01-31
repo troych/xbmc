@@ -39,7 +39,7 @@ namespace GAME
     virtual bool Initialize(void) override;
     virtual void Deinitialize(void) override;
     virtual void Load(const ControllerPtr& controller) override;
-    virtual void OnFocus(unsigned int index) override;
+    virtual void OnFocus(unsigned int index) override { }
     virtual void OnSelect(unsigned int index) override;
 
   private:

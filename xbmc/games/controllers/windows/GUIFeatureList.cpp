@@ -103,16 +103,6 @@ void CGUIFeatureList::Load(const ControllerPtr& controller)
   }
 }
 
-void CGUIFeatureList::OnFocus(unsigned int index)
-{
-  IFeatureButton* button = GetButtonControl(index);
-  if (button)
-  {
-    if (!m_wizard->IsPrompting(button))
-      m_wizard->Abort();
-  }
-}
-
 void CGUIFeatureList::OnSelect(unsigned int index)
 {
   const unsigned int featureCount = m_controller->Layout().FeatureCount();
