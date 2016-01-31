@@ -49,49 +49,53 @@ CScalarFeature::CScalarFeature(const FeatureName& name, IJoystickInputHandler* h
 
 bool CScalarFeature::OnDigitalMotion(const CDriverPrimitive& source, bool bPressed)
 {
+  bool bHandled = false;
+
   if (m_inputType == INPUT_TYPE::DIGITAL)
   {
     if (m_bDigitalState != bPressed)
     {
       m_bDigitalState = bPressed;
-      OnDigitalMotion(bPressed);
+      bHandled = OnDigitalMotion(bPressed);
     }
   }
   else if (m_inputType == INPUT_TYPE::ANALOG)
   {
-    OnAnalogMotion(source, bPressed ? 1.0f : 0.0f);
+    bHandled = OnAnalogMotion(source, bPressed ? 1.0f : 0.0f);
   }
 
-  return true;
+  return bHandled;
 }
 
 bool CScalarFeature::OnAnalogMotion(const CDriverPrimitive& source, float magnitude)
 {
+  bool bHandled = false;
+
   if (m_inputType == INPUT_TYPE::DIGITAL)
   {
-    OnDigitalMotion(source, magnitude >= ANALOG_DIGITAL_THRESHOLD);
+    bHandled = OnDigitalMotion(source, magnitude >= ANALOG_DIGITAL_THRESHOLD);
   }
   else if (m_inputType == INPUT_TYPE::ANALOG)
   {
     if (m_analogState != 0.0f || magnitude != 0.0f)
     {
       m_analogState = magnitude;
-      OnAnalogMotion(magnitude);
+      bHandled = OnAnalogMotion(magnitude);
     }
   }
 
-  return true;
+  return bHandled;
 }
 
-void CScalarFeature::OnDigitalMotion(bool bPressed)
+bool CScalarFeature::OnDigitalMotion(bool bPressed)
 {
   CLog::Log(LOGDEBUG, "Feature [ %s ] on %s %s",
             m_name.c_str(), m_handler->ControllerID().c_str(), bPressed ? "pressed" : "released");
 
-  m_handler->OnButtonPress(m_name, bPressed);
+  return m_handler->OnButtonPress(m_name, bPressed);
 }
 
-void CScalarFeature::OnAnalogMotion(float magnitude)
+bool CScalarFeature::OnAnalogMotion(float magnitude)
 {
   const bool bActivated = (magnitude != 0.0f);
 
@@ -103,7 +107,7 @@ void CScalarFeature::OnAnalogMotion(float magnitude)
               m_name.c_str(), m_handler->ControllerID().c_str(), bActivated ? "activated" : "deactivated");
   }
 
-  m_handler->OnButtonMotion(m_name, magnitude);
+  return m_handler->OnButtonMotion(m_name, magnitude);
 }
 
 // --- CAnalogStick ------------------------------------------------------------
