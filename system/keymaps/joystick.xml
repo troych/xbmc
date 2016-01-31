@@ -14,8 +14,10 @@
       <down>Down</down>
       <leftthumbbutton>Screenshot</leftthumbbutton>
       <rightthumbbutton>ActivateWindow(ShutdownMenu)</rightthumbbutton>
-      <leftstickleft>AnalogSeekBack</leftstickleft>
-      <leftstickright>AnalogSeekForward</leftstickright>
+      <leftstickleft>Left</leftstickleft>
+      <leftstickright>Right</leftstickright>
+      <leftstickup>Up</leftstickup>
+      <leftstickdown>Down</leftstickdown>
       <rightstickup>VolumeUp</rightstickup>
       <rightstickdown>VolumeDown</rightstickdown>
       <guide>ActivateWindow(Home)</guide>
