@@ -21,10 +21,10 @@
 #define KODI_GAME_TYPES_H_
 
 /* current game API version */
-#define GAME_API_VERSION                "1.0.13"
+#define GAME_API_VERSION                "1.0.14"
 
 /* min. game API version */
-#define GAME_MIN_API_VERSION            "1.0.13"
+#define GAME_MIN_API_VERSION            "1.0.14"
 
 #include <stddef.h>
 #include <stdint.h>
@@ -388,6 +388,7 @@ typedef struct GameClient
   GAME_ERROR  (__cdecl* HwContextReset)(void);
   GAME_ERROR  (__cdecl* HwContextDestroy)(void);
   void        (__cdecl* UpdatePort)(unsigned int, bool, const game_controller*);
+  bool        (__cdecl* HasFeature)(const char* controller_id, const char* feature_name);
   bool        (__cdecl* InputEvent)(unsigned int, const game_input_event*);
   size_t      (__cdecl* SerializeSize)(void);
   GAME_ERROR  (__cdecl* Serialize)(uint8_t*, size_t);

@@ -137,6 +137,7 @@ public:
   bool OpenPort(unsigned int port);
   void ClosePort(unsigned int port);
   void UpdatePort(unsigned int port, const ControllerPtr& controller);
+  bool HasFeature(const std::string& controller, const std::string& feature);
 
   bool OnButtonPress(int port, const std::string& feature, bool bPressed);
   bool OnButtonMotion(int port, const std::string& feature, float magnitude);

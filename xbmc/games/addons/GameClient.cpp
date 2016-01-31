@@ -686,6 +686,14 @@ void CGameClient::UpdatePort(unsigned int port, const ControllerPtr& controller)
   }
 }
 
+bool CGameClient::HasFeature(const std::string& controller, const std::string& feature)
+{
+  try { return m_pStruct->HasFeature(controller.c_str(), feature.c_str()); }
+  catch (...) { LogException("HasFeature()"); }
+
+  return false;
+}
+
 void CGameClient::ClearPorts(void)
 {
   for (unsigned int i = 0; i < m_controllers.size(); i++)

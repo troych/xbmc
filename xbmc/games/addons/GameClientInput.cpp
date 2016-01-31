@@ -43,18 +43,7 @@ std::string CGameClientInput::ControllerID(void) const
 
 bool CGameClientInput::HasFeature(const std::string& feature) const
 {
-  const std::vector<CControllerFeature>& features = m_controller->Layout().Features();
-
-  // TODO: Return false if feature isn't handled by the add-on, for example if
-  //       a libretro add-on doesn't include the feature in its buttonmap.xml
-
-  const bool bHasFeature = std::find_if(features.begin(), features.end(),
-    [feature](const CControllerFeature& ftr)
-    {
-      return feature == ftr.Name();
-    }) != features.end();
-
-  return bHasFeature;
+  return m_addon->HasFeature(m_controller->ID(), feature);
 }
 
 JOYSTICK::INPUT_TYPE CGameClientInput::GetInputType(const std::string& feature) const

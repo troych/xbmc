@@ -152,6 +152,20 @@ GAME_ERROR HwContextDestroy(void);
 void UpdatePort(unsigned int port, bool connected, const game_controller* controller);
 
 /*!
+ * \brief Check if input is accepted for a feature on the controller
+ *
+ * If only a subset of the controller profile is used, this can return false
+ * for unsupported features to not absorb their input.
+ *
+ * If the entire controller profile is used, this should always return true.
+ *
+ * \param controller_id The ID of the controller profile
+ * \param feature_name The name of a feature in that profile
+ * \return true if input is accepted for the feature, false otherwise
+ */
+bool HasFeature(const char* controller_id, const char* feature_name);
+
+/*!
  * \brief Notify the add-on of an input event
  *
  * \param port The port number passed to OpenPort()
