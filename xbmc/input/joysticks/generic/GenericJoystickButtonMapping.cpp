@@ -33,7 +33,7 @@
 using namespace JOYSTICK;
 using namespace XbmcThreads;
 
-#define MAPPING_COOLDOWN_MS  50   // Guard against rapid input
+#define MAPPING_COOLDOWN_MS  100   // Guard against rapid input
 #define AXIS_THRESHOLD       0.75f // Axis must exceed this value to be mapped
 
 CGenericJoystickButtonMapping::CGenericJoystickButtonMapping(IJoystickButtonMapper* buttonMapper, IJoystickButtonMap* buttonMap)
@@ -114,7 +114,9 @@ void CGenericJoystickButtonMapping::ProcessAxisMotions(void)
 
 void CGenericJoystickButtonMapping::MapPrimitive(const CDriverPrimitive& primitive)
 {
-  bool bTimeoutElapsed = (SystemClockMillis() >= m_lastAction + MAPPING_COOLDOWN_MS);
+  const unsigned int now = SystemClockMillis();
+
+  bool bTimeoutElapsed = (now >= m_lastAction + MAPPING_COOLDOWN_MS);
   if (bTimeoutElapsed)
   {
     m_lastAction = SystemClockMillis();
@@ -122,7 +124,9 @@ void CGenericJoystickButtonMapping::MapPrimitive(const CDriverPrimitive& primiti
   }
   else
   {
-    CLog::Log(LOGDEBUG, "Button mapping: rapid input dropped for profile \"%s\"", m_buttonMapper->ControllerID().c_str());
+    const unsigned int elapsed = now - m_lastAction;
+    CLog::Log(LOGDEBUG, "Button mapping: rapid input after %ums dropped for profile \"%s\"",
+              elapsed, m_buttonMapper->ControllerID().c_str());
   }
 }
 
