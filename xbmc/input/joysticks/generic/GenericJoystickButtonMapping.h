@@ -69,7 +69,6 @@ namespace JOYSTICK
 
     struct ActivatedAxis
     {
-      unsigned int     timestamp;
       CDriverPrimitive driverPrimitive;
       bool             bEmitted; // true if this axis has emited a button-mapping command
     };

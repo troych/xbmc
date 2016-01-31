@@ -34,8 +34,7 @@ using namespace JOYSTICK;
 using namespace XbmcThreads;
 
 #define MAPPING_COOLDOWN_MS  50   // Guard against rapid input
-#define AXIS_THRESHOLD       0.5f // Axis must exceed this value to be mapped
-#define AXIS_HOLDTIME_MS     100  // Axis must be activated for this long to be mapped
+#define AXIS_THRESHOLD       0.75f // Axis must exceed this value to be mapped
 
 CGenericJoystickButtonMapping::CGenericJoystickButtonMapping(IJoystickButtonMapper* buttonMapper, IJoystickButtonMap* buttonMap)
   : m_buttonMapper(buttonMapper),
@@ -107,13 +106,8 @@ void CGenericJoystickButtonMapping::ProcessAxisMotions(void)
     // Only emit once
     if (!semiaxis.bEmitted)
     {
-      bool bHeld = (SystemClockMillis() >= semiaxis.timestamp + AXIS_HOLDTIME_MS);
-
-      if (bHeld)
-      {
-        semiaxis.bEmitted = true;
-        MapPrimitive(semiaxis.driverPrimitive);
-      }
+      semiaxis.bEmitted = true;
+      MapPrimitive(semiaxis.driverPrimitive);
     }
   }
 }
@@ -135,7 +129,7 @@ void CGenericJoystickButtonMapping::MapPrimitive(const CDriverPrimitive& primiti
 void CGenericJoystickButtonMapping::Activate(const CDriverPrimitive& semiaxis)
 {
   if (!IsActive(semiaxis))
-    m_activatedAxes.push_back(ActivatedAxis{SystemClockMillis(), semiaxis});
+    m_activatedAxes.push_back(ActivatedAxis{semiaxis});
 }
 
 void CGenericJoystickButtonMapping::Deactivate(const CDriverPrimitive& semiaxis)
