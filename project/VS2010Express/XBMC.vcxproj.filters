@@ -379,6 +379,12 @@
     <Filter Include="games\controllers\guicontrols">
       <UniqueIdentifier>{6f9a8428-d82e-4ff0-80f0-a359b8532a06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="input\keyboard">
+      <UniqueIdentifier>{fc884a98-842e-4423-9a92-64b390e0240e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input\keyboard\generic">
+      <UniqueIdentifier>{057df5e5-762c-4724-8fb5-7e5a9fa65dcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\xbmc\win32\pch.cpp">
@@ -3144,9 +3150,6 @@
     <ClCompile Include="..\..\xbmc\input\joysticks\JoystickTranslator.cpp">
       <Filter>input\joysticks</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickKeyboardHandler.cpp">
-      <Filter>input\joysticks\generic</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\filesystem\NFSDirectory.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickButtonMapping.cpp">
       <Filter>input\joysticks\generic</Filter>
@@ -3288,6 +3291,12 @@
     </ClCompile>
     <ClCompile Include="..\..\xbmc\games\controllers\guicontrols\GUIControllerButton.cpp">
       <Filter>games\controllers\guicontrols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\input\keyboard\generic\GenericKeyboardJoystickHandling.cpp">
+      <Filter>input\keyboard\generic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\input\keyboard\generic\GenericKeyboardJoystick.cpp">
+      <Filter>input\keyboard\generic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -6188,9 +6197,6 @@
     <ClInclude Include="..\..\xbmc\windows\GUIWindowSplash.h">
       <Filter>windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\input\IKeyboardHandler.h">
-      <Filter>input</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\xbmc\input\joysticks\IJoystickButtonMap.h">
       <Filter>input\joysticks</Filter>
     </ClInclude>
@@ -6205,9 +6211,6 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\input\joysticks\JoystickTypes.h">
       <Filter>input\joysticks</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickKeyboardHandler.h">
-      <Filter>input\joysticks\generic</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickButtonMapping.h">
       <Filter>input\joysticks\generic</Filter>
@@ -6379,6 +6382,15 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\games\controllers\guicontrols\GUIAnalogStickButton.h">
       <Filter>games\controllers\guicontrols</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\input\keyboard\IKeyboardHandler.h">
+      <Filter>input\keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\input\keyboard\generic\GenericKeyboardJoystickHandling.h">
+      <Filter>input\keyboard\generic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\input\keyboard\generic\GenericKeyboardJoystick.h">
+      <Filter>input\keyboard\generic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

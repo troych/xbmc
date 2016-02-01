@@ -531,7 +531,6 @@
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickButtonMapping.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickFeatureHandling.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickInputHandling.cpp" />
-    <ClCompile Include="..\..\xbmc\input\joysticks\generic\GenericJoystickKeyboardHandler.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\JoystickMonitor.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\JoystickTranslator.cpp" />
     <ClCompile Include="..\..\xbmc\input\joysticks\KeymapHandler.cpp" />
@@ -539,6 +538,8 @@
     <ClCompile Include="..\..\xbmc\input\KeyboardLayout.cpp" />
     <ClCompile Include="..\..\xbmc\input\KeyboardLayoutManager.cpp" />
     <ClCompile Include="..\..\xbmc\input\KeyboardStat.cpp" />
+    <ClCompile Include="..\..\xbmc\input\keyboard\generic\GenericKeyboardJoystick.cpp" />
+    <ClCompile Include="..\..\xbmc\input\keyboard\generic\GenericKeyboardJoystickHandling.cpp" />
     <ClCompile Include="..\..\xbmc\input\MouseStat.cpp" />
     <ClCompile Include="..\..\xbmc\input\PortManager.cpp" />
     <ClCompile Include="..\..\xbmc\input\touch\generic\GenericTouchActionHandler.cpp" />
@@ -991,13 +992,11 @@
     <ClInclude Include="..\..\xbmc\guilib\imagefactory.h" />
     <ClInclude Include="..\..\xbmc\guilib\ISliderCallback.h" />
     <ClInclude Include="..\..\xbmc\IFileItemListModifier.h" />
-    <ClInclude Include="..\..\xbmc\input\IKeyboardHandler.h" />
     <ClInclude Include="..\..\xbmc\input\InputManager.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\DriverPrimitive.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickButtonMapping.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickFeatureHandling.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickInputHandling.h" />
-    <ClInclude Include="..\..\xbmc\input\joysticks\generic\GenericJoystickKeyboardHandler.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\IButtonSequence.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\IJoystickButtonMap.h" />
     <ClInclude Include="..\..\xbmc\input\joysticks\IJoystickButtonMapper.h" />
@@ -1011,6 +1010,9 @@
     <ClInclude Include="..\..\xbmc\input\joysticks\KeymapHandler.h" />
     <ClInclude Include="..\..\xbmc\input\Key.h" />
     <ClInclude Include="..\..\xbmc\input\KeyboardLayoutManager.h" />
+    <ClInclude Include="..\..\xbmc\input\keyboard\generic\GenericKeyboardJoystick.h" />
+    <ClInclude Include="..\..\xbmc\input\keyboard\generic\GenericKeyboardJoystickHandling.h" />
+    <ClInclude Include="..\..\xbmc\input\keyboard\IKeyboardHandler.h" />
     <ClInclude Include="..\..\xbmc\input\PortManager.h" />
     <ClInclude Include="..\..\xbmc\input\touch\generic\GenericTouchActionHandler.h" />
     <ClInclude Include="..\..\xbmc\input\touch\generic\GenericTouchSwipeDetector.h" />
