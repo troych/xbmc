@@ -41,11 +41,34 @@ bool CGUIAnalogStickButton::PromptForInput(CEvent& waitEvent)
 
   bool bInterrupted = false;
 
-  std::string strPrompt = GetPrompt();
+  // Get the prompt for the current analog stick direction
+  std::string strPrompt;
+  std::string strWarn;
+  switch (m_state)
+  {
+    case STATE::ANALOG_STICK_UP:
+      strPrompt = g_localizeStrings.Get(35092); // "Move %s up"
+      strWarn   = g_localizeStrings.Get(35093); // "Move %s up (%d)"
+      break;
+    case STATE::ANALOG_STICK_RIGHT:
+      strPrompt = g_localizeStrings.Get(35096); // "Move %s right"
+      strWarn   = g_localizeStrings.Get(35097); // "Move %s right (%d)"
+      break;
+    case STATE::ANALOG_STICK_DOWN:
+      strPrompt = g_localizeStrings.Get(35094); // "Move %s down"
+      strWarn   = g_localizeStrings.Get(35095); // "Move %s down (%d)"
+      break;
+    case STATE::ANALOG_STICK_LEFT:
+      strPrompt = g_localizeStrings.Get(35098); // "Move %s left"
+      strWarn   = g_localizeStrings.Get(35099); // "Move %s left (%d)"
+      break;
+    default:
+      break;
+  }
 
   if (!strPrompt.empty())
   {
-    bInterrupted = DoPrompt(strPrompt, waitEvent);
+    bInterrupted = DoPrompt(strPrompt, strWarn, m_feature.Label(), waitEvent);
 
     if (!bInterrupted)
       m_state = STATE::FINISHED; // Not interrupted, must have timed out
@@ -79,41 +102,4 @@ JOYSTICK::CARDINAL_DIRECTION CGUIAnalogStickButton::GetDirection(void) const
 void CGUIAnalogStickButton::Reset(void)
 {
   m_state = STATE::ANALOG_STICK_UP;
-}
-
-std::string CGUIAnalogStickButton::GetPrompt(void)
-{
-  std::string strPrompt;
-
-  switch (m_state)
-  {
-    case STATE::ANALOG_STICK_UP:
-    {
-      std::string strPromptTemplate = g_localizeStrings.Get(35052); // "Move %s up..."
-      strPrompt = StringUtils::Format(strPromptTemplate.c_str(), m_feature.Label().c_str());
-      break;
-    }
-    case STATE::ANALOG_STICK_RIGHT:
-    {
-      std::string strPromptTemplate = g_localizeStrings.Get(35054); // "Move %s right..."
-      strPrompt = StringUtils::Format(strPromptTemplate.c_str(), m_feature.Label().c_str());
-      break;
-    }
-    case STATE::ANALOG_STICK_DOWN:
-    {
-      std::string strPromptTemplate = g_localizeStrings.Get(35053); // "Move %s down..."
-      strPrompt = StringUtils::Format(strPromptTemplate.c_str(), m_feature.Label().c_str());
-      break;
-    }
-    case STATE::ANALOG_STICK_LEFT:
-    {
-      std::string strPromptTemplate = g_localizeStrings.Get(35055); // "Move %s left..."
-      strPrompt = StringUtils::Format(strPromptTemplate.c_str(), m_feature.Label().c_str());
-      break;
-    }
-    default:
-      break;
-  }
-
-  return strPrompt;
 }

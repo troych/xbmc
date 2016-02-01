@@ -40,11 +40,6 @@ namespace GAME
     virtual void Reset(void) override;
 
   private:
-    /*!
-     * \brief Get the prompt for the current analog stick direction
-     */
-    std::string GetPrompt(void);
-
     enum class STATE
     {
       ANALOG_STICK_UP,

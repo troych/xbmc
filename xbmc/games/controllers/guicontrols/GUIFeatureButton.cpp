@@ -24,6 +24,7 @@
 #include "guilib/WindowIDs.h"
 #include "ApplicationMessenger.h"
 #include "threads/Event.h"
+#include "utils/StringUtils.h"
 
 using namespace GAME;
 
@@ -48,7 +49,7 @@ void CGUIFeatureButton::OnUnFocus(void)
   m_wizard->OnUnfocus(this);
 }
 
-bool CGUIFeatureButton::DoPrompt(const std::string& strPrompt, CEvent& waitEvent)
+bool CGUIFeatureButton::DoPrompt(const std::string& strPrompt, const std::string& strWarn, const std::string& strFeature, CEvent& waitEvent)
 {
   bool bInterrupted = false;
 
@@ -60,11 +61,29 @@ bool CGUIFeatureButton::DoPrompt(const std::string& strPrompt, CEvent& waitEvent
 
   CGUIMessage msgLabel(GUI_MSG_LABEL_SET, GetID(), GetID());
 
-  // Set label
-  msgLabel.SetLabel(strPrompt);
-  CApplicationMessenger::Get().SendGUIMessage(msgLabel, WINDOW_INVALID, false);
+  for (unsigned int i = 0; i < COUNTDOWN_DURATION_SEC; i++)
+  {
+    const unsigned int secondsElapsed = i;
+    const unsigned int secondsRemaining = COUNTDOWN_DURATION_SEC - i;
 
-  bInterrupted = waitEvent.Wait();
+    const bool bWarn = secondsElapsed >= WAIT_TO_WARN_SEC;
+
+    std::string strLabel;
+
+    if (bWarn)
+      strLabel = StringUtils::Format(strWarn.c_str(), strFeature.c_str(), secondsRemaining);
+    else
+      strLabel = StringUtils::Format(strPrompt.c_str(), strFeature.c_str(), secondsRemaining);
+
+    msgLabel.SetLabel(strLabel);
+    CApplicationMessenger::Get().SendGUIMessage(msgLabel, WINDOW_INVALID, false);
+
+    waitEvent.Reset();
+    bInterrupted = waitEvent.WaitMSec(1000); // Wait 1 second
+
+    if (bInterrupted)
+      break;
+  }
 
   // Reset label
   msgLabel.SetLabel(m_feature.Label());

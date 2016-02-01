@@ -14006,35 +14006,7 @@ msgctxt "#35050"
 msgid "Controller profiles"
 msgstr ""
 
-#. Prompt shown when the user is mapping a button or trigger
-#: xbmc/games/windows/GUIDialogControllerInput.cpp
-msgctxt "#35051"
-msgid "Press %s..."
-msgstr ""
-
-#. Prompt shown when the user is mapping an analog stick
-#: xbmc/games/windows/GUIDialogControllerInput.cpp
-msgctxt "#35052"
-msgid "Move %s up..."
-msgstr ""
-
-#. Prompt shown when the user is mapping an analog stick
-#: xbmc/games/windows/GUIDialogControllerInput.cpp
-msgctxt "#35053"
-msgid "Move %s down..."
-msgstr ""
-
-#. Prompt shown when the user is mapping an analog stick
-#: xbmc/games/windows/GUIDialogControllerInput.cpp
-msgctxt "#35054"
-msgid "Move %s right..."
-msgstr ""
-
-#. Prompt shown when the user is mapping an analog stick
-#: xbmc/games/windows/GUIDialogControllerInput.cpp
-msgctxt "#35055"
-msgid "Move %s left..."
-msgstr ""
+#empty strings from id 35051 to 35055
 
 #. Title of error dialog shown when no joystick add-ons provide button mapping
 #: xbmc/addons/Addon.cpp
@@ -14078,7 +14050,67 @@ msgctxt "#35062"
 msgid "All available controller profiles are installed."
 msgstr ""
 
-#empty strings from id 35063 to 35099
+#empty strings from id 35063 to 35089
+
+#. Button prompt without timeout. %s - button name
+#: xbmc/games/controllers/guicontrols/GUIScalarFeatureButton.cpp
+msgctxt "#35090"
+msgid "Press %s"
+msgstr ""
+
+#. Button prompt with timeout. %s - button name, %d - seconds left in prompt
+#: xbmc/games/controllers/guicontrols/GUIScalarFeatureButton.cpp
+msgctxt "#35091"
+msgid "Press %s (%d)"
+msgstr ""
+
+#. Analog stick up prompt without timeout. %s - analog stick name
+#: xbmc/games/controllers/guicontrols/GUIAnalogStickButton.cpp
+msgctxt "#35092"
+msgid "Move %s up"
+msgstr ""
+
+#. Analog stick up prompt with timeout. %s - analog stick name, %d - seconds left in prompt
+#: xbmc/games/controllers/guicontrols/GUIAnalogStickButton.cpp
+msgctxt "#35093"
+msgid "Move %s up (%d)"
+msgstr ""
+
+#. Analog stick down prompt without timeout. %s - analog stick name
+#: xbmc/games/controllers/guicontrols/GUIAnalogStickButton.cpp
+msgctxt "#35094"
+msgid "Move %s down"
+msgstr ""
+
+#. Analog stick down prompt with timeout. %s - analog stick name, %d - seconds left in prompt
+#: xbmc/games/controllers/guicontrols/GUIAnalogStickButton.cpp
+msgctxt "#35095"
+msgid "Move %s down (%d)"
+msgstr ""
+
+#. Analog stick right prompt without timeout. %s - analog stick name
+#: xbmc/games/controllers/guicontrols/GUIAnalogStickButton.cpp
+msgctxt "#35096"
+msgid "Move %s right"
+msgstr ""
+
+#. Analog stick right prompt with timeout. %s - analog stick name, %d - seconds left in prompt
+#: xbmc/games/controllers/guicontrols/GUIAnalogStickButton.cpp
+msgctxt "#35097"
+msgid "Move %s right (%d)"
+msgstr ""
+
+#. Analog stick left prompt without timeout. %s - analog stick name
+#: xbmc/games/controllers/guicontrols/GUIAnalogStickButton.cpp
+msgctxt "#35098"
+msgid "Move %s left"
+msgstr ""
+
+#. Analog stick left prompt with timeout. %s - analog stick name, %d - seconds left in prompt
+#: xbmc/games/controllers/guicontrols/GUIAnalogStickButton.cpp
+msgctxt "#35099"
+msgid "Move %s left (%d)"
+msgstr ""
 
 #: system/settings/settings.xml
 msgctxt "#35100"

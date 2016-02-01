@@ -24,6 +24,12 @@
 
 #include <string>
 
+// Duration to wait for input from the user
+#define COUNTDOWN_DURATION_SEC  5
+
+// Warn the user that time is running out after this duration
+#define WAIT_TO_WARN_SEC        2
+
 class CEvent;
 
 /*!

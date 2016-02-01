@@ -47,7 +47,7 @@ namespace GAME
     virtual JOYSTICK::CARDINAL_DIRECTION GetDirection(void) const override { return JOYSTICK::CARDINAL_DIRECTION::UNKNOWN; }
 
   protected:
-    bool DoPrompt(const std::string& strPrompt, CEvent& waitEvent);
+    bool DoPrompt(const std::string& strPrompt, const std::string& strWarn, const std::string& strFeature, CEvent& waitEvent);
 
     // FSM helper
     template <typename T>
