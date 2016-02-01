@@ -18,7 +18,7 @@
  *
  */
 
-#include "GenericJoystickKeyboardHandler.h"
+#include "GenericKeyboardJoystickHandling.h"
 #include "input/joysticks/IJoystickDriverHandler.h"
 #include "input/Key.h"
 
@@ -26,31 +26,33 @@
 
 #define BUTTON_INDEX_MASK  0x01ff
 
-using namespace JOYSTICK;
+using namespace KEYBOARD;
 
-CGenericJoystickKeyboardHandler::CGenericJoystickKeyboardHandler(IJoystickDriverHandler* handler)
- : m_handler(handler)
+CGenericKeyboardJoystickHandling::CGenericKeyboardJoystickHandling(JOYSTICK::IJoystickDriverHandler* handler) :
+  m_handler(handler)
 {
   assert(m_handler);
 }
 
-bool CGenericJoystickKeyboardHandler::OnKeyPress(const CKey& key)
+bool CGenericKeyboardJoystickHandling::OnKeyPress(const CKey& key)
 {
+  bool bHandled = false;
+
   unsigned int buttonIndex = GetButtonIndex(key);
   if (buttonIndex != 0)
-    return m_handler->OnButtonMotion(buttonIndex, true);
+    bHandled = m_handler->OnButtonMotion(buttonIndex, true);
 
-  return false;
+  return bHandled;
 }
 
-void CGenericJoystickKeyboardHandler::OnKeyRelease(const CKey& key)
+void CGenericKeyboardJoystickHandling::OnKeyRelease(const CKey& key)
 {
   unsigned int buttonIndex = GetButtonIndex(key);
   if (buttonIndex != 0)
     m_handler->OnButtonMotion(buttonIndex, false);
 }
 
-unsigned int CGenericJoystickKeyboardHandler::GetButtonIndex(const CKey& key)
+unsigned int CGenericKeyboardJoystickHandling::GetButtonIndex(const CKey& key)
 {
   return key.GetButtonCode() & BUTTON_INDEX_MASK;
 }

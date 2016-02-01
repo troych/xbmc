@@ -1,6 +1,6 @@
 /*
  *      Copyright (C) 2015-2016 Team Kodi
- *      http://kodi.tv
+ *      http://xbmc.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,30 +19,42 @@
  */
 #pragma once
 
-#include "input/IKeyboardHandler.h"
+#include "input/keyboard/IKeyboardHandler.h"
+#include "threads/CriticalSection.h"
+
+#include <map>
 
 namespace JOYSTICK
 {
   class IJoystickDriverHandler;
+}
 
-  /*!
-   * \brief Generic implementation of IKeyboardHandler to handle a keyboard as a
-   *        joystick with many buttons.
-   */
-  class CGenericJoystickKeyboardHandler : public IKeyboardHandler
+namespace KEYBOARD
+{
+  class CGenericKeyboardJoystick : public IKeyboardHandler
   {
   public:
-    CGenericJoystickKeyboardHandler(IJoystickDriverHandler* handler);
+    CGenericKeyboardJoystick(void) { }
 
-    virtual ~CGenericJoystickKeyboardHandler(void) { }
+    virtual ~CGenericKeyboardJoystick(void) { }
+
+    void RegisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler, bool bPromiscuous);
+    void UnregisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler);
 
     // implementation of IKeyboardHandler
     virtual bool OnKeyPress(const CKey& key) override;
     virtual void OnKeyRelease(const CKey& key) override;
 
   private:
-    static unsigned int GetButtonIndex(const CKey& key);
+    struct KeyboardHandle
+    {
+      IKeyboardHandler* handler;
+      bool              bPromiscuous;
+    };
 
-    IJoystickDriverHandler* const m_handler;
+    typedef std::map<JOYSTICK::IJoystickDriverHandler*, KeyboardHandle> KeyboardHandlers;
+
+    KeyboardHandlers m_keyboardHandlers;
+    CCriticalSection m_mutex;
   };
 }

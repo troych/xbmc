@@ -21,28 +21,31 @@
 
 class CKey;
 
-/*!
- * \ingroup input
- * \brief Interface for handling keyboard events
- */
-class IKeyboardHandler
+namespace KEYBOARD
 {
-public:
-  virtual ~IKeyboardHandler(void) { }
-
   /*!
-   * \brief A key has been pressed
-   *
-   * \param key      The pressed key
-   *
-   * \return True if the event was handled otherwise false
+   * \ingroup input
+   * \brief Interface for handling keyboard events
    */
-  virtual bool OnKeyPress(const CKey& key) = 0;
+  class IKeyboardHandler
+  {
+  public:
+    virtual ~IKeyboardHandler(void) { }
 
-  /*!
-   * \brief A key has been released
-   *
-   * \param key      The released key
-   */
-  virtual void OnKeyRelease(const CKey& key) = 0;
-};
+    /*!
+     * \brief A key has been pressed
+     *
+     * \param key      The pressed key
+     *
+     * \return True if the event was handled otherwise false
+     */
+    virtual bool OnKeyPress(const CKey& key) = 0;
+
+    /*!
+     * \brief A key has been released
+     *
+     * \param key      The released key
+     */
+    virtual void OnKeyRelease(const CKey& key) = 0;
+  };
+}

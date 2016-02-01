@@ -66,8 +66,8 @@
 #include "games/controllers/ControllerTypes.h"
 #include "games/GameTypes.h"
 #include "games/SerialState.h"
-#include "input/IKeyboardHandler.h"
 #include "input/joysticks/IJoystickInputHandler.h"
+#include "input/keyboard/IKeyboardHandler.h"
 #include "input/Key.h"
 #include "threads/CriticalSection.h"
 
@@ -84,7 +84,7 @@ namespace GAME
 class CGameClientInput;
 
 class CGameClient : public ADDON::CAddonDll<DllGameClient, GameClient, game_client_properties>,
-                    public IKeyboardHandler
+                    public KEYBOARD::IKeyboardHandler
 {
 public:
   CGameClient(const ADDON::AddonProps& props);

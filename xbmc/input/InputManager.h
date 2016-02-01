@@ -36,7 +36,11 @@
 #include "settings/lib/ISettingCallback.h"
 
 class CKey;
-class IKeyboardHandler;
+
+namespace KEYBOARD
+{
+  class IKeyboardHandler;
+}
 
 class CInputManager : public ISettingCallback
 {
@@ -202,8 +206,8 @@ public:
 
   virtual void OnSettingChanged(const CSetting *setting);
 
-  void RegisterKeyboardHandler(IKeyboardHandler* handler);
-  void UnregisterKeyboardHandler(IKeyboardHandler* handler);
+  void RegisterKeyboardHandler(KEYBOARD::IKeyboardHandler* handler);
+  void UnregisterKeyboardHandler(KEYBOARD::IKeyboardHandler* handler);
 
 private:
 
@@ -251,5 +255,5 @@ private:
   std::map<std::string, std::map<int, float> > m_lastAxisMap;
 #endif
 
-  std::vector<IKeyboardHandler*> m_keyboardHandlers;
+  std::vector<KEYBOARD::IKeyboardHandler*> m_keyboardHandlers;
 };

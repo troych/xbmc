@@ -19,28 +19,33 @@
  */
 #pragma once
 
-#include "Peripheral.h"
+#include "input/keyboard/IKeyboardHandler.h"
+
+namespace JOYSTICK
+{
+  class IJoystickDriverHandler;
+}
 
 namespace KEYBOARD
 {
-  class CGenericKeyboardJoystick;
-}
-
-namespace PERIPHERALS
-{
-  class CPeripheralKeyboard : public CPeripheral // TODO: extend CPeripheralHID
+  /*!
+   * \brief Generic implementation of a handler for joysticks that use keyboard
+   *        drivers. It basically emulates a joystick with many buttons.
+   */
+  class CGenericKeyboardJoystickHandling : public IKeyboardHandler
   {
   public:
-    CPeripheralKeyboard(const PeripheralScanResult& scanResult);
+    CGenericKeyboardJoystickHandling(JOYSTICK::IJoystickDriverHandler* handler);
 
-    virtual ~CPeripheralKeyboard(void);
+    virtual ~CGenericKeyboardJoystickHandling(void) { }
 
-    // implementation of CPeripheral
-    virtual bool InitialiseFeature(const PeripheralFeature feature);
-    virtual void RegisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler, bool bPromiscuous) override;
-    virtual void UnregisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler) override;
+    // implementation of IKeyboardHandler
+    virtual bool OnKeyPress(const CKey& key) override;
+    virtual void OnKeyRelease(const CKey& key) override;
 
   private:
-    KEYBOARD::CGenericKeyboardJoystick* m_keyboardHandler;
+    static unsigned int GetButtonIndex(const CKey& key);
+
+    JOYSTICK::IJoystickDriverHandler* const m_handler;
   };
 }

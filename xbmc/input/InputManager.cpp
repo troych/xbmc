@@ -22,8 +22,8 @@
 
 #include "Application.h"
 #include "InputManager.h"
+#include "input/keyboard/IKeyboardHandler.h"
 #include "input/Key.h"
-#include "IKeyboardHandler.h"
 #include "ApplicationMessenger.h"
 #include "guilib/Geometry.h"
 #include "guilib/GUIAudioManager.h"
@@ -345,7 +345,7 @@ bool CInputManager::OnEvent(XBMC_Event& newEvent)
 
 bool CInputManager::OnKey(const CKey& key)
 {
-  for (std::vector<IKeyboardHandler*>::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
+  for (std::vector<KEYBOARD::IKeyboardHandler*>::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
   {
     if ((*it)->OnKeyPress(key))
       return true;
@@ -493,7 +493,7 @@ bool CInputManager::OnKey(const CKey& key)
 
 void CInputManager::OnKeyUp(const CKey& key)
 {
-  for (std::vector<IKeyboardHandler*>::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
+  for (std::vector<KEYBOARD::IKeyboardHandler*>::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
     (*it)->OnKeyRelease(key);
 }
 
@@ -675,13 +675,13 @@ void CInputManager::OnSettingChanged(const CSetting *setting)
                        PERIPHERALS::CPeripheralImon::GetCountOfImonsConflictWithDInput() == 0);
 }
 
-void CInputManager::RegisterKeyboardHandler(IKeyboardHandler* handler)
+void CInputManager::RegisterKeyboardHandler(KEYBOARD::IKeyboardHandler* handler)
 {
   if (std::find(m_keyboardHandlers.begin(), m_keyboardHandlers.end(), handler) == m_keyboardHandlers.end())
     m_keyboardHandlers.push_back(handler);
 }
 
-void CInputManager::UnregisterKeyboardHandler(IKeyboardHandler* handler)
+void CInputManager::UnregisterKeyboardHandler(KEYBOARD::IKeyboardHandler* handler)
 {
   m_keyboardHandlers.erase(std::remove(m_keyboardHandlers.begin(), m_keyboardHandlers.end(), handler), m_keyboardHandlers.end());
 }

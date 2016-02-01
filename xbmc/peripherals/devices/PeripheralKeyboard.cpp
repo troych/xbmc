@@ -19,103 +19,50 @@
  */
 
 #include "PeripheralKeyboard.h"
+#include "input/keyboard/generic/GenericKeyboardJoystick.h"
 #include "input/InputManager.h"
-#include "input/joysticks/generic/GenericJoystickKeyboardHandler.h"
-#include "input/Key.h"
-#include "threads/SingleLock.h"
 
-using namespace JOYSTICK;
 using namespace PERIPHERALS;
 
 CPeripheralKeyboard::CPeripheralKeyboard(const PeripheralScanResult& scanResult) :
-  CPeripheral(scanResult)
+  CPeripheral(scanResult),
+  m_keyboardHandler(nullptr)
 {
   m_features.push_back(FEATURE_KEYBOARD);
 }
 
 CPeripheralKeyboard::~CPeripheralKeyboard(void)
 {
-  CInputManager::Get().UnregisterKeyboardHandler(this);
-
-  while (!m_keyboardHandlers.empty())
-    UnregisterJoystickDriverHandler(m_keyboardHandlers.begin()->first);
+  if (m_keyboardHandler)
+  {
+    CInputManager::Get().UnregisterKeyboardHandler(m_keyboardHandler);
+    delete m_keyboardHandler;
+  }
 }
 
 bool CPeripheralKeyboard::InitialiseFeature(const PeripheralFeature feature)
 {
+  bool bSuccess = false;
+
   if (CPeripheral::InitialiseFeature(feature))
   {
-    CInputManager::Get().RegisterKeyboardHandler(this);
-    return true;
-  }
-
-  return false;
-}
-
-void CPeripheralKeyboard::RegisterJoystickDriverHandler(IJoystickDriverHandler* handler, bool bPromiscuous)
-{
-  CSingleLock lock(m_handlerMutex);
-
-  bool bFound = false;
-
-  for (KeyboardHandlerVector::iterator it = m_keyboardHandlers.begin(); !bFound && it != m_keyboardHandlers.end(); ++it)
-  {
-    if (it->first == handler)
-      bFound = true;
-  }
-
-  if (!bFound)
-  {
-    KeyboardHandler keyboardKandler = { new CGenericJoystickKeyboardHandler(handler), bPromiscuous };
-    m_keyboardHandlers.insert(m_keyboardHandlers.begin(), std::make_pair(handler, keyboardKandler));
-  }
-}
-
-void CPeripheralKeyboard::UnregisterJoystickDriverHandler(IJoystickDriverHandler* handler)
-{
-  CSingleLock lock(m_handlerMutex);
-
-  for (KeyboardHandlerVector::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
-  {
-    if (it->first == handler)
+    if (feature == FEATURE_KEYBOARD)
     {
-      delete it->second.handler;
-      m_keyboardHandlers.erase(it);
-      break;
+      m_keyboardHandler = new KEYBOARD::CGenericKeyboardJoystick;
+      CInputManager::Get().RegisterKeyboardHandler(m_keyboardHandler);
     }
+    bSuccess = true;
   }
+
+  return bSuccess;
 }
 
-bool CPeripheralKeyboard::OnKeyPress(const CKey& key)
+void CPeripheralKeyboard::RegisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler, bool bPromiscuous)
 {
-  CSingleLock lock(m_handlerMutex);
-
-  // Process promiscuous handlers
-  for (KeyboardHandlerVector::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
-  {
-    if (it->second.bPromiscuous)
-      it->second.handler->OnKeyPress(key);
-  }
-
-  bool bHandled = false;
-
-  // Process regular handlers until one is handled
-  for (KeyboardHandlerVector::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
-  {
-    if (!it->second.bPromiscuous)
-      bHandled |= it->second.handler->OnKeyPress(key);
-
-    if (bHandled)
-      break;
-  }
-
-  return bHandled;
+  m_keyboardHandler->RegisterJoystickDriverHandler(handler, bPromiscuous);
 }
 
-void CPeripheralKeyboard::OnKeyRelease(const CKey& key)
+void CPeripheralKeyboard::UnregisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler)
 {
-  CSingleLock lock(m_handlerMutex);
-
-  for (KeyboardHandlerVector::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
-    it->second.handler->OnKeyRelease(key);
+  m_keyboardHandler->UnregisterJoystickDriverHandler(handler);
 }
