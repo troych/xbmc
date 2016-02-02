@@ -54,14 +54,20 @@ bool CGenericKeyboardJoystick::OnKeyPress(const CKey& key)
 
   // Process promiscuous handlers
   for (KeyboardHandlers::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
-    it->second.handler->OnKeyPress(key);
+  {
+    if (it->second.bPromiscuous)
+      it->second.handler->OnKeyPress(key);
+  }
 
   // Process handlers until one is handled
   for (KeyboardHandlers::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
   {
-    bHandled = it->second.handler->OnKeyPress(key);
-    if (bHandled)
-      break;
+    if (!it->second.bPromiscuous)
+    {
+      bHandled = it->second.handler->OnKeyPress(key);
+      if (bHandled)
+        break;
+    }
   }
 
   return bHandled;
