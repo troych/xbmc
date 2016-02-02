@@ -28,8 +28,35 @@ namespace JOYSTICK
   /*!
    * \brief Basic driver element associated with input events
    *
-   * A driver primitive can be a button, one of the four direction arrows on a
-   * dpad, or the positive or negative half of an axis.
+   * Driver input (bools, floats and enums) is split into primitives that better
+   * map to the physical features on a joystick.
+   *
+   * A bool obviously only maps to a single feature, so it is a driver
+   * primitive. Here, these are called "buttons".
+   *
+   * A hat enum encodes the state of the four hat directions. Each direction
+   * can map to a different feature, so a hat enum consists of four driver
+   * primitives called "hat directions".
+   *
+   * A float is a little trickier. Trivially, it can map to an analog stick or
+   * trigger. However, DirectInput combines two triggers onto a single axis.
+   * Therefore, the axis is split into two primitives called "semiaxes".
+   *
+   * The type determines the fields in use:
+   *
+   *    Button:
+   *       - driver index
+   *
+   *    Hat direction:
+   *       - driver index
+   *       - hat direction (up/right/down/left)
+   *
+   *    Semiaxis:
+   *       - driver index
+   *       - semiaxis direction (positive/negative)
+   *
+   * For more info, see "Chapter 2. Joystick drivers" in the documentation
+   * thread: http://forum.kodi.tv/showthread.php?tid=257764
    */
   class CDriverPrimitive
   {
@@ -41,7 +68,7 @@ namespace JOYSTICK
     {
       UNKNOWN = 0, // primitive has no type (invalid)
       BUTTON,      // a digital button
-      HAT,         // one of the four direction arrows on a dpad
+      HAT,         // one of the four direction arrows on a D-pad
       SEMIAXIS,    // the positive or negative half of an axis
     };
 
@@ -56,8 +83,8 @@ namespace JOYSTICK
     CDriverPrimitive(unsigned int buttonIndex);
 
     /*!
-     * \brief Construct a driver primitive representing one of the four direction
-     *        arrows on a dpad
+     * \brief Construct a driver primitive representing one of the four
+     *        direction arrows on a dpad
      */
     CDriverPrimitive(unsigned int hatIndex, HAT_DIRECTION direction);
 
@@ -76,24 +103,23 @@ namespace JOYSTICK
     bool operator>=(const CDriverPrimitive& rhs) const { return  !operator<(rhs); }
 
     /*!
-     * \brief Type of element represented by the driver primitive
-     *
-     * The type determines the fields in use:
-     *
-     *    Button:
-     *       - driver index
-     *
-     *    Hat direction:
-     *       - driver index
-     *       - hat direction
-     *
-     *    Semiaxis:
-     *       - driver index
-     *       - semiaxis direction
+     * \brief The type of driver primitive
      */
-    PrimitiveType      Type(void) const              { return m_type; }
-    unsigned int       Index(void) const             { return m_driverIndex; }
-    HAT_DIRECTION      HatDirection(void) const      { return m_hatDirection; }
+    PrimitiveType Type(void) const { return m_type; }
+
+    /*!
+     * \brief The index used by the driver (valid for all types)
+     */
+    unsigned int Index(void) const { return m_driverIndex; }
+
+    /*!
+     * \brief The direction arrow (valid for hat directions)
+     */
+    HAT_DIRECTION HatDirection(void) const { return m_hatDirection; }
+
+    /*!
+     * \brief The semiaxis direction (valid for semiaxes)
+     */
     SEMIAXIS_DIRECTION SemiAxisDirection(void) const { return m_semiAxisDirection; }
 
     /*!
