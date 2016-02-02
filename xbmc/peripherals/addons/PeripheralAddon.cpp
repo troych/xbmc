@@ -43,7 +43,8 @@ using namespace JOYSTICK;
 using namespace PERIPHERALS;
 using namespace XFILE;
 
-#define JOYSTICK_EMULATION_PROVIDER  "application"
+#define JOYSTICK_EMULATION_BUTTON_MAP_NAME  "Keyboard"
+#define JOYSTICK_EMULATION_PROVIDER         "application"
 
 #ifndef SAFE_DELETE
   #define SAFE_DELETE(p)  do { delete (p); (p) = NULL; } while (0)
@@ -604,13 +605,6 @@ void CPeripheralAddon::GetPeripheralInfo(const CPeripheral* device, ADDON::Perip
   peripheralInfo.SetProductID(device->ProductId());
 }
 
-void CPeripheralAddon::SetPeripheralInfo(CPeripheral& device, const ADDON::Peripheral& peripheralInfo)
-{
-  std::string strDeviceName = peripheralInfo.Name();
-  StringUtils::Trim(strDeviceName);
-  device.SetDeviceName(strDeviceName);
-}
-
 void CPeripheralAddon::GetJoystickInfo(const CPeripheral* device, ADDON::Joystick& joystickInfo)
 {
   GetPeripheralInfo(device, joystickInfo);
@@ -625,14 +619,13 @@ void CPeripheralAddon::GetJoystickInfo(const CPeripheral* device, ADDON::Joystic
   }
   else if (device->Type() == PERIPHERAL_JOYSTICK_EMULATION)
   {
+    joystickInfo.SetName(JOYSTICK_EMULATION_BUTTON_MAP_NAME); // Override name with non-localized version
     joystickInfo.SetProvider(JOYSTICK_EMULATION_PROVIDER);
   }
 }
 
 void CPeripheralAddon::SetJoystickInfo(CPeripheralJoystick& joystick, const ADDON::Joystick& joystickInfo)
 {
-  SetPeripheralInfo(joystick, joystickInfo);
-
   joystick.SetProvider(joystickInfo.Provider());
   joystick.SetRequestedPort(joystickInfo.RequestedPort());
   joystick.SetButtonCount(joystickInfo.ButtonCount());

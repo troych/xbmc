@@ -254,11 +254,7 @@ CPeripheral *CPeripherals::CreatePeripheral(CPeripheralBus &bus, const Periphera
     mappedResult.m_busType = bus.Type();
 
   /* check whether there's something mapped in peripherals.xml */
-  if (!GetMappingForDevice(bus, mappedResult))
-  {
-    /* don't create instances for devices that aren't mapped in peripherals.xml */
-    return NULL;
-  }
+  GetMappingForDevice(bus, mappedResult);
 
   switch(mappedResult.m_mappedType)
   {
