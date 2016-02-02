@@ -21,6 +21,8 @@
 
 #include "input/keyboard/IKeyboardHandler.h"
 
+#include <vector>
+
 namespace JOYSTICK
 {
   class IJoystickDriverHandler;
@@ -44,8 +46,19 @@ namespace KEYBOARD
     virtual void OnKeyRelease(const CKey& key) override;
 
   private:
+    struct KeyEvent
+    {
+      unsigned int buttonIndex;
+      bool         bHandled;
+    };
+
+    bool OnPress(unsigned int buttonIndex);
+    void OnRelease(unsigned int buttonIndex);
+    bool GetEvent(unsigned int buttonIndex, KeyEvent& event) const;
+
     static unsigned int GetButtonIndex(const CKey& key);
 
     JOYSTICK::IJoystickDriverHandler* const m_handler;
+    std::vector<KeyEvent>                   m_pressedKeys;
   };
 }

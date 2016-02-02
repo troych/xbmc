@@ -22,6 +22,7 @@
 #include "input/joysticks/IJoystickDriverHandler.h"
 #include "input/Key.h"
 
+#include <algorithm>
 #include <assert.h>
 
 #define BUTTON_INDEX_MASK  0x01ff
@@ -40,7 +41,7 @@ bool CGenericKeyboardJoystickHandling::OnKeyPress(const CKey& key)
 
   unsigned int buttonIndex = GetButtonIndex(key);
   if (buttonIndex != 0)
-    bHandled = m_handler->OnButtonMotion(buttonIndex, true);
+    bHandled = OnPress(buttonIndex);
 
   return bHandled;
 }
@@ -49,7 +50,56 @@ void CGenericKeyboardJoystickHandling::OnKeyRelease(const CKey& key)
 {
   unsigned int buttonIndex = GetButtonIndex(key);
   if (buttonIndex != 0)
+    OnRelease(buttonIndex);
+}
+
+bool CGenericKeyboardJoystickHandling::OnPress(unsigned int buttonIndex)
+{
+  bool bHandled = false;
+
+  KeyEvent event;
+  if (GetEvent(buttonIndex, event))
+  {
+    bHandled = event.bHandled;
+  }
+  else
+  {
+    bHandled = m_handler->OnButtonMotion(buttonIndex, true);
+    m_pressedKeys.push_back({buttonIndex, bHandled});
+  }
+
+  return bHandled;
+}
+
+void CGenericKeyboardJoystickHandling::OnRelease(unsigned int buttonIndex)
+{
+  KeyEvent event;
+  if (GetEvent(buttonIndex, event))
+  {
     m_handler->OnButtonMotion(buttonIndex, false);
+    m_pressedKeys.erase(std::remove_if(m_pressedKeys.begin(), m_pressedKeys.end(),
+      [buttonIndex](const KeyEvent& event)
+      {
+        return buttonIndex == event.buttonIndex;
+      }), m_pressedKeys.end());
+  }
+}
+
+bool CGenericKeyboardJoystickHandling::GetEvent(unsigned int buttonIndex, KeyEvent& event) const
+{
+  std::vector<KeyEvent>::const_iterator it = std::find_if(m_pressedKeys.begin(), m_pressedKeys.end(),
+    [buttonIndex](const KeyEvent& event)
+    {
+      return buttonIndex == event.buttonIndex;
+    });
+
+  if (it != m_pressedKeys.end())
+  {
+    event = *it;
+    return true;
+  }
+
+  return false;
 }
 
 unsigned int CGenericKeyboardJoystickHandling::GetButtonIndex(const CKey& key)
