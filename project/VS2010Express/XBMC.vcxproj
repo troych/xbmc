@@ -738,7 +738,7 @@
     <ClCompile Include="..\..\xbmc\peripherals\devices\PeripheralDisk.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\devices\PeripheralHID.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\devices\PeripheralJoystick.cpp" />
-    <ClCompile Include="..\..\xbmc\peripherals\devices\PeripheralKeyboard.cpp" />
+    <ClCompile Include="..\..\xbmc\peripherals\devices\PeripheralJoystickEmulation.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\devices\PeripheralNIC.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\devices\PeripheralNyxboard.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\devices\PeripheralImon.cpp" />
@@ -1099,7 +1099,7 @@
     <ClInclude Include="..\..\xbmc\peripherals\bus\virtual\PeripheralBusCEC.h" />
     <ClInclude Include="..\..\xbmc\network\upnp\UPnPSettings.h" />
     <ClInclude Include="..\..\xbmc\peripherals\devices\PeripheralJoystick.h" />
-    <ClInclude Include="..\..\xbmc\peripherals\devices\PeripheralKeyboard.h" />
+    <ClInclude Include="..\..\xbmc\peripherals\devices\PeripheralJoystickEmulation.h" />
     <ClInclude Include="..\..\xbmc\peripherals\PortMapper.h" />
     <ClInclude Include="..\..\xbmc\playlists\SmartPlaylistFileItemListModifier.h" />
     <ClInclude Include="..\..\xbmc\profiles\dialogs\GUIDialogLockSettings.h" />
