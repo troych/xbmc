@@ -13990,10 +13990,10 @@ msgctxt "#35010"
 msgid "Peripheral libraries"
 msgstr ""
 
-#. Name of the virtual keyboard device present on all Kodi instances
+#. Name of the emulated controller in the list of peripherals
 #: xbmc/peripherals/bus/virtual/PeripheralBusApplication.cpp
 msgctxt "#35011"
-msgid "Keyboard"
+msgid "Emulated controller"
 msgstr ""
 
 #empty strings from id 35012 to 35049

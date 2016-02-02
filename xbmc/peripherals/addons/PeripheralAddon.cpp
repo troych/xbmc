@@ -43,7 +43,7 @@ using namespace JOYSTICK;
 using namespace PERIPHERALS;
 using namespace XFILE;
 
-#define JOYSTICK_KEYBOARD_PROVIDER  "application"
+#define JOYSTICK_EMULATION_PROVIDER  "application"
 
 #ifndef SAFE_DELETE
   #define SAFE_DELETE(p)  do { delete (p); (p) = NULL; } while (0)
@@ -623,9 +623,9 @@ void CPeripheralAddon::GetJoystickInfo(const CPeripheral* device, ADDON::Joystic
     joystickInfo.SetHatCount(joystick->HatCount());
     joystickInfo.SetAxisCount(joystick->AxisCount());
   }
-  else if (device->Type() == PERIPHERAL_KEYBOARD)
+  else if (device->Type() == PERIPHERAL_JOYSTICK_EMULATION)
   {
-    joystickInfo.SetProvider(JOYSTICK_KEYBOARD_PROVIDER);
+    joystickInfo.SetProvider(JOYSTICK_EMULATION_PROVIDER);
   }
 }
 

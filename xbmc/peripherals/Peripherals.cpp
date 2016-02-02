@@ -26,7 +26,7 @@
 #include "devices/PeripheralDisk.h"
 #include "devices/PeripheralHID.h"
 #include "devices/PeripheralJoystick.h"
-#include "devices/PeripheralKeyboard.h"
+#include "devices/PeripheralJoystickEmulation.h"
 #include "devices/PeripheralNIC.h"
 #include "devices/PeripheralNyxboard.h"
 #include "devices/PeripheralTuner.h"
@@ -308,8 +308,8 @@ CPeripheral *CPeripherals::CreatePeripheral(CPeripheralBus &bus, const Periphera
     peripheral = new CPeripheralJoystick(mappedResult);
     break;
 
-  case PERIPHERAL_KEYBOARD:
-    peripheral = new CPeripheralKeyboard(mappedResult);
+  case PERIPHERAL_JOYSTICK_EMULATION:
+    peripheral = new CPeripheralJoystickEmulation(mappedResult);
     break;
 
   default:

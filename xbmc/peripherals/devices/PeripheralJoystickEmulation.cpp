@@ -18,20 +18,20 @@
  *
  */
 
-#include "PeripheralKeyboard.h"
+#include "PeripheralJoystickEmulation.h"
 #include "input/keyboard/generic/GenericKeyboardJoystick.h"
 #include "input/InputManager.h"
 
 using namespace PERIPHERALS;
 
-CPeripheralKeyboard::CPeripheralKeyboard(const PeripheralScanResult& scanResult) :
+CPeripheralJoystickEmulation::CPeripheralJoystickEmulation(const PeripheralScanResult& scanResult) :
   CPeripheral(scanResult),
   m_keyboardHandler(nullptr)
 {
   m_features.push_back(FEATURE_KEYBOARD);
 }
 
-CPeripheralKeyboard::~CPeripheralKeyboard(void)
+CPeripheralJoystickEmulation::~CPeripheralJoystickEmulation(void)
 {
   if (m_keyboardHandler)
   {
@@ -40,7 +40,7 @@ CPeripheralKeyboard::~CPeripheralKeyboard(void)
   }
 }
 
-bool CPeripheralKeyboard::InitialiseFeature(const PeripheralFeature feature)
+bool CPeripheralJoystickEmulation::InitialiseFeature(const PeripheralFeature feature)
 {
   bool bSuccess = false;
 
@@ -57,12 +57,12 @@ bool CPeripheralKeyboard::InitialiseFeature(const PeripheralFeature feature)
   return bSuccess;
 }
 
-void CPeripheralKeyboard::RegisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler, bool bPromiscuous)
+void CPeripheralJoystickEmulation::RegisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler, bool bPromiscuous)
 {
   m_keyboardHandler->RegisterJoystickDriverHandler(handler, bPromiscuous);
 }
 
-void CPeripheralKeyboard::UnregisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler)
+void CPeripheralJoystickEmulation::UnregisterJoystickDriverHandler(JOYSTICK::IJoystickDriverHandler* handler)
 {
   m_keyboardHandler->UnregisterJoystickDriverHandler(handler);
 }

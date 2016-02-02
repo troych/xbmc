@@ -28,12 +28,12 @@ namespace KEYBOARD
 
 namespace PERIPHERALS
 {
-  class CPeripheralKeyboard : public CPeripheral // TODO: extend CPeripheralHID
+  class CPeripheralJoystickEmulation : public CPeripheral // TODO: extend CPeripheralHID
   {
   public:
-    CPeripheralKeyboard(const PeripheralScanResult& scanResult);
+    CPeripheralJoystickEmulation(const PeripheralScanResult& scanResult);
 
-    virtual ~CPeripheralKeyboard(void);
+    virtual ~CPeripheralJoystickEmulation(void);
 
     // implementation of CPeripheral
     virtual bool InitialiseFeature(const PeripheralFeature feature);

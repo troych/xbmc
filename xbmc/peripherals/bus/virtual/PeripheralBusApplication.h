@@ -27,13 +27,15 @@ namespace PERIPHERALS
    * @class CPeripheralBusApplication
    *
    * This exposes peripherals that exist logically at the application level,
-   * such as keyboards.
+   * such as emulated joysticks.
    */
   class CPeripheralBusApplication : public CPeripheralBus
   {
   public:
     CPeripheralBusApplication(CPeripherals* manager);
     virtual ~CPeripheralBusApplication(void) { }
+
+    std::string MakeLocation(void) const;
 
   protected:
     // implementation of CPeripheralBus
