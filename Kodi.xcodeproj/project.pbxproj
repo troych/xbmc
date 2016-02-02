@@ -363,9 +363,9 @@
 		68D279B81ACC6E0100B25E88 /* PeripheralJoystick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D279B41ACC6E0000B25E88 /* PeripheralJoystick.cpp */; };
 		68D279B91ACC6E0100B25E88 /* PeripheralJoystick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D279B41ACC6E0000B25E88 /* PeripheralJoystick.cpp */; };
 		68D279BA1ACC6E0100B25E88 /* PeripheralJoystick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D279B41ACC6E0000B25E88 /* PeripheralJoystick.cpp */; };
-		68D279BB1ACC6E0100B25E88 /* PeripheralKeyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D279B61ACC6E0100B25E88 /* PeripheralKeyboard.cpp */; };
-		68D279BC1ACC6E0100B25E88 /* PeripheralKeyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D279B61ACC6E0100B25E88 /* PeripheralKeyboard.cpp */; };
-		68D279BD1ACC6E0100B25E88 /* PeripheralKeyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D279B61ACC6E0100B25E88 /* PeripheralKeyboard.cpp */; };
+		68D279BB1ACC6E0100B25E88 /* PeripheralJoystickEmulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D279B61ACC6E0100B25E88 /* PeripheralJoystickEmulation.cpp */; };
+		68D279BC1ACC6E0100B25E88 /* PeripheralJoystickEmulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D279B61ACC6E0100B25E88 /* PeripheralJoystickEmulation.cpp */; };
+		68D279BD1ACC6E0100B25E88 /* PeripheralJoystickEmulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D279B61ACC6E0100B25E88 /* PeripheralJoystickEmulation.cpp */; };
 		68D279C01ACC6E0C00B25E88 /* PortMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D279BE1ACC6E0C00B25E88 /* PortMapper.cpp */; };
 		68D279C11ACC6E0C00B25E88 /* PortMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D279BE1ACC6E0C00B25E88 /* PortMapper.cpp */; };
 		68D279C21ACC6E0C00B25E88 /* PortMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D279BE1ACC6E0C00B25E88 /* PortMapper.cpp */; };
@@ -3850,8 +3850,8 @@
 		68D279AB1ACC6DCF00B25E88 /* PeripheralBusApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralBusApplication.h; sourceTree = "<group>"; };
 		68D279B41ACC6E0000B25E88 /* PeripheralJoystick.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeripheralJoystick.cpp; sourceTree = "<group>"; };
 		68D279B51ACC6E0000B25E88 /* PeripheralJoystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralJoystick.h; sourceTree = "<group>"; };
-		68D279B61ACC6E0100B25E88 /* PeripheralKeyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeripheralKeyboard.cpp; sourceTree = "<group>"; };
-		68D279B71ACC6E0100B25E88 /* PeripheralKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralKeyboard.h; sourceTree = "<group>"; };
+		68D279B61ACC6E0100B25E88 /* PeripheralJoystickEmulation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeripheralJoystickEmulation.cpp; sourceTree = "<group>"; };
+		68D279B71ACC6E0100B25E88 /* PeripheralJoystickEmulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralJoystickEmulation.h; sourceTree = "<group>"; };
 		68D279BE1ACC6E0C00B25E88 /* PortMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PortMapper.cpp; sourceTree = "<group>"; };
 		68D279BF1ACC6E0C00B25E88 /* PortMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortMapper.h; sourceTree = "<group>"; };
 		68DC87E71B2CACD000EFB049 /* RetroPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RetroPlayer.cpp; path = RetroPlayer/RetroPlayer.cpp; sourceTree = "<group>"; };
@@ -10157,8 +10157,8 @@
 				1D638127161E211E003603ED /* PeripheralImon.h */,
 				68D279B41ACC6E0000B25E88 /* PeripheralJoystick.cpp */,
 				68D279B51ACC6E0000B25E88 /* PeripheralJoystick.h */,
-				68D279B61ACC6E0100B25E88 /* PeripheralKeyboard.cpp */,
-				68D279B71ACC6E0100B25E88 /* PeripheralKeyboard.h */,
+				68D279B61ACC6E0100B25E88 /* PeripheralJoystickEmulation.cpp */,
+				68D279B71ACC6E0100B25E88 /* PeripheralJoystickEmulation.h */,
 				F5E10526140AA38000175026 /* PeripheralNIC.cpp */,
 				F5E10527140AA38000175026 /* PeripheralNIC.h */,
 				F5E10528140AA38000175026 /* PeripheralNyxboard.cpp */,
@@ -11519,7 +11519,7 @@
 				DFEF0BC1180ADEDA00AEAED1 /* SmartPlaylistFileItemListModifier.cpp in Sources */,
 				7CC82C9318284F9F0010DF30 /* CharsetDetection.cpp in Sources */,
 				7C26126C182068660086E04D /* SettingsOperations.cpp in Sources */,
-				68D279BB1ACC6E0100B25E88 /* PeripheralKeyboard.cpp in Sources */,
+				68D279BB1ACC6E0100B25E88 /* PeripheralJoystickEmulation.cpp in Sources */,
 				7C7BCDC517727951004842FB /* IListProvider.cpp in Sources */,
 				7C7BCDC717727951004842FB /* StaticProvider.cpp in Sources */,
 				7C8FC6EE1829A4580045153D /* DirectoryProvider.cpp in Sources */,
@@ -11802,7 +11802,7 @@
 				DFF0F16D17528350002DA3A4 /* DVDDemuxFFmpeg.cpp in Sources */,
 				DFF0F16F17528350002DA3A4 /* DVDDemuxPVRClient.cpp in Sources */,
 				DFF0F17017528350002DA3A4 /* DVDDemuxShoutcast.cpp in Sources */,
-				68D279BD1ACC6E0100B25E88 /* PeripheralKeyboard.cpp in Sources */,
+				68D279BD1ACC6E0100B25E88 /* PeripheralJoystickEmulation.cpp in Sources */,
 				DFF0F17117528350002DA3A4 /* DVDDemuxUtils.cpp in Sources */,
 				DFF0F17217528350002DA3A4 /* DVDDemuxVobsub.cpp in Sources */,
 				DFF0F17317528350002DA3A4 /* DVDFactoryDemuxer.cpp in Sources */,
@@ -13267,7 +13267,7 @@
 				E4991363174E5EEF00741B6D /* CallbackHandler.cpp in Sources */,
 				68DC87F91B2CACD000EFB049 /* RetroPlayerVideo.cpp in Sources */,
 				E4991364174E5EEF00741B6D /* LanguageHook.cpp in Sources */,
-				68D279BC1ACC6E0100B25E88 /* PeripheralKeyboard.cpp in Sources */,
+				68D279BC1ACC6E0100B25E88 /* PeripheralJoystickEmulation.cpp in Sources */,
 				E4991365174E5EEF00741B6D /* PyContext.cpp in Sources */,
 				395C29F11A98A16300EBC7AD /* HTTPPythonWsgiInvoker.cpp in Sources */,
 				E4991366174E5EEF00741B6D /* swig.cpp in Sources */,
