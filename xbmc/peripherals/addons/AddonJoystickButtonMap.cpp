@@ -52,19 +52,15 @@ bool CAddonJoystickButtonMap::Load(void)
   bool bSuccess = m_addon->GetFeatures(m_device, m_strControllerId, m_features);
 
   // GetFeatures() was changed to always return false if no features were
-  // retrieved. Check here, just in case, in case its contract is changed or
-  // violated in the future.
+  // retrieved. Check here, just in case its contract is changed or violated in
+  // the future.
   if (bSuccess && m_features.empty())
     bSuccess = false;
 
   if (bSuccess)
-  {
     m_driverMap = CreateLookupTable(m_features);
-  }
   else
-  {
     CLog::Log(LOGDEBUG, "Failed to load button map for \"%s\"", m_device->DeviceName().c_str());
-  }
 
   return true;
 }
