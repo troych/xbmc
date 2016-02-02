@@ -55,7 +55,7 @@ namespace JOYSTICK
 
     bool ProcessButtonPress(unsigned int keyId);
     void ProcessButtonRelease(unsigned int keyId);
-    bool IsHeld(unsigned int keyId) const;
+    bool IsPressed(unsigned int keyId) const;
 
     static bool SendDigitalAction(unsigned int keyId, unsigned int holdTimeMs = 0);
     static bool SendAnalogAction(unsigned int keyId, float magnitude);

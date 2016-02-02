@@ -67,9 +67,9 @@ void CKeymapHandler::OnDigitalKey(unsigned int keyId, bool bPressed)
   {
     CSingleLock lock(m_digitalMutex);
 
-    if (bPressed && !IsHeld(keyId))
+    if (bPressed && !IsPressed(keyId))
       ProcessButtonPress(keyId);
-    else if (!bPressed && IsHeld(keyId))
+    else if (!bPressed && IsPressed(keyId))
       ProcessButtonRelease(keyId);
   }
 }
@@ -182,7 +182,7 @@ void CKeymapHandler::ProcessButtonRelease(unsigned int keyId)
   }
 }
 
-bool CKeymapHandler::IsHeld(unsigned int keyId) const
+bool CKeymapHandler::IsPressed(unsigned int keyId) const
 {
   return std::find(m_pressedButtons.begin(), m_pressedButtons.end(), keyId) != m_pressedButtons.end();
 }
