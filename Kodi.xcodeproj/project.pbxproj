@@ -282,6 +282,12 @@
 		680F1A001B2A5AEB0008A19D /* GenericJoystickInputHandling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 680F19FB1B2A5AEB0008A19D /* GenericJoystickInputHandling.cpp */; };
 		680F1A011B2A5AEB0008A19D /* GenericJoystickInputHandling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 680F19FB1B2A5AEB0008A19D /* GenericJoystickInputHandling.cpp */; };
 		680F1A021B2A5AEB0008A19D /* GenericJoystickInputHandling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 680F19FB1B2A5AEB0008A19D /* GenericJoystickInputHandling.cpp */; };
+		6810514C1C625EAC00D262F0 /* EventScanFrequency.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6810514A1C625EAC00D262F0 /* EventScanFrequency.cpp */; };
+		6810514D1C625EAC00D262F0 /* EventScanFrequency.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6810514A1C625EAC00D262F0 /* EventScanFrequency.cpp */; };
+		6810514E1C625EAC00D262F0 /* EventScanFrequency.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6810514A1C625EAC00D262F0 /* EventScanFrequency.cpp */; };
+		681051511C62635D00D262F0 /* EventScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6810514F1C62635D00D262F0 /* EventScanner.cpp */; };
+		681051521C62635D00D262F0 /* EventScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6810514F1C62635D00D262F0 /* EventScanner.cpp */; };
+		681051531C62635D00D262F0 /* EventScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6810514F1C62635D00D262F0 /* EventScanner.cpp */; };
 		681686FA1C0F81550048832E /* PeripheralAddonTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 681686F91C0F81550048832E /* PeripheralAddonTranslator.cpp */; };
 		681686FB1C0F81550048832E /* PeripheralAddonTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 681686F91C0F81550048832E /* PeripheralAddonTranslator.cpp */; };
 		681686FC1C0F81550048832E /* PeripheralAddonTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 681686F91C0F81550048832E /* PeripheralAddonTranslator.cpp */; };
@@ -3788,6 +3794,10 @@
 		680F19FB1B2A5AEB0008A19D /* GenericJoystickInputHandling.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GenericJoystickInputHandling.cpp; path = joysticks/generic/GenericJoystickInputHandling.cpp; sourceTree = "<group>"; };
 		680F19FC1B2A5AEB0008A19D /* GenericJoystickInputHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericJoystickInputHandling.h; path = joysticks/generic/GenericJoystickInputHandling.h; sourceTree = "<group>"; };
 		680F1A081B2A5B1D0008A19D /* IJoystickButtonMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IJoystickButtonMapper.h; path = joysticks/IJoystickButtonMapper.h; sourceTree = "<group>"; };
+		6810514A1C625EAC00D262F0 /* EventScanFrequency.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventScanFrequency.cpp; sourceTree = "<group>"; };
+		6810514B1C625EAC00D262F0 /* EventScanFrequency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventScanFrequency.h; sourceTree = "<group>"; };
+		6810514F1C62635D00D262F0 /* EventScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventScanner.cpp; sourceTree = "<group>"; };
+		681051501C62635D00D262F0 /* EventScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventScanner.h; sourceTree = "<group>"; };
 		681686F81C0F80FB0048832E /* PeripheralAddonTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PeripheralAddonTranslator.h; path = addons/PeripheralAddonTranslator.h; sourceTree = "<group>"; };
 		681686F91C0F81550048832E /* PeripheralAddonTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PeripheralAddonTranslator.cpp; path = addons/PeripheralAddonTranslator.cpp; sourceTree = "<group>"; };
 		681EC9121B2A88240064E12D /* GameInfoTag.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameInfoTag.cpp; path = games/tags/GameInfoTag.cpp; sourceTree = "<group>"; };
@@ -10111,6 +10121,10 @@
 				F5E1050D140AA38000175026 /* bus */,
 				F5E1051A140AA38000175026 /* devices */,
 				F5E1052C140AA38000175026 /* dialogs */,
+				6810514A1C625EAC00D262F0 /* EventScanFrequency.cpp */,
+				6810514B1C625EAC00D262F0 /* EventScanFrequency.h */,
+				6810514F1C62635D00D262F0 /* EventScanner.cpp */,
+				681051501C62635D00D262F0 /* EventScanner.h */,
 				F5E10533140AA38000175026 /* Peripherals.cpp */,
 				F5E10534140AA38000175026 /* Peripherals.h */,
 				F5E10535140AA38000175026 /* PeripheralTypes.h */,
@@ -10641,6 +10655,7 @@
 				E38E1FA10D25F9FD00618676 /* DVDMessage.cpp in Sources */,
 				E38E1FA20D25F9FD00618676 /* DVDMessageQueue.cpp in Sources */,
 				395C29C11A98A0A000EBC7AD /* Webinterface.cpp in Sources */,
+				681051511C62635D00D262F0 /* EventScanner.cpp in Sources */,
 				E38E1FA40D25F9FD00618676 /* DVDOverlayContainer.cpp in Sources */,
 				E38E1FA50D25F9FD00618676 /* DVDOverlayRenderer.cpp in Sources */,
 				E38E1FA70D25F9FD00618676 /* DVDPlayer.cpp in Sources */,
@@ -11171,6 +11186,7 @@
 				18B7C894129423A7009E7A26 /* MusicInfoTagLoaderCDDA.cpp in Sources */,
 				18B7C895129423A7009E7A26 /* MusicInfoTagLoaderDatabase.cpp in Sources */,
 				18B7C896129423A7009E7A26 /* MusicInfoTagLoaderFactory.cpp in Sources */,
+				6810514C1C625EAC00D262F0 /* EventScanFrequency.cpp in Sources */,
 				18B7C89F129423A7009E7A26 /* MusicInfoTagLoaderShn.cpp in Sources */,
 				687AAF401B2CA50800C16152 /* GameClient.cpp in Sources */,
 				18B7C8D712942546009E7A26 /* ButtonTranslator.cpp in Sources */,
@@ -11766,6 +11782,7 @@
 				DFF0F14417528350002DA3A4 /* AEPackIEC61937.cpp in Sources */,
 				DFF0F14617528350002DA3A4 /* AEStreamInfo.cpp in Sources */,
 				DFF0F14717528350002DA3A4 /* AEUtil.cpp in Sources */,
+				6810514E1C625EAC00D262F0 /* EventScanFrequency.cpp in Sources */,
 				42DAC1701A6E789E0066B4C8 /* PVRActionListener.cpp in Sources */,
 				DFF0F14917528350002DA3A4 /* AEFactory.cpp in Sources */,
 				DFF0F14A17528350002DA3A4 /* EmuFileWrapper.cpp in Sources */,
@@ -11932,6 +11949,7 @@
 				DFF0F1FB17528350002DA3A4 /* FileCache.cpp in Sources */,
 				DFF0F1FC17528350002DA3A4 /* FileDirectoryFactory.cpp in Sources */,
 				DFF0F1FD17528350002DA3A4 /* FileFactory.cpp in Sources */,
+				681051531C62635D00D262F0 /* EventScanner.cpp in Sources */,
 				DFF0F1FE17528350002DA3A4 /* FileReaderFile.cpp in Sources */,
 				DFF0F1FF17528350002DA3A4 /* FTPDirectory.cpp in Sources */,
 				DFF0F20017528350002DA3A4 /* FTPParse.cpp in Sources */,
@@ -13318,6 +13336,7 @@
 				E4991397174E5F0E00741B6D /* GUIWindowMusicPlaylist.cpp in Sources */,
 				E4991398174E5F0E00741B6D /* GUIWindowMusicPlaylistEditor.cpp in Sources */,
 				E4991399174E5F0E00741B6D /* GUIWindowMusicSongs.cpp in Sources */,
+				6810514D1C625EAC00D262F0 /* EventScanFrequency.cpp in Sources */,
 				E499139A174E5F0E00741B6D /* GUIWindowVisualisation.cpp in Sources */,
 				E499139B174E5F0E00741B6D /* Album.cpp in Sources */,
 				E499139C174E5F0E00741B6D /* Artist.cpp in Sources */,
@@ -13607,6 +13626,7 @@
 				E4991538174E642900741B6D /* GUIInfoManager.cpp in Sources */,
 				E4991539174E642900741B6D /* GUILargeTextureManager.cpp in Sources */,
 				E499153A174E642900741B6D /* GUIPassword.cpp in Sources */,
+				681051521C62635D00D262F0 /* EventScanner.cpp in Sources */,
 				395C29D91A98A11C00EBC7AD /* WsgiInputStream.cpp in Sources */,
 				E499153B174E642900741B6D /* LangInfo.cpp in Sources */,
 				E499153C174E642900741B6D /* MediaSource.cpp in Sources */,
