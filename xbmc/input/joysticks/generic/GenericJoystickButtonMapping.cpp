@@ -33,7 +33,7 @@
 using namespace JOYSTICK;
 using namespace XbmcThreads;
 
-#define MAPPING_COOLDOWN_MS  100   // Guard against rapid input
+#define MAPPING_COOLDOWN_MS  50    // Guard against repeated input
 #define AXIS_THRESHOLD       0.75f // Axis must exceed this value to be mapped
 
 CGenericJoystickButtonMapping::CGenericJoystickButtonMapping(IJoystickButtonMapper* buttonMapper, IJoystickButtonMap* buttonMap)
