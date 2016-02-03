@@ -20,6 +20,7 @@
  */
 
 #include "system.h"
+#include "EventScanner.h"
 #include "bus/PeripheralBus.h"
 #include "devices/Peripheral.h"
 #include "PortMapper.h"
@@ -45,7 +46,8 @@ namespace PERIPHERALS
   #define g_peripherals CPeripherals::Get()
 
   class CPeripherals :  public ISettingCallback,
-                        public Observable
+                        public Observable,
+                        public IEventScannerCallback
   {
   public:
     static CPeripherals &Get(void);
@@ -204,6 +206,13 @@ namespace PERIPHERALS
      */
     virtual bool GetNextKeypress(float frameTime, CKey &key);
 
+    /*!
+     * @brief Request event scan frequency
+     * @brief frequencyHz The frequency in Hz
+     * @return A handle that unsets its frequency when expired
+     */
+    EventFrequencyHandle SetEventScanFrequency(float frequencyHz) { return m_eventScanner.SetFrequency(frequencyHz); }
+
     bool SupportsCEC(void) const
     {
 #if defined(HAVE_LIBCEC)
@@ -212,6 +221,9 @@ namespace PERIPHERALS
       return false;
 #endif
     }
+
+    // implementation of IEventScannerCallback
+    virtual void ProcessEvents(void) override;
 
     virtual PeripheralAddonPtr GetAddon(const CPeripheral* device);
 
@@ -240,6 +252,7 @@ namespace PERIPHERALS
     std::vector<PeripheralDeviceMapping> m_mappings;
     CPortMapper                          m_portMapper;
     CSettingsCategory *                  m_settings;
+    CEventScanner                        m_eventScanner;
     CCriticalSection                     m_critSection;
   };
 }

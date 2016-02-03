@@ -3298,6 +3298,12 @@
     <ClCompile Include="..\..\xbmc\peripherals\devices\PeripheralJoystickEmulation.cpp">
       <Filter>peripherals\devices</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\xbmc\peripherals\EventScanFrequency.cpp">
+      <Filter>peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\peripherals\EventScanner.cpp">
+      <Filter>peripherals</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\xbmc\win32\pch.h">
@@ -6391,6 +6397,12 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\peripherals\devices\PeripheralJoystickEmulation.h">
       <Filter>peripherals\devices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\peripherals\EventScanFrequency.h">
+      <Filter>peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\peripherals\EventScanner.h">
+      <Filter>peripherals</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

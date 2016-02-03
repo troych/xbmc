@@ -34,6 +34,7 @@
 #include "input/KeyboardStat.h"
 #include "input/MouseStat.h"
 #include "settings/lib/ISettingCallback.h"
+#include "threads/CriticalSection.h"
 
 class CKey;
 
@@ -83,6 +84,14 @@ public:
   \return true if event is handled, false otherwise
   */
   bool ProcessPeripherals(float frameTime);
+
+  /*! \brief Dispatch actions queued since the last call to Process()
+   */
+  void ProcessQueuedActions();
+
+  /*! \brief Queue an action to be processed on the next call to Process()
+   */
+  void QueueAction(const CAction& action);
 
   /*! \brief Process all inputs
    *
@@ -256,4 +265,7 @@ private:
 #endif
 
   std::vector<KEYBOARD::IKeyboardHandler*> m_keyboardHandlers;
+
+  std::vector<CAction> m_queuedActions;
+  CCriticalSection     m_actionMutex;
 };

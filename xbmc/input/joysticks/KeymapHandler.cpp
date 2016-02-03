@@ -21,8 +21,8 @@
 #include "KeymapHandler.h"
 #include "guilib/GUIWindowManager.h"
 #include "input/ButtonTranslator.h"
+#include "input/InputManager.h"
 #include "input/Key.h"
-#include "ApplicationMessenger.h"
 
 #include <algorithm>
 
@@ -192,7 +192,7 @@ bool CKeymapHandler::SendDigitalAction(unsigned int keyId, unsigned int holdTime
   CAction action(CButtonTranslator::GetInstance().GetAction(g_windowManager.GetActiveWindowID(), CKey(keyId, holdTimeMs)));
   if (action.GetID() > 0)
   {
-    CApplicationMessenger::Get().SendAction(action, WINDOW_INVALID, false);
+    CInputManager::Get().QueueAction(action);
     return true;
   }
 
@@ -205,7 +205,7 @@ bool CKeymapHandler::SendAnalogAction(unsigned int keyId, float magnitude)
   if (action.GetID() > 0)
   {
     CAction actionWithAmount(action.GetID(), magnitude, 0.0f, action.GetName());
-    CApplicationMessenger::Get().SendAction(actionWithAmount, WINDOW_INVALID, false);
+    CInputManager::Get().QueueAction(actionWithAmount);
     return true;
   }
 

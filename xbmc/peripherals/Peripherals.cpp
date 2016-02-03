@@ -62,7 +62,8 @@ using namespace PERIPHERALS;
 using namespace XFILE;
 using namespace std;
 
-CPeripherals::CPeripherals(void)
+CPeripherals::CPeripherals(void) :
+  m_eventScanner(this)
 {
   RegisterObserver(&m_portMapper);
   Clear();
@@ -112,12 +113,16 @@ void CPeripherals::Initialise(void)
       }
     }
 
+    m_eventScanner.Start();
+
     m_bInitialised = true;
   }
 }
 
 void CPeripherals::Clear(void)
 {
+  m_eventScanner.Stop();
+
   CSingleLock lock(m_critSection);
   /* delete busses and devices */
   for (unsigned int iBusPtr = 0; iBusPtr < m_busses.size(); iBusPtr++)
@@ -712,10 +717,6 @@ bool CPeripherals::ToggleDeviceState(CecStateChange mode /*= STATE_SWITCH_TOGGLE
 
 bool CPeripherals::GetNextKeypress(float frameTime, CKey &key)
 {
-  CPeripheralBusAddon* addonBus = static_cast<CPeripheralBusAddon*>(g_peripherals.GetBusByType(PERIPHERAL_BUS_ADDON));
-  if (addonBus)
-    addonBus->ProcessEvents();
-
   vector<CPeripheral *> peripherals;
   if (SupportsCEC() && GetPeripheralsWithFeature(peripherals, FEATURE_CEC))
   {
@@ -733,6 +734,18 @@ bool CPeripherals::GetNextKeypress(float frameTime, CKey &key)
   }
 
   return false;
+}
+
+void CPeripherals::ProcessEvents(void)
+{
+  std::vector<CPeripheralBus*> busses;
+  {
+    CSingleLock lock(m_critSection);
+    busses = m_busses;
+  }
+
+  for (CPeripheralBus* bus : busses)
+    bus->ProcessEvents();
 }
 
 PeripheralAddonPtr CPeripherals::GetAddon(const CPeripheral* device)

@@ -51,14 +51,9 @@ namespace PERIPHERALS
     unsigned int GetAddonCount(void) const;
 
     /*!
-     * \brief Initialize the properties of a peripheral by its location
+     * \brief Initialize the properties of a peripheral with a known location
      */
     bool InitializeProperties(CPeripheral* peripheral);
-
-    /*!
-     * \brief Poll for events from peripheral add-ons
-     */
-    void ProcessEvents(void);
 
     // Inherited from CPeripheralBus
     virtual void         Register(CPeripheral *peripheral) override;
@@ -77,6 +72,7 @@ namespace PERIPHERALS
     // Inherited from CPeripheralBus
     virtual bool PerformDeviceScan(PeripheralScanResults &results) override;
     virtual void UnregisterRemovedDevices(const PeripheralScanResults &results) override;
+    virtual void ProcessEvents(void) override;
 
   private:
     void UpdateAddons(void);
