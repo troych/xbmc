@@ -339,7 +339,7 @@ void CPeripherals::OnDeviceAdded(const CPeripheralBus &bus, const CPeripheral &p
   bool bNotify = true;
 
   // don't show a notification for devices detected during the initial scan
-  if (bus.IsInitialised())
+  if (!bus.IsInitialised())
     bNotify = false;
 
   // don't show a notification for emulated peripherals
