@@ -19,6 +19,13 @@
  */
 #pragma once
 
+// Duration to wait for input from the user
+#define COUNTDOWN_DURATION_SEC  6
+
+// Warn the user that time is running out after this duration
+#define WAIT_TO_WARN_SEC        2
+
+// GUI Control IDs
 #define CONTROL_CONTROLLER_LIST             3
 #define CONTROL_FEATURE_LIST                5
 #define CONTROL_FEATURE_BUTTON_TEMPLATE     7
