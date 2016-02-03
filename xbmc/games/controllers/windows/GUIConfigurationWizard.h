@@ -35,8 +35,8 @@ namespace GAME
 {
   class CGUIConfigurationWizard : public IConfigurationWizard,
                                   public JOYSTICK::IJoystickButtonMapper,
-                                  public CThread,
-                                  public Observer
+                                  public Observer,
+                                  protected CThread
   {
   public:
     CGUIConfigurationWizard(bool bEmulation, unsigned int controllerNumber = 0);
