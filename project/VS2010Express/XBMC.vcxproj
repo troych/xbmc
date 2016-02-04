@@ -745,8 +745,8 @@
     <ClCompile Include="..\..\xbmc\peripherals\devices\PeripheralTuner.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\dialogs\GUIDialogPeripheralManager.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\dialogs\GUIDialogPeripheralSettings.cpp" />
-    <ClCompile Include="..\..\xbmc\peripherals\EventScanFrequency.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\EventScanner.cpp" />
+    <ClCompile Include="..\..\xbmc\peripherals\EventScanRate.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\Peripherals.cpp" />
     <ClCompile Include="..\..\xbmc\peripherals\PortMapper.cpp" />
     <ClCompile Include="..\..\xbmc\pictures\GUIDialogPictureInfo.cpp" />
@@ -1102,8 +1102,8 @@
     <ClInclude Include="..\..\xbmc\network\upnp\UPnPSettings.h" />
     <ClInclude Include="..\..\xbmc\peripherals\devices\PeripheralJoystick.h" />
     <ClInclude Include="..\..\xbmc\peripherals\devices\PeripheralJoystickEmulation.h" />
-    <ClInclude Include="..\..\xbmc\peripherals\EventScanFrequency.h" />
     <ClInclude Include="..\..\xbmc\peripherals\EventScanner.h" />
+    <ClInclude Include="..\..\xbmc\peripherals\EventScanRate.h" />
     <ClInclude Include="..\..\xbmc\peripherals\PortMapper.h" />
     <ClInclude Include="..\..\xbmc\playlists\SmartPlaylistFileItemListModifier.h" />
     <ClInclude Include="..\..\xbmc\profiles\dialogs\GUIDialogLockSettings.h" />

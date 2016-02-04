@@ -3298,10 +3298,10 @@
     <ClCompile Include="..\..\xbmc\peripherals\devices\PeripheralJoystickEmulation.cpp">
       <Filter>peripherals\devices</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\peripherals\EventScanFrequency.cpp">
+    <ClCompile Include="..\..\xbmc\peripherals\EventScanner.cpp">
       <Filter>peripherals</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\peripherals\EventScanner.cpp">
+    <ClCompile Include="..\..\xbmc\peripherals\EventScanRate.cpp">
       <Filter>peripherals</Filter>
     </ClCompile>
   </ItemGroup>
@@ -6398,10 +6398,10 @@
     <ClInclude Include="..\..\xbmc\peripherals\devices\PeripheralJoystickEmulation.h">
       <Filter>peripherals\devices</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\peripherals\EventScanFrequency.h">
+    <ClInclude Include="..\..\xbmc\peripherals\EventScanner.h">
       <Filter>peripherals</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\peripherals\EventScanner.h">
+    <ClInclude Include="..\..\xbmc\peripherals\EventScanRate.h">
       <Filter>peripherals</Filter>
     </ClInclude>
   </ItemGroup>
