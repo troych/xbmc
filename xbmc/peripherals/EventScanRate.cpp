@@ -18,17 +18,20 @@
  *
  */
 
-#include "EventScanFrequency.h"
+#include "EventScanRate.h"
+
+#include <assert.h>
 
 using namespace PERIPHERALS;
 
-CEventFrequencyHandle::CEventFrequencyHandle(float frequencyHz, IEventFrequencyCallback* callback) :
-  m_frequencyHz(frequencyHz),
+CEventRateHandle::CEventRateHandle(float RateHz, IEventRateCallback* callback) :
+  m_rateHz(RateHz),
   m_callback(callback)
 {
+  assert(m_callback != nullptr);
 }
 
-void CEventFrequencyHandle::Release(void)
+void CEventRateHandle::Release(void)
 {
   m_callback->Release(this);
 }

@@ -23,49 +23,45 @@
 
 namespace PERIPHERALS
 {
-  class CEventFrequencyHandle;
-  typedef std::shared_ptr<CEventFrequencyHandle> EventFrequencyHandle;
+  class CEventRateHandle;
+  typedef std::shared_ptr<CEventRateHandle> EventRateHandle;
 
   /*!
    * \brief Callback implemented by event scanner
    */
-  class IEventFrequencyCallback
+  class IEventRateCallback
   {
   public:
-    virtual ~IEventFrequencyCallback(void) { }
+    virtual ~IEventRateCallback(void) { }
 
     /*!
      * \brief Release the specified handle
      */
-    virtual void Release(CEventFrequencyHandle* handle) = 0;
+    virtual void Release(CEventRateHandle* handle) = 0;
   };
 
   /*!
-   * \brief Handle returned by the event scanner when a scan frequency is requested
+   * \brief Handle returned by the event scanner when a scan rate is requested
    */
-  class CEventFrequencyHandle
+  class CEventRateHandle
   {
   public:
-    CEventFrequencyHandle(float frequencyHz, IEventFrequencyCallback* callback);
+    CEventRateHandle(float rateHz, IEventRateCallback* callback);
 
-    ~CEventFrequencyHandle(void) { Release(); }
+    ~CEventRateHandle(void) { }
 
     /*!
-     * \brief Get the frequency this handle represents
+     * \brief Get the rate this handle represents
      */
-    float GetFrequencyHz(void) const { return m_frequencyHz; }
+    float GetRateHz(void) const { return m_rateHz; }
 
     /*!
      * \brief Release the handle
-     *
-     * Call this to release the handle early. Otherwise, the handle is
-     * automatically released when the shared pointer's ref count drops
-     * to zero.
      */
     void Release(void);
 
   private:
-    const float                    m_frequencyHz;
-    IEventFrequencyCallback* const m_callback;
+    const float               m_rateHz;
+    IEventRateCallback* const m_callback;
   };
 }

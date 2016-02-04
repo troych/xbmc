@@ -1,4 +1,6 @@
-SRCS=Peripherals.cpp \
+SRCS=EventScanner.cpp \
+     EventScanRate.cpp \
+     Peripherals.cpp \
      PortMapper.cpp \
 
 LIB=peripherals.a

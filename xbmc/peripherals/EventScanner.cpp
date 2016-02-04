@@ -21,13 +21,14 @@
 #include "EventScanner.h"
 #include "threads/SingleLock.h"
 #include "threads/SystemClock.h"
+#include "utils/log.h"
 
 #include <assert.h>
 
 using namespace PERIPHERALS;
 using namespace XbmcThreads;
 
-#define DEFAULT_SCAN_FREQUENCY_HZ  60
+#define DEFAULT_SCAN_RATE_HZ  60
 
 CEventScanner::CEventScanner(IEventScannerCallback* callback) :
   CThread("PeripEventScanner"),
@@ -47,25 +48,37 @@ void CEventScanner::Stop(void)
   StopThread(true);
 }
 
-EventFrequencyHandle CEventScanner::SetFrequency(float frequencyHz)
+EventRateHandle CEventScanner::SetRate(float rateHz)
 {
   CSingleLock lock(m_mutex);
 
-  EventFrequencyHandle handle = EventFrequencyHandle(new CEventFrequencyHandle(frequencyHz, this));
+  const float oldRate = GetRateHz();
+
+  EventRateHandle handle = EventRateHandle(new CEventRateHandle(rateHz, this));
   m_handles.push_back(handle);
+
+  const float newRate = GetRateHz();
+
+  CLog::Log(LOGDEBUG, "PERIPHERALS: Event sampling rate set from %.2f to %.2f", oldRate, newRate);
 
   return handle;
 }
 
-void CEventScanner::Release(CEventFrequencyHandle* handle)
+void CEventScanner::Release(CEventRateHandle* handle)
 {
   CSingleLock lock(m_mutex);
 
+  const float oldRate = GetRateHz();
+
   m_handles.erase(std::remove_if(m_handles.begin(), m_handles.end(),
-    [handle](const EventFrequencyHandle& myHandle)
+    [handle](const EventRateHandle& myHandle)
     {
       return handle == myHandle.get();
     }), m_handles.end());
+
+  const float newRate = GetRateHz();
+
+  CLog::Log(LOGDEBUG, "PERIPHERALS: Event sampling rate set from %.2f to %.2f", oldRate, newRate);
 }
 
 void CEventScanner::Process(void)
@@ -91,20 +104,20 @@ void CEventScanner::Process(void)
   }
 }
 
-float CEventScanner::GetFrequencyHz(void) const
+float CEventScanner::GetRateHz(void) const
 {
   CSingleLock lock(m_mutex);
 
-  float scanFrequencyHz = 0.0f;
+  float scanRateHz = 0.0f;
 
-  for (const EventFrequencyHandle& handle : m_handles)
+  for (const EventRateHandle& handle : m_handles)
   {
-    if (handle->GetFrequencyHz() > scanFrequencyHz)
-      scanFrequencyHz = handle->GetFrequencyHz();
+    if (handle->GetRateHz() > scanRateHz)
+      scanRateHz = handle->GetRateHz();
   }
 
-  if (scanFrequencyHz == 0.0f)
-    scanFrequencyHz = DEFAULT_SCAN_FREQUENCY_HZ;
+  if (scanRateHz == 0.0f)
+    scanRateHz = DEFAULT_SCAN_RATE_HZ;
 
-  return scanFrequencyHz;
+  return scanRateHz;
 }

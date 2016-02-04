@@ -207,11 +207,11 @@ namespace PERIPHERALS
     virtual bool GetNextKeypress(float frameTime, CKey &key);
 
     /*!
-     * @brief Request event scan frequency
-     * @brief frequencyHz The frequency in Hz
-     * @return A handle that unsets its frequency when expired
+     * @brief Request event scan rate
+     * @brief rateHz The rate in Hz
+     * @return A handle that unsets its rate when expired
      */
-    EventFrequencyHandle SetEventScanFrequency(float frequencyHz) { return m_eventScanner.SetFrequency(frequencyHz); }
+    EventRateHandle SetEventScanRate(float rateHz) { return m_eventScanner.SetRate(rateHz); }
 
     bool SupportsCEC(void) const
     {

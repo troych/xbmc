@@ -19,7 +19,7 @@
  */
 #pragma once
 
-#include "EventScanFrequency.h"
+#include "EventScanRate.h"
 #include "threads/CriticalSection.h"
 #include "threads/Event.h"
 #include "threads/Thread.h"
@@ -37,14 +37,14 @@ namespace PERIPHERALS
   /*!
    * \brief Class to scan for peripheral events
    *
-   * A default frequency of 60 Hz is used. This can be overridden by calling
-   * SetFrequency(). The scanner will run at this new frequency until the
-   * handle it returns has expired.
+   * A default rate of 60 Hz is used. This can be overridden by calling
+   * SetRate(). The scanner will run at this new rate until the handle it
+   * returns has been released.
    *
-   * If two instances hold handles from SetFrequency(), the one with the higher
-   * frequency wins.
+   * If two instances hold handles from SetRate(), the one with the higher
+   * rate wins.
    */
-  class CEventScanner : public IEventFrequencyCallback,
+  class CEventScanner : public IEventRateCallback,
                         protected CThread
   {
   public:
@@ -55,22 +55,22 @@ namespace PERIPHERALS
     void Start(void);
     void Stop(void);
 
-    EventFrequencyHandle SetFrequency(float frequencyHz);
+    EventRateHandle SetRate(float rateHz);
 
-    // implementation of IEventFrequencyCallback
-    virtual void Release(CEventFrequencyHandle* handle);
+    // implementation of IEventRateCallback
+    virtual void Release(CEventRateHandle* handle);
 
   protected:
     // implementation of CThread
     virtual void Process(void) override;
 
   private:
-    float GetFrequencyHz(void) const;
-    float GetScanIntervalMs(void) const { return 1000.0f / GetFrequencyHz(); }
+    float GetRateHz(void) const;
+    float GetScanIntervalMs(void) const { return 1000.0f / GetRateHz(); }
 
-    IEventScannerCallback* const      m_callback;
-    std::vector<EventFrequencyHandle> m_handles;
-    CEvent                            m_scanEvent;
-    CCriticalSection                  m_mutex;
+    IEventScannerCallback* const m_callback;
+    std::vector<EventRateHandle> m_handles;
+    CEvent                       m_scanEvent;
+    CCriticalSection             m_mutex;
   };
 }
