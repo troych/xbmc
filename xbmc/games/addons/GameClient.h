@@ -69,6 +69,7 @@
 #include "input/joysticks/IJoystickInputHandler.h"
 #include "input/keyboard/IKeyboardHandler.h"
 #include "input/Key.h"
+#include "peripherals/EventScanRate.h"
 #include "threads/CriticalSection.h"
 
 #include <map>
@@ -186,6 +187,7 @@ private:
   bool                  m_bIsPlaying;          // This is true between OpenFile() and CloseFile()
   std::string           m_filePath;            // The current playing file
   IPlayer*              m_player;              // The player core that called OpenFile()
+  PERIPHERALS::EventRateHandle m_inputRateHandle; // Handle while keeping the input sampling rate at the frame rate
   GAME_REGION           m_region;              // Region of the loaded game
   double                m_frameRate;           // Video framerate
   double                m_frameRateCorrection; // Framerate correction factor (to sync to audio)

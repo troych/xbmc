@@ -34,6 +34,7 @@
 #include "input/InputManager.h"
 #include "input/joysticks/JoystickTypes.h"
 #include "input/PortManager.h"
+#include "peripherals/Peripherals.h"
 #include "settings/Settings.h"
 #include "threads/SingleLock.h"
 #include "URL.h"
@@ -432,9 +433,10 @@ bool CGameClient::OpenFile(const CFileItem& file, IPlayer* player)
 
   if (error == GAME_ERROR_NO_ERROR && LoadGameInfo())
   {
-    m_filePath   = strFilePath;
-    m_player     = player;
-    m_bIsPlaying = true;
+    m_filePath        = strFilePath;
+    m_player          = player;
+    m_inputRateHandle = PERIPHERALS::g_peripherals.SetEventScanRate(GetFrameRate());
+    m_bIsPlaying      = true;
 
     if (m_bSupportsKeyboard)
       OpenKeyboard();
@@ -559,6 +561,11 @@ void CGameClient::CloseFile()
 
   m_bIsPlaying = false;
   m_filePath.clear();
+  if (m_inputRateHandle)
+  {
+    m_inputRateHandle->Release();
+    m_inputRateHandle.reset();
+  }
   m_player = NULL;
 }
 
