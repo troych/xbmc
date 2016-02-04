@@ -525,8 +525,6 @@ void CGameClient::Reset()
 {
   if (m_bIsPlaying)
   {
-    // TODO: Reset all controller ports to their same value. bSNES since v073r01
-    // resets controllers to JOYPAD after a reset, so guard against this.
     try { LogError(m_pStruct->Reset(), "Reset()"); }
     catch (...) { LogException("Reset()"); }
 
