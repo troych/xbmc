@@ -23,6 +23,7 @@
 #include "threads/SystemClock.h"
 #include "utils/log.h"
 
+#include <algorithm>
 #include <assert.h>
 
 using namespace PERIPHERALS;
