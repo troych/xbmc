@@ -65,7 +65,7 @@ bool CPeripheralBusAddon::GetAddonWithButtonMap(const CPeripheral* device, Perip
   CSingleLock lock(m_critSection);
   for (PeripheralAddonVector::const_iterator it = m_addons.begin(); it != m_addons.end(); ++it)
   {
-    if ((*it)->HasFeature(FEATURE_JOYSTICK)) // TODO: Check for button map support
+    if ((*it)->HasButtonMaps())
     {
       addon = *it;
       return true;

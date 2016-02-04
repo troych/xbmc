@@ -54,7 +54,8 @@ using namespace XFILE;
 CPeripheralAddon::CPeripheralAddon(const ADDON::AddonProps& props)
  : CAddonDll<DllPeripheral, PeripheralAddon, PERIPHERAL_PROPERTIES>(props),
    m_apiVersion("0.0.0"),
-   m_bProvidesJoysticks(false)
+   m_bProvidesJoysticks(false),
+   m_bProvidesButtonMaps(false)
 {
   ResetProperties();
 }
@@ -66,8 +67,10 @@ CPeripheralAddon::CPeripheralAddon(const cp_extension_t *ext)
   ResetProperties();
 
   std::string strProvidesJoysticks = ADDON::CAddonMgr::Get().GetExtValue(ext->configuration, "@provides_joysticks");
+  std::string strProvidesButtonMaps = ADDON::CAddonMgr::Get().GetExtValue(ext->configuration, "@provides_buttonmaps");
 
   m_bProvidesJoysticks = StringUtils::EqualsNoCase(strProvidesJoysticks, "true");
+  m_bProvidesButtonMaps = StringUtils::EqualsNoCase(strProvidesButtonMaps, "true");
 }
 
 CPeripheralAddon::~CPeripheralAddon(void)
@@ -374,7 +377,7 @@ bool CPeripheralAddon::PerformDeviceScan(PeripheralScanResults &results)
 
 bool CPeripheralAddon::ProcessEvents(void)
 {
-  if (!HasFeature(FEATURE_JOYSTICK))
+  if (!m_bProvidesJoysticks)
     return false;
 
   PERIPHERAL_ERROR retVal;
@@ -452,7 +455,7 @@ bool CPeripheralAddon::ProcessEvents(void)
 
 bool CPeripheralAddon::GetJoystickProperties(unsigned int index, CPeripheralJoystick& joystick)
 {
-  if (!HasFeature(FEATURE_JOYSTICK))
+  if (!m_bProvidesJoysticks)
     return false;
 
   PERIPHERAL_ERROR retVal;
@@ -480,7 +483,7 @@ bool CPeripheralAddon::GetFeatures(const CPeripheral* device,
                                    const std::string& strControllerId,
                                    FeatureMap& features)
 {
-  if (!HasFeature(FEATURE_JOYSTICK))
+  if (!m_bProvidesButtonMaps)
     return false;
 
   PERIPHERAL_ERROR retVal;
@@ -520,7 +523,7 @@ bool CPeripheralAddon::MapFeatures(const CPeripheral* device,
                                    const std::string& strControllerId,
                                    const FeatureMap& features)
 {
-  if (!HasFeature(FEATURE_JOYSTICK))
+  if (!m_bProvidesButtonMaps)
     return false;
 
   PERIPHERAL_ERROR retVal;
@@ -555,7 +558,7 @@ bool CPeripheralAddon::MapFeatures(const CPeripheral* device,
 
 void CPeripheralAddon::ResetButtonMap(const CPeripheral* device, const std::string& strControllerId)
 {
-  if (!HasFeature(FEATURE_JOYSTICK))
+  if (!m_bProvidesButtonMaps)
     return;
 
   ADDON::Joystick joystickInfo;

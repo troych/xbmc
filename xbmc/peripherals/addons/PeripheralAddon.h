@@ -78,6 +78,7 @@ namespace PERIPHERALS
     /** @name Joystick methods */
     //@{
     bool GetJoystickProperties(unsigned int index, CPeripheralJoystick& joystick);
+    bool HasButtonMaps(void) const { return m_bProvidesButtonMaps; }
     bool GetFeatures(const CPeripheral* device, const std::string& strControllerId, FeatureMap& features);
     bool MapFeatures(const CPeripheral* device, const std::string& strControllerId, const FeatureMap& features);
     void ResetButtonMap(const CPeripheral* device, const std::string& strControllerId);
@@ -132,6 +133,7 @@ namespace PERIPHERALS
     /* @brief Add-on properties */
     ADDON::AddonVersion m_apiVersion;
     bool                m_bProvidesJoysticks;
+    bool                m_bProvidesButtonMaps;
 
     /* @brief Map of peripherals belonging to the add-on */
     std::map<unsigned int, CPeripheral*>  m_peripherals;
