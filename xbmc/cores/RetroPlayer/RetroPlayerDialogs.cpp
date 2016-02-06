@@ -229,7 +229,7 @@ bool CRetroPlayerDialogs::InstallGameClientDialog(const CFileItem &file, GameCli
   else
   {
     CLog::Log(LOGDEBUG, "RetroPlayer: Installing game client %s", gc->ID().c_str());
-    bool success = false; // CAddonInstaller::Get().PromptForInstall(gc->ID(), addon); // TODO
+    bool success = CAddonInstaller::Get().InstallModal(gc->ID(), addon);
     if (!success || !addon || addon->Type() != ADDON_GAMEDLL)
     {
       CLog::Log(LOGDEBUG, "RetroPlayer: Game client installation failed");
@@ -270,8 +270,7 @@ bool CRetroPlayerDialogs::InstallGameClient(const std::string &strId, const CFil
     {
       CLog::Log(LOGDEBUG, "RetroPlayer: Installing game client %s", strId.c_str());
       addon.reset();
-      /* TODO
-      if (CAddonInstaller::Get().PromptForInstall(strId, addon))
+      if (CAddonInstaller::Get().InstallModal(strId, addon))
       {
         gc = std::dynamic_pointer_cast<CGameClient>(addon);
         if (gc)
@@ -280,7 +279,6 @@ bool CRetroPlayerDialogs::InstallGameClient(const std::string &strId, const CFil
           return true;
         }
       }
-      */
     }
   }
   return false;
