@@ -33,7 +33,7 @@ namespace PERIPHERALS
   class CAddonJoystickButtonMap : public JOYSTICK::IJoystickButtonMap
   {
   public:
-    CAddonJoystickButtonMap(CPeripheral* device, const PeripheralAddonPtr& addon, const std::string& strControllerId);
+    CAddonJoystickButtonMap(CPeripheral* device, const std::weak_ptr<CPeripheralAddon>& addon, const std::string& strControllerId);
 
     virtual ~CAddonJoystickButtonMap(void);
 
@@ -104,7 +104,7 @@ namespace PERIPHERALS
     static bool ResetPrimitive(ADDON::JoystickFeature& feature, const ADDON::DriverPrimitive& primitive);
 
     CPeripheral* const  m_device;
-    PeripheralAddonPtr  m_addon;
+    std::weak_ptr<CPeripheralAddon>  m_addon;
     const std::string   m_strControllerId;
     FeatureMap          m_features;
     DriverMap           m_driverMap;
