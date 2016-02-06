@@ -36,6 +36,12 @@ using namespace PERIPHERALS;
 CPeripheralBusAddon::CPeripheralBusAddon(CPeripherals *manager) :
     CPeripheralBus("PeripBusAddon", manager, PERIPHERAL_BUS_ADDON)
 {
+  // stop everything before destroying any (loaded) addons
+  Clear();
+
+  // destroy any (loaded) addons
+  m_failedAddons.clear();
+  m_addons.clear();
 }
 
 bool CPeripheralBusAddon::GetAddon(const std::string &strId, AddonPtr &addon) const
