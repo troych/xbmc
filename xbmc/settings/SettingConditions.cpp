@@ -80,15 +80,15 @@ bool HasPeripherals(const std::string &condition, const std::string &value, cons
   return PERIPHERALS::g_peripherals.GetNumberOfPeripherals() > 0;
 }
 
-bool SupportsPeripheralControllers(const std::string &condition, const std::string &value, const CSetting *setting, void *data)
+bool SupportsPeripheralControllers(const std::string &condition, const std::string &value, const CSetting *setting)
 {
   using namespace PERIPHERALS;
 
-  PeripheralBusAddonPtr bus = std::static_pointer_cast<CPeripheralBusAddon>(g_peripherals.GetBusByType(PERIPHERAL_BUS_ADDON));
+  CPeripheralBusAddon* bus = static_cast<CPeripheralBusAddon*>(g_peripherals.GetBusByType(PERIPHERAL_BUS_ADDON));
   return bus != nullptr && bus->GetAddonCount() > 0;
 }
 
-bool IsFullscreen(const std::string &condition, const std::string &value, const CSetting *setting, void *data)
+bool IsFullscreen(const std::string &condition, const std::string &value, const CSetting *setting)
 {
   return g_Windowing.IsFullScreen();
 }
