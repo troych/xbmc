@@ -168,8 +168,8 @@ unsigned int CDefaultController::GetKeyID(const FeatureName& feature, CARDINAL_D
   else if (feature == "guide")         return KEY_JOYSTICK_BUTTON_GUIDE;
   else if (feature == "leftbumper")    return KEY_JOYSTICK_BUTTON_LEFT_SHOULDER;
   else if (feature == "rightbumper")   return KEY_JOYSTICK_BUTTON_RIGHT_SHOULDER;
-  else if (feature == "leftthumb")     return KEY_JOYSTICK_BUTTON_LEFT_THUMB_BUTTON;
-  else if (feature == "rightthumb")    return KEY_JOYSTICK_BUTTON_RIGHT_THUMB_BUTTON;
+  else if (feature == "leftthumb")     return KEY_JOYSTICK_BUTTON_LEFT_STICK_BUTTON;
+  else if (feature == "rightthumb")    return KEY_JOYSTICK_BUTTON_RIGHT_STICK_BUTTON;
   else if (feature == "up")            return KEY_JOYSTICK_BUTTON_DPAD_UP;
   else if (feature == "down")          return KEY_JOYSTICK_BUTTON_DPAD_DOWN;
   else if (feature == "right")         return KEY_JOYSTICK_BUTTON_DPAD_RIGHT;

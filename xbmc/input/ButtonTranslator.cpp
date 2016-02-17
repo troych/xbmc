@@ -1462,8 +1462,8 @@ uint32_t CButtonTranslator::TranslateJoystickString(const char *szButton)
   else if (strButton == "right") buttonCode = KEY_JOYSTICK_BUTTON_DPAD_RIGHT;
   else if (strButton == "up") buttonCode = KEY_JOYSTICK_BUTTON_DPAD_UP;
   else if (strButton == "down") buttonCode = KEY_JOYSTICK_BUTTON_DPAD_DOWN;
-  else if (strButton == "leftthumbbutton") buttonCode = KEY_JOYSTICK_BUTTON_LEFT_THUMB_BUTTON;
-  else if (strButton == "rightthumbbutton") buttonCode = KEY_JOYSTICK_BUTTON_RIGHT_THUMB_BUTTON;
+  else if (strButton == "leftthumb") buttonCode = KEY_JOYSTICK_BUTTON_LEFT_STICK_BUTTON;
+  else if (strButton == "rightthumb") buttonCode = KEY_JOYSTICK_BUTTON_RIGHT_STICK_BUTTON;
   else if (strButton == "leftstickup") buttonCode = KEY_JOYSTICK_BUTTON_LEFT_THUMB_STICK_UP;
   else if (strButton == "leftstickdown") buttonCode = KEY_JOYSTICK_BUTTON_LEFT_THUMB_STICK_DOWN;
   else if (strButton == "leftstickleft") buttonCode = KEY_JOYSTICK_BUTTON_LEFT_THUMB_STICK_LEFT;
