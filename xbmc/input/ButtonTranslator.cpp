@@ -332,6 +332,7 @@ static const ActionMapping windows[] =
     { "playersettings"           , WINDOW_SETTINGS_PLAYER },
     { "librarysettings"          , WINDOW_SETTINGS_LIBRARY },
     { "interfacesettings"        , WINDOW_SETTINGS_INTERFACE },	
+    { "gamesettings"             , WINDOW_SETTINGS_MYGAMES },
     { "videoplaylist"            , WINDOW_VIDEO_PLAYLIST },
     { "loginscreen"              , WINDOW_LOGIN_SCREEN },
     { "profiles"                 , WINDOW_SETTINGS_PROFILES },
