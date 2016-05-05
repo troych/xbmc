@@ -145,7 +145,7 @@ void CAddonCallbacksGame::EnableHardwareRendering(void* addonData, const game_hw
   if (!gameClient)
     return;
 
-  // TODO
+  gameClient->EnableHardwareRendering(hw_info);
 }
 
 uintptr_t CAddonCallbacksGame::HwGetCurrentFramebuffer(void* addonData)
@@ -154,8 +154,7 @@ uintptr_t CAddonCallbacksGame::HwGetCurrentFramebuffer(void* addonData)
   if (!gameClient)
     return 0;
 
-  // TODO
-  return 0;
+  return gameClient->HwGetCurrentFramebuffer();
 }
 
 game_proc_address_t CAddonCallbacksGame::HwGetProcAddress(void* addonData, const char *sym)
@@ -164,8 +163,7 @@ game_proc_address_t CAddonCallbacksGame::HwGetProcAddress(void* addonData, const
   if (!gameClient)
     return nullptr;
 
-  // TODO
-  return nullptr;
+  return gameClient->HwGetProcAddress(sym);
 }
 
 void CAddonCallbacksGame::RenderFrame(void* addonData)
@@ -174,7 +172,7 @@ void CAddonCallbacksGame::RenderFrame(void* addonData)
   if (!gameClient)
     return;
 
-  // TODO
+  gameClient->RenderFrame();
 }
 
 bool CAddonCallbacksGame::OpenPort(void* addonData, unsigned int port)

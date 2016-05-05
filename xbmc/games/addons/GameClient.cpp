@@ -124,6 +124,7 @@ CGameClient::CGameClient(ADDON::AddonProps props) :
   m_serializeSize(0),
   m_audio(nullptr),
   m_video(nullptr),
+  m_bHardwareRendering(false),
   m_region(GAME_REGION_UNKNOWN)
 {
   const ADDON::InfoMap& extraInfo = m_props.extrainfo;
@@ -414,6 +415,11 @@ void CGameClient::CreatePlayback()
 
   if (bRequiresGameLoop)
   {
+    if (m_bHardwareRendering)
+    {
+      CreateHwRenderContext();
+      HwContextReset();
+    }
     m_playback.reset(new CGameClientReversiblePlayback(this, m_timing.GetFrameRate(), m_serializeSize));
   }
   else
@@ -470,6 +476,7 @@ void CGameClient::CloseFile()
 
   m_audio = nullptr;
   m_video = nullptr;
+  m_bHardwareRendering = false;
   m_timing.Reset();
 }
 
@@ -1005,4 +1012,36 @@ void CGameClient::LogException(const char* strFunctionName) const
   CLog::Log(LOGERROR, "GAME: exception caught while trying to call '%s' on add-on %s",
       strFunctionName, ID().c_str());
   CLog::Log(LOGERROR, "Please contact the developer of this add-on: %s", Author().c_str());
+}
+
+void CGameClient::EnableHardwareRendering(const game_hw_info *hw_info)
+{
+  CLog::Log(LOGINFO, "GAME - entered EnableHardwareRendering");
+  return;
+}
+
+uintptr_t CGameClient::HwGetCurrentFramebuffer()
+{
+  return m_video->HardwareRendering()->GetCurrentFramebuffer();
+}
+
+game_proc_address_t CGameClient::HwGetProcAddress(const char *sym)
+{
+  return m_video->HardwareRendering()->GetProcAddress(sym);
+}
+
+void CGameClient::HwContextReset()
+{
+  try { LogError(m_pStruct->HwContextReset(), "HwContextReset()"); }
+  catch (...) { LogException("HwContextReset()"); }
+}
+
+void CGameClient::CreateHwRenderContext()
+{
+  m_video->HardwareRendering()->Create();
+}
+
+void CGameClient::RenderFrame()
+{
+  m_video->HardwareRendering()->RenderFrame();
 }

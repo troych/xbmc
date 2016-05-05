@@ -20,6 +20,7 @@
 
 #include "RetroPlayerVideo.h"
 #include "RetroPlayerDefines.h"
+#include "RetroPlayerGL.h"
 #include "PixelConverter.h"
 #include "cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodec.h"
 #include "cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecFFmpeg.h"
@@ -129,6 +130,14 @@ void CRetroPlayerVideo::CloseStream()
 {
   m_pixelConverter.reset();
   m_pVideoCodec.reset();
+}
+
+IGameRenderingCallback* CRetroPlayerVideo::HardwareRendering()
+{
+  if (!m_hardwareRendering)
+    m_hardwareRendering.reset(new CRetroPlayerGL(m_renderManager, m_processInfo));
+
+  return m_hardwareRendering.get();
 }
 
 bool CRetroPlayerVideo::Configure(DVDVideoPicture& picture)

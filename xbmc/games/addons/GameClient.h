@@ -156,6 +156,12 @@ public:
   virtual bool OnKeyPress(const CKey& key) override;
   virtual void OnKeyRelease(const CKey& key) override;
 
+  // OpenGL HW Rendering
+  void EnableHardwareRendering(const game_hw_info *hw_info);
+  uintptr_t HwGetCurrentFramebuffer();
+  game_proc_address_t HwGetProcAddress(const char *sym);
+  void RenderFrame();
+
 private:
   // Private gameplay functions
   bool LoadGameInfo(const std::string& logPath);
@@ -174,6 +180,10 @@ private:
 
   // Private memory stream functions
   size_t GetSerializeSize();
+
+  // OpenGL HW Rendering
+  void HwContextReset();
+  void CreateHwRenderContext();
 
   // Helper functions
   void LogAddonProperties(void) const;
@@ -198,6 +208,7 @@ private:
   size_t                m_serializeSize;
   IGameAudioCallback*   m_audio;               // The audio callback passed to OpenFile()
   IGameVideoCallback*   m_video;               // The video callback passed to OpenFile()
+  bool                  m_bHardwareRendering;  // True if hardware rendering has been enabled
   CGameClientTiming     m_timing;              // Class to scale playback to avoid resampling audio
   PERIPHERALS::EventRateHandle m_inputRateHandle; // Handle while keeping the input sampling rate at the frame rate
   std::unique_ptr<IGameClientPlayback> m_playback; // Interface to control playback

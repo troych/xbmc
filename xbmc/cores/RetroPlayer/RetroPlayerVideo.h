@@ -46,6 +46,7 @@ namespace GAME
     virtual bool OpenEncodedStream(AVCodecID codec) override;
     virtual void AddData(const uint8_t* data, unsigned int size) override;
     virtual void CloseStream() override;
+    virtual IGameRenderingCallback* HardwareRendering() override;
 
     /*
   protected:
@@ -70,5 +71,6 @@ namespace GAME
     unsigned int m_droppedFrames;
     std::unique_ptr<CPixelConverter> m_pixelConverter;
     std::unique_ptr<CDVDVideoCodec>  m_pVideoCodec;
+    std::unique_ptr<IGameRenderingCallback> m_hardwareRendering;
   };
 }
