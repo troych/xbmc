@@ -16070,7 +16070,17 @@ msgctxt "#35102"
 msgid "Disable joystick when this device is present"
 msgstr ""
 
-#empty strings from id 35103 to 35199
+#: system/settings/settings.xml
+msgctxt "#35103"
+msgid "Hotkey"
+msgstr ""
+
+#: system/settings/settings.xml
+msgctxt "#35104"
+msgid "Select a button combo to access media center commands while playing a game."
+msgstr ""
+
+#empty strings from id 35105 to 35199
 
 #: system/settings/settings.xml
 msgctxt "#35200"

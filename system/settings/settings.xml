@@ -1836,6 +1836,11 @@
           </dependencies>
           <control type="button" format="action" />
         </setting>
+        <setting id="gamesinput.hotkey" type="string" label="35103" help="35104">
+          <level>0</level>
+          <default>Left Trigger + Right Trigger</default>
+          <control type="edit" format="string" />
+        </setting>
         <setting id="gamesinput.testrumble" type="action" label="35051" help="35052">
           <level>2</level>
           <dependencies>
