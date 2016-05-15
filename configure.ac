@@ -2205,6 +2205,15 @@ OUTPUT_FILES="Makefile \
     tools/android/packaging/xbmc/strings.xml \
     addons/xbmc.addon/addon.xml"
 
+case $host in
+  arm*-*-linux-gnu*|arm*-*-linux-uclibc*)
+     OUTPUT_FILES="$OUTPUT_FILES addons/repository.retroplayer.libreelec.addons-arm/addon.xml"
+     ;;
+  x86_64-*-linux-gnu*|x86_64-*-linux-uclibc*)
+     OUTPUT_FILES="$OUTPUT_FILES addons/repository.retroplayer.libreelec.addons-x86_64/addon.xml"
+     ;;
+esac
+
 if test "$use_webserver" = "yes"; then
 OUTPUT_FILES="$OUTPUT_FILES xbmc/network/httprequesthandler/python/Makefile"
 fi

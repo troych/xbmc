@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="repository.retroplayer.libreelec.addons-x86_64"
+                name="LibreELEC RetroPlayer Add-ons"
+                version="8.0.0"
+                provider-name="Lukas Rusak (lorusak@gmail.com)">
+        <extension point="xbmc.addon.repository"
+                name="LibreELEC.tv RetroPlayer Add-on Repository">
+                <info>https://retroplayer.freestylephenoms.com/8.0/Generic/x86_64/addons.xml</info>
+                <checksum>https://retroplayer.freestylephenoms.com/8.0/Generic/x86_64/addons.xml.md5</checksum>
+                <datadir zip="true">https://retroplayer.freestylephenoms.com/8.0/Generic/x86_64/</datadir>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+                <summary>RetroPlayer add-on repository for LibreELEC</summary>
+                <description>RetroPlayer binary add-ons for use with LibreELEC.</description>
+                <disclaimer>This is a testing repository. Please don't ask for support in openelec forum / irc channel</disclaimer>
+                <platform>linux</platform>
+        </extension>
+</addon>

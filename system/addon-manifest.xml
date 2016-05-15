@@ -43,5 +43,7 @@
   <addon>xbmc.python</addon>
   <addon>xbmc.webinterface</addon>
   <addon optional="true">peripheral.joystick</addon>
+  <addon optional="true">repository.retroplayer.libreelec.addons-arm</addon>
+  <addon optional="true">repository.retroplayer.libreelec.addons-x86_64</addon>
   <addon optional="true">repository.zachmorris</addon>
 </addons>
