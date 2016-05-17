@@ -58,7 +58,6 @@ using namespace GAME;
 #define BUTTON_INDEX_MASK            0x01ff
 
 #define GAME_PROPERTY_EXTENSIONS           "extensions"
-#define GAME_PROPERTY_SUPPORTS_GAME_LOOP   "supports_game_loop"
 #define GAME_PROPERTY_SUPPORTS_VFS         "supports_vfs"
 #define GAME_PROPERTY_SUPPORTS_STANDALONE  "supports_standalone"
 #define GAME_PROPERTY_SUPPORTS_KEYBOARD    "supports_keyboard"
@@ -94,7 +93,6 @@ std::unique_ptr<CGameClient> CGameClient::FromExtension(ADDON::AddonProps props,
 
   static const std::vector<std::string> properties = {
       GAME_PROPERTY_EXTENSIONS,
-      GAME_PROPERTY_SUPPORTS_GAME_LOOP,
       GAME_PROPERTY_SUPPORTS_VFS,
       GAME_PROPERTY_SUPPORTS_STANDALONE,
       GAME_PROPERTY_SUPPORTS_KEYBOARD,
@@ -115,7 +113,6 @@ CGameClient::CGameClient(ADDON::AddonProps props) :
   m_apiVersion("0.0.0"),
   m_libraryProps(this, m_pInfo),
   m_bSupportsVFS(false),
-  m_bSupportsGameLoop(false),
   m_bSupportsStandalone(false),
   m_bSupportsKeyboard(false),
   m_bIsPlaying(false),
@@ -133,17 +130,6 @@ CGameClient::CGameClient(ADDON::AddonProps props) :
     std::vector<std::string> extensions = StringUtils::Split(it->second, EXTENSION_SEPARATOR);
     std::transform(extensions.begin(), extensions.end(),
       std::inserter(m_extensions, m_extensions.begin()), NormalizeExtension);
-  }
-
-  it = extraInfo.find(GAME_PROPERTY_SUPPORTS_GAME_LOOP);
-  if (it != extraInfo.end())
-  {
-    m_bSupportsGameLoop = (it->second == "true");
-  }
-  else
-  {
-    // Empty value defaults to true
-    m_bSupportsGameLoop = true;
   }
 
   it = extraInfo.find(GAME_PROPERTY_SUPPORTS_VFS);
@@ -423,7 +409,12 @@ std::string CGameClient::GetMissingDep()
 
 void CGameClient::CreatePlayback()
 {
-  if (m_bSupportsGameLoop)
+  bool bRequiresGameLoop = false;
+
+  try { bRequiresGameLoop = m_pStruct->RequiresGameLoop(); }
+  catch (...) { LogException("RequiresGameLoop()"); }
+
+  if (bRequiresGameLoop)
   {
     m_playback.reset(new CGameClientReversiblePlayback(this, m_timing.GetFrameRate(), m_serializeSize));
   }
@@ -996,7 +987,6 @@ void CGameClient::LogAddonProperties(void) const
   CLog::Log(LOGINFO, "GAME: Client: %s at version %s", Name().c_str(), Version().asString().c_str());
   CLog::Log(LOGINFO, "GAME: Valid extensions: %s", StringUtils::Join(vecExtensions, " ").c_str());
   CLog::Log(LOGINFO, "GAME: Supports VFS:                  %s", m_bSupportsVFS ? "yes" : "no");
-  CLog::Log(LOGINFO, "GAME: Supports game loop:            %s", m_bSupportsGameLoop ? "yes" : "no");
   CLog::Log(LOGINFO, "GAME: Supports standalone execution: %s", m_bSupportsStandalone ? "yes" : "no");
   CLog::Log(LOGINFO, "GAME: Supports keyboard:             %s", m_bSupportsKeyboard ? "yes" : "no");
   CLog::Log(LOGINFO, "GAME: ------------------------------------");

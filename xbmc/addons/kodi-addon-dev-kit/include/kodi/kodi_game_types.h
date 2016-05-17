@@ -21,10 +21,10 @@
 #define KODI_GAME_TYPES_H_
 
 /* current game API version */
-#define GAME_API_VERSION                "1.0.23"
+#define GAME_API_VERSION                "1.0.24"
 
 /* min. game API version */
-#define GAME_MIN_API_VERSION            "1.0.23"
+#define GAME_MIN_API_VERSION            "1.0.24"
 
 #include <stddef.h>
 #include <stdint.h>
@@ -452,6 +452,7 @@ typedef struct GameClient
   GAME_ERROR  (__cdecl* UnloadGame)(void);
   GAME_ERROR  (__cdecl* GetGameInfo)(game_system_av_info*);
   GAME_REGION (__cdecl* GetRegion)(void);
+  bool        (__cdecl* RequiresGameLoop)(void);
   GAME_ERROR  (__cdecl* RunFrame)(void);
   GAME_ERROR  (__cdecl* Reset)(void);
   GAME_ERROR  (__cdecl* HwContextReset)(void);

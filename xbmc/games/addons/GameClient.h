@@ -187,7 +187,6 @@ private:
 
   // Game API xml parameters
   bool                  m_bSupportsVFS;
-  bool                  m_bSupportsGameLoop;
   bool                  m_bSupportsStandalone;
   bool                  m_bSupportsKeyboard;
   std::set<std::string> m_extensions;
