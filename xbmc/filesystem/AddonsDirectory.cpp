@@ -851,6 +851,7 @@ bool CAddonsDirectory::GetScriptsAndPlugins(const std::string &content, CFileIte
       path = "script://" + addon->ID();
       break;
     case ADDON_GAMEDLL:
+      path = "game://" + addon->ID();
     default:
       break;
     }
