@@ -336,3 +336,13 @@ void CGameClientReversiblePlayback::UpdateMemoryStream()
     m_cacheTimeMs = 0;
   }
 }
+
+void CGameClientReversiblePlayback::HwContextReset()
+{
+  m_gameClient->HwContextReset();
+}
+
+void CGameClientReversiblePlayback::CreateHwRenderContext()
+{
+  m_gameClient->CreateHwRenderContext();
+}

@@ -156,6 +156,13 @@ public:
   virtual bool OnKeyPress(const CKey& key) override;
   virtual void OnKeyRelease(const CKey& key) override;
 
+  // OpenGL HW Rendering
+  void HwSetInfo(const game_hw_info *hw_info);
+  uintptr_t HwGetCurrentFramebuffer();
+  game_proc_address_t HwGetProcAddress(const char *sym);
+  void HwContextReset();
+  void CreateHwRenderContext();
+
 private:
   // Private gameplay functions
   bool LoadGameInfo(const std::string& logPath);
