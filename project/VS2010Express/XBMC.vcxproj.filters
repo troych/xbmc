@@ -3606,6 +3606,9 @@
     <ClCompile Include="..\..\xbmc\games\dialogs\GUIDialogSelectGameClient.cpp">
       <Filter>games\dialogs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\xbmc\games\addons\savestates\NonlinearMemoryStream.cpp">
+      <Filter>games\addons\savestates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\xbmc\win32\pch.h">
@@ -7022,6 +7025,9 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\games\addons\playback\GameClientRealtimePlayback.h">
       <Filter>games\addons\playback</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\games\addons\savestates\NonlinearMemoryStream.h">
+      <Filter>games\addons\savestates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

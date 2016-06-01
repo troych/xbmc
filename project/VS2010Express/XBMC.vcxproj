@@ -420,6 +420,7 @@ copy "..\Win32BuildSetup\dependencies\python27.dll" "$(TargetDir)"</Command>
     <ClCompile Include="..\..\xbmc\games\addons\savestates\BasicMemoryStream.cpp" />
     <ClCompile Include="..\..\xbmc\games\addons\savestates\DeltaPairMemoryStream.cpp" />
     <ClCompile Include="..\..\xbmc\games\addons\savestates\LinearMemoryStream.cpp" />
+    <ClCompile Include="..\..\xbmc\games\addons\savestates\NonlinearMemoryStream.cpp" />
     <ClCompile Include="..\..\xbmc\games\addons\savestates\Savestate.cpp" />
     <ClCompile Include="..\..\xbmc\games\addons\savestates\SavestateDatabase.cpp" />
     <ClCompile Include="..\..\xbmc\games\addons\savestates\SavestateReader.cpp" />
@@ -1170,6 +1171,7 @@ copy "..\Win32BuildSetup\dependencies\python27.dll" "$(TargetDir)"</Command>
     <ClInclude Include="..\..\xbmc\games\addons\savestates\DeltaPairMemoryStream.h" />
     <ClInclude Include="..\..\xbmc\games\addons\savestates\IMemoryStream.h" />
     <ClInclude Include="..\..\xbmc\games\addons\savestates\LinearMemoryStream.h" />
+    <ClInclude Include="..\..\xbmc\games\addons\savestates\NonlinearMemoryStream.h" />
     <ClInclude Include="..\..\xbmc\games\addons\savestates\Savestate.h" />
     <ClInclude Include="..\..\xbmc\games\addons\savestates\SavestateDatabase.h" />
     <ClInclude Include="..\..\xbmc\games\addons\savestates\SavestateDefines.h" />
