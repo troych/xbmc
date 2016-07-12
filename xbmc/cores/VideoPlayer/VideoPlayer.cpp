@@ -636,6 +636,7 @@ CVideoPlayer::CVideoPlayer(IPlayerCallback& callback)
   m_errorCount = 0;
   m_offset_pts = 0.0;
   m_playSpeed = DVD_PLAYSPEED_NORMAL;
+  m_newPlaySpeed = DVD_PLAYSPEED_NORMAL;
   m_streamPlayerSpeed = DVD_PLAYSPEED_NORMAL;
   m_caching = CACHESTATE_DONE;
   m_HasVideo = false;
@@ -2024,7 +2025,7 @@ void CVideoPlayer::HandlePlaySpeed()
   }
 
   // handle ff/rw
-  if(m_playSpeed != DVD_PLAYSPEED_NORMAL && m_playSpeed != DVD_PLAYSPEED_PAUSE)
+  if (m_playSpeed != DVD_PLAYSPEED_NORMAL && m_playSpeed != DVD_PLAYSPEED_PAUSE)
   {
     if (isInMenu)
     {
@@ -2707,7 +2708,7 @@ void CVideoPlayer::HandleMessages()
           }
 
           m_OmxPlayerState.av_clock.OMXSetSpeed(speed);
-          CLog::Log(LOGDEBUG, "%s::%s CDVDMsg::PLAYER_SETSPEED speed : %d (%d)", "CVideoPlayer", __FUNCTION__, speed, m_playSpeed);
+          CLog::Log(LOGDEBUG, "%s::%s CDVDMsg::PLAYER_SETSPEED speed : %d (%d)", "CVideoPlayer", __FUNCTION__, speed, static_cast<int>(m_playSpeed));
         }
         else if ((speed == DVD_PLAYSPEED_NORMAL) &&
                  (m_playSpeed != DVD_PLAYSPEED_NORMAL) &&
@@ -2726,6 +2727,7 @@ void CVideoPlayer::HandleMessages()
         // 1. disable audio
         // 2. skip frames and adjust their pts or the clock
         m_playSpeed = speed;
+        m_newPlaySpeed = speed;
         m_caching = CACHESTATE_DONE;
         m_clock.SetSpeed(speed);
         m_VideoPlayerAudio->SetSpeed(speed);
@@ -2936,6 +2938,7 @@ void CVideoPlayer::SetPlaySpeed(int speed)
   else
   {
     m_playSpeed = speed;
+    m_newPlaySpeed = speed;
     m_streamPlayerSpeed = speed;
   }
 }
@@ -3458,12 +3461,26 @@ int64_t CVideoPlayer::GetTotalTime()
   return GetTotalTimeInMsec();
 }
 
-void CVideoPlayer::ToFFRW(int iSpeed)
+void CVideoPlayer::SetSpeed(int iSpeed)
 {
   // can't rewind in menu as seeking isn't possible
   // forward is fine
-  if (iSpeed < 0 && IsInMenu()) return;
+  if (iSpeed < 0 && IsInMenu())
+    return;
+
+  if (!CanSeek())
+    return;
+  
+  m_newPlaySpeed = iSpeed * DVD_PLAYSPEED_NORMAL;
   SetPlaySpeed(iSpeed * DVD_PLAYSPEED_NORMAL);
+}
+
+int CVideoPlayer::GetSpeed()
+{
+  if (m_playSpeed != m_newPlaySpeed)
+    return m_newPlaySpeed / DVD_PLAYSPEED_NORMAL;
+
+  return m_playSpeed / DVD_PLAYSPEED_NORMAL;
 }
 
 bool CVideoPlayer::OpenStream(CCurrentStream& current, int64_t demuxerId, int iStream, int source, bool reset /*= true*/)
