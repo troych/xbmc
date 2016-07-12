@@ -66,7 +66,6 @@ namespace GAME
     virtual float GetCachePercentage() override;
     virtual void SetMute(bool bOnOff) override;
     //virtual void SetVolume(float volume) override { }
-    //virtual bool ControlsVolume() override { return false; }
     //virtual void SetDynamicRangeCompression(long drc) override { }
     //virtual bool CanRecord() override { return false; }
     //virtual bool IsRecording() override { return false; }
@@ -107,7 +106,8 @@ namespace GAME
     //virtual void SetTotalTime(int64_t time) override { } // Only used by Air Tunes Server
     //virtual int GetSourceBitrate() override { return 0; }
     virtual bool GetStreamDetails(CStreamDetails &details) override;
-    virtual void ToFFRW(int iSpeed = 0) override;
+    virtual void SetSpeed(int iSpeed) override;
+    virtual int GetSpeed() override;
     //virtual bool SkipNext() override { return false; }
     //virtual bool IsCaching() const override { return false; }
     //virtual int GetCacheLevel() const override { return -1; }

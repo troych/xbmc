@@ -28,6 +28,7 @@
 #include "games/GameManager.h"
 #include "threads/SingleLock.h"
 #include "utils/log.h"
+#include "utils/MathUtils.h"
 #include "windowing/WindowingFactory.h"
 #include "FileItem.h"
 #include "URL.h"
@@ -93,7 +94,7 @@ bool CRetroPlayer::OpenFile(const CFileItem& file, const CPlayerOptions& options
         CLog::Log(LOGERROR, "RetroPlayer: Failed to load savestate");
     }
 
-    ToFFRW(1);
+    SetSpeed(1);
 
     m_callback.OnPlayBackStarted();
   }
@@ -289,13 +290,20 @@ bool CRetroPlayer::GetStreamDetails(CStreamDetails &details)
   return false;
 }
 
-void CRetroPlayer::ToFFRW(int iSpeed /* = 0 */)
+void CRetroPlayer::SetSpeed(int iSpeed)
 {
   if (m_gameClient)
   {
     m_gameClient->GetPlayback()->SetSpeed(static_cast<double>(iSpeed));
     m_audio->Enable(m_gameClient->GetPlayback()->GetSpeed() == 1.0);
   }
+}
+
+int CRetroPlayer::GetSpeed()
+{
+  if (m_gameClient)
+    return MathUtils::round_int(m_gameClient->GetPlayback()->GetSpeed());
+  return 0;
 }
 
 std::string CRetroPlayer::GetPlayerState()
