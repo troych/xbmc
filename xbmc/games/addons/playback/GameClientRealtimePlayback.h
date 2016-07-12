@@ -20,7 +20,6 @@
 #pragma once
 
 #include "IGameClientPlayback.h"
-#include "GameLoop.h"
 
 namespace GAME
 {
