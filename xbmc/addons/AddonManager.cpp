@@ -709,8 +709,8 @@ void CAddonMgr::UnregisterAddon(const std::string& ID)
   if (m_cpluff && m_cp_context)
   {
     m_cpluff->uninstall_plugin(m_cp_context, ID.c_str());
-    SetChanged();
     lock.Leave();
+    SetChanged();
     NotifyObservers(ObservableMessageAddons);
   }
 }
