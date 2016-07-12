@@ -19,10 +19,14 @@
  */
 
 #include "RetroPlayerVideo.h"
+#include "RetroPlayerDefines.h"
 #include "PixelConverter.h"
 #include "cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodec.h"
+#include "cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.h"
+#include "cores/VideoPlayer/DVDDemuxers/DVDDemux.h"
 #include "cores/VideoPlayer/VideoRenderers/RenderFlags.h"
 #include "cores/VideoPlayer/VideoRenderers/RenderManager.h"
+#include "cores/VideoPlayer/DVDStreamInfo.h"
 #include "utils/log.h"
 
 #include <atomic> // TODO
@@ -66,27 +70,29 @@ bool CRetroPlayerVideo::OpenPixelStream(AVPixelFormat pixfmt, unsigned int width
 
 bool CRetroPlayerVideo::OpenEncodedStream(AVCodecID codec)
 {
-  /* TODO
-  if (!m_videoStream)
-    m_videoStream = new CDemuxStreamVideo;
-  else
-    m_videoStream->changes++;
+  CDemuxStreamVideo videoStream;
 
   // Stream
-  m_videoStream->uniqueId = GAME_STREAM_VIDEO_ID;
-  m_videoStream->codec = codec;
-  m_videoStream->codec_fourcc = 0; // TODO
-  m_videoStream->type = STREAM_VIDEO;
-  m_videoStream->source = STREAM_SOURCE_DEMUX;
-  m_videoStream->realtime = true;
-  m_videoStream->disabled = false;
+  videoStream.uniqueId = GAME_STREAM_VIDEO_ID;
+  videoStream.codec = codec;
+  videoStream.type = STREAM_VIDEO;
+  videoStream.source = STREAM_SOURCE_DEMUX;
+  videoStream.realtime = true;
 
   // Video
-  m_videoStream->pixfmt = pixfmt;
-  m_videoStream->iHeight = height;
-  m_videoStream->iWidth = width;
+  /* TODO: Needed?
+  videoStream.iFpsScale = 1000;
+  videoStream.iFpsRate = static_cast<int>(framerate * 1000);
+  videoStream.iHeight = height;
+  videoStream.iWidth = width;
+  videoStream.fAspect = static_cast<float>(width) / static_cast<float>(height);
+  videoStream.iOrientation = orientationDeg;
   */
-  return false;
+
+  CDVDStreamInfo hint(videoStream);
+  m_pVideoCodec.reset(CDVDFactoryCodec::CreateVideoCodec(hint, m_processInfo, m_renderManager.GetRenderInfo()));
+
+  return m_pVideoCodec.get() != nullptr;
 }
 
 void CRetroPlayerVideo::AddData(const uint8_t* data, unsigned int size)
@@ -110,6 +116,7 @@ void CRetroPlayerVideo::AddData(const uint8_t* data, unsigned int size)
 void CRetroPlayerVideo::CloseStream()
 {
   m_pixelConverter.reset();
+  m_pVideoCodec.reset();
 }
 
 bool CRetroPlayerVideo::Configure(DVDVideoPicture& picture)
@@ -132,17 +139,40 @@ bool CRetroPlayerVideo::GetPicture(const uint8_t* data, unsigned int size, DVDVi
 {
   bool bHasPicture = false;
 
-  int lateframes;
-  double renderPts;
-  int queued, discard;
-  m_renderManager.GetStats(lateframes, renderPts, queued, discard);
-
-  if (queued == 0)
+  if (m_pixelConverter)
   {
-    if (m_pixelConverter && m_pixelConverter->Decode(data, size))
+    int lateframes;
+    double renderPts;
+    int queued, discard;
+    m_renderManager.GetStats(lateframes, renderPts, queued, discard);
+
+    // Drop frame if another is queued
+    const bool bDropped = (queued > 0);
+
+    if (!bDropped)
     {
-      m_pixelConverter->GetPicture(picture);
-      bHasPicture = true;
+      if (m_pixelConverter->Decode(data, size))
+      {
+        m_pixelConverter->GetPicture(picture);
+        bHasPicture = true;
+      }
+    }
+  }
+  else if (m_pVideoCodec)
+  {
+    int iDecoderState = m_pVideoCodec->Decode(const_cast<uint8_t*>(data), size, DVD_NOPTS_VALUE, DVD_NOPTS_VALUE);
+    if (iDecoderState & VC_PICTURE)
+    {
+      m_pVideoCodec->ClearPicture(&picture);
+
+      if (m_pVideoCodec->GetPicture(&picture))
+      {
+        // Drop frame if requested by the decoder
+        const bool bDropped = (picture.iFlags & DVP_FLAG_DROPPED) != 0;
+
+        if (!bDropped)
+          bHasPicture = true;
+      }
     }
   }
 

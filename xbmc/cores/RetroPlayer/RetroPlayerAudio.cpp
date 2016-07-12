@@ -19,18 +19,31 @@
  */
 
 #include "RetroPlayerAudio.h"
+#include "RetroPlayerDefines.h"
 #include "cores/AudioEngine/AEFactory.h"
 #include "cores/AudioEngine/Interfaces/AEStream.h"
 #include "cores/AudioEngine/Utils/AEChannelInfo.h"
 #include "cores/AudioEngine/Utils/AEUtil.h"
+#include "cores/VideoPlayer/DVDCodecs/Audio/DVDAudioCodec.h"
+#include "cores/VideoPlayer/DVDCodecs/DVDFactoryCodec.h"
+#include "cores/VideoPlayer/DVDDemuxers/DVDDemux.h"
+#include "cores/VideoPlayer/DVDClock.h"
+#include "cores/VideoPlayer/DVDStreamInfo.h"
+#include "threads/Thread.h"
 #include "utils/log.h"
+#include "system.h" // for Sleep()
 
 using namespace GAME;
 
 CRetroPlayerAudio::CRetroPlayerAudio() :
-  m_pAudioStream(NULL),
+  m_pAudioStream(nullptr),
   m_bAudioEnabled(true)
 {
+}
+
+CRetroPlayerAudio::~CRetroPlayerAudio()
+{
+  CloseStream(); 
 }
 
 unsigned int CRetroPlayerAudio::NormalizeSamplerate(unsigned int samplerate) const
@@ -61,11 +74,12 @@ unsigned int CRetroPlayerAudio::NormalizeSamplerate(unsigned int samplerate) con
 
 bool CRetroPlayerAudio::OpenPCMStream(AEDataFormat format, unsigned int samplerate, const CAEChannelInfo& channelLayout)
 {
-  if (m_pAudioStream != NULL)
+  if (m_pAudioStream != nullptr)
     CloseStream();
 
   CLog::Log(LOGINFO, "RetroPlayerAudio: Creating audio stream, sample rate = %d", samplerate);
 
+  // Resampling is not supported
   if (NormalizeSamplerate(samplerate) != samplerate)
   {
     CLog::Log(LOGERROR, "RetroPlayerAudio: Resampling to %d not supported", NormalizeSamplerate(samplerate));
@@ -74,7 +88,7 @@ bool CRetroPlayerAudio::OpenPCMStream(AEDataFormat format, unsigned int samplera
 
   AEAudioFormat audioFormat;
   audioFormat.m_dataFormat = format;
-  audioFormat.m_sampleRate = samplerate; // TODO: Normalize samplerate
+  audioFormat.m_sampleRate = samplerate;
   audioFormat.m_channelLayout = channelLayout;
   m_pAudioStream = CAEFactory::MakeStream(audioFormat);
 
@@ -89,44 +103,81 @@ bool CRetroPlayerAudio::OpenPCMStream(AEDataFormat format, unsigned int samplera
 
 bool CRetroPlayerAudio::OpenEncodedStream(AVCodecID codec, unsigned int samplerate, const CAEChannelInfo& channelLayout)
 {
-  /* TODO
-  if (!m_audioStream)
-    m_audioStream = new CDemuxStreamAudio;
-  else
-    m_audioStream->changes++;
+  CDemuxStreamAudio audioStream;
 
   // Stream
-  m_audioStream->uniqueId = GAME_STREAM_AUDIO_ID;
-  m_audioStream->codec = codec;
-  m_audioStream->codec_fourcc = 0; // TODO
-  m_audioStream->type = STREAM_AUDIO;
-  m_audioStream->source = STREAM_SOURCE_DEMUX;
-  m_audioStream->realtime = true;
-  m_audioStream->disabled = false;
+  audioStream.uniqueId = GAME_STREAM_AUDIO_ID;
+  audioStream.codec = codec;
+  audioStream.type = STREAM_AUDIO;
+  audioStream.source = STREAM_SOURCE_DEMUX;
+  audioStream.realtime = true;
 
   // Audio
-  m_audioStream->iChannels = channelLayout.Count();
-  m_audioStream->iSampleRate = samplerate;
-  m_audioStream->iChannelLayout = CAEUtil::GetAVChannelLayout(channelLayout);
-  */
-  return false;
+  audioStream.iChannels = channelLayout.Count();
+  audioStream.iSampleRate = samplerate;
+  audioStream.iChannelLayout = CAEUtil::GetAVChannelLayout(channelLayout);
+
+  CDVDStreamInfo hint(audioStream);
+  m_pAudioCodec.reset(CDVDFactoryCodec::CreateAudioCodec(hint, false));
+
+  if (!m_pAudioCodec)
+  {
+    CLog::Log(LOGERROR, "RetroPlayerAudio: Failed to create audio codec (codec=%d, samplerate=%u)", codec, samplerate);
+    return false;
+  }
+
+  return true;
 }
 
 void CRetroPlayerAudio::AddData(const uint8_t* data, unsigned int size)
 {
-  if (m_pAudioStream && m_bAudioEnabled)
+  if (m_bAudioEnabled)
   {
-    const unsigned int frameSize = m_pAudioStream->GetChannelCount() * (CAEUtil::DataFormatToBits(m_pAudioStream->GetDataFormat()) >> 3);
-    m_pAudioStream->AddData(&data, 0, size / frameSize);
+    if (m_pAudioCodec)
+    {
+      int consumed = m_pAudioCodec->Decode(const_cast<uint8_t*>(data), size, DVD_NOPTS_VALUE, DVD_NOPTS_VALUE);
+      if (consumed < 0)
+      {
+        CLog::Log(LOGERROR, "CRretroPlayerAudio::AddData - Decode Error (%d)", consumed);
+        m_pAudioCodec.reset();
+        return;
+      }
+
+      DVDAudioFrame audioframe;
+      m_pAudioCodec->GetData(audioframe);
+
+      if (audioframe.nb_frames != 0)
+      {
+        // Open audio stream if not already open
+        if (!m_pAudioStream)
+        {
+          const AEAudioFormat& format = audioframe.format;
+          if (!OpenPCMStream(format.m_dataFormat, format.m_sampleRate, format.m_channelLayout))
+            m_pAudioCodec.reset();
+        }
+
+        if (m_pAudioStream)
+          m_pAudioStream->AddData(audioframe.data, 0, audioframe.nb_frames);
+      }
+    }
+    else if (m_pAudioStream)
+    {
+      const unsigned int frameSize = m_pAudioStream->GetChannelCount() * (CAEUtil::DataFormatToBits(m_pAudioStream->GetDataFormat()) >> 3);
+      m_pAudioStream->AddData(&data, 0, size / frameSize);
+    }
   }
-  // TODO: Encoded data
 }
 
 void CRetroPlayerAudio::CloseStream()
 {
+  if (m_pAudioCodec)
+  {
+    m_pAudioCodec->Dispose();
+    m_pAudioCodec.reset();
+  }
   if (m_pAudioStream)
   {
     CAEFactory::FreeStream(m_pAudioStream);
-    m_pAudioStream = NULL;
+    m_pAudioStream = nullptr;
   }
 }

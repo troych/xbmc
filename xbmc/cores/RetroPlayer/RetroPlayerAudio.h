@@ -21,6 +21,9 @@
 
 #include "games/addons/GameClientCallbacks.h"
 
+#include <memory>
+
+class CDVDAudioCodec;
 class IAEStream;
 
 namespace GAME
@@ -29,7 +32,7 @@ namespace GAME
   {
   public:
     CRetroPlayerAudio();
-    virtual ~CRetroPlayerAudio() { CloseStream(); }
+    virtual ~CRetroPlayerAudio();
 
     // implementation of IGameAudioCallback
     virtual unsigned int NormalizeSamplerate(unsigned int samplerate) const override;
@@ -42,6 +45,7 @@ namespace GAME
 
   private:
     IAEStream* m_pAudioStream;
+    std::unique_ptr<CDVDAudioCodec> m_pAudioCodec;
     bool       m_bAudioEnabled;
   };
 }

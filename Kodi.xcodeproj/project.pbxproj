@@ -371,8 +371,6 @@
 		68D77D511CD1C7FF004C1735 /* PortMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D4C1CD1C7FF004C1735 /* PortMapper.cpp */; };
 		68D77D5B1CD1C813004C1735 /* GameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D541CD1C813004C1735 /* GameManager.cpp */; };
 		68D77D5C1CD1C813004C1735 /* GameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D541CD1C813004C1735 /* GameManager.cpp */; };
-		68DE2BEB1CDEBAC9002EA0F7 /* Savestate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68DE2BE71CDEBAC9002EA0F7 /* Savestate.cpp */; };
-		68DE2BEC1CDEBAC9002EA0F7 /* Savestate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68DE2BE71CDEBAC9002EA0F7 /* Savestate.cpp */; };
 		68D77D681CD1C86B004C1735 /* PixelConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D601CD1C86B004C1735 /* PixelConverter.cpp */; };
 		68D77D691CD1C86B004C1735 /* PixelConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D601CD1C86B004C1735 /* PixelConverter.cpp */; };
 		68D77D6A1CD1C86B004C1735 /* RetroPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D621CD1C86B004C1735 /* RetroPlayer.cpp */; };
@@ -385,6 +383,8 @@
 		68D77D761CD1C89A004C1735 /* GUIViewStateWindowGames.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D711CD1C89A004C1735 /* GUIViewStateWindowGames.cpp */; };
 		68D77D771CD1C89A004C1735 /* GUIWindowGames.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D731CD1C89A004C1735 /* GUIWindowGames.cpp */; };
 		68D77D781CD1C89A004C1735 /* GUIWindowGames.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D731CD1C89A004C1735 /* GUIWindowGames.cpp */; };
+		68DE2BEB1CDEBAC9002EA0F7 /* Savestate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68DE2BE71CDEBAC9002EA0F7 /* Savestate.cpp */; };
+		68DE2BEC1CDEBAC9002EA0F7 /* Savestate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68DE2BE71CDEBAC9002EA0F7 /* Savestate.cpp */; };
 		761170901C8B85F8006C6366 /* AddonGUIRenderingControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7611708C1C8B85F8006C6366 /* AddonGUIRenderingControl.cpp */; };
 		761170911C8B85F8006C6366 /* AddonGUIWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7611708E1C8B85F8006C6366 /* AddonGUIWindow.cpp */; };
 		76AEFB361C8F79BD00EF2EC0 /* AddonInterfaces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED2E991C878F61000F5E80 /* AddonInterfaces.cpp */; };
@@ -2893,6 +2893,7 @@
 		68B054C51CD819B100726629 /* IMemoryStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IMemoryStream.h; path = games/addons/savestates/IMemoryStream.h; sourceTree = "<group>"; };
 		68B054C61CD819B100726629 /* LinearMemoryStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LinearMemoryStream.cpp; path = games/addons/savestates/LinearMemoryStream.cpp; sourceTree = "<group>"; };
 		68B054C71CD819B100726629 /* LinearMemoryStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinearMemoryStream.h; path = games/addons/savestates/LinearMemoryStream.h; sourceTree = "<group>"; };
+		68B1E8831D35A9AC000D1A46 /* RetroPlayerDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RetroPlayerDefines.h; path = RetroPlayer/RetroPlayerDefines.h; sourceTree = "<group>"; };
 		68C1495F1CDDF0B60014ADDB /* SavestateDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SavestateDatabase.cpp; path = games/addons/savestates/SavestateDatabase.cpp; sourceTree = "<group>"; };
 		68C149601CDDF0B60014ADDB /* SavestateDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SavestateDatabase.h; path = games/addons/savestates/SavestateDatabase.h; sourceTree = "<group>"; };
 		68C149611CDDF0B60014ADDB /* SavestateDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SavestateDefines.h; path = games/addons/savestates/SavestateDefines.h; sourceTree = "<group>"; };
@@ -2949,8 +2950,6 @@
 		68D77D541CD1C813004C1735 /* GameManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameManager.cpp; path = games/GameManager.cpp; sourceTree = "<group>"; };
 		68D77D551CD1C813004C1735 /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameManager.h; path = games/GameManager.h; sourceTree = "<group>"; };
 		68D77D561CD1C813004C1735 /* GameTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameTypes.h; path = games/GameTypes.h; sourceTree = "<group>"; };
-		68DE2BE71CDEBAC9002EA0F7 /* Savestate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Savestate.cpp; path = games/addons/savestates/Savestate.cpp; sourceTree = "<group>"; };
-		68DE2BE81CDEBAC9002EA0F7 /* Savestate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Savestate.h; path = games/addons/savestates/Savestate.h; sourceTree = "<group>"; };
 		68D77D601CD1C86B004C1735 /* PixelConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PixelConverter.cpp; path = RetroPlayer/PixelConverter.cpp; sourceTree = "<group>"; };
 		68D77D611CD1C86B004C1735 /* PixelConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PixelConverter.h; path = RetroPlayer/PixelConverter.h; sourceTree = "<group>"; };
 		68D77D621CD1C86B004C1735 /* RetroPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RetroPlayer.cpp; path = RetroPlayer/RetroPlayer.cpp; sourceTree = "<group>"; };
@@ -2963,6 +2962,8 @@
 		68D77D721CD1C89A004C1735 /* GUIViewStateWindowGames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIViewStateWindowGames.h; path = games/windows/GUIViewStateWindowGames.h; sourceTree = "<group>"; };
 		68D77D731CD1C89A004C1735 /* GUIWindowGames.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUIWindowGames.cpp; path = games/windows/GUIWindowGames.cpp; sourceTree = "<group>"; };
 		68D77D741CD1C89A004C1735 /* GUIWindowGames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIWindowGames.h; path = games/windows/GUIWindowGames.h; sourceTree = "<group>"; };
+		68DE2BE71CDEBAC9002EA0F7 /* Savestate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Savestate.cpp; path = games/addons/savestates/Savestate.cpp; sourceTree = "<group>"; };
+		68DE2BE81CDEBAC9002EA0F7 /* Savestate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Savestate.h; path = games/addons/savestates/Savestate.h; sourceTree = "<group>"; };
 		6E97BDBF0DA2B620003A2A89 /* EventClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventClient.h; sourceTree = "<group>"; };
 		6E97BDC00DA2B620003A2A89 /* EventPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventPacket.h; sourceTree = "<group>"; };
 		6E97BDC10DA2B620003A2A89 /* EventServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventServer.h; sourceTree = "<group>"; };
@@ -6380,23 +6381,6 @@
 			name = windows;
 			sourceTree = "<group>";
 		};
-		76EC19BB1D15510D00D4AF19 /* AudioDSPAddons */ = {
-			isa = PBXGroup;
-			children = (
-				76EC19BC1D15514200D4AF19 /* ActiveAEDSP.cpp */,
-				76EC19BD1D15514200D4AF19 /* ActiveAEDSP.h */,
-				76EC19BE1D15514200D4AF19 /* ActiveAEDSPAddon.cpp */,
-				76EC19BF1D15514200D4AF19 /* ActiveAEDSPAddon.h */,
-				76EC19C01D15514200D4AF19 /* ActiveAEDSPDatabase.cpp */,
-				76EC19C11D15514200D4AF19 /* ActiveAEDSPDatabase.h */,
-				76EC19C21D15514200D4AF19 /* ActiveAEDSPMode.cpp */,
-				76EC19C31D15514200D4AF19 /* ActiveAEDSPMode.h */,
-				76EC19C41D15514200D4AF19 /* ActiveAEDSPProcess.cpp */,
-				76EC19C51D15514200D4AF19 /* ActiveAEDSPProcess.h */,
-			);
-			name = AudioDSPAddons;
-			sourceTree = "<group>";
-		};
 		68B054C01CD8199900726629 /* savestates */ = {
 			isa = PBXGroup;
 			children = (
@@ -6524,6 +6508,7 @@
 				68D77D631CD1C86B004C1735 /* RetroPlayer.h */,
 				68D77D641CD1C86B004C1735 /* RetroPlayerAudio.cpp */,
 				68D77D651CD1C86B004C1735 /* RetroPlayerAudio.h */,
+				68B1E8831D35A9AC000D1A46 /* RetroPlayerDefines.h */,
 				68D77D661CD1C86B004C1735 /* RetroPlayerVideo.cpp */,
 				68D77D671CD1C86B004C1735 /* RetroPlayerVideo.h */,
 			);
@@ -6539,6 +6524,23 @@
 				68D77D741CD1C89A004C1735 /* GUIWindowGames.h */,
 			);
 			name = windows;
+			sourceTree = "<group>";
+		};
+		76EC19BB1D15510D00D4AF19 /* AudioDSPAddons */ = {
+			isa = PBXGroup;
+			children = (
+				76EC19BC1D15514200D4AF19 /* ActiveAEDSP.cpp */,
+				76EC19BD1D15514200D4AF19 /* ActiveAEDSP.h */,
+				76EC19BE1D15514200D4AF19 /* ActiveAEDSPAddon.cpp */,
+				76EC19BF1D15514200D4AF19 /* ActiveAEDSPAddon.h */,
+				76EC19C01D15514200D4AF19 /* ActiveAEDSPDatabase.cpp */,
+				76EC19C11D15514200D4AF19 /* ActiveAEDSPDatabase.h */,
+				76EC19C21D15514200D4AF19 /* ActiveAEDSPMode.cpp */,
+				76EC19C31D15514200D4AF19 /* ActiveAEDSPMode.h */,
+				76EC19C41D15514200D4AF19 /* ActiveAEDSPProcess.cpp */,
+				76EC19C51D15514200D4AF19 /* ActiveAEDSPProcess.h */,
+			);
+			name = AudioDSPAddons;
 			sourceTree = "<group>";
 		};
 		76F4C37B1C8E927A00A1E64B /* InputStream */ = {
