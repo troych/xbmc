@@ -405,6 +405,19 @@
 							<param name="sortorder" value="descending"/>
 							<param name="list_id" value="8200"/>
 							<param name="onup_id" value="8100"/>
+							<param name="ondown_id" value="8700"/>
+							<param name="single_label" value="$INFO[ListItem.Label]"/>
+							<param name="main_label" value=""/>
+							<param name="sub_label" value=""/>
+						</include>
+						<include content="WidgetListSquare">
+							<param name="content_path" value="addons://sources/game/"/>
+							<param name="widget_header" value="$LOCALIZE[35049]"/>
+							<param name="widget_target" value="games"/>
+							<param name="sortby" value="lastused"/>
+							<param name="sortorder" value="descending"/>
+							<param name="list_id" value="8700"/>
+							<param name="onup_id" value="8200"/>
 							<param name="ondown_id" value="8300"/>
 							<param name="single_label" value="$INFO[ListItem.Label]"/>
 							<param name="main_label" value=""/>
@@ -417,7 +430,7 @@
 							<param name="sortby" value="lastused"/>
 							<param name="sortorder" value="descending"/>
 							<param name="list_id" value="8300"/>
-							<param name="onup_id" value="8200"/>
+							<param name="onup_id" value="8700"/>
 							<param name="ondown_id" value="8400"/>
 							<param name="single_label" value="$INFO[ListItem.Label]"/>
 							<param name="main_label" value=""/>
@@ -456,7 +469,7 @@
 							<param name="button_onclick" value="ActivateWindow(addonbrowser)"/>
 							<param name="button_id" value="8600"/>
 							<param name="onup_id" value="8100"/>
-							<param name="visible" value="!Integer.IsGreater(Container(8100).NumItems,0) + !Integer.IsGreater(Container(8200).NumItems,0) + !Integer.IsGreater(Container(8300).NumItems,0) + !Integer.IsGreater(Container(8400).NumItems,0) + !Integer.IsGreater(Container(8500).NumItems,0)"/>
+							<param name="visible" value="!Integer.IsGreater(Container(8100).NumItems,0) + !Integer.IsGreater(Container(8200).NumItems,0) + !Integer.IsGreater(Container(8300).NumItems,0) + !Integer.IsGreater(Container(8400).NumItems,0) + !Integer.IsGreater(Container(8500).NumItems,0) + !Integer.IsGreater(Container(8700).NumItems,0)"/>
 							<param name="button2_onclick" value="Skin.SetBool(HomeMenuNoProgramsButton)"/>
 						</include>
 					</control>
