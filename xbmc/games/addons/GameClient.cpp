@@ -414,6 +414,8 @@ void CGameClient::CreatePlayback()
 
   if (bRequiresGameLoop)
   {
+    CreateHwRenderContext();
+    HwContextReset();
     m_playback.reset(new CGameClientReversiblePlayback(this, m_timing.GetFrameRate(), m_serializeSize));
   }
   else

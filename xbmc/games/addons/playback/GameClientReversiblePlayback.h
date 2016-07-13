@@ -60,8 +60,6 @@ namespace GAME
     // implementation of IGameLoopCallback
     virtual void FrameEvent() override;
     virtual void RewindEvent() override;
-    virtual void HwContextReset() override;
-    virtual void CreateHwRenderContext() override;
 
     // implementation of Observer
     virtual void Notify(const Observable &obs, const ObservableMessage msg) override;

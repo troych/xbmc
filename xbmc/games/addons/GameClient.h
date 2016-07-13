@@ -160,8 +160,6 @@ public:
   void EnableHardwareRendering(const game_hw_info *hw_info);
   uintptr_t HwGetCurrentFramebuffer();
   game_proc_address_t HwGetProcAddress(const char *sym);
-  void HwContextReset();
-  void CreateHwRenderContext();
   void RenderFrame();
 
 private:
@@ -182,6 +180,10 @@ private:
 
   // Private memory stream functions
   size_t GetSerializeSize();
+
+  // OpenGL HW Rendering
+  void HwContextReset();
+  void CreateHwRenderContext();
 
   // Helper functions
   void LogAddonProperties(void) const;
