@@ -39,6 +39,7 @@ CRetroPlayerVideo::CRetroPlayerVideo(CDVDClock& clock, CRenderManager& renderMan
   m_renderManager(renderManager),
   m_processInfo(processInfo),
   m_framerate(0.0),
+  m_orientation(0),
   m_bConfigured(false),
   m_droppedFrames(0)
 {
