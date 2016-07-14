@@ -245,7 +245,8 @@ float CRetroPlayer::GetCachePercentage()
 
 void CRetroPlayer::SetMute(bool bOnOff)
 {
-  m_audio->Enable(!bOnOff);
+  if (m_audio)
+    m_audio->Enable(!bOnOff);
 }
 
 void CRetroPlayer::SeekTime(int64_t iTime /* = 0 */)
