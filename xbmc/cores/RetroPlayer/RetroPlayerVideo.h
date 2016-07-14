@@ -18,13 +18,6 @@
  *
  */
 #pragma once
-#define GLX_GLXEXT_PROTOTYPES
-#include "system_gl.h"
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <GL/glx.h>
-#include "RetroGlRenderPicture.h"
-#include "addons/kodi-addon-dev-kit/include/kodi/kodi_game_types.h"
 
 #include "games/addons/GameClientCallbacks.h"
 //#include "threads/Thread.h"
@@ -53,10 +46,8 @@ namespace GAME
     virtual bool OpenEncodedStream(AVCodecID codec) override;
     virtual void AddData(const uint8_t* data, unsigned int size) override;
     virtual void CloseStream() override;
+    virtual IGameRenderingCallback* HardwareRendering() override;
 
-    uintptr_t GetCurrentFramebuffer();
-    game_proc_address_t GetProcAddress(const char* sym);
-    void CreateHwRenderContext();
     /*
   protected:
     // implementation of CThread
@@ -67,11 +58,6 @@ namespace GAME
     bool Configure(DVDVideoPicture& picture);
     bool GetPicture(const uint8_t* data, unsigned int size, DVDVideoPicture& picture);
     void SendPicture(DVDVideoPicture& picture);
-
-    bool CreateGlxContext();
-    bool CreateFramebuffer();
-    bool CreateTexture();
-    bool CreateDepthbuffer();
 
     // Construction parameters
     CDVDClock&      m_clock;
@@ -85,16 +71,6 @@ namespace GAME
     unsigned int m_droppedFrames;
     std::unique_ptr<CPixelConverter> m_pixelConverter;
     std::unique_ptr<CDVDVideoCodec>  m_pVideoCodec;
-
-    Display *m_Display;
-    Window m_Window;
-    GLXContext m_glContext;
-    GLXWindow m_glWindow;
-    Pixmap    m_pixmap;
-    GLXPixmap m_glPixmap;
-    GLuint m_fboId;
-    GLuint m_textureId;
-
-    LIBRETROGL::CRetroGlRenderPicture m_retroglpic;
+    std::unique_ptr<IGameRenderingCallback> m_hardwareRendering;
   };
 }
