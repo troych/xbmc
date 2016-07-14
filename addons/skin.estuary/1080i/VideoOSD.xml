@@ -173,13 +173,6 @@
 							<include content="OSDButton">
 								<param name="texture" value="osd/fullscreen/buttons/bookmarks.png"/>
 							</include>
-							<onclick>ActivateWindow(videobookmarks)</onclick>
-							<visible>!VideoPlayer.Content(livetv)</visible>
-						</control>
-						<control type="radiobutton" id="700">
-							<include content="OSDButton">
-								<param name="texture" value="osd/fullscreen/buttons/bookmarks.png"/>
-							</include>
 							<onclick condition="!Player.HasGame">ActivateWindow(VideoBookmarks)</onclick>
 							<onclick condition="Player.HasGame">ActivateWindow(GameSavestates)</onclick>
 							<visible>!VideoPlayer.Content(livetv)</visible>
@@ -191,11 +184,6 @@
 							<onclick>Dialog.Close(VideoOSD)</onclick>
 							<onclick>ActivateWindow(Teletext)</onclick>
 							<visible>VideoPlayer.Content(livetv)</visible>
-						</control>
-						<control type="radiobutton" id="704">
-							<include content="OSDButton">
-								<param name="texture" value="osd/fullscreen/buttons/settings-subtitle.png"/>
-							</include>
 						</control>
 						<control type="radiobutton" id="704">
 							<include content="OSDButton">
