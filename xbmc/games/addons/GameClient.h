@@ -208,6 +208,7 @@ private:
   size_t                m_serializeSize;
   IGameAudioCallback*   m_audio;               // The audio callback passed to OpenFile()
   IGameVideoCallback*   m_video;               // The video callback passed to OpenFile()
+  bool                  m_bHardwareRendering;  // True if hardware rendering has been enabled
   CGameClientTiming     m_timing;              // Class to scale playback to avoid resampling audio
   PERIPHERALS::EventRateHandle m_inputRateHandle; // Handle while keeping the input sampling rate at the frame rate
   std::unique_ptr<IGameClientPlayback> m_playback; // Interface to control playback

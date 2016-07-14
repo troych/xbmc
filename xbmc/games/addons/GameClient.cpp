@@ -124,6 +124,7 @@ CGameClient::CGameClient(ADDON::AddonProps props) :
   m_serializeSize(0),
   m_audio(nullptr),
   m_video(nullptr),
+  m_bHardwareRendering(false),
   m_region(GAME_REGION_UNKNOWN)
 {
   const ADDON::InfoMap& extraInfo = m_props.extrainfo;
@@ -414,8 +415,11 @@ void CGameClient::CreatePlayback()
 
   if (bRequiresGameLoop)
   {
-    CreateHwRenderContext();
-    HwContextReset();
+    if (m_bHardwareRendering)
+    {
+      CreateHwRenderContext();
+      HwContextReset();
+    }
     m_playback.reset(new CGameClientReversiblePlayback(this, m_timing.GetFrameRate(), m_serializeSize));
   }
   else
@@ -472,6 +476,7 @@ void CGameClient::CloseFile()
 
   m_audio = nullptr;
   m_video = nullptr;
+  m_bHardwareRendering = false;
   m_timing.Reset();
 }
 
