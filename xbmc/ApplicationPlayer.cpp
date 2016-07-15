@@ -199,10 +199,9 @@ bool CApplicationPlayer::HasRDS() const
   return (player && player->HasRDS());
 }
 
-bool CApplicationPlayer::IsPaused() const
+bool CApplicationPlayer::IsPaused()
 {
-  std::shared_ptr<IPlayer> player = GetInternal();
-  return (player && player->IsPaused());
+  return (GetPlaySpeed() == 0);
 }
 
 bool CApplicationPlayer::IsPlaying() const
@@ -211,9 +210,9 @@ bool CApplicationPlayer::IsPlaying() const
   return (player && player->IsPlaying());
 }
 
-bool CApplicationPlayer::IsPausedPlayback() const
+bool CApplicationPlayer::IsPausedPlayback()
 {
-  return (IsPlaying() && IsPaused());
+  return (IsPlaying() && (GetPlaySpeed() == 0));
 }
 
 bool CApplicationPlayer::IsPlayingAudio() const
@@ -240,7 +239,10 @@ void CApplicationPlayer::Pause()
 {
   std::shared_ptr<IPlayer> player = GetInternal();
   if (player)
+  {
     player->Pause();
+    m_speedUpdate.SetExpired();
+  }
 }
 
 void CApplicationPlayer::SetMute(bool bOnOff)
@@ -760,7 +762,6 @@ int CApplicationPlayer::GetPlaySpeed()
   }
   else
     return 0;
-
 }
 
 void CApplicationPlayer::FrameMove()
