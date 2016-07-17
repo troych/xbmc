@@ -62,14 +62,9 @@ CGameClientReversiblePlayback::~CGameClientReversiblePlayback()
   m_gameLoop.Stop();
 }
 
-bool CGameClientReversiblePlayback::IsPaused() const
-{
-  return m_gameLoop.GetSpeed() == 0.0;
-}
-
 void CGameClientReversiblePlayback::PauseUnpause()
 {
-  if (IsPaused())
+  if (GetSpeed() == 0.0)
     m_gameLoop.SetSpeed(1.0);
   else
     m_gameLoop.SetSpeed(0.0);

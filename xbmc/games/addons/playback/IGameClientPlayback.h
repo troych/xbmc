@@ -34,7 +34,6 @@ namespace GAME
     virtual bool CanSeek() const = 0;
 
     // Control playback
-    virtual bool IsPaused() const = 0;
     virtual void PauseUnpause() = 0;
     virtual unsigned int GetTimeMs() const = 0;
     virtual unsigned int GetTotalTimeMs() const = 0;

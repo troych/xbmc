@@ -31,7 +31,6 @@ namespace GAME
     // implementation of IGameClientPlayback
     virtual bool CanPause() const override { return false; }
     virtual bool CanSeek() const override { return false; }
-    virtual bool IsPaused() const override { return false; }
     virtual void PauseUnpause() override { }
     virtual unsigned int GetTimeMs() const override { return 0; }
     virtual unsigned int GetTotalTimeMs() const override { return 0; }
