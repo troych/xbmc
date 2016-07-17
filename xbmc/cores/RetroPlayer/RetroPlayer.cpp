@@ -152,18 +152,11 @@ void CRetroPlayer::Pause()
     m_gameClient->GetPlayback()->PauseUnpause();
     m_audio->Enable(m_gameClient->GetPlayback()->GetSpeed() == 1.0);
 
-    if (IsPaused())
+    if (GetSpeed() == 0.0)
       m_callback.OnPlayBackPaused();
     else
       m_callback.OnPlayBackResumed();
   }
-}
-
-bool CRetroPlayer::IsPaused() const
-{
-  if (m_gameClient)
-    return m_gameClient->GetPlayback()->IsPaused();
-  return false;
 }
 
 bool CRetroPlayer::CanSeek()

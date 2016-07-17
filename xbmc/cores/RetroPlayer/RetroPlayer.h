@@ -52,7 +52,6 @@ namespace GAME
     virtual bool IsPlaying() const override;
     virtual bool CanPause() override;
     virtual void Pause() override;
-    virtual bool IsPaused() const override;
     virtual bool HasVideo() const override { return true; }
     virtual bool HasAudio() const override { return true; }
     virtual bool HasGame() const override { return true; }
