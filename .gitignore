@@ -1,5 +1,6 @@
 # global patterns
 testMain
+*.dll
 
 # commonly used editors
 # vim
