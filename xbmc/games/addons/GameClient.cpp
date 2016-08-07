@@ -44,6 +44,7 @@
 #include "utils/log.h"
 #include "utils/StringUtils.h"
 #include "utils/URIUtils.h"
+#include "Application.h"
 #include "FileItem.h"
 #include "ServiceBroker.h"
 #include "URL.h"
@@ -768,7 +769,7 @@ bool CGameClient::HasFeature(const std::string& controller, const std::string& f
 
 bool CGameClient::AcceptsInput(void)
 {
-  return true;
+  return g_application.IsAppFocused();
 }
 
 void CGameClient::ClearPorts(void)
