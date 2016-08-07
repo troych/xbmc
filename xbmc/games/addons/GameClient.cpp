@@ -63,6 +63,8 @@ using namespace GAME;
 #define GAME_PROPERTY_SUPPORTS_STANDALONE  "supports_standalone"
 #define GAME_PROPERTY_SUPPORTS_KEYBOARD    "supports_keyboard"
 
+#define INPUT_SCAN_RATE  125 // Hz
+
 // --- NormalizeExtension ------------------------------------------------------
 
 namespace
@@ -299,7 +301,7 @@ bool CGameClient::OpenFile(const CFileItem& file, IGameAudioCallback* audio, IGa
     m_serializeSize   = GetSerializeSize();
     m_audio           = audio;
     m_video           = video;
-    m_inputRateHandle = PERIPHERALS::g_peripherals.SetEventScanRate(m_timing.GetFrameRate()); // TODO: Convert event scanner to double
+    m_inputRateHandle = PERIPHERALS::g_peripherals.SetEventScanRate(INPUT_SCAN_RATE);
 
     if (m_bSupportsKeyboard)
       OpenKeyboard();
