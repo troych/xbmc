@@ -83,6 +83,12 @@ bool CDefaultJoystick::OnButtonPress(const FeatureName& feature, bool bPressed)
   return false;
 }
 
+void CDefaultJoystick::OnButtonHold(const FeatureName& feature, unsigned int holdTimeMs)
+{
+  const unsigned int keyId = GetKeyID(feature);
+  m_handler->OnDigitalKey(keyId, true, holdTimeMs);
+}
+
 bool CDefaultJoystick::OnButtonMotion(const FeatureName& feature, float magnitude)
 {
   const unsigned int keyId = GetKeyID(feature);
@@ -96,7 +102,7 @@ bool CDefaultJoystick::OnButtonMotion(const FeatureName& feature, float magnitud
   return false;
 }
 
-bool CDefaultJoystick::OnAnalogStickMotion(const FeatureName& feature, float x, float y)
+bool CDefaultJoystick::OnAnalogStickMotion(const FeatureName& feature, float x, float y, unsigned int motionTimeMs)
 {
   // Calculate the direction of the stick's position
   const CARDINAL_DIRECTION analogStickDir = CJoystickTranslator::VectorToCardinalDirection(x, y);
@@ -112,7 +118,7 @@ bool CDefaultJoystick::OnAnalogStickMotion(const FeatureName& feature, float x, 
   }
 
   // Now activate direction the analog stick is pointing
-  return ActivateDirection(feature, magnitude, analogStickDir);
+  return ActivateDirection(feature, magnitude, analogStickDir, motionTimeMs);
 }
 
 bool CDefaultJoystick::OnAccelerometerMotion(const FeatureName& feature, float x, float y, float z)
@@ -120,7 +126,7 @@ bool CDefaultJoystick::OnAccelerometerMotion(const FeatureName& feature, float x
   return false; //! @todo implement
 }
 
-bool CDefaultJoystick::ActivateDirection(const FeatureName& feature, float magnitude, CARDINAL_DIRECTION dir)
+bool CDefaultJoystick::ActivateDirection(const FeatureName& feature, float magnitude, CARDINAL_DIRECTION dir, unsigned int motionTimeMs)
 {
   // Calculate the button key ID and input type for the analog stick's direction
   const unsigned int  keyId     = GetKeyID(feature, dir);
@@ -129,7 +135,7 @@ bool CDefaultJoystick::ActivateDirection(const FeatureName& feature, float magni
   if (inputType == INPUT_TYPE::DIGITAL)
   {
     const bool bIsPressed = (magnitude >= ANALOG_DIGITAL_THRESHOLD);
-    m_handler->OnDigitalKey(keyId, bIsPressed);
+    m_handler->OnDigitalKey(keyId, bIsPressed, motionTimeMs);
     return true;
   }
   else if (inputType == INPUT_TYPE::ANALOG)
