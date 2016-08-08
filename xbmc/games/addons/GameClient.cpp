@@ -769,7 +769,8 @@ bool CGameClient::HasFeature(const std::string& controller, const std::string& f
 
 bool CGameClient::AcceptsInput(void)
 {
-  return g_application.IsAppFocused();
+  return g_application.IsAppFocused() &&
+         g_windowManager.GetActiveWindowID() == WINDOW_FULLSCREEN_GAME;
 }
 
 void CGameClient::ClearPorts(void)
