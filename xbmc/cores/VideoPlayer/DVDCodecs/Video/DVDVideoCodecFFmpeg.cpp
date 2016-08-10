@@ -1153,3 +1153,11 @@ void CDVDVideoCodecFFmpeg::SetHardware(IHardwareDecoder* hardware)
   m_pHardware = hardware;
   UpdateName();
 }
+
+const char* CDVDVideoCodecFFmpeg::GetPixelFormatName(AVPixelFormat pixfmt)
+{
+  const char* fmt = av_get_pix_fmt_name(pixfmt);
+  if (fmt)
+    return fmt;
+  return "";
+}
