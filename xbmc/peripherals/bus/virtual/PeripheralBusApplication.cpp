@@ -32,6 +32,12 @@ CPeripheralBusApplication::CPeripheralBusApplication(CPeripherals* manager) :
   m_bNeedsPolling = false;
 }
 
+void CPeripheralBusApplication::Initialise(void)
+{
+  CPeripheralBus::Initialise();
+  TriggerDeviceScan();
+}
+
 bool CPeripheralBusApplication::PerformDeviceScan(PeripheralScanResults& results)
 {
   const unsigned int controllerCount = CSettings::GetInstance().GetInt(CSettings::SETTING_GAMES_EMULATEDCONTROLLERS);

@@ -35,6 +35,9 @@ namespace PERIPHERALS
     CPeripheralBusApplication(CPeripherals* manager);
     virtual ~CPeripheralBusApplication(void) { }
 
+    // implementation of CPeripheralBus
+    virtual void Initialise(void) override;
+
     /*!
      * \brief Get the location for the specified controller index
      */
