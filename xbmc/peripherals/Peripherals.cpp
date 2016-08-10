@@ -117,7 +117,7 @@ void CPeripherals::Initialise()
 #if defined(TARGET_ANDROID)
   busses.push_back(std::make_shared<CPeripheralBusAndroid>(this));
 #endif
-    m_busses.push_back(std::make_shared<CPeripheralBusApplication>(this));
+  busses.push_back(std::make_shared<CPeripheralBusApplication>(this));
 
   /* initialise all known busses and run an initial scan for devices */
   for (auto& bus : busses)
