@@ -51,10 +51,10 @@
 #endif
 
 /* current Peripheral API version */
-#define PERIPHERAL_API_VERSION "1.1.0"
+#define PERIPHERAL_API_VERSION "1.2.0"
 
 /* min. Peripheral API version */
-#define PERIPHERAL_MIN_API_VERSION "1.1.0"
+#define PERIPHERAL_MIN_API_VERSION "1.2.0"
 
 /* indicates a joystick has no preference for port number */
 #define NO_PORT_REQUESTED     (-1)
@@ -182,6 +182,15 @@ extern "C"
     unsigned int    motor_count;        /*!< @brief number of motors reported by the driver */
     bool            supports_poweroff;  /*!< @brief whether the joystick supports being powered off */
   } ATTRIBUTE_PACKED JOYSTICK_INFO;
+
+  typedef struct JOYSTICK_AXIS_CONFIG
+  {
+    unsigned int axis_index;
+    float        deadzone_positive;
+    float        deadzone_negative;
+    int          center;
+    unsigned int range;
+  } ATTRIBUTE_PACKED JOYSTICK_AXIS_CONFIG;
 
   typedef enum JOYSTICK_DRIVER_PRIMITIVE_TYPE
   {
@@ -311,6 +320,9 @@ extern "C"
     ///{
     PERIPHERAL_ERROR (__cdecl* GetJoystickInfo)(unsigned int, JOYSTICK_INFO*);
     void             (__cdecl* FreeJoystickInfo)(JOYSTICK_INFO*);
+    PERIPHERAL_ERROR (__cdecl* GetAxisConfiguration)(const JOYSTICK_INFO*, unsigned int*, JOYSTICK_AXIS_CONFIG**);
+    PERIPHERAL_ERROR (__cdecl* SetAxisConfiguration)(const JOYSTICK_INFO*, JOYSTICK_AXIS_CONFIG*);
+    void             (__cdecl* FreeAxisConfiguration)(const JOYSTICK_INFO*, unsigned int, JOYSTICK_AXIS_CONFIG*);
     PERIPHERAL_ERROR (__cdecl* GetFeatures)(const JOYSTICK_INFO*, const char*, unsigned int*, JOYSTICK_FEATURE**);
     void             (__cdecl* FreeFeatures)(unsigned int, JOYSTICK_FEATURE*);
     PERIPHERAL_ERROR (__cdecl* MapFeatures)(const JOYSTICK_INFO*, const char*, unsigned int, JOYSTICK_FEATURE*);

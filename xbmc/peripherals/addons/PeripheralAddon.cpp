@@ -526,6 +526,54 @@ bool CPeripheralAddon::GetJoystickProperties(unsigned int index, CPeripheralJoys
   return false;
 }
 
+void CPeripheralAddon::SetAnalogStickDeadzone(const CPeripheralJoystick& joystick, unsigned int axisIndex, float deadzonePositive, float deadzoneNegative)
+{
+  if (!m_bProvidesJoysticks)
+    return;
+
+  ADDON::Joystick joystickInfo;
+  GetJoystickInfo(&joystick, joystickInfo);
+
+  JOYSTICK_INFO joystickStruct;
+  joystickInfo.ToStruct(joystickStruct);
+
+  JOYSTICK_AXIS_CONFIG config;
+  config.axis_index = axisIndex;
+  config.deadzone_positive = deadzonePositive;
+  config.deadzone_negative = deadzoneNegative;
+  config.center = 0;
+  config.range = 1;
+
+  PERIPHERAL_ERROR retVal;
+
+  try { LogError(retVal = m_pStruct->SetAxisConfiguration(&joystickStruct, &config), "SetAxisConfiguration()"); }
+  catch (std::exception &e) { LogException(e, "SetAxisConfiguration()"); return;  }
+}
+
+void CPeripheralAddon::SetTriggerProperties(const CPeripheralJoystick& joystick, unsigned int axisIndex, int center, unsigned int range)
+{
+  if (!m_bProvidesJoysticks)
+    return;
+
+  ADDON::Joystick joystickInfo;
+  GetJoystickInfo(&joystick, joystickInfo);
+
+  JOYSTICK_INFO joystickStruct;
+  joystickInfo.ToStruct(joystickStruct);
+
+  JOYSTICK_AXIS_CONFIG config;
+  config.axis_index = axisIndex;
+  config.deadzone_positive = 0.0f;
+  config.deadzone_negative = 0.0f;
+  config.center = center;
+  config.range = range;
+
+  PERIPHERAL_ERROR retVal;
+
+  try { LogError(retVal = m_pStruct->SetAxisConfiguration(&joystickStruct, &config), "SetAxisConfiguration()"); }
+  catch (std::exception &e) { LogException(e, "SetAxisConfiguration()"); return;  }
+}
+
 bool CPeripheralAddon::GetFeatures(const CPeripheral* device,
                                    const std::string& strControllerId,
                                    FeatureMap& features)

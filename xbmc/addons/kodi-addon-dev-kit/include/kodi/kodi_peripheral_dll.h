@@ -143,6 +143,23 @@ extern "C"
   void FreeJoystickInfo(JOYSTICK_INFO* info);
 
   /*!
+   * \brief @todo: document
+   */
+  PERIPHERAL_ERROR GetAxisConfiguration(const JOYSTICK_INFO* joystick,
+                                        unsigned int* configuration_count, JOYSTICK_AXIS_CONFIG** configuration);
+
+  /*!
+   * \brief @todo: document
+   */
+  PERIPHERAL_ERROR SetAxisConfiguration(const JOYSTICK_INFO* joystick, JOYSTICK_AXIS_CONFIG* config);
+
+  /*!
+   * \brief @todo: document
+   */
+  void FreeAxisConfiguration(const JOYSTICK_INFO* joystick,
+                             unsigned int configuration_count, JOYSTICK_AXIS_CONFIG* configuration);
+
+  /*!
    * @brief Get the features that allow translating the joystick into the controller profile
    * @param joystick      The device's joystick properties; unknown values may be left at their default
    * @param controller_id The controller profile being requested, e.g. game.controller.default
@@ -209,6 +226,9 @@ extern "C"
 #ifdef PERIPHERAL_ADDON_JOYSTICKS
     pClient->GetJoystickInfo                = GetJoystickInfo;
     pClient->FreeJoystickInfo               = FreeJoystickInfo;
+    pClient->GetAxisConfiguration           = GetAxisConfiguration;
+    pClient->SetAxisConfiguration           = SetAxisConfiguration;
+    pClient->FreeAxisConfiguration          = FreeAxisConfiguration;
     pClient->GetFeatures                    = GetFeatures;
     pClient->FreeFeatures                   = FreeFeatures;
     pClient->MapFeatures                    = MapFeatures;
@@ -216,6 +236,22 @@ extern "C"
     pClient->PowerOffJoystick               = PowerOffJoystick;
 #endif
   }
+
+
+  PERIPHERAL_ERROR GetAxisConfiguration(const JOYSTICK_INFO* joystick,
+                                        unsigned int* configuration_count, JOYSTICK_AXIS_CONFIG** configuration);
+
+  /*!
+   * \brief @todo: document
+   */
+  PERIPHERAL_ERROR SetAxisConfiguration(const JOYSTICK_INFO* joystick, JOYSTICK_AXIS_CONFIG* config);
+
+  /*!
+   * \brief @todo: document
+   */
+  void FreeAxisConfiguration(const JOYSTICK_INFO* joystick,
+                             unsigned int configuration_count, JOYSTICK_AXIS_CONFIG* configuration);
+
 
 #ifdef __cplusplus
 }

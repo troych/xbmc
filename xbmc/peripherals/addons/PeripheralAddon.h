@@ -82,6 +82,8 @@ namespace PERIPHERALS
     /** @name Joystick methods */
     //@{
     bool GetJoystickProperties(unsigned int index, CPeripheralJoystick& joystick);
+    void SetAnalogStickDeadzone(const CPeripheralJoystick& joystick, unsigned int axisIndex, float deadzonePositive, float deadzoneNegative);
+    void SetTriggerProperties(const CPeripheralJoystick& joystick, unsigned int axisIndex, int center, unsigned int range);
     bool HasButtonMaps(void) const { return m_bProvidesButtonMaps; }
     bool GetFeatures(const CPeripheral* device, const std::string& strControllerId, FeatureMap& features);
     bool MapFeatures(const CPeripheral* device, const std::string& strControllerId, const FeatureMap& features);
