@@ -72,7 +72,7 @@ void CAddonCallbacksPeripheral::RefreshButtonMaps(void* addonData, const char* d
   if (!peripheralAddon)
     return;
 
-  peripheralAddon->RefreshButtonMaps(deviceName ? deviceName : "", controllerId ? controllerId : "");
+  peripheralAddon->RefreshButtonMaps(deviceName ? deviceName : "");
 }
 
 } /* namespace Peripheral */
