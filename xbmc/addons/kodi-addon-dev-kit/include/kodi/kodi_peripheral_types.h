@@ -51,10 +51,10 @@
 #endif
 
 /* current Peripheral API version */
-#define PERIPHERAL_API_VERSION "1.0.20"
+#define PERIPHERAL_API_VERSION "1.1.0"
 
 /* min. Peripheral API version */
-#define PERIPHERAL_MIN_API_VERSION "1.0.19"
+#define PERIPHERAL_MIN_API_VERSION "1.1.0"
 
 /* indicates a joystick has no preference for port number */
 #define NO_PORT_REQUESTED     (-1)
@@ -300,6 +300,7 @@ extern "C"
     const char*      (__cdecl* GetPeripheralAPIVersion)(void);
     const char*      (__cdecl* GetMinimumPeripheralAPIVersion)(void);
     PERIPHERAL_ERROR (__cdecl* GetAddonCapabilities)(PERIPHERAL_CAPABILITIES*);
+    bool             (__cdecl* SupportsDevice)(const char*);
     PERIPHERAL_ERROR (__cdecl* PerformDeviceScan)(unsigned int*, PERIPHERAL_INFO**);
     void             (__cdecl* FreeScanResults)(unsigned int, PERIPHERAL_INFO*);
     PERIPHERAL_ERROR (__cdecl* GetEvents)(unsigned int*, PERIPHERAL_EVENT**);

@@ -813,6 +813,16 @@ PeripheralAddonPtr CPeripherals::GetAddon(const CPeripheral* device)
   return addon;
 }
 
+bool CPeripherals::IsManagedByAddon(const std::string& deviceName)
+{
+  PeripheralBusAddonPtr addonBus = std::static_pointer_cast<CPeripheralBusAddon>(GetBusByType(PERIPHERAL_BUS_ADDON));
+
+  if (addonBus)
+    return addonBus->IsManagedByAddon(deviceName);
+
+  return false;
+}
+
 void CPeripherals::ResetButtonMaps(const std::string& controllerId)
 {
   PeripheralBusAddonPtr addonBus = std::static_pointer_cast<CPeripheralBusAddon>(GetBusByType(PERIPHERAL_BUS_ADDON));

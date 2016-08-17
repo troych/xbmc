@@ -349,6 +349,16 @@ void CPeripheralAddon::GetDirectory(const std::string &strPath, CFileItemList &i
   }
 }
 
+bool CPeripheralAddon::SupportsDevice(const std::string& deviceName)
+{
+  bool bSupportsDevice = false;
+
+  try { bSupportsDevice = m_pStruct->SupportsDevice(deviceName.c_str()); }
+  catch (std::exception &e) { LogException(e, "SupportsDevice()"); return false;  }
+
+  return bSupportsDevice;
+}
+
 bool CPeripheralAddon::PerformDeviceScan(PeripheralScanResults &results)
 {
   unsigned int      peripheralCount;
