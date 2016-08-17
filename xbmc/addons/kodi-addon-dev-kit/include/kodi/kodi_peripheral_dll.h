@@ -62,6 +62,16 @@ extern "C"
   PERIPHERAL_ERROR GetAddonCapabilities(PERIPHERAL_CAPABILITIES *pCapabilities);
 
   /*!
+   * @brief Check if a device is managed by this add-on
+   * @param device_name The name of the device
+   * @return true if the device can be managed by this add-on
+   *
+   * If this returns true, the device will be excluded from providing input to
+   * Kodi.
+   */
+  bool SupportsDevice(const char* device_name);
+
+  /*!
    * @brief Perform a scan for joysticks
    * @param peripheral_count  Assigned to the number of peripherals allocated
    * @param scan_results      Assigned to allocated memory
