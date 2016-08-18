@@ -341,52 +341,6 @@ namespace ADDON
 
   typedef PeripheralVector<Joystick, JOYSTICK_INFO> Joysticks;
 
-  class AxisConfig
-  {
-  public:
-    AxisConfig(void) :
-      m_config()
-    {
-    }
-
-    AxisConfig(unsigned int index, float deadzonePos, float deadzoneNeg, int center, unsigned int range) :
-      m_config{index, deadzonePos, deadzoneNeg, center, range}
-    {
-    }
-
-    AxisConfig(const JOYSTICK_AXIS_CONFIG& config) :
-      m_config(config)
-    {
-    }
-
-    unsigned int Index(void) const       { return m_config.axis_index; }
-    float        DeadzonePos(void) const { return m_config.deadzone_positive; }
-    float        DeadzoneNeg(void) const { return m_config.deadzone_negative; }
-    int          Center(void) const      { return m_config.center; }
-    int          Range(void) const       { return m_config.range; }
-
-    void SetIndex(unsigned int index)   { m_config.axis_index = index; }
-    void SetDeadzonePos(float deadzone) { m_config.deadzone_positive = deadzone; }
-    void SetDeadzoneNeg(float deadzone) { m_config.deadzone_negative = deadzone; }
-    void SetCenter(int center)          { m_config.center = center; }
-    void SetRange(unsigned int range)   { m_config.range = range; }
-
-    void ToStruct(JOYSTICK_AXIS_CONFIG& config) const
-    {
-      config = m_config;
-    }
-
-    static void FreeStruct(JOYSTICK_AXIS_CONFIG& config)
-    {
-      (void)config;
-    }
-
-  private:
-    JOYSTICK_AXIS_CONFIG m_config;
-  };
-
-  typedef PeripheralVector<AxisConfig, JOYSTICK_AXIS_CONFIG> AxisConfiguration;
-
   /*!
    * ADDON::DriverPrimitive
    *

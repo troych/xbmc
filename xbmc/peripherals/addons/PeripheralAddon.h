@@ -73,7 +73,6 @@ namespace PERIPHERALS
 
     /** @name Peripheral add-on methods */
     //@{
-    bool SupportsDevice(const std::string& deviceName);
     bool PerformDeviceScan(PeripheralScanResults &results);
     bool ProcessEvents(void);
     bool SendRumbleEvent(unsigned int index, unsigned int driverIndex, float magnitude);
@@ -82,8 +81,6 @@ namespace PERIPHERALS
     /** @name Joystick methods */
     //@{
     bool GetJoystickProperties(unsigned int index, CPeripheralJoystick& joystick);
-    void SetAnalogStickDeadzone(const CPeripheralJoystick& joystick, unsigned int axisIndex, float deadzonePositive, float deadzoneNegative);
-    void SetTriggerProperties(const CPeripheralJoystick& joystick, unsigned int axisIndex, int center, unsigned int range);
     bool HasButtonMaps(void) const { return m_bProvidesButtonMaps; }
     bool GetFeatures(const CPeripheral* device, const std::string& strControllerId, FeatureMap& features);
     bool MapFeatures(const CPeripheral* device, const std::string& strControllerId, const FeatureMap& features);

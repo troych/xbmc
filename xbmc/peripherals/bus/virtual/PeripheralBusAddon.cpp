@@ -147,19 +147,6 @@ bool CPeripheralBusAddon::SendRumbleEvent(const std::string& strLocation, unsign
   return bHandled;
 }
 
-bool CPeripheralBusAddon::IsManagedByAddon(const std::string& deviceName)
-{
-  CSingleLock lock(m_critSection);
-
-  for (const auto& addon : m_addons)
-  {
-    if (addon->SupportsDevice(deviceName))
-      return true;
-  }
-
-  return false;
-}
-
 void CPeripheralBusAddon::ProcessEvents(void)
 {
   PeripheralAddonVector addons;
