@@ -2881,6 +2881,9 @@
     <ClCompile Include="..\..\xbmc\games\controllers\guicontrols\GUIFeatureControls.cpp">
       <Filter>games\controllers\guicontrols</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\xbmc\peripherals\PeripheralUtils.cpp">
+      <Filter>peripherals</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\xbmc\media\MediaType.cpp">
@@ -7016,6 +7019,9 @@
     </ClInclude>
     <ClInclude Include="..\..\xbmc\games\controllers\guicontrols\GUIFeatureControls.h">
       <Filter>games\controllers\guicontrols</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\peripherals\PeripheralUtils.h">
+      <Filter>peripherals</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

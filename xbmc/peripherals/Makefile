@@ -1,6 +1,7 @@
 SRCS=EventScanner.cpp \
      EventScanRate.cpp \
      Peripherals.cpp \
+     PeripheralUtils.cpp \
 
 LIB=peripherals.a
 
