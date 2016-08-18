@@ -331,6 +331,8 @@
 		68B054CB1CD819B100726629 /* DeltaPairMemoryStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B054C31CD819B100726629 /* DeltaPairMemoryStream.cpp */; };
 		68B054CC1CD819B100726629 /* LinearMemoryStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B054C61CD819B100726629 /* LinearMemoryStream.cpp */; };
 		68B054CD1CD819B100726629 /* LinearMemoryStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B054C61CD819B100726629 /* LinearMemoryStream.cpp */; };
+		68B3E4481D666521006D4678 /* PeripheralUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B3E4461D666521006D4678 /* PeripheralUtils.cpp */; };
+		68B3E4491D666521006D4678 /* PeripheralUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B3E4461D666521006D4678 /* PeripheralUtils.cpp */; };
 		68C1496A1CDDF0B60014ADDB /* SavestateDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68C1495F1CDDF0B60014ADDB /* SavestateDatabase.cpp */; };
 		68C1496B1CDDF0B60014ADDB /* SavestateDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68C1495F1CDDF0B60014ADDB /* SavestateDatabase.cpp */; };
 		68C1496C1CDDF0B60014ADDB /* SavestateReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68C149621CDDF0B60014ADDB /* SavestateReader.cpp */; };
@@ -2914,6 +2916,8 @@
 		68B054C61CD819B100726629 /* LinearMemoryStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LinearMemoryStream.cpp; path = games/addons/savestates/LinearMemoryStream.cpp; sourceTree = "<group>"; };
 		68B054C71CD819B100726629 /* LinearMemoryStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinearMemoryStream.h; path = games/addons/savestates/LinearMemoryStream.h; sourceTree = "<group>"; };
 		68B1E8831D35A9AC000D1A46 /* RetroPlayerDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RetroPlayerDefines.h; path = RetroPlayer/RetroPlayerDefines.h; sourceTree = "<group>"; };
+		68B3E4461D666521006D4678 /* PeripheralUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeripheralUtils.cpp; sourceTree = "<group>"; };
+		68B3E4471D666521006D4678 /* PeripheralUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralUtils.h; sourceTree = "<group>"; };
 		68C1495F1CDDF0B60014ADDB /* SavestateDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SavestateDatabase.cpp; path = games/addons/savestates/SavestateDatabase.cpp; sourceTree = "<group>"; };
 		68C149601CDDF0B60014ADDB /* SavestateDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SavestateDatabase.h; path = games/addons/savestates/SavestateDatabase.h; sourceTree = "<group>"; };
 		68C149611CDDF0B60014ADDB /* SavestateDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SavestateDefines.h; path = games/addons/savestates/SavestateDefines.h; sourceTree = "<group>"; };
@@ -9602,6 +9606,8 @@
 				F5E10533140AA38000175026 /* Peripherals.cpp */,
 				F5E10534140AA38000175026 /* Peripherals.h */,
 				F5E10535140AA38000175026 /* PeripheralTypes.h */,
+				68B3E4461D666521006D4678 /* PeripheralUtils.cpp */,
+				68B3E4471D666521006D4678 /* PeripheralUtils.h */,
 			);
 			path = peripherals;
 			sourceTree = "<group>";
@@ -10944,6 +10950,7 @@
 				7C4E6F721829AA9700F1068F /* GUIDialogSubtitles.cpp in Sources */,
 				7C140989183224B8009F9411 /* ISetting.cpp in Sources */,
 				7CAEF0D21D0E9F0D00B1316C /* GUIDialogCMSSettings.cpp in Sources */,
+				68B3E4481D666521006D4678 /* PeripheralUtils.cpp in Sources */,
 				7C14098C183224B8009F9411 /* ISettingControl.cpp in Sources */,
 				68AE5BDF1C92421800C4D527 /* AddonButtonMap.cpp in Sources */,
 				7C14098F183224B8009F9411 /* Setting.cpp in Sources */,
@@ -11983,6 +11990,7 @@
 				E49914A5174E607200741B6D /* GUIWindowHome.cpp in Sources */,
 				E49914A6174E607200741B6D /* GUIWindowLoginScreen.cpp in Sources */,
 				E49914A7174E607200741B6D /* GUIWindowPointer.cpp in Sources */,
+				68B3E4491D666521006D4678 /* PeripheralUtils.cpp in Sources */,
 				E49914A8174E607200741B6D /* GUIWindowScreensaver.cpp in Sources */,
 				7C8E02441BA35D0B0072E8B2 /* SkinBuiltins.cpp in Sources */,
 				E49914A9174E607200741B6D /* GUIWindowScreensaverDim.cpp in Sources */,
