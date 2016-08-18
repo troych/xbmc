@@ -98,7 +98,6 @@ typedef unsigned long kernel_ulong_t;
 #include "utils/log.h"
 #include "input/touch/generic/GenericTouchActionHandler.h"
 #include "input/touch/generic/GenericTouchInputHandler.h"
-#include "peripherals/Peripherals.h"
 #include "settings/AdvancedSettings.h"
 
 #ifndef BITS_PER_LONG
@@ -1176,8 +1175,6 @@ bool CLinuxInputDevices::IsUdevJoystick(const char *devpath)
 
 bool CLinuxInputDevices::CheckDevice(const char *device)
 {
-  using namespace PERIPHERALS;
-
   int fd;
 
   // Does the device exists?
@@ -1189,15 +1186,6 @@ bool CLinuxInputDevices::CheckDevice(const char *device)
   fd = open(device, O_RDWR);
   if (fd < 0)
     return false;
-
-  // Check if add-on should handle device
-  char name[256] = { };
-  ioctl(fd, EVIOCGNAME(sizeof(name)), name);
-  if (g_peripherals.IsManagedByAddon(name))
-  {
-    close(fd);
-    return false;
-  }
 
   // let others handle joysticks
   if (IsUdevJoystick(device))

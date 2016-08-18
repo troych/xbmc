@@ -73,8 +73,6 @@ namespace PERIPHERALS
      */
     bool SendRumbleEvent(const std::string& strLocation, unsigned int motorIndex, float magnitude);
 
-    bool IsManagedByAddon(const std::string& deviceName);
-
     // Inherited from CPeripheralBus
     virtual void         Register(CPeripheral *peripheral) override;
     virtual void         GetFeatures(std::vector<PeripheralFeature> &features) const override;

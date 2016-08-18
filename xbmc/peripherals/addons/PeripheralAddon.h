@@ -73,7 +73,6 @@ namespace PERIPHERALS
 
     /** @name Peripheral add-on methods */
     //@{
-    bool SupportsDevice(const std::string& deviceName);
     bool PerformDeviceScan(PeripheralScanResults &results);
     bool ProcessEvents(void);
     bool SendRumbleEvent(unsigned int index, unsigned int driverIndex, float magnitude);
