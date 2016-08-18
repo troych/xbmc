@@ -24,7 +24,11 @@
 #include "games/controllers/ControllerFeature.h"
 #include "input/joysticks/IInputReceiver.h"
 
-#define RUMBLE_DURATION_MS     1000
+#define RUMBLE_NOTIFICATION_DURATION_MS     500
+#define RUMBLE_NOTIFICATION_STRENGTH        0.75f
+
+#define RUMBLE_TEST_DURATION_MS             1000 // Per motor
+#define RUMBLE_TEST_STRENGTH                1.0f
 
 using namespace JOYSTICK;
 
@@ -72,9 +76,9 @@ void CRumbleGenerator::Process(void)
   case RUMBLE_NOTIFICATION:
   {
     for (const std::string& motor : m_motors)
-      m_receiver->SetRumbleState(motor, 1.0f);
+      m_receiver->SetRumbleState(motor, RUMBLE_NOTIFICATION_STRENGTH);
 
-    Sleep(1000);
+    Sleep(RUMBLE_NOTIFICATION_DURATION_MS);
 
     if (m_bStop)
       break;
@@ -88,9 +92,9 @@ void CRumbleGenerator::Process(void)
   {
     for (const std::string& motor : m_motors)
     {
-      m_receiver->SetRumbleState(motor, 1.0f);
+      m_receiver->SetRumbleState(motor, RUMBLE_TEST_STRENGTH);
 
-      Sleep(1000);
+      Sleep(RUMBLE_TEST_DURATION_MS);
 
       if (m_bStop)
         break;
