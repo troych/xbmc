@@ -760,11 +760,14 @@ bool CPeripherals::GetNextKeypress(float frameTime, CKey &key)
 
 void CPeripherals::OnUserNotification()
 {
-  PeripheralVector peripherals;
-  GetPeripheralsWithFeature(peripherals, FEATURE_RUMBLE);
+  if (CSettings::GetInstance().GetBool(CSettings::SETTING_GAMES_RUMBLE_NOTIFY))
+  {
+    PeripheralVector peripherals;
+    GetPeripheralsWithFeature(peripherals, FEATURE_RUMBLE);
 
-  for (auto& peripheral : peripherals)
-    peripheral->OnUserNotification();
+    for (auto& peripheral : peripherals)
+      peripheral->OnUserNotification();
+  }
 }
 
 bool CPeripherals::TestFeature(PeripheralFeature feature)
