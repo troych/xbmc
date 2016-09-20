@@ -118,10 +118,6 @@ namespace GAME
     virtual bool SetPlayerState(const std::string& state) override;
     //virtual std::string GetPlayingTitle() override { return ""; }
     //virtual bool SwitchChannel(const PVR::CPVRChannelPtr &channel) override { return false; }
-    //virtual void OMXGetRenderFeatures(std::vector<int> &renderFeatures) override { }
-    //virtual void OMXGetDeinterlaceMethods(std::vector<int> &deinterlaceMethods) override { }
-    //virtual void OMXGetDeinterlaceModes(std::vector<int> &deinterlaceModes) override { }
-    //virtual void OMXGetScalingMethods(std::vector<int> &scalingMethods) override { }
     //virtual void GetAudioCapabilities(std::vector<int> &audioCaps) override { audioCaps.assign(1,IPC_AUD_ALL); }
     //virtual void GetSubtitleCapabilities(std::vector<int> &subCaps) override { subCaps.assign(1,IPC_SUBS_ALL); }
     virtual void FrameMove() override { m_renderManager.FrameMove(); }
