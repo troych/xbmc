@@ -24,24 +24,24 @@ namespace GAME
   class IGameAudioCallback;
 
   /*!
-  * \brief Class to normalize audio and video timing to avoid audio resampling
-  *
-  * For example, assume the audio callback supports two sample rates:
-  * 32,000 Hz and 44,100 Hz.
-  *
-  * If the game client reports an audio sample rate of 32040.5, the audio
-  * callback will normalize this to 32,000 Hz. The correction factor is then
-  * set to (32000 / 32040.5) = 0.9987.
-  *
-  * After normalization, GetSampleRate() will report (32040.5 * 0.9987) = 32000.
-  *
-  * If the game client's frame rate is 60.1 fps, after normalization
-  * GetFrameRate() will report (60.1 * 0.9987) = 60.024 fps. The game
-  * client's frame rate has been slowed slightly to avoid resampling audio.
-  *
-  * To avoid excessive scaling, normalization will fail if the correction
-  * factor exceeds MAX_CORRECTION_FACTOR_PERCENT.
-  */
+   * \brief Class to normalize audio and video timing to avoid audio resampling
+   *
+   * For example, assume the audio callback supports two sample rates:
+   * 32,000 Hz and 44,100 Hz.
+   *
+   * If the game client reports an audio sample rate of 32040.5, the audio
+   * callback will normalize this to 32,000 Hz. The correction factor is then
+   * set to (32000 / 32040.5) = 0.9987.
+   *
+   * After normalization, GetSampleRate() will report (32040.5 * 0.9987) = 32000.
+   *
+   * If the game client's frame rate is 60.1 fps, after normalization
+   * GetFrameRate() will report (60.1 * 0.9987) = 60.024 fps. The game
+   * client's frame rate has been slowed slightly to avoid resampling audio.
+   *
+   * To avoid excessive scaling, normalization will fail if the correction
+   * factor exceeds MAX_CORRECTION_FACTOR_PERCENT.
+   */
   class CGameClientTiming
   {
   public:
@@ -52,13 +52,13 @@ namespace GAME
     void Reset();
 
     /*!
-    * \brief Calculate normalization factor to avoid audio resampling
-    *
-    * \param audio Callback capable of normalizing sample rate to one of the
-    *              discrete values supported by the audio system
-    *
-    * \return false If the correction factor exceeds a pre-defined value, true otherwise
-    */
+     * \brief Calculate normalization factor to avoid audio resampling
+     *
+     * \param audio Callback capable of normalizing sample rate to one of the
+     *              discrete values supported by the audio system
+     *
+     * \return false If the correction factor exceeds a pre-defined value, true otherwise
+     */
     bool NormalizeAudio(IGameAudioCallback* audio);
 
     // Set frame rate and sample rate reported by the game client
