@@ -331,6 +331,8 @@
 		68B054CB1CD819B100726629 /* DeltaPairMemoryStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B054C31CD819B100726629 /* DeltaPairMemoryStream.cpp */; };
 		68B054CC1CD819B100726629 /* LinearMemoryStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B054C61CD819B100726629 /* LinearMemoryStream.cpp */; };
 		68B054CD1CD819B100726629 /* LinearMemoryStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B054C61CD819B100726629 /* LinearMemoryStream.cpp */; };
+		68B6DB241D97FC0600920523 /* SavestateTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B6DB221D97FC0600920523 /* SavestateTranslator.cpp */; };
+		68B6DB251D97FC0600920523 /* SavestateTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B6DB221D97FC0600920523 /* SavestateTranslator.cpp */; };
 		68B7E5E81D5FA9B300A5AEC0 /* GUIFeatureControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B7E5E61D5FA9B300A5AEC0 /* GUIFeatureControls.cpp */; };
 		68B7E5E91D5FA9B300A5AEC0 /* GUIFeatureControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B7E5E61D5FA9B300A5AEC0 /* GUIFeatureControls.cpp */; };
 		68C1496A1CDDF0B60014ADDB /* SavestateDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68C1495F1CDDF0B60014ADDB /* SavestateDatabase.cpp */; };
@@ -2934,6 +2936,8 @@
 		68B054C61CD819B100726629 /* LinearMemoryStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LinearMemoryStream.cpp; path = games/addons/savestates/LinearMemoryStream.cpp; sourceTree = "<group>"; };
 		68B054C71CD819B100726629 /* LinearMemoryStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinearMemoryStream.h; path = games/addons/savestates/LinearMemoryStream.h; sourceTree = "<group>"; };
 		68B1E8831D35A9AC000D1A46 /* RetroPlayerDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RetroPlayerDefines.h; path = RetroPlayer/RetroPlayerDefines.h; sourceTree = "<group>"; };
+		68B6DB221D97FC0600920523 /* SavestateTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SavestateTranslator.cpp; path = games/addons/savestates/SavestateTranslator.cpp; sourceTree = "<group>"; };
+		68B6DB231D97FC0600920523 /* SavestateTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SavestateTranslator.h; path = games/addons/savestates/SavestateTranslator.h; sourceTree = "<group>"; };
 		68B7E5E61D5FA9B300A5AEC0 /* GUIFeatureControls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUIFeatureControls.cpp; path = games/controllers/guicontrols/GUIFeatureControls.cpp; sourceTree = "<group>"; };
 		68B7E5E71D5FA9B300A5AEC0 /* GUIFeatureControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIFeatureControls.h; path = games/controllers/guicontrols/GUIFeatureControls.h; sourceTree = "<group>"; };
 		68C1495F1CDDF0B60014ADDB /* SavestateDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SavestateDatabase.cpp; path = games/addons/savestates/SavestateDatabase.cpp; sourceTree = "<group>"; };
@@ -6477,6 +6481,8 @@
 				68C149611CDDF0B60014ADDB /* SavestateDefines.h */,
 				68C149621CDDF0B60014ADDB /* SavestateReader.cpp */,
 				68C149631CDDF0B60014ADDB /* SavestateReader.h */,
+				68B6DB221D97FC0600920523 /* SavestateTranslator.cpp */,
+				68B6DB231D97FC0600920523 /* SavestateTranslator.h */,
 				68C149641CDDF0B60014ADDB /* SavestateUtils.cpp */,
 				68C149651CDDF0B60014ADDB /* SavestateUtils.h */,
 				68C149661CDDF0B60014ADDB /* SavestateWriter.cpp */,
@@ -10876,6 +10882,7 @@
 				C84828D5156CFCD8005A996F /* PVRGUIInfo.cpp in Sources */,
 				C84828D6156CFCD8005A996F /* PVRManager.cpp in Sources */,
 				C84828D8156CFCD8005A996F /* PVRRecording.cpp in Sources */,
+				68B6DB241D97FC0600920523 /* SavestateTranslator.cpp in Sources */,
 				7CED593D1CD341280093F573 /* VTB.cpp in Sources */,
 				C84828D9156CFCD8005A996F /* PVRRecordings.cpp in Sources */,
 				C84828DB156CFCD8005A996F /* PVRTimerInfoTag.cpp in Sources */,
@@ -12301,6 +12308,7 @@
 				7CCDA187192753E30074CF51 /* PltTaskManager.cpp in Sources */,
 				7CCDA190192753E30074CF51 /* PltThreadTask.cpp in Sources */,
 				7C8E02201BA35D0B0072E8B2 /* ApplicationBuiltins.cpp in Sources */,
+				68B6DB251D97FC0600920523 /* SavestateTranslator.cpp in Sources */,
 				7CCDA199192753E30074CF51 /* PltUPnP.cpp in Sources */,
 				DF54F7FF1B6580AD000FCBA4 /* ContextMenuItem.cpp in Sources */,
 				7CCDA1A2192753E30074CF51 /* PltMediaConnect.cpp in Sources */,

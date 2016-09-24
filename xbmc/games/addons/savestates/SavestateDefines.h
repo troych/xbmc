@@ -19,6 +19,8 @@
  */
 #pragma once
 
+#define SAVESTATE_XML_ROOT            "savestate"
+
 #define SAVESTATE_FIELD_PATH          "path"
 #define SAVESTATE_FIELD_TYPE          "type"
 #define SAVESTATE_FIELD_SLOT          "slot"
@@ -32,5 +34,10 @@
 #define SAVESTATE_FIELD_WALLCLOCK     "wallclock"
 #define SAVESTATE_FIELD_TIMESTAMP     "timestamp"
 #define SAVESTATE_FIELD_THUMBNAIL     "thumbnail"
+
+#define SAVESTATE_TYPE_UNKNOWN        "unknown"
+#define SAVESTATE_TYPE_AUTO           "auto"
+#define SAVESTATE_TYPE_SLOT           "slot"
+#define SAVESTATE_TYPE_MANUAL         "manual"
 
 #define FILEITEM_PROPERTY_SAVESTATE_DURATION  "duration"

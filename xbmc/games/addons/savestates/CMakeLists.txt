@@ -4,6 +4,7 @@ set(SOURCES BasicMemoryStream.cpp
             Savestate.cpp
             SavestateDatabase.cpp
             SavestateReader.cpp
+            SavestateTranslator.cpp
             SavestateUtils.cpp
             SavestateWriter.cpp)
 
@@ -15,6 +16,7 @@ set(HEADERS BasicMemoryStream.h
             SavestateDatabase.h
             SavestateDefines.h
             SavestateReader.h
+            SavestateTranslator.h
             SavestateUtils.h
             SavestateWriter.h)
 

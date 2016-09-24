@@ -4,6 +4,7 @@ SRCS=BasicMemoryStream.cpp \
      Savestate.cpp \
      SavestateDatabase.cpp \
      SavestateReader.cpp \
+     SavestateTranslator.cpp \
      SavestateUtils.cpp \
      SavestateWriter.cpp \
 

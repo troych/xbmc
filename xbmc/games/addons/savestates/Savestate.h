@@ -77,6 +77,9 @@ namespace GAME
     virtual void Serialize(CVariant& value) const override;
     virtual void Deserialize(const CVariant& value) override;
 
+    bool Serialize(const std::string& path) const;
+    bool Deserialize(const std::string& path);
+
   private:
     // Savestate properties
     std::string  m_path;
