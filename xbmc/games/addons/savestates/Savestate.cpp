@@ -71,6 +71,6 @@ void CSavestate::Deserialize(const CVariant& value)
   m_gameCRC = value[SAVESTATE_FIELD_GAME_CRC].asString();
   m_playtimeFrames = value[SAVESTATE_FIELD_FRAMES].asUnsignedInteger();
   m_playtimeWallClock = value[SAVESTATE_FIELD_WALLCLOCK].asDouble();
-  m_timestamp.FromDBDateTime(value[SAVESTATE_FIELD_TIMESTAMP].asString());
+  m_timestamp.SetFromDBDateTime(value[SAVESTATE_FIELD_TIMESTAMP].asString());
   m_thumbnail = value[SAVESTATE_FIELD_THUMBNAIL].asString();
 }
