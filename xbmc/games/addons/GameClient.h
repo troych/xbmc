@@ -110,7 +110,6 @@ public:
   const std::set<std::string>& GetExtensions() const { return m_extensions; }
   bool                         SupportsAllExtensions() const { return m_bSupportsAllExtensions; }
   bool                         IsExtensionValid(const std::string& strExtension) const;
-  bool                         CanOpen(const CFileItem& file) const;
 
   // Start/stop gameplay
   bool Initialize(void);

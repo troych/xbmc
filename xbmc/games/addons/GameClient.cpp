@@ -197,29 +197,6 @@ bool CGameClient::IsExtensionValid(const std::string& strExtension) const
   return m_extensions.find(NormalizeExtension(strExtension)) != m_extensions.end();
 }
 
-bool CGameClient::CanOpen(const CFileItem& file) const
-{
-  // Try to resolve path to a local file, as not all game clients support VFS
-  CURL translatedUrl(CSpecialProtocol::TranslatePath(file.GetPath()));
-  if (translatedUrl.GetProtocol() == "file")
-    translatedUrl.SetProtocol("");
-
-  // Filter by vfs support
-  const bool bIsLocalFS = translatedUrl.GetProtocol().empty();
-  if (!bIsLocalFS && !m_bSupportsVFS)
-    return false;
-
-  // Directories not currently supported
-  if (file.m_bIsFolder)
-    return false;
-
-  // Filter by extension
-  if (!IsExtensionValid(URIUtils::GetExtension(translatedUrl.Get())))
-    return false;
-
-  return true;
-}
-
 bool CGameClient::Initialize(void)
 {
   using namespace XFILE;
@@ -263,14 +240,24 @@ bool CGameClient::OpenFile(const CFileItem& file, IGameAudioCallback* audio, IGa
 
   bool bSuccess = false;
 
-  if (CanOpen(file))
+  if (!m_bSupportsStandalone)
   {
-    CLog::Log(LOGDEBUG, "GameClient: Loading %s", file.GetPath().c_str());
+    CURL translatedUrl(CSpecialProtocol::TranslatePath(file.GetPath()));;
 
-    try { bSuccess = LogError(m_pStruct->LoadGame(file.GetPath().c_str()), "LoadGame()"); }
+    if (!m_bSupportsVFS)
+    {
+      if (translatedUrl.GetProtocol() == "file")
+        translatedUrl.SetProtocol("");
+    }
+
+    std::string path = translatedUrl.Get();
+
+    CLog::Log(LOGDEBUG, "GameClient: Loading %s", path.c_str());
+
+    try { bSuccess = LogError(m_pStruct->LoadGame(path.c_str()), "LoadGame()"); }
     catch (...) { LogException("LoadGame()"); }
   }
-  else if (m_bSupportsStandalone)
+  else
   {
     CLog::Log(LOGDEBUG, "GameClient: Loading %s in standalone mode", ID().c_str());
 

@@ -25,6 +25,7 @@
 #include "dialogs/GUIDialogOK.h"
 #include "games/addons/GameClient.h"
 #include "games/dialogs/GUIDialogSelectGameClient.h"
+#include "filesystem/SpecialProtocol.h"
 #include "utils/StringUtils.h"
 #include "utils/URIUtils.h"
 #include "FileItem.h"
@@ -51,7 +52,7 @@ GameClientPtr CGameUtils::OpenGameClient(const CFileItem& file)
       gameClientId = file.GetAddonInfo()->ID();
   }
 
-  // Resolve ID to game client ptr
+  // Get game client by ID
   if (!gameClientId.empty())
   {
     CBinaryAddonCache& addonCache = CServiceBroker::GetBinaryAddonCache();
@@ -64,13 +65,17 @@ GameClientPtr CGameUtils::OpenGameClient(const CFileItem& file)
   {
     GameClientVector candidates;
     GameClientVector installable;
-    GetGameClients(file, candidates, installable);
+    bool bHasVfsGameClient;
+    GetGameClients(file, candidates, installable, bHasVfsGameClient);
 
     if (candidates.empty() && installable.empty())
     {
+      unsigned int errorTextId = bHasVfsGameClient ?
+          35214 : // "This game can only be played directly from a hard drive or partition. Compressed files must be extracted."
+          35212;  // "This game isn't compatible with any available emulators."
+
       // "Failed to play game"
-      // "This game isn't compatible with any available emulators."
-      CGUIDialogOK::ShowAndGetInput(CVariant{ 35210 }, CVariant{ 35212 });
+      CGUIDialogOK::ShowAndGetInput(CVariant{ 35210 }, CVariant{ errorTextId });
     }
     else if (candidates.size() == 1 && installable.empty())
     {
@@ -86,31 +91,30 @@ GameClientPtr CGameUtils::OpenGameClient(const CFileItem& file)
   return gameClient;
 }
 
-void CGameUtils::GetGameClients(const CFileItem& file, GameClientVector& candidates, GameClientVector& installable)
+void CGameUtils::GetGameClients(const CFileItem& file, GameClientVector& candidates, GameClientVector& installable, bool& bHasVfsGameClient)
 {
   using namespace ADDON;
 
+  bHasVfsGameClient = false;
+
+  // Try to resolve path to a local file, as not all game clients support VFS
+  CURL translatedUrl(CSpecialProtocol::TranslatePath(file.GetPath()));
+
   // Get local candidates
-  VECADDONS addons;
+  VECADDONS localAddons;
   CBinaryAddonCache& addonCache = CServiceBroker::GetBinaryAddonCache();
-  addonCache.GetAddons(addons, ADDON_GAMEDLL);
-  for (auto& addon : addons)
-  {
-    GameClientPtr gameClient = std::static_pointer_cast<CGameClient>(addon);
-    if (gameClient->CanOpen(file))
-      candidates.push_back(gameClient);
-  }
+  addonCache.GetAddons(localAddons, ADDON_GAMEDLL);
+
+  bool bVfs = false;
+  GetGameClients(localAddons, translatedUrl, candidates, bVfs);
+  bHasVfsGameClient |= bVfs;
 
   // Get remote candidates
-  addons.clear();
-  if (CAddonMgr::GetInstance().GetInstallableAddons(addons, ADDON_GAMEDLL))
+  VECADDONS remoteAddons;
+  if (CAddonMgr::GetInstance().GetInstallableAddons(remoteAddons, ADDON_GAMEDLL))
   {
-    for (auto& addon : addons)
-    {
-      GameClientPtr gameClient = std::static_pointer_cast<CGameClient>(addon);
-      if (gameClient->CanOpen(file))
-        installable.push_back(gameClient);
-    }
+    GetGameClients(remoteAddons, translatedUrl, installable, bVfs);
+    bHasVfsGameClient |= bVfs;
   }
 
   // Sort by name (TODO: Move to presentation code)
@@ -127,6 +131,34 @@ void CGameUtils::GetGameClients(const CFileItem& file, GameClientVector& candida
 
   std::sort(candidates.begin(), candidates.end(), SortByName);
   std::sort(installable.begin(), installable.end(), SortByName);
+}
+
+void CGameUtils::GetGameClients(const ADDON::VECADDONS& addons, const CURL& translatedUrl, GameClientVector& candidates, bool& bHasVfsGameClient)
+{
+  bHasVfsGameClient = false;
+
+  const std::string extension = URIUtils::GetExtension(translatedUrl.Get());
+
+  const bool bIsLocalFile = (translatedUrl.GetProtocol() == "file" ||
+                             translatedUrl.GetProtocol().empty());
+
+  for (auto& addon : addons)
+  {
+    GameClientPtr gameClient = std::static_pointer_cast<CGameClient>(addon);
+
+    // Filter by extension
+    if (!gameClient->IsExtensionValid(extension))
+      continue;
+
+    // Filter by VFS
+    if (!bIsLocalFile && !gameClient->SupportsVFS())
+    {
+      bHasVfsGameClient = true;
+      continue;
+    }
+
+    candidates.push_back(gameClient);
+  }
 }
 
 bool CGameUtils::HasGameExtension(const std::string &path)

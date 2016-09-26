@@ -20,11 +20,13 @@
 #pragma once
 
 #include "GameTypes.h"
+#include "addons/Addon.h"
 
 #include <set>
 #include <string>
 
 class CFileItem;
+class CURL;
 
 namespace GAME
 {
@@ -53,6 +55,7 @@ namespace GAME
     static std::set<std::string> GetGameExtensions();
 
   private:
-    static void GetGameClients(const CFileItem& file, GameClientVector& candidates, GameClientVector& installable);
+    static void GetGameClients(const CFileItem& file, GameClientVector& candidates, GameClientVector& installable, bool& bHasVfsGameClient);
+    static void GetGameClients(const ADDON::VECADDONS& addons, const CURL& translatedUrl, GameClientVector& candidates, bool& bHasVfsGameClient);
   };
 } // namespace GAME

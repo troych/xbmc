@@ -16381,18 +16381,24 @@ msgid "The add-on %s is missing."
 msgstr ""
 
 #. Error dialog text when launching a game and no emulators are compatible
-#: xbmc/games/GameManager.cpp
+#: xbmc/games/GameUtils.cpp
 msgctxt "#35212"
 msgid "This game isn't compatible with any available emulators."
 msgstr ""
 
 #. Error dialog text when launching a game and the emulator has an internal error. %s - emulator name
-#: xbmc/games/GameManager.cpp
+#: xbmc/games/GameClient.cpp
 msgctxt "#35213"
 msgid "The emulator \"%s\" had an internal error."
 msgstr ""
 
-#empty strings from id 35214 to 35219
+#. Error dialog text when the game can't be played because it's not on a hard drive or partition
+#: xbmc/games/GameUtils.cpp
+msgctxt "#35214"
+msgid "This game can only be played directly from a hard drive or partition. Compressed files must be extracted."
+msgstr ""
+
+#empty strings from id 35215 to 35219
 
 #. Description of add-on category for game providers
 #: xbmc/filesystem/AddonsDirectory.cpp
