@@ -64,14 +64,17 @@ bool CGUIDialogSelectGameClient::ShowAndGetGameClient(const GameClientVector& ca
 
   if (0 <= result && result < static_cast<int>(candidates.size()))
   {
+    // Handle emulator
     gameClient = candidates[result];
   }
   else if (result == iInstallEmulator)
   {
+    // Install emulator
     gameClient = InstallGameClient(installable);
   }
   else if (result == iAddonMgr)
   {
+    // Go to add-on manager to manage emulators
     ActivateAddonMgr();
   }
   else
