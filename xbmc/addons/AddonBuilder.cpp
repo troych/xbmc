@@ -22,6 +22,7 @@
 #include "addons/AudioDecoder.h"
 #include "addons/AudioEncoder.h"
 #include "addons/ContextMenuAddon.h"
+#include "addons/GameResource.h"
 #include "addons/ImageResource.h"
 #include "addons/InputStream.h"
 #include "addons/LanguageResource.h"
@@ -107,7 +108,6 @@ std::shared_ptr<IAddon> CAddonBuilder::Build()
     case ADDON_SCRIPT_MODULE:
     case ADDON_SUBTITLE_MODULE:
     case ADDON_SCRIPT_WEATHER:
-    case ADDON_RESOURCE_GAMES:
       return std::make_shared<CAddon>(std::move(m_props));
     case ADDON_WEB_INTERFACE:
       return CWebinterface::FromExtension(std::move(m_props), m_extPoint);
@@ -146,6 +146,8 @@ std::shared_ptr<IAddon> CAddonBuilder::Build()
       return CSkinInfo::FromExtension(std::move(m_props), m_extPoint);
     case ADDON_RESOURCE_IMAGES:
       return CImageResource::FromExtension(std::move(m_props), m_extPoint);
+    case ADDON_RESOURCE_GAMES:
+      return CGameResource::FromExtension(std::move(m_props), m_extPoint);
     case ADDON_RESOURCE_LANGUAGE:
       return CLanguageResource::FromExtension(std::move(m_props), m_extPoint);
     case ADDON_RESOURCE_UISOUNDS:
@@ -208,6 +210,8 @@ AddonPtr CAddonBuilder::FromProps(AddonProps addonProps)
       return AddonPtr(new CAudioDecoder(std::move(addonProps)));
     case ADDON_RESOURCE_IMAGES:
       return AddonPtr(new CImageResource(std::move(addonProps)));
+    case ADDON_RESOURCE_GAMES:
+      return AddonPtr(new CGameResource(std::move(addonProps)));
     case ADDON_RESOURCE_LANGUAGE:
       return AddonPtr(new CLanguageResource(std::move(addonProps)));
     case ADDON_RESOURCE_UISOUNDS:

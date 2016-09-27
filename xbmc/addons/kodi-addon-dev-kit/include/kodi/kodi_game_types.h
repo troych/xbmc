@@ -21,10 +21,10 @@
 #define KODI_GAME_TYPES_H_
 
 /* current game API version */
-#define GAME_API_VERSION                "1.0.25"
+#define GAME_API_VERSION                "1.0.26"
 
 /* min. game API version */
-#define GAME_MIN_API_VERSION            "1.0.25"
+#define GAME_MIN_API_VERSION            "1.0.26"
 
 #include <stddef.h>
 #include <stdint.h>
@@ -70,6 +70,7 @@ typedef enum GAME_ERROR
   GAME_ERROR_INVALID_PARAMETERS,     // the parameters of the method that was called are invalid for this operation
   GAME_ERROR_FAILED,                 // the command failed
   GAME_ERROR_NOT_LOADED,             // no game is loaded
+  GAME_ERROR_RESTRICTED,             // game requires restricted resources
 } GAME_ERROR;
 
 typedef enum GAME_STREAM_TYPE
@@ -406,17 +407,15 @@ typedef struct game_client_properties
   unsigned int proxy_dll_count;
 
   /*!
-   * The "system" directory of the frontend. This directory can be used to
+   * The "system" directories of the frontend. These directories can be used to
    * store system-specific ROMs such as BIOSes, configuration data, etc.
    */
-  const char* system_directory;
+  const char** resource_directories;
 
   /*!
-   * The "content" directory of the frontend. This directory can be used to
-   * store specific assets that the core relies upon, such as art assets, input
-   * data, etc.
+   * Number of resource directories provided
    */
-  const char* content_directory;
+  unsigned int resource_directory_count;
 
   /*!
    * The "save" directory of the frontend. This directory can be used to store

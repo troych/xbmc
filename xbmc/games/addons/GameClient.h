@@ -158,7 +158,7 @@ private:
   // Private gameplay functions
   bool LoadGameInfo(const std::string& logPath);
   bool NormalizeAudio(IGameAudioCallback* audioCallback);
-  std::string GetMissingDep();
+  std::string GetMissingResource();
   void CreatePlayback();
   void ResetPlayback();
 

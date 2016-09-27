@@ -347,6 +347,8 @@
 		68C149751CDDF16F0014ADDB /* DynamicDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68C149721CDDF16F0014ADDB /* DynamicDatabase.cpp */; };
 		68C149791CDDF1DB0014ADDB /* GUIDialogSavestates.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68C149771CDDF1DB0014ADDB /* GUIDialogSavestates.cpp */; };
 		68C1497A1CDDF1DB0014ADDB /* GUIDialogSavestates.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68C149771CDDF1DB0014ADDB /* GUIDialogSavestates.cpp */; };
+		68CF61DE1D9C3B8500773EEA /* GameResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68CF61DD1D9C3B8500773EEA /* GameResource.cpp */; };
+		68CF61DF1D9C3B8500773EEA /* GameResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68CF61DD1D9C3B8500773EEA /* GameResource.cpp */; };
 		68D41C1B1D94494000544EFC /* JoystickEasterEgg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D41C191D94494000544EFC /* JoystickEasterEgg.cpp */; };
 		68D41C1C1D94494000544EFC /* JoystickEasterEgg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D41C191D94494000544EFC /* JoystickEasterEgg.cpp */; };
 		68D41C1F1D9457E100544EFC /* KeyboardEasterEgg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D41C1D1D9457E100544EFC /* KeyboardEasterEgg.cpp */; };
@@ -2953,6 +2955,8 @@
 		68C149731CDDF16F0014ADDB /* DynamicDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicDatabase.h; sourceTree = "<group>"; };
 		68C149771CDDF1DB0014ADDB /* GUIDialogSavestates.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUIDialogSavestates.cpp; path = games/dialogs/GUIDialogSavestates.cpp; sourceTree = "<group>"; };
 		68C149781CDDF1DB0014ADDB /* GUIDialogSavestates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIDialogSavestates.h; path = games/dialogs/GUIDialogSavestates.h; sourceTree = "<group>"; };
+		68CF61DC1D9C3B3E00773EEA /* GameResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameResource.h; sourceTree = "<group>"; };
+		68CF61DD1D9C3B8500773EEA /* GameResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameResource.cpp; sourceTree = "<group>"; };
 		68D41C181D94494000544EFC /* IButtonSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IButtonSequence.h; path = joysticks/IButtonSequence.h; sourceTree = "<group>"; };
 		68D41C191D94494000544EFC /* JoystickEasterEgg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JoystickEasterEgg.cpp; path = joysticks/JoystickEasterEgg.cpp; sourceTree = "<group>"; };
 		68D41C1A1D94494000544EFC /* JoystickEasterEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoystickEasterEgg.h; path = joysticks/JoystickEasterEgg.h; sourceTree = "<group>"; };
@@ -5351,6 +5355,8 @@
 				9A2FAD691C972BE10049652A /* ContextMenus.h */,
 				18B49FF61152BFA5001AF8A6 /* DllAddon.h */,
 				68D77D221CD1C789004C1735 /* DllGameClient.h */,
+				68CF61DD1D9C3B8500773EEA /* GameResource.cpp */,
+				68CF61DC1D9C3B3E00773EEA /* GameResource.h */,
 				18B7C38612942090009E7A26 /* GUIDialogAddonInfo.cpp */,
 				18B7C38712942090009E7A26 /* GUIDialogAddonInfo.h */,
 				18B7C8F912942718009E7A26 /* GUIDialogAddonSettings.cpp */,
@@ -10183,6 +10189,7 @@
 				E38E20020D25F9FD00618676 /* CacheStrategy.cpp in Sources */,
 				687225381D568F4F0015E459 /* GameUtils.cpp in Sources */,
 				E38E20030D25F9FD00618676 /* CDDADirectory.cpp in Sources */,
+				68CF61DE1D9C3B8500773EEA /* GameResource.cpp in Sources */,
 				E38E20040D25F9FD00618676 /* cddb.cpp in Sources */,
 				E38E20050D25F9FD00618676 /* cdioSupport.cpp in Sources */,
 				E38E20070D25F9FD00618676 /* Directory.cpp in Sources */,
@@ -12220,6 +12227,7 @@
 				DF40BC2B178B4C07009DB567 /* ScriptInvocationManager.cpp in Sources */,
 				DF02BA621A910623006DCA16 /* VideoSyncIos.cpp in Sources */,
 				F55BA70B17AB2264002A36D1 /* StereoscopicsManager.cpp in Sources */,
+				68CF61DF1D9C3B8500773EEA /* GameResource.cpp in Sources */,
 				F55BA71017AB2293002A36D1 /* RenderFlags.cpp in Sources */,
 				F59EED7F17AD5174005BB7C6 /* ApplicationPlayer.cpp in Sources */,
 				DF28DF4E17B8379E0077F41A /* ProfilesOperations.cpp in Sources */,

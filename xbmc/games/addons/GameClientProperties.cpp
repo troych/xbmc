@@ -22,6 +22,7 @@
 #include "GameClient.h"
 #include "addons/IAddon.h"
 #include "addons/AddonManager.h"
+#include "addons/GameResource.h"
 #include "filesystem/Directory.h"
 #include "filesystem/SpecialProtocol.h"
 #include "settings/Settings.h"
@@ -32,8 +33,8 @@ using namespace ADDON;
 using namespace GAME;
 using namespace XFILE;
 
-#define GAME_CLIENT_SAVE_DIRECTORY    "save"
-#define GAME_CLIENT_SYSTEM_DIRECTORY  "system"
+#define GAME_CLIENT_RESOURCES_DIRECTORY  "resources"
+#define GAME_CLIENT_SAVE_DIRECTORY       "save"
 
 CGameClientProperties::CGameClientProperties(const CGameClient* parent, game_client_properties*& props)
   : m_parent(parent),
@@ -49,6 +50,10 @@ void CGameClientProperties::ReleaseResources(void)
     delete[] *it;
   m_proxyDllPaths.clear();
 
+  for (std::vector<char*>::const_iterator it = m_resourceDirectories.begin(); it != m_resourceDirectories.end(); ++it)
+    delete[] *it;
+  m_resourceDirectories.clear();
+
   for (std::vector<char*>::const_iterator it = m_extensions.begin(); it != m_extensions.end(); ++it)
     delete[] *it;
   m_extensions.clear();
@@ -58,15 +63,15 @@ void CGameClientProperties::InitializeProperties(void)
 {
   ReleaseResources();
 
-  m_properties.game_client_dll_path = GetLibraryPath();
-  m_properties.proxy_dll_paths      = GetProxyDllPaths();
-  m_properties.proxy_dll_count      = GetProxyDllCount();
-  m_properties.system_directory     = GetSystemDirectory();
-  m_properties.content_directory    = GetContentDirectory();
-  m_properties.save_directory       = GetSaveDirectory();
-  m_properties.supports_vfs         = m_parent->SupportsVFS();
-  m_properties.extensions           = GetExtensions();
-  m_properties.extension_count      = GetExtensionCount();
+  m_properties.game_client_dll_path     = GetLibraryPath();
+  m_properties.proxy_dll_paths          = GetProxyDllPaths();
+  m_properties.proxy_dll_count          = GetProxyDllCount();
+  m_properties.resource_directories     = GetResourceDirectories();
+  m_properties.resource_directory_count = GetResourceDirectoryCount();
+  m_properties.save_directory           = GetSaveDirectory();
+  m_properties.supports_vfs             = m_parent->SupportsVFS();
+  m_properties.extensions               = GetExtensions();
+  m_properties.extension_count          = GetExtensionCount();
 }
 
 const char* CGameClientProperties::GetLibraryPath(void)
@@ -74,7 +79,7 @@ const char* CGameClientProperties::GetLibraryPath(void)
   if (m_strLibraryPath.empty())
   {
     // Get the parent add-on's real path
-    std::string strLibPath = dynamic_cast<const CGameClient*>(m_parent)->CAddon::LibPath();
+    std::string strLibPath = m_parent->CAddon::LibPath();
     m_strLibraryPath = CSpecialProtocol::TranslatePath(strLibPath);
   }
   return m_strLibraryPath.c_str();
@@ -82,31 +87,59 @@ const char* CGameClientProperties::GetLibraryPath(void)
 
 const char** CGameClientProperties::GetProxyDllPaths(void)
 {
-  // Add all game client dependencies
-  // TODO: Compare helper version with required dependency
-  const ADDONDEPS& dependencies = m_parent->GetDeps();
-  for (ADDONDEPS::const_iterator it = dependencies.begin(); it != dependencies.end(); ++it)
-    AddProxyDll(it->first);
-
-  return !m_proxyDllPaths.empty() ? const_cast<const char**>(m_proxyDllPaths.data()) : NULL;
-}
-
-const char* CGameClientProperties::GetSystemDirectory(void)
-{
-  if (m_strSystemDirectory.empty())
+  if (m_proxyDllPaths.empty())
   {
-    m_strSystemDirectory = CSpecialProtocol::TranslatePath(URIUtils::AddFileToFolder(m_parent->Profile(), GAME_CLIENT_SYSTEM_DIRECTORY));
-    if (!CDirectory::Exists(m_strSystemDirectory))
-      CDirectory::Create(m_strSystemDirectory);
+    // Add all game client dependencies
+    // TODO: Compare helper version with required dependency
+    const ADDONDEPS& dependencies = m_parent->GetDeps();
+    for (ADDONDEPS::const_iterator it = dependencies.begin(); it != dependencies.end(); ++it)
+    {
+      const std::string& strAddonId = it->first;
+      AddonPtr addon;
+      if (CAddonMgr::GetInstance().GetAddon(strAddonId, addon, ADDON_GAMEDLL))
+        AddProxyDll(std::static_pointer_cast<CGameClient>(addon));
+    }
   }
-  return m_strSystemDirectory.c_str();
+
+  if (!m_proxyDllPaths.empty())
+    return const_cast<const char**>(m_proxyDllPaths.data());
+
+  return nullptr;
 }
 
-const char* CGameClientProperties::GetContentDirectory(void)
+const char** CGameClientProperties::GetResourceDirectories(void)
 {
-  if (m_strContentDirectory.empty())
-    m_strContentDirectory = CSpecialProtocol::TranslatePath(m_parent->Path());
-  return m_strContentDirectory.c_str();
+  if (m_resourceDirectories.empty())
+  {
+    // Add own resource directory first
+    std::string path = URIUtils::AddFileToFolder(m_parent->Path(), GAME_CLIENT_RESOURCES_DIRECTORY);
+
+    char* resourceDir = new char[path.length() + 1];
+    std::strcpy(resourceDir, path.c_str());
+    m_resourceDirectories.push_back(resourceDir);
+
+    // Add all other game resource
+    const ADDONDEPS& dependencies = m_parent->GetDeps();
+    for (ADDONDEPS::const_iterator it = dependencies.begin(); it != dependencies.end(); ++it)
+    {
+      const std::string& strAddonId = it->first;
+      AddonPtr addon;
+      if (CAddonMgr::GetInstance().GetAddon(strAddonId, addon, ADDON_RESOURCE_GAMES))
+      {
+        std::shared_ptr<CGameResource> resource = std::static_pointer_cast<CGameResource>(addon);
+
+        std::string resourcePath = resource->GetFullPath("");
+        char* resourceDir = new char[resourcePath.length() + 1];
+        std::strcpy(resourceDir, resourcePath.c_str());
+        m_resourceDirectories.push_back(resourceDir);
+      }
+    }
+  }
+
+  if (!m_resourceDirectories.empty())
+    return const_cast<const char**>(m_resourceDirectories.data());
+
+  return nullptr;
 }
 
 const char* CGameClientProperties::GetSaveDirectory(void)
@@ -132,25 +165,18 @@ const char** CGameClientProperties::GetExtensions(void)
   return !m_extensions.empty() ? const_cast<const char**>(m_extensions.data()) : nullptr;
 }
 
-bool CGameClientProperties::AddProxyDll(const std::string& strAddonId)
+void CGameClientProperties::AddProxyDll(const GameClientPtr& gameClient)
 {
-  // Ignore add-on if it isn't a game client
-  AddonPtr addon;
-  if (CAddonMgr::GetInstance().GetAddon(strAddonId, addon, ADDON_GAMEDLL) && addon)
-  {
-    // Get the add-on's real path
-    std::string strLibPath = static_cast<const CGameClient*>(addon.get())->CAddon::LibPath();
+  // Get the add-on's real path
+  std::string strLibPath = gameClient->CAddon::LibPath();
 
-    // Ignore add-on if it is already added
-    if (!HasProxyDll(strLibPath))
-    {
-      char* libPath = new char[strLibPath.length() + 1];
-      std::strcpy(libPath, strLibPath.c_str());
-      m_proxyDllPaths.push_back(libPath);
-      return true;
-    }
+  // Ignore add-on if it is already added
+  if (!HasProxyDll(strLibPath))
+  {
+    char* libPath = new char[strLibPath.length() + 1];
+    std::strcpy(libPath, strLibPath.c_str());
+    m_proxyDllPaths.push_back(libPath);
   }
-  return false;
 }
 
 bool CGameClientProperties::HasProxyDll(const std::string& strLibPath) const

@@ -20,6 +20,7 @@
 #pragma once
 
 #include "addons/kodi-addon-dev-kit/include/kodi/kodi_game_types.h"
+#include "games/GameTypes.h"
 
 #include <string>
 #include <vector>
@@ -32,7 +33,7 @@ namespace GAME
 class CGameClient;
 
 /**
- * \brief Wrapper for game client properties declared in kodi_game_types.h
+ * \brief C++ wrapper for game client properties declared in kodi_game_types.h
  */
 class CGameClientProperties
 {
@@ -55,11 +56,11 @@ private:
   // Number of proxy DLLs needed to load the game client
   unsigned int GetProxyDllCount(void) const { return m_proxyDllPaths.size(); }
 
-  // Equal to special://profile/addon_data/<parent's id>/system
-  const char* GetSystemDirectory(void);
+  // Paths to game resources
+  const char** GetResourceDirectories(void);
 
-  // Equal to parent's add-on path
-  const char* GetContentDirectory(void);
+  // Number of resource directories
+  unsigned int GetResourceDirectoryCount(void) const { return m_resourceDirectories.size(); }
 
   // Equal to special://profile/addon_data/<parent's id>/save
   const char* GetSaveDirectory(void);
@@ -71,20 +72,19 @@ private:
   unsigned int GetExtensionCount(void) const { return m_extensions.size(); }
 
   // Helper functions
-  bool AddProxyDll(const std::string& strLibPath);
+  void AddProxyDll(const GameClientPtr& gameClient);
   bool HasProxyDll(const std::string& strLibPath) const;
 
   const CGameClient* const  m_parent;
   game_client_properties    m_properties;
 
   // Buffers to hold the strings
-  std::string        m_strLibraryPath;      // immutable
-  std::vector<char*> m_proxyDllPaths;       // mutable
-  std::string        m_strNetplayServer;    // immutable
-  std::string        m_strSystemDirectory;  // immutable
-  std::string        m_strContentDirectory; // immutable
-  std::string        m_strSaveDirectory;    // immutable
-  std::vector<char*> m_extensions;          // mutable
+  std::string        m_strLibraryPath;
+  std::vector<char*> m_proxyDllPaths;
+  std::string        m_strNetplayServer;
+  std::vector<char*> m_resourceDirectories;
+  std::string        m_strSaveDirectory;
+  std::vector<char*> m_extensions;
 };
 
 } // namespace GAME

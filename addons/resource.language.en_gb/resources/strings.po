@@ -16374,10 +16374,10 @@ msgctxt "#35210"
 msgid "Failed to play game"
 msgstr ""
 
-#. Dialog text when gameplay fails and an optional add-on is imported. %s - add-on ID
+#. Error dialog text when the game requires restricted files to play. %s - emulator ID
 #: xbmc/games/addons/GameClient.cpp
 msgctxt "#35211"
-msgid "The add-on %s is missing."
+msgid "This game requires the following add-on: %s"
 msgstr ""
 
 #. Error dialog text when launching a game and no emulators are compatible

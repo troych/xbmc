@@ -233,7 +233,7 @@ bool CGameClient::OpenFile(const CFileItem& file, IGameAudioCallback* audio, IGa
 
   CloseFile();
 
-  bool bSuccess = false;
+  GAME_ERROR error = GAME_ERROR_FAILED;
 
   if (!m_bSupportsStandalone)
   {
@@ -249,50 +249,56 @@ bool CGameClient::OpenFile(const CFileItem& file, IGameAudioCallback* audio, IGa
 
     CLog::Log(LOGDEBUG, "GameClient: Loading %s", path.c_str());
 
-    try { bSuccess = LogError(m_pStruct->LoadGame(path.c_str()), "LoadGame()"); }
+    try { LogError(error = m_pStruct->LoadGame(path.c_str()), "LoadGame()"); }
     catch (...) { LogException("LoadGame()"); }
   }
   else
   {
     CLog::Log(LOGDEBUG, "GameClient: Loading %s in standalone mode", ID().c_str());
 
-    try { bSuccess = LogError(m_pStruct->LoadStandalone(), "LoadStandalone()"); }
+    try { LogError(error = m_pStruct->LoadStandalone(), "LoadStandalone()"); }
     catch (...) { LogException("LoadStandalone()"); }
   }
 
-  if (!bSuccess)
+  if (error != GAME_ERROR_NO_ERROR)
   {
-    std::string missingDep = GetMissingDep();
-    if (!missingDep.empty())
+    std::string missingResource;
+
+    if (error == GAME_ERROR_RESTRICTED)
+      missingResource = GetMissingResource();
+
+    if (!missingResource.empty())
     {
       // Failed to play game
-      // The add-on %s is missing.
-      CGUIDialogOK::ShowAndGetInput(g_localizeStrings.Get(35210), StringUtils::Format(g_localizeStrings.Get(35211).c_str(), missingDep.c_str()));
+      // This game requires the following add-on: %s
+      CGUIDialogOK::ShowAndGetInput(CVariant{ 35210 }, StringUtils::Format(g_localizeStrings.Get(35211).c_str(), missingResource.c_str()));
     }
     else
     {
       // Failed to play game
       // The emulator "%s" had an internal error.
-      CGUIDialogOK::ShowAndGetInput(g_localizeStrings.Get(35210), StringUtils::Format(g_localizeStrings.Get(35213).c_str(), Name().c_str()));
+      CGUIDialogOK::ShowAndGetInput(CVariant{ 35210 }, StringUtils::Format(g_localizeStrings.Get(35213).c_str(), Name().c_str()));
     }
   }
-
-  if (bSuccess && LoadGameInfo(file.GetPath()) && NormalizeAudio(audio))
+  else
   {
-    m_bIsPlaying      = true;
-    m_gamePath        = file.GetPath();
-    m_serializeSize   = GetSerializeSize();
-    m_audio           = audio;
-    m_video           = video;
-    m_inputRateHandle = PERIPHERALS::g_peripherals.SetEventScanRate(INPUT_SCAN_RATE);
+    if (LoadGameInfo(file.GetPath()) && NormalizeAudio(audio))
+    {
+      m_bIsPlaying      = true;
+      m_gamePath        = file.GetPath();
+      m_serializeSize   = GetSerializeSize();
+      m_audio           = audio;
+      m_video           = video;
+      m_inputRateHandle = PERIPHERALS::g_peripherals.SetEventScanRate(INPUT_SCAN_RATE);
 
-    if (m_bSupportsKeyboard)
-      OpenKeyboard();
+      if (m_bSupportsKeyboard)
+        OpenKeyboard();
 
-    // Start playback
-    CreatePlayback();
+      // Start playback
+      CreatePlayback();
 
-    return true;
+      return true;
+    }
   }
 
   return false;
@@ -361,7 +367,7 @@ bool CGameClient::LoadGameInfo(const std::string& logPath)
   return true;
 }
 
-std::string CGameClient::GetMissingDep()
+std::string CGameClient::GetMissingResource()
 {
   using namespace ADDON;
 
@@ -370,10 +376,9 @@ std::string CGameClient::GetMissingDep()
   const ADDONDEPS& dependencies = GetDeps();
   for (ADDONDEPS::const_iterator it = dependencies.begin(); it != dependencies.end(); ++it)
   {
-    const bool bOptional = it->second.second;
-    if (bOptional)
+    const std::string& strDependencyId = it->first;
+    if (StringUtils::StartsWith(strDependencyId, "resource.games"))
     {
-      const std::string& strDependencyId = it->first;
       AddonPtr addon;
       const bool bInstalled = CAddonMgr::GetInstance().GetAddon(strDependencyId, addon);
       if (!bInstalled)
