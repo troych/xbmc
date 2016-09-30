@@ -31,6 +31,7 @@ const char* CGameClientTranslator::ToString(GAME_ERROR error)
   case GAME_ERROR_REJECTED:           return "rejected by the client";
   case GAME_ERROR_INVALID_PARAMETERS: return "invalid parameters for this method";
   case GAME_ERROR_FAILED:             return "the command failed";
+  case GAME_ERROR_NOT_LOADED:         return "no game is loaded";
   default:
     break;
   }
