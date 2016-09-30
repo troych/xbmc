@@ -112,11 +112,6 @@ static bool IsGameType(TYPE type)
   return gameTypes.find(type) != gameTypes.end();
 }
 
-static bool IsGameAddon(const AddonPtr& addon)
-{
-  return addon->IsType(ADDON_GAME);
-}
-
 static bool IsStandaloneGame(const AddonPtr& addon)
 {
   return (addon->Type() == ADDON_GAMEDLL && std::static_pointer_cast<GAME::CGameClient>(addon)->IsStandalone()) ||
@@ -131,6 +126,18 @@ static bool IsEmulator(const AddonPtr& addon)
 static bool IsGameProvider(const AddonPtr& addon)
 {
   return addon->Type() == ADDON_PLUGIN && addon->IsType(ADDON_GAME);
+}
+
+static bool IsGameResource(const AddonPtr& addon)
+{
+  return addon->Type() == ADDON_RESOURCE_GAMES;
+}
+
+static bool IsGameAddon(const AddonPtr& addon)
+{
+  return IsGameType(addon->Type()) ||
+         IsStandaloneGame(addon) ||
+         IsGameProvider(addon);
 }
 
 static bool IsDependecyType(TYPE type)

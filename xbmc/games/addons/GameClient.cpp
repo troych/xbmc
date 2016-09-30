@@ -164,12 +164,6 @@ CGameClient::~CGameClient(void)
 {
 }
 
-bool CGameClient::IsType(ADDON::TYPE type) const
-{
-  return type == ADDON::ADDON_GAMEDLL ||
-         type == ADDON::ADDON_GAME;
-}
-
 std::string CGameClient::LibPath() const
 {
   // If the game client requires a proxy, load its DLL instead
