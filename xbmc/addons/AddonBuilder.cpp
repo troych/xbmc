@@ -89,7 +89,8 @@ std::shared_ptr<IAddon> CAddonBuilder::Build()
       type == ADDON_AUDIOENCODER ||
       type == ADDON_AUDIODECODER ||
       type == ADDON_INPUTSTREAM ||
-      type == ADDON_PERIPHERALDLL)
+      type == ADDON_PERIPHERALDLL ||
+      type == ADDON_GAMEDLL)
   {
     std::string value = CAddonMgr::GetInstance().GetPlatformLibraryName(m_extPoint->plugin->extensions->configuration);
     if (value.empty())
