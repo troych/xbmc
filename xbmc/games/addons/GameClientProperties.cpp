@@ -145,7 +145,7 @@ const char* CGameClientProperties::GetProfileDirectory(void)
 {
   if (m_strProfileDirectory.empty())
   {
-    m_strProfileDirectory = m_parent->Profile();
+    m_strProfileDirectory = CSpecialProtocol::TranslatePath(m_parent->Profile());
     if (!CDirectory::Exists(m_strProfileDirectory))
       CDirectory::Create(m_strProfileDirectory);
   }
