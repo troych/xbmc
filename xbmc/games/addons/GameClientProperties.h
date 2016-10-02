@@ -81,7 +81,6 @@ private:
   // Buffers to hold the strings
   std::string        m_strLibraryPath;
   std::vector<char*> m_proxyDllPaths;
-  std::string        m_strNetplayServer;
   std::vector<char*> m_resourceDirectories;
   std::string        m_strSaveDirectory;
   std::vector<char*> m_extensions;
