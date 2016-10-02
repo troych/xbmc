@@ -62,8 +62,8 @@ private:
   // Number of resource directories
   unsigned int GetResourceDirectoryCount(void) const { return m_resourceDirectories.size(); }
 
-  // Equal to special://profile/addon_data/<parent's id>/save
-  const char* GetSaveDirectory(void);
+  // Equal to special://profile/addon_data/<parent's id>
+  const char* GetProfileDirectory(void);
 
   // List of extensions from addon.xml
   const char** GetExtensions(void);
@@ -82,7 +82,7 @@ private:
   std::string        m_strLibraryPath;
   std::vector<char*> m_proxyDllPaths;
   std::vector<char*> m_resourceDirectories;
-  std::string        m_strSaveDirectory;
+  std::string        m_strProfileDirectory;
   std::vector<char*> m_extensions;
 };
 

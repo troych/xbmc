@@ -21,7 +21,7 @@
 #define KODI_GAME_TYPES_H_
 
 /* current game API version */
-#define GAME_API_VERSION                "1.0.26"
+#define GAME_API_VERSION                "1.0.27"
 
 /* min. game API version */
 #define GAME_MIN_API_VERSION            "1.0.26"
@@ -418,11 +418,11 @@ typedef struct game_client_properties
   unsigned int resource_directory_count;
 
   /*!
-   * The "save" directory of the frontend. This directory can be used to store
+   * The writable directory of the frontend. This directory can be used to store
    * SRAM, memory cards, high scores, etc, if the game client cannot use the
    * regular memory interface, GetMemoryData().
    */
-  const char* save_directory;
+  const char* profile_directory;
 
   /*!
    * The value of the <supports_vfs> property from addon.xml

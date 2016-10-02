@@ -34,7 +34,6 @@ using namespace GAME;
 using namespace XFILE;
 
 #define GAME_CLIENT_RESOURCES_DIRECTORY  "resources"
-#define GAME_CLIENT_SAVE_DIRECTORY       "save"
 
 CGameClientProperties::CGameClientProperties(const CGameClient* parent, game_client_properties*& props)
   : m_parent(parent),
@@ -68,7 +67,7 @@ void CGameClientProperties::InitializeProperties(void)
   m_properties.proxy_dll_count          = GetProxyDllCount();
   m_properties.resource_directories     = GetResourceDirectories();
   m_properties.resource_directory_count = GetResourceDirectoryCount();
-  m_properties.save_directory           = GetSaveDirectory();
+  m_properties.profile_directory        = GetProfileDirectory();
   m_properties.supports_vfs             = m_parent->SupportsVFS();
   m_properties.extensions               = GetExtensions();
   m_properties.extension_count          = GetExtensionCount();
@@ -142,15 +141,15 @@ const char** CGameClientProperties::GetResourceDirectories(void)
   return nullptr;
 }
 
-const char* CGameClientProperties::GetSaveDirectory(void)
+const char* CGameClientProperties::GetProfileDirectory(void)
 {
-  if (m_strSaveDirectory.empty())
+  if (m_strProfileDirectory.empty())
   {
-    m_strSaveDirectory = CSpecialProtocol::TranslatePath(URIUtils::AddFileToFolder(m_parent->Profile(), GAME_CLIENT_SAVE_DIRECTORY));
-    if (!CDirectory::Exists(m_strSaveDirectory))
-      CDirectory::Create(m_strSaveDirectory);
+    m_strProfileDirectory = m_parent->Profile();
+    if (!CDirectory::Exists(m_strProfileDirectory))
+      CDirectory::Create(m_strProfileDirectory);
   }
-  return m_strSaveDirectory.c_str();
+  return m_strProfileDirectory.c_str();
 }
 
 const char** CGameClientProperties::GetExtensions(void)
