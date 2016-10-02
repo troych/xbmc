@@ -26,6 +26,7 @@
 #include "filesystem/Directory.h"
 #include "filesystem/SpecialProtocol.h"
 #include "settings/Settings.h"
+#include "utils/log.h"
 
 #include <cstring>
 
@@ -110,14 +111,7 @@ const char** CGameClientProperties::GetResourceDirectories(void)
 {
   if (m_resourceDirectories.empty())
   {
-    // Add own resource directory first
-    std::string path = URIUtils::AddFileToFolder(m_parent->Path(), GAME_CLIENT_RESOURCES_DIRECTORY);
-
-    char* resourceDir = new char[path.length() + 1];
-    std::strcpy(resourceDir, path.c_str());
-    m_resourceDirectories.push_back(resourceDir);
-
-    // Add all other game resource
+    // Add all other game resources
     const ADDONDEPS& dependencies = m_parent->GetDeps();
     for (ADDONDEPS::const_iterator it = dependencies.begin(); it != dependencies.end(); ++it)
     {
@@ -128,11 +122,33 @@ const char** CGameClientProperties::GetResourceDirectories(void)
         std::shared_ptr<CGameResource> resource = std::static_pointer_cast<CGameResource>(addon);
 
         std::string resourcePath = resource->GetFullPath("");
+
         char* resourceDir = new char[resourcePath.length() + 1];
         std::strcpy(resourceDir, resourcePath.c_str());
         m_resourceDirectories.push_back(resourceDir);
       }
     }
+
+    // Add resource directories for profile and path
+    std::string addonProfile = CSpecialProtocol::TranslatePath(m_parent->Profile());
+    std::string addonPath = m_parent->Path();
+
+    addonProfile = URIUtils::AddFileToFolder(addonProfile, GAME_CLIENT_RESOURCES_DIRECTORY);
+    addonPath = URIUtils::AddFileToFolder(addonPath, GAME_CLIENT_RESOURCES_DIRECTORY);
+
+    if (!CDirectory::Exists(addonProfile))
+    {
+      CLog::Log(LOGDEBUG, "Creating resource directory: %s", addonProfile.c_str());
+      CDirectory::Create(addonProfile);
+    }
+
+    char* addonProfileDir = new char[addonProfile.length() + 1];
+    std::strcpy(addonProfileDir, addonProfile.c_str());
+    m_resourceDirectories.push_back(addonProfileDir);
+
+    char* addonPathDir = new char[addonPath.length() + 1];
+    std::strcpy(addonPathDir, addonPath.c_str());
+    m_resourceDirectories.push_back(addonPathDir);
   }
 
   if (!m_resourceDirectories.empty())
