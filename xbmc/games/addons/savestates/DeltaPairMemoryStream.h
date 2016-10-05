@@ -46,7 +46,7 @@ namespace GAME
     virtual void SubmitFrameInternal() override;
     virtual void CullPastFrames(unsigned int frameCount) override;
 
-    /**
+    /*!
      * Rewinding is implemented by applying XOR deltas on the specific parts of
      * the save state buffer which have changed. In practice, this is very fast
      * and simple (linear scan) and allows deltas to be compressed down to 1-3%

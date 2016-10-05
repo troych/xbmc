@@ -30,7 +30,14 @@ namespace GAME
   public:
     virtual ~IGameLoopCallback() = default;
 
+    /*!
+     * \brief The next frame is being shown
+     */
     virtual void FrameEvent() = 0;
+
+    /*!
+     * \brief The prior frame is being shown
+     */
     virtual void RewindEvent() = 0;
   };
 

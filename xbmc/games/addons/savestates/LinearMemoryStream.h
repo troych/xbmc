@@ -60,7 +60,7 @@ namespace GAME
 
     /**
      * Simple double-buffering. After XORing the two states, the next becomes
-     * the current, and the current because a buffer for the next call to
+     * the current, and the current becomes a buffer for the next call to
      * CGameClient::Serialize().
      */
     std::unique_ptr<uint32_t[]> m_currentFrame;
