@@ -46,7 +46,7 @@ bool CPeripheralBusApplication::PerformDeviceScan(PeripheralScanResults& results
   {
     PeripheralScanResult result(Type());
     result.m_type          = PERIPHERAL_JOYSTICK_EMULATION;
-    result.m_strDeviceName = g_localizeStrings.Get(35073); // "Emulated controller"
+    result.m_strDeviceName = g_localizeStrings.Get(35073); // "Keyboard player"
     result.m_strLocation   = MakeLocation(i);
     result.m_iVendorId     = 0;
     result.m_iProductId    = 0;

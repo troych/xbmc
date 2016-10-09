@@ -16095,7 +16095,7 @@ msgstr ""
 
 #: system/settings/settings.xml
 msgctxt "#35066"
-msgid "Number of emulated controllers"
+msgid "Number of keyboard players"
 msgstr ""
 
 #: system/settings/settings.xml
@@ -16128,10 +16128,10 @@ msgctxt "#35072"
 msgid "Configure keyboard player 4"
 msgstr ""
 
-#. Name of the emulated controller in the list of peripherals
+#. Name of the keyboard-emulated controller in the list of peripherals
 #: xbmc/peripherals/bus/virtual/PeripheralBusApplication.cpp
 msgctxt "#35073"
-msgid "Emulated controller"
+msgid "Keyboard player"
 msgstr ""
 
 #. Label for buttons that appear on the face of the controller. Used in the controller mapping dialog.
