@@ -22,7 +22,7 @@
 <!-- More documentation on keymaps can be found on http://kodi.wiki/view/keymaps          -->
 <keymap>
   <global>
-    <joystick>
+    <joystick profile="game.controller.default">
       <a>Select</a>
       <b>Back</b>
       <x>ContextMenu</x>
