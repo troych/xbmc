@@ -49,6 +49,9 @@ namespace PERIPHERALS
     static JOYSTICK::FEATURE_TYPE TranslateFeatureType(JOYSTICK_FEATURE_TYPE type);
     static JOYSTICK_FEATURE_TYPE  TranslateFeatureType(JOYSTICK::FEATURE_TYPE type);
 
+    static JOYSTICK::FEATURE_CATEGORY TranslateFeatureCategory(JOYSTICK_FEATURE_CATEGORY category);
+    static JOYSTICK_FEATURE_CATEGORY  TranslateFeatureCategory(JOYSTICK::FEATURE_CATEGORY category);
+
     static ADDON::DriverPrimitive Opposite(const ADDON::DriverPrimitive& semiaxis);
   };
 }

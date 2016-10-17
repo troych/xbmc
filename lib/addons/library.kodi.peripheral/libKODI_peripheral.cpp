@@ -76,6 +76,13 @@ DLLEXPORT unsigned int PERIPHERAL_feature_count(AddonCB* frontend, CB_Peripheral
   return cb->FeatureCount(frontend->addonData, controllerId, type);
 }
 
+DLLEXPORT JOYSTICK_FEATURE_CATEGORY PERIPHERAL_feature_category(AddonCB* frontend, CB_PeripheralLib* cb, const char* controllerId, const char* featureName)
+{
+  if (frontend == NULL || cb == NULL)
+    return JOYSTICK_FEATURE_CATEGORY_UNKNOWN;
+  return cb->FeatureCategory(frontend->addonData, controllerId, featureName);
+}
+
 #ifdef __cplusplus
 }
 #endif

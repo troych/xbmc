@@ -106,6 +106,7 @@ public:
     if (!PERIPHERAL_REGISTER_SYMBOL(m_libKODI_peripheral, PERIPHERAL_trigger_scan)) return false;
     if (!PERIPHERAL_REGISTER_SYMBOL(m_libKODI_peripheral, PERIPHERAL_refresh_button_maps)) return false;
     if (!PERIPHERAL_REGISTER_SYMBOL(m_libKODI_peripheral, PERIPHERAL_feature_count)) return false;
+    if (!PERIPHERAL_REGISTER_SYMBOL(m_libKODI_peripheral, PERIPHERAL_feature_category)) return false;
 
     m_callbacks = PERIPHERAL_register_me(m_handle);
     return m_callbacks != NULL;
@@ -126,12 +127,18 @@ public:
     return PERIPHERAL_feature_count(m_handle, m_callbacks, strControllerId.c_str(), type);
   }
 
+  JOYSTICK_FEATURE_CATEGORY FeatureCategory(const std::string& strControllerId, const std::string& featureName)
+  {
+    return PERIPHERAL_feature_category(m_handle, m_callbacks, strControllerId.c_str(), featureName.c_str());
+  }
+
 protected:
     CB_PeripheralLib* (*PERIPHERAL_register_me)(void* handle);
     void (*PERIPHERAL_unregister_me)(void* handle, CB_PeripheralLib* cb);
     void (*PERIPHERAL_trigger_scan)(void* handle, CB_PeripheralLib* cb);
     void (*PERIPHERAL_refresh_button_maps)(void* handle, CB_PeripheralLib* cb, const char* deviceName, const char* controllerId);
     unsigned int (*PERIPHERAL_feature_count)(void* handle, CB_PeripheralLib* cb, const char* controllerId, JOYSTICK_FEATURE_TYPE type);
+    JOYSTICK_FEATURE_CATEGORY (*PERIPHERAL_feature_category)(void* handle, CB_PeripheralLib* cb, const char* controllerId, const char* featureName);
 
 private:
   void*             m_handle;

@@ -20,11 +20,14 @@
 
 #include "AddonCallbacksPeripheral.h"
 #include "games/controllers/Controller.h"
+#include "games/controllers/ControllerFeature.h"
 #include "games/controllers/ControllerLayout.h"
 #include "peripherals/Peripherals.h"
 #include "peripherals/addons/PeripheralAddon.h"
 #include "peripherals/addons/PeripheralAddonTranslator.h"
 #include "utils/log.h"
+
+#include <algorithm>
 
 using namespace ADDON;
 using namespace PERIPHERALS;
@@ -45,6 +48,7 @@ CAddonCallbacksPeripheral::CAddonCallbacksPeripheral(ADDON::CAddon* addon)
   m_callbacks->TriggerScan               = TriggerScan;
   m_callbacks->RefreshButtonMaps         = RefreshButtonMaps;
   m_callbacks->FeatureCount              = FeatureCount;
+  m_callbacks->FeatureCategory           = FeatureCategory;
 }
 
 CAddonCallbacksPeripheral::~CAddonCallbacksPeripheral()
@@ -95,6 +99,37 @@ unsigned int CAddonCallbacksPeripheral::FeatureCount(void* addonData, const char
   }
 
   return count;
+}
+
+JOYSTICK_FEATURE_CATEGORY CAddonCallbacksPeripheral::FeatureCategory(void* addonData, const char* controllerId, const char* featureName)
+{
+  using namespace ADDON;
+  using namespace GAME;
+
+  JOYSTICK_FEATURE_CATEGORY category = JOYSTICK_FEATURE_CATEGORY_UNKNOWN;
+
+  if (controllerId == nullptr || featureName == nullptr)
+    return category;
+
+  AddonPtr addon;
+  if (CAddonMgr::GetInstance().GetAddon(controllerId, addon, ADDON_GAME_CONTROLLER))
+  {
+    ControllerPtr controller = std::static_pointer_cast<CController>(addon);
+    if (controller->LoadLayout())
+    {
+      auto& features = controller->Layout().Features();
+      auto it = std::find_if(features.begin(), features.end(),
+        [featureName](const CControllerFeature& feature)
+        {
+          return feature.Name() == featureName;
+        });
+
+      if (it != features.end())
+        category = CPeripheralAddonTranslator::TranslateFeatureCategory(it->Category());
+    }
+  }
+  
+  return category;
 }
 
 } /* namespace Peripheral */

@@ -54,6 +54,16 @@ typedef struct CB_PeripheralLib
    */
   unsigned int (*FeatureCount)(void* addonData, const char* controllerId, JOYSTICK_FEATURE_TYPE type);
 
+  /*!
+   * @brief Look up the category of the specified feature
+   *
+   * @param controllerId    The controller ID to look up
+   * @param featureName     The feature name to look up
+   *
+   * @return The feature's categopry, or JOYSTICK_FEATURE_CATEGORY_UNKNOWN if unknown
+   */
+  JOYSTICK_FEATURE_CATEGORY (*FeatureCategory)(void* addonData, const char* controllerId, const char* featureName);
+
 } CB_PeripheralLib;
 
 #ifdef __cplusplus
