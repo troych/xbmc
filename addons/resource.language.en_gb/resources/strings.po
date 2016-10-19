@@ -16029,7 +16029,19 @@ msgctxt "#35010"
 msgid "Peripheral libraries"
 msgstr ""
 
-#empty strings from id 35011 to 35048
+#. Title of dialog to ask users if they would like to configure a new controller
+#: xbmc/input/joysticks/dialogs/GUIDialogNewJoystick.cpp
+msgctxt "#35011"
+msgid "New controller detected"
+msgstr ""
+
+#. Text of dialog to ask users if they would like to configure a new controller
+#: xbmc/input/joysticks/dialogs/GUIDialogNewJoystick.cpp
+msgctxt "#35012"
+msgid "Would you like to configure your controller? This can be done later in System Settings."
+msgstr ""
+
+#empty strings from id 35013 to 35048
 
 #. Name of game add-ons category
 #: xbmc/addons/Addon.cpp

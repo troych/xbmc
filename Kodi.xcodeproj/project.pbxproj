@@ -261,6 +261,8 @@
 		6815C1421CC7BADB000DB91A /* RumbleGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6815C13F1CC7BADB000DB91A /* RumbleGenerator.cpp */; };
 		6818418C1CE81BC300B460E4 /* GUIDialogSelectGameClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6818418A1CE81BC300B460E4 /* GUIDialogSelectGameClient.cpp */; };
 		6818418D1CE81BC400B460E4 /* GUIDialogSelectGameClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6818418A1CE81BC300B460E4 /* GUIDialogSelectGameClient.cpp */; };
+		6827D71E1DD03E5F00BE9114 /* GUIDialogNewJoystick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6827D71C1DD03E5F00BE9114 /* GUIDialogNewJoystick.cpp */; };
+		6827D71F1DD03E5F00BE9114 /* GUIDialogNewJoystick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6827D71C1DD03E5F00BE9114 /* GUIDialogNewJoystick.cpp */; };
 		6838CF811D6665510057F17B /* DeadzoneFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6838CF7F1D6665510057F17B /* DeadzoneFilter.cpp */; };
 		6838CF821D6665510057F17B /* DeadzoneFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6838CF7F1D6665510057F17B /* DeadzoneFilter.cpp */; };
 		6861B9EA1CC248EE00F62655 /* DriverReceiving.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6861B9E81CC248EE00F62655 /* DriverReceiving.cpp */; };
@@ -2853,6 +2855,8 @@
 		6818418A1CE81BC300B460E4 /* GUIDialogSelectGameClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUIDialogSelectGameClient.cpp; path = games/dialogs/GUIDialogSelectGameClient.cpp; sourceTree = "<group>"; };
 		6818418B1CE81BC300B460E4 /* GUIDialogSelectGameClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIDialogSelectGameClient.h; path = games/dialogs/GUIDialogSelectGameClient.h; sourceTree = "<group>"; };
 		6819C8B61D76492500A60E30 /* IButtonMapCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IButtonMapCallback.h; path = joysticks/IButtonMapCallback.h; sourceTree = "<group>"; };
+		6827D71C1DD03E5F00BE9114 /* GUIDialogNewJoystick.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUIDialogNewJoystick.cpp; path = joysticks/dialogs/GUIDialogNewJoystick.cpp; sourceTree = "<group>"; };
+		6827D71D1DD03E5F00BE9114 /* GUIDialogNewJoystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIDialogNewJoystick.h; path = joysticks/dialogs/GUIDialogNewJoystick.h; sourceTree = "<group>"; };
 		682846281CF3E6B200087028 /* GameClientRealtimePlayback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameClientRealtimePlayback.h; path = games/addons/playback/GameClientRealtimePlayback.h; sourceTree = "<group>"; };
 		6838CF7F1D6665510057F17B /* DeadzoneFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DeadzoneFilter.cpp; path = joysticks/DeadzoneFilter.cpp; sourceTree = "<group>"; };
 		6838CF801D6665510057F17B /* DeadzoneFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeadzoneFilter.h; path = joysticks/DeadzoneFilter.h; sourceTree = "<group>"; };
@@ -6362,6 +6366,15 @@
 			name = generic;
 			sourceTree = "<group>";
 		};
+		6827D71B1DD03E5300BE9114 /* dialogs */ = {
+			isa = PBXGroup;
+			children = (
+				6827D71C1DD03E5F00BE9114 /* GUIDialogNewJoystick.cpp */,
+				6827D71D1DD03E5F00BE9114 /* GUIDialogNewJoystick.h */,
+			);
+			name = dialogs;
+			sourceTree = "<group>";
+		};
 		68AE5BA21C92410300C4D527 /* Peripheral */ = {
 			isa = PBXGroup;
 			children = (
@@ -6374,6 +6387,7 @@
 		68AE5BAB1C92419500C4D527 /* joysticks */ = {
 			isa = PBXGroup;
 			children = (
+				6827D71B1DD03E5300BE9114 /* dialogs */,
 				68AE5BC71C9241E200C4D527 /* generic */,
 				6838CF7F1D6665510057F17B /* DeadzoneFilter.cpp */,
 				6838CF801D6665510057F17B /* DeadzoneFilter.h */,
@@ -10175,6 +10189,7 @@
 				E38E1F840D25F9FD00618676 /* DVDCodecUtils.cpp in Sources */,
 				E38E1F850D25F9FD00618676 /* DVDFactoryCodec.cpp in Sources */,
 				7CE3FB901C9D40EA00366A4C /* ServiceBroker.cpp in Sources */,
+				6827D71E1DD03E5F00BE9114 /* GUIDialogNewJoystick.cpp in Sources */,
 				E38E1F880D25F9FD00618676 /* DVDOverlayCodecFFmpeg.cpp in Sources */,
 				E38E1F890D25F9FD00618676 /* DVDOverlayCodecText.cpp in Sources */,
 				E38E1F8D0D25F9FD00618676 /* DVDVideoCodecFFmpeg.cpp in Sources */,
@@ -12121,6 +12136,7 @@
 				E4991476174E605900741B6D /* StreamUtils.cpp in Sources */,
 				E4991477174E605900741B6D /* StringUtils.cpp in Sources */,
 				E4991478174E605900741B6D /* SystemInfo.cpp in Sources */,
+				6827D71F1DD03E5F00BE9114 /* GUIDialogNewJoystick.cpp in Sources */,
 				E4991479174E605900741B6D /* TextSearch.cpp in Sources */,
 				E499147B174E605900741B6D /* TimeUtils.cpp in Sources */,
 				E499147D174E605900741B6D /* URIUtils.cpp in Sources */,
