@@ -404,10 +404,7 @@ int CGUIWindowAddonBrowser::SelectAddonID(const std::vector<ADDON::TYPE> &types,
       else if (*type == ADDON_VIDEO)
         CAddonsDirectory::GetScriptsAndPlugins("video", typeAddons);
       else if (*type == ADDON_GAME)
-      {
         CAddonsDirectory::GetScriptsAndPlugins("game", typeAddons);
-        CAddonsDirectory::GetStandaloneGames(typeAddons);
-      }
       else
         CAddonMgr::GetInstance().GetAddons(typeAddons, *type);
 

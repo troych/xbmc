@@ -834,6 +834,21 @@ bool CAddonsDirectory::GetScriptsAndPlugins(const std::string &content, VECADDON
     if (plugin && plugin->Provides(type))
       addons.push_back(tempAddons[i]);
   }
+  tempAddons.clear();
+
+  if (type == CPluginSource::GAME)
+  {
+    CAddonMgr::GetInstance().GetAddons(tempAddons, ADDON_GAMEDLL);
+    for (auto& addon : tempAddons)
+    {
+      using namespace GAME;
+
+      GameClientPtr gameClient = std::static_pointer_cast<CGameClient>(addon);
+      if (gameClient->IsStandalone())
+        addons.push_back(addon);
+    }
+  }
+
   return true;
 }
 
@@ -873,47 +888,6 @@ bool CAddonsDirectory::GetScriptsAndPlugins(const std::string &content, CFileIte
     }
 
     items.Add(FileItemFromAddon(addon, path, bIsFolder));
-  }
-
-  items.SetContent("addons");
-  items.SetLabel(g_localizeStrings.Get(24001)); // Add-ons
-
-  return true;
-}
-
-bool CAddonsDirectory::GetStandaloneGames(VECADDONS &addons)
-{
-  using namespace GAME;
-
-  VECADDONS gameClients;
-  CBinaryAddonCache& addonCache = CServiceBroker::GetBinaryAddonCache();
-  addonCache.GetAddons(gameClients, ADDON_GAMEDLL);
-
-  gameClients.erase(std::remove_if(gameClients.begin(), gameClients.end(),
-    [](AddonPtr& addon)
-    {
-      return !std::static_pointer_cast<CGameClient>(addon)->IsStandalone();
-    }), gameClients.end());
-
-  if (!gameClients.empty())
-  {
-    addons.insert(addons.end(), gameClients.begin(), gameClients.end());
-    return true;
-  }
-
-  return false;
-}
-
-bool CAddonsDirectory::GetStandaloneGames(CFileItemList &items)
-{
-  VECADDONS addons;
-  if (!GetStandaloneGames(addons))
-    return false;
-
-  for (AddonPtr& addon : addons)
-  {
-    std::string path = "game://" + addon->ID();
-    items.Add(FileItemFromAddon(addon, path, false));
   }
 
   items.SetContent("addons");
