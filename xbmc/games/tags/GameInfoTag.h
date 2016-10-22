@@ -96,6 +96,10 @@ namespace GAME
     const std::string& GetSavestate() const { return m_strSavestate; }
     void SetSavestate(const std::string& strSavestate) { m_strSavestate = strSavestate; }
 
+    // Game client add-on ID
+    const std::string& GetGameClient() const { return m_strGameClient; }
+    void SetGameClient(const std::string& strGameClient) { m_strGameClient = strGameClient; }
+
     virtual void Archive(CArchive& ar) override;
     virtual void Serialize(CVariant& value) const override;
     virtual void ToSortable(SortItem& sortable, Field field) const override;
@@ -115,5 +119,6 @@ namespace GAME
     std::string m_strFormat;
     std::string m_strCartridgeType;
     std::string m_strSavestate;
+    std::string m_strGameClient;
   };
 }
