@@ -632,7 +632,7 @@ namespace XBMCAddon
           else if (key == "year")
             item->GetGameInfoTag()->SetYear(strtol(value.c_str(), NULL, 10));
           else if (key == "emulator")
-            item->SetProperty(FILEITEM_PROPERTY_GAME_CLIENT, value);
+            item->GetGameInfoTag()->SetGameClient(value);
         }
       }
     } // end ListItem::setInfo
