@@ -22,8 +22,6 @@
 #include <memory>
 #include <vector>
 
-#define FILEITEM_PROPERTY_GAME_CLIENT  "gameclient"
-
 namespace GAME
 {
 

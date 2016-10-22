@@ -26,6 +26,7 @@
 #include "dbwrappers/dataset.h"
 #include "filesystem/File.h"
 #include "games/GameTypes.h"
+#include "games/tags/GameInfoTag.h"
 #include "settings/AdvancedSettings.h"
 #include "utils/StringUtils.h"
 #include "utils/Variant.h"
@@ -185,7 +186,7 @@ CFileItem* CSavestateDatabase::CreateFileItem(const CVariant& object) const
 
   item->m_dateTime = save.Timestamp();
   item->SetProperty(FILEITEM_PROPERTY_SAVESTATE_DURATION, static_cast<uint64_t>(save.PlaytimeWallClock()));
-  item->SetProperty(FILEITEM_PROPERTY_GAME_CLIENT, save.GameClient());
+  item->GetGameInfoTag()->SetGameClient(save.GameClient());
   item->m_dwSize = save.Size();
   item->m_bIsFolder = false;
 

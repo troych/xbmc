@@ -25,6 +25,7 @@
 #include "dialogs/GUIDialogOK.h"
 #include "games/addons/GameClient.h"
 #include "games/dialogs/GUIDialogSelectGameClient.h"
+#include "games/tags/GameInfoTag.h"
 #include "filesystem/SpecialProtocol.h"
 #include "utils/StringUtils.h"
 #include "utils/URIUtils.h"
@@ -42,8 +43,10 @@ GameClientPtr CGameUtils::OpenGameClient(const CFileItem& file)
 
   GameClientPtr gameClient;
 
-  // Get the game client ID from the file properties
-  std::string gameClientId = file.GetProperty(FILEITEM_PROPERTY_GAME_CLIENT).asString();
+  // Get the game client ID from the game info tag
+  std::string gameClientId;
+  if (file.HasGameInfoTag())
+    gameClientId = file.GetGameInfoTag()->GetGameClient();
 
   // If the fileitem is an add-on, fall back to that
   if (gameClientId.empty())

@@ -68,7 +68,8 @@ bool CGUIDialogSavestates::OnMessage(CGUIMessage& message)
     if (m_gamePath.empty())
     {
       m_gamePath = g_application.CurrentFileItem().GetPath();
-      m_gameClient = g_application.CurrentFileItem().GetProperty(FILEITEM_PROPERTY_GAME_CLIENT).asString();
+      if (g_application.CurrentFileItem().HasGameInfoTag())
+        m_gameClient = g_application.CurrentFileItem().GetGameInfoTag()->GetGameClient();
     }
 
     if (m_gamePath.empty())
@@ -303,7 +304,7 @@ void CGUIDialogSavestates::LoadSavestate(const CFileItem& save)
   // Set savestate
   game.m_lStartOffset = STARTOFFSET_RESUME;
   game.GetGameInfoTag()->SetSavestate(save.GetPath());
-  game.SetProperty(FILEITEM_PROPERTY_GAME_CLIENT, save.GetProperty(FILEITEM_PROPERTY_GAME_CLIENT));
+  game.GetGameInfoTag()->SetGameClient(save.GetGameInfoTag()->GetGameClient());
 
   if (g_application.PlayFile(game, "RetroPlayer"))
     Close();
