@@ -36,6 +36,7 @@
 #include "filesystem/MusicDatabaseDirectory.h"
 #include "filesystem/VideoDatabaseDirectory.h"
 #include "filesystem/VideoDatabaseDirectory/QueryParams.h"
+#include "games/addons/GameClient.h"
 #include "games/GameUtils.h"
 #include "games/tags/GameInfoTag.h"
 #include "music/tags/MusicInfoTagLoaderFactory.h"
@@ -897,8 +898,18 @@ bool CFileItem::IsGame() const
   if (HasPictureInfoTag())
     return false;
 
-  if (HasAddonInfo() && GetAddonInfo()->IsType(ADDON::ADDON_GAME))
-    return true;
+  if (HasAddonInfo())
+  {
+    if (GetAddonInfo()->Type() == ADDON::ADDON_GAMEDLL)
+    {
+      std::shared_ptr<const CGameClient> gameClient = std::static_pointer_cast<const CGameClient>(GetAddonInfo());
+      return gameClient->IsStandalone();
+    }
+    else if (GetAddonInfo()->Type() == ADDON::ADDON_SCRIPT)
+    {
+      return GetAddonInfo()->IsType(ADDON::ADDON_GAME);
+    }
+  }
 
   return CGameUtils::HasGameExtension(m_strPath);
 }
