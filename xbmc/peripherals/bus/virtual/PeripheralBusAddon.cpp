@@ -30,12 +30,13 @@
 #include <algorithm>
 #include <memory>
 
-using namespace ADDON;
 using namespace PERIPHERALS;
 
 CPeripheralBusAddon::CPeripheralBusAddon(CPeripherals *manager) :
     CPeripheralBus("PeripBusAddon", manager, PERIPHERAL_BUS_ADDON)
 {
+  using namespace ADDON;
+
   CAddonMgr::GetInstance().RegisterAddonMgrCallback(ADDON_PERIPHERALDLL, this);
   CAddonMgr::GetInstance().Events().Subscribe(this, &CPeripheralBusAddon::OnEvent);
 
@@ -44,6 +45,8 @@ CPeripheralBusAddon::CPeripheralBusAddon(CPeripherals *manager) :
 
 CPeripheralBusAddon::~CPeripheralBusAddon()
 {
+  using namespace ADDON;
+
   CAddonMgr::GetInstance().Events().Unsubscribe(this);
   CAddonMgr::GetInstance().UnregisterAddonMgrCallback(ADDON_PERIPHERALDLL);
 
@@ -55,7 +58,7 @@ CPeripheralBusAddon::~CPeripheralBusAddon()
   m_addons.clear();
 }
 
-bool CPeripheralBusAddon::GetAddon(const std::string &strId, AddonPtr &addon) const
+bool CPeripheralBusAddon::GetAddon(const std::string &strId, ADDON::AddonPtr &addon) const
 {
   CSingleLock lock(m_critSection);
   for (const auto& addonIt : m_addons)
@@ -364,6 +367,8 @@ bool CPeripheralBusAddon::SplitLocation(const std::string& strLocation, Peripher
 
 void CPeripheralBusAddon::UpdateAddons(void)
 {
+  using namespace ADDON;
+
   auto GetPeripheralAddonID = [](const PeripheralAddonPtr& addon) { return addon->ID(); };
   auto GetAddonID = [](const AddonPtr& addon) { return addon->ID(); };
 
