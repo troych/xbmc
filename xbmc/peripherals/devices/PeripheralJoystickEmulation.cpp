@@ -19,27 +19,23 @@
  */
 
 #include "PeripheralJoystickEmulation.h"
-#include "input/keyboard/generic/GenericKeyboardJoystick.h"
+#include "input/keyboard/generic/JoystickEmulation.h"
 #include "input/InputManager.h"
+#include "threads/SingleLock.h"
 
 #include <sstream>
 
 using namespace PERIPHERALS;
 
 CPeripheralJoystickEmulation::CPeripheralJoystickEmulation(const PeripheralScanResult& scanResult, CPeripheralBus* bus) :
-  CPeripheral(scanResult, bus),
-  m_keyboardHandler(nullptr)
+  CPeripheral(scanResult, bus)
 {
   m_features.push_back(FEATURE_JOYSTICK);
 }
 
 CPeripheralJoystickEmulation::~CPeripheralJoystickEmulation(void)
 {
-  if (m_keyboardHandler)
-  {
-    CInputManager::GetInstance().UnregisterKeyboardHandler(m_keyboardHandler);
-    delete m_keyboardHandler;
-  }
+  CInputManager::GetInstance().UnregisterKeyboardHandler(this);
 }
 
 bool CPeripheralJoystickEmulation::InitialiseFeature(const PeripheralFeature feature)
@@ -50,8 +46,7 @@ bool CPeripheralJoystickEmulation::InitialiseFeature(const PeripheralFeature fea
   {
     if (feature == FEATURE_JOYSTICK)
     {
-      m_keyboardHandler = new KEYBOARD::CGenericKeyboardJoystick;
-      CInputManager::GetInstance().RegisterKeyboardHandler(m_keyboardHandler);
+      CInputManager::GetInstance().RegisterKeyboardHandler(this);
     }
     bSuccess = true;
   }
@@ -61,12 +56,59 @@ bool CPeripheralJoystickEmulation::InitialiseFeature(const PeripheralFeature fea
 
 void CPeripheralJoystickEmulation::RegisterJoystickDriverHandler(JOYSTICK::IDriverHandler* handler, bool bPromiscuous)
 {
-  m_keyboardHandler->RegisterJoystickDriverHandler(handler, bPromiscuous);
+  using namespace KEYBOARD;
+
+  CSingleLock lock(m_mutex);
+
+  if (m_keyboardHandlers.find(handler) == m_keyboardHandlers.end())
+    m_keyboardHandlers[handler] = KeyboardHandle{ new CJoystickEmulation(handler), bPromiscuous };
 }
 
 void CPeripheralJoystickEmulation::UnregisterJoystickDriverHandler(JOYSTICK::IDriverHandler* handler)
 {
-  m_keyboardHandler->UnregisterJoystickDriverHandler(handler);
+  CSingleLock lock(m_mutex);
+
+  KeyboardHandlers::iterator it = m_keyboardHandlers.find(handler);
+  if (it != m_keyboardHandlers.end())
+  {
+    delete it->second.handler;
+    m_keyboardHandlers.erase(it);
+  }
+}
+
+bool CPeripheralJoystickEmulation::OnKeyPress(const CKey& key)
+{
+  CSingleLock lock(m_mutex);
+
+  bool bHandled = false;
+
+  // Process promiscuous handlers
+  for (KeyboardHandlers::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
+  {
+    if (it->second.bPromiscuous)
+      it->second.handler->OnKeyPress(key);
+  }
+
+  // Process handlers until one is handled
+  for (KeyboardHandlers::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
+  {
+    if (!it->second.bPromiscuous)
+    {
+      bHandled = it->second.handler->OnKeyPress(key);
+      if (bHandled)
+        break;
+    }
+  }
+
+  return bHandled;
+}
+
+void CPeripheralJoystickEmulation::OnKeyRelease(const CKey& key)
+{
+  CSingleLock lock(m_mutex);
+
+  for (KeyboardHandlers::iterator it = m_keyboardHandlers.begin(); it != m_keyboardHandlers.end(); ++it)
+    it->second.handler->OnKeyRelease(key);
 }
 
 unsigned int CPeripheralJoystickEmulation::ControllerNumber(void) const

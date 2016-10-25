@@ -355,10 +355,8 @@
 		68D41C201D9457E100544EFC /* KeyboardEasterEgg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D41C1D1D9457E100544EFC /* KeyboardEasterEgg.cpp */; };
 		68D77CFF1CD1C5E4004C1735 /* GameSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77CFD1CD1C5E4004C1735 /* GameSettings.cpp */; };
 		68D77D001CD1C5E4004C1735 /* GameSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77CFD1CD1C5E4004C1735 /* GameSettings.cpp */; };
-		68D77D081CD1C64C004C1735 /* GenericKeyboardJoystick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D041CD1C64C004C1735 /* GenericKeyboardJoystick.cpp */; };
-		68D77D091CD1C64C004C1735 /* GenericKeyboardJoystick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D041CD1C64C004C1735 /* GenericKeyboardJoystick.cpp */; };
-		68D77D0A1CD1C64C004C1735 /* GenericKeyboardJoystickHandling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D061CD1C64C004C1735 /* GenericKeyboardJoystickHandling.cpp */; };
-		68D77D0B1CD1C64C004C1735 /* GenericKeyboardJoystickHandling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D061CD1C64C004C1735 /* GenericKeyboardJoystickHandling.cpp */; };
+		68D77D0A1CD1C64C004C1735 /* JoystickEmulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D061CD1C64C004C1735 /* JoystickEmulation.cpp */; };
+		68D77D0B1CD1C64C004C1735 /* JoystickEmulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D061CD1C64C004C1735 /* JoystickEmulation.cpp */; };
 		68D77D0E1CD1C672004C1735 /* PeripheralBusApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D0C1CD1C672004C1735 /* PeripheralBusApplication.cpp */; };
 		68D77D0F1CD1C672004C1735 /* PeripheralBusApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D0C1CD1C672004C1735 /* PeripheralBusApplication.cpp */; };
 		68D77D121CD1C68A004C1735 /* PeripheralJoystickEmulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D101CD1C68A004C1735 /* PeripheralJoystickEmulation.cpp */; };
@@ -2964,10 +2962,8 @@
 		68D77CFD1CD1C5E4004C1735 /* GameSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameSettings.cpp; path = games/GameSettings.cpp; sourceTree = "<group>"; };
 		68D77CFE1CD1C5E4004C1735 /* GameSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameSettings.h; path = games/GameSettings.h; sourceTree = "<group>"; };
 		68D77D021CD1C638004C1735 /* IKeyboardHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IKeyboardHandler.h; path = keyboard/IKeyboardHandler.h; sourceTree = "<group>"; };
-		68D77D041CD1C64C004C1735 /* GenericKeyboardJoystick.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GenericKeyboardJoystick.cpp; path = keyboard/generic/GenericKeyboardJoystick.cpp; sourceTree = "<group>"; };
-		68D77D051CD1C64C004C1735 /* GenericKeyboardJoystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericKeyboardJoystick.h; path = keyboard/generic/GenericKeyboardJoystick.h; sourceTree = "<group>"; };
-		68D77D061CD1C64C004C1735 /* GenericKeyboardJoystickHandling.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GenericKeyboardJoystickHandling.cpp; path = keyboard/generic/GenericKeyboardJoystickHandling.cpp; sourceTree = "<group>"; };
-		68D77D071CD1C64C004C1735 /* GenericKeyboardJoystickHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericKeyboardJoystickHandling.h; path = keyboard/generic/GenericKeyboardJoystickHandling.h; sourceTree = "<group>"; };
+		68D77D061CD1C64C004C1735 /* JoystickEmulation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JoystickEmulation.cpp; path = keyboard/generic/JoystickEmulation.cpp; sourceTree = "<group>"; };
+		68D77D071CD1C64C004C1735 /* JoystickEmulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoystickEmulation.h; path = keyboard/generic/JoystickEmulation.h; sourceTree = "<group>"; };
 		68D77D0C1CD1C672004C1735 /* PeripheralBusApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeripheralBusApplication.cpp; sourceTree = "<group>"; };
 		68D77D0D1CD1C672004C1735 /* PeripheralBusApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralBusApplication.h; sourceTree = "<group>"; };
 		68D77D101CD1C68A004C1735 /* PeripheralJoystickEmulation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeripheralJoystickEmulation.cpp; sourceTree = "<group>"; };
@@ -6519,10 +6515,8 @@
 		68D77D031CD1C63B004C1735 /* generic */ = {
 			isa = PBXGroup;
 			children = (
-				68D77D041CD1C64C004C1735 /* GenericKeyboardJoystick.cpp */,
-				68D77D051CD1C64C004C1735 /* GenericKeyboardJoystick.h */,
-				68D77D061CD1C64C004C1735 /* GenericKeyboardJoystickHandling.cpp */,
-				68D77D071CD1C64C004C1735 /* GenericKeyboardJoystickHandling.h */,
+				68D77D061CD1C64C004C1735 /* JoystickEmulation.cpp */,
+				68D77D071CD1C64C004C1735 /* JoystickEmulation.h */,
 			);
 			name = generic;
 			sourceTree = "<group>";
@@ -10272,7 +10266,7 @@
 				E38E207D0D25F9FD00618676 /* GUIDialogButtonMenu.cpp in Sources */,
 				E38E207F0D25F9FD00618676 /* GUIDialogContextMenu.cpp in Sources */,
 				E38E20800D25F9FD00618676 /* GUIDialogFavourites.cpp in Sources */,
-				68D77D0A1CD1C64C004C1735 /* GenericKeyboardJoystickHandling.cpp in Sources */,
+				68D77D0A1CD1C64C004C1735 /* JoystickEmulation.cpp in Sources */,
 				E38E20810D25F9FD00618676 /* GUIDialogFileBrowser.cpp in Sources */,
 				E38E20830D25F9FD00618676 /* GUIDialogGamepad.cpp in Sources */,
 				E38E20890D25F9FD00618676 /* GUIDialogMediaSource.cpp in Sources */,
@@ -10783,7 +10777,6 @@
 				F5E1053E140AA38100175026 /* PeripheralDisk.cpp in Sources */,
 				F5E1053F140AA38100175026 /* PeripheralHID.cpp in Sources */,
 				F5E10540140AA38100175026 /* PeripheralNIC.cpp in Sources */,
-				68D77D081CD1C64C004C1735 /* GenericKeyboardJoystick.cpp in Sources */,
 				F5E10541140AA38100175026 /* PeripheralNyxboard.cpp in Sources */,
 				7C4B64A31C86F6D8000E1F74 /* InputStream.cpp in Sources */,
 				39520F911C3174EE00272121 /* AddonSystemSettings.cpp in Sources */,
@@ -11567,7 +11560,6 @@
 				E4991288174E5D9900741B6D /* DirectoryNodeOverview.cpp in Sources */,
 				E4991289174E5D9900741B6D /* DirectoryNodeRoot.cpp in Sources */,
 				E499128A174E5D9900741B6D /* DirectoryNodeSingles.cpp in Sources */,
-				68D77D091CD1C64C004C1735 /* GenericKeyboardJoystick.cpp in Sources */,
 				E499128B174E5D9900741B6D /* DirectoryNodeSong.cpp in Sources */,
 				E499128C174E5D9900741B6D /* DirectoryNodeSongTop100.cpp in Sources */,
 				E499128D174E5D9900741B6D /* DirectoryNodeTop100.cpp in Sources */,
@@ -11822,7 +11814,7 @@
 				E4991393174E5F0E00741B6D /* TagLibVFSStream.cpp in Sources */,
 				E4991394174E5F0E00741B6D /* TagLoaderTagLib.cpp in Sources */,
 				E4991395174E5F0E00741B6D /* GUIWindowMusicBase.cpp in Sources */,
-				68D77D0B1CD1C64C004C1735 /* GenericKeyboardJoystickHandling.cpp in Sources */,
+				68D77D0B1CD1C64C004C1735 /* JoystickEmulation.cpp in Sources */,
 				E4991396174E5F0E00741B6D /* GUIWindowMusicNav.cpp in Sources */,
 				E4991397174E5F0E00741B6D /* GUIWindowMusicPlaylist.cpp in Sources */,
 				E4991398174E5F0E00741B6D /* GUIWindowMusicPlaylistEditor.cpp in Sources */,

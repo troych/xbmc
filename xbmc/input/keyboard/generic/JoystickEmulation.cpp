@@ -18,7 +18,7 @@
  *
  */
 
-#include "GenericKeyboardJoystickHandling.h"
+#include "JoystickEmulation.h"
 #include "input/joysticks/IDriverHandler.h"
 #include "input/Key.h"
 
@@ -29,13 +29,13 @@
 
 using namespace KEYBOARD;
 
-CGenericKeyboardJoystickHandling::CGenericKeyboardJoystickHandling(JOYSTICK::IDriverHandler* handler) :
+CJoystickEmulation::CJoystickEmulation(JOYSTICK::IDriverHandler* handler) :
   m_handler(handler)
 {
-  assert(m_handler);
+  assert(m_handler != nullptr);
 }
 
-bool CGenericKeyboardJoystickHandling::OnKeyPress(const CKey& key)
+bool CJoystickEmulation::OnKeyPress(const CKey& key)
 {
   bool bHandled = false;
 
@@ -46,14 +46,14 @@ bool CGenericKeyboardJoystickHandling::OnKeyPress(const CKey& key)
   return bHandled;
 }
 
-void CGenericKeyboardJoystickHandling::OnKeyRelease(const CKey& key)
+void CJoystickEmulation::OnKeyRelease(const CKey& key)
 {
   unsigned int buttonIndex = GetButtonIndex(key);
   if (buttonIndex != 0)
     OnRelease(buttonIndex);
 }
 
-bool CGenericKeyboardJoystickHandling::OnPress(unsigned int buttonIndex)
+bool CJoystickEmulation::OnPress(unsigned int buttonIndex)
 {
   bool bHandled = false;
 
@@ -71,7 +71,7 @@ bool CGenericKeyboardJoystickHandling::OnPress(unsigned int buttonIndex)
   return bHandled;
 }
 
-void CGenericKeyboardJoystickHandling::OnRelease(unsigned int buttonIndex)
+void CJoystickEmulation::OnRelease(unsigned int buttonIndex)
 {
   KeyEvent event;
   if (GetEvent(buttonIndex, event))
@@ -85,7 +85,7 @@ void CGenericKeyboardJoystickHandling::OnRelease(unsigned int buttonIndex)
   }
 }
 
-bool CGenericKeyboardJoystickHandling::GetEvent(unsigned int buttonIndex, KeyEvent& event) const
+bool CJoystickEmulation::GetEvent(unsigned int buttonIndex, KeyEvent& event) const
 {
   std::vector<KeyEvent>::const_iterator it = std::find_if(m_pressedKeys.begin(), m_pressedKeys.end(),
     [buttonIndex](const KeyEvent& event)
@@ -102,7 +102,7 @@ bool CGenericKeyboardJoystickHandling::GetEvent(unsigned int buttonIndex, KeyEve
   return false;
 }
 
-unsigned int CGenericKeyboardJoystickHandling::GetButtonIndex(const CKey& key)
+unsigned int CJoystickEmulation::GetButtonIndex(const CKey& key)
 {
   return key.GetButtonCode() & BUTTON_INDEX_MASK;
 }

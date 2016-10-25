@@ -1,5 +1,4 @@
-SRCS=GenericKeyboardJoystick.cpp \
-     GenericKeyboardJoystickHandling.cpp \
+SRCS=JoystickEmulation.cpp \
 
 LIB=input_keyboard_generic.a
 

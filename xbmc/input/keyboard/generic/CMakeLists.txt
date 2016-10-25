@@ -1,7 +1,5 @@
-set(SOURCES GenericKeyboardJoystick.cpp
-            GenericKeyboardJoystickHandling.cpp)
+set(SOURCES JoystickEmulation.cpp)
 
-set(HEADERS GenericKeyboardJoystick.h
-            GenericKeyboardJoystickHandling.h)
+set(HEADERS JoystickEmulation.h)
 
 core_add_library(input_keyboard_generic)

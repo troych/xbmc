@@ -20,9 +20,8 @@
 #pragma once
 
 #include "input/keyboard/IKeyboardHandler.h"
-#include "threads/CriticalSection.h"
 
-#include <map>
+#include <vector>
 
 namespace JOYSTICK
 {
@@ -31,30 +30,35 @@ namespace JOYSTICK
 
 namespace KEYBOARD
 {
-  class CGenericKeyboardJoystick : public IKeyboardHandler
+  /*!
+   * \brief Generic implementation of a handler for joysticks that use keyboard
+   *        drivers. It basically emulates a joystick with many buttons.
+   */
+  class CJoystickEmulation : public IKeyboardHandler
   {
   public:
-    CGenericKeyboardJoystick(void) { }
+    CJoystickEmulation(JOYSTICK::IDriverHandler* handler);
 
-    virtual ~CGenericKeyboardJoystick(void) { }
-
-    void RegisterJoystickDriverHandler(JOYSTICK::IDriverHandler* handler, bool bPromiscuous);
-    void UnregisterJoystickDriverHandler(JOYSTICK::IDriverHandler* handler);
+    virtual ~CJoystickEmulation(void) = default;
 
     // implementation of IKeyboardHandler
     virtual bool OnKeyPress(const CKey& key) override;
     virtual void OnKeyRelease(const CKey& key) override;
 
   private:
-    struct KeyboardHandle
+    struct KeyEvent
     {
-      IKeyboardHandler* handler;
-      bool              bPromiscuous;
+      unsigned int buttonIndex;
+      bool         bHandled;
     };
 
-    typedef std::map<JOYSTICK::IDriverHandler*, KeyboardHandle> KeyboardHandlers;
+    bool OnPress(unsigned int buttonIndex);
+    void OnRelease(unsigned int buttonIndex);
+    bool GetEvent(unsigned int buttonIndex, KeyEvent& event) const;
 
-    KeyboardHandlers m_keyboardHandlers;
-    CCriticalSection m_mutex;
+    static unsigned int GetButtonIndex(const CKey& key);
+
+    JOYSTICK::IDriverHandler* const m_handler;
+    std::vector<KeyEvent>           m_pressedKeys;
   };
 }

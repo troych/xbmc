@@ -20,15 +20,13 @@
 #pragma once
 
 #include "Peripheral.h"
-
-namespace KEYBOARD
-{
-  class CGenericKeyboardJoystick;
-}
+#include "input/keyboard/IKeyboardHandler.h"
+#include "threads/CriticalSection.h"
 
 namespace PERIPHERALS
 {
-  class CPeripheralJoystickEmulation : public CPeripheral
+  class CPeripheralJoystickEmulation : public CPeripheral,
+                                       public KEYBOARD::IKeyboardHandler
   {
   public:
     CPeripheralJoystickEmulation(const PeripheralScanResult& scanResult, CPeripheralBus* bus);
@@ -40,13 +38,25 @@ namespace PERIPHERALS
     virtual void RegisterJoystickDriverHandler(JOYSTICK::IDriverHandler* handler, bool bPromiscuous) override;
     virtual void UnregisterJoystickDriverHandler(JOYSTICK::IDriverHandler* handler) override;
 
+    // implementation of IKeyboardHandler
+    virtual bool OnKeyPress(const CKey& key) override;
+    virtual void OnKeyRelease(const CKey& key) override;
+
     /*!
      * \brief Number of the emulated controller (1-indexed)
      */
     unsigned int ControllerNumber(void) const;
 
   private:
-    // Joystick emulation
-    KEYBOARD::CGenericKeyboardJoystick* m_keyboardHandler;
+    struct KeyboardHandle
+    {
+      KEYBOARD::IKeyboardHandler* handler;
+      bool bPromiscuous;
+    };
+
+    typedef std::map<JOYSTICK::IDriverHandler*, KeyboardHandle> KeyboardHandlers;
+
+    KeyboardHandlers m_keyboardHandlers;
+    CCriticalSection m_mutex;
   };
 }
