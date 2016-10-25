@@ -33,6 +33,7 @@
 #include "addons/RepositoryUpdater.h"
 #include "dialogs/GUIDialogOK.h"
 #include "games/addons/GameClient.h"
+#include "games/GameUtils.h"
 #include "guilib/TextureManager.h"
 #include "File.h"
 #include "ServiceBroker.h"
@@ -116,13 +117,12 @@ static bool IsGameType(TYPE type)
 
 static bool IsStandaloneGame(const AddonPtr& addon)
 {
-  return (addon->Type() == ADDON_GAMEDLL && std::static_pointer_cast<GAME::CGameClient>(addon)->IsStandalone()) ||
-         (addon->Type() == ADDON_SCRIPT  && addon->IsType(ADDON_GAME));
+  return GAME::CGameUtils::IsStandaloneGame(addon);
 }
 
 static bool IsEmulator(const AddonPtr& addon)
 {
-  return addon->Type() == ADDON_GAMEDLL && !std::static_pointer_cast<GAME::CGameClient>(addon)->IsStandalone();
+  return addon->Type() == ADDON_GAMEDLL && std::static_pointer_cast<GAME::CGameClient>(addon)->SupportsPath();
 }
 
 static bool IsGameProvider(const AddonPtr& addon)
@@ -841,10 +841,7 @@ bool CAddonsDirectory::GetScriptsAndPlugins(const std::string &content, VECADDON
     CAddonMgr::GetInstance().GetAddons(tempAddons, ADDON_GAMEDLL);
     for (auto& addon : tempAddons)
     {
-      using namespace GAME;
-
-      GameClientPtr gameClient = std::static_pointer_cast<CGameClient>(addon);
-      if (gameClient->IsStandalone())
+      if (IsStandaloneGame(addon))
         addons.push_back(addon);
     }
   }

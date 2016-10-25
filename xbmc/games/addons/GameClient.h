@@ -104,7 +104,8 @@ public:
   virtual ADDON::AddonPtr GetRunningInstance() const override;
 
   // Query properties of the game client
-  bool                         IsStandalone() const { return m_bSupportsStandalone; }
+  bool                         SupportsStandalone() const { return m_bSupportsStandalone; }
+  bool                         SupportsPath() const;
   bool                         SupportsVFS() const { return m_bSupportsVFS; }
   const std::set<std::string>& GetExtensions() const { return m_extensions; }
   bool                         SupportsAllExtensions() const { return m_bSupportsAllExtensions; }
@@ -156,8 +157,11 @@ public:
 
 private:
   // Private gameplay functions
-  bool LoadGameInfo(const std::string& logPath);
+  bool OpenStandalone(IGameAudioCallback* audio, IGameVideoCallback* video);
+  bool InitializeGameplay(const std::string& gamePath, IGameAudioCallback* audio, IGameVideoCallback* video);
+  bool LoadGameInfo();
   bool NormalizeAudio(IGameAudioCallback* audioCallback);
+  void NotifyError(GAME_ERROR error);
   std::string GetMissingResource();
   void CreatePlayback();
   void ResetPlayback();

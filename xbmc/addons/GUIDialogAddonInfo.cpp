@@ -33,7 +33,7 @@
 #include "dialogs/GUIDialogOK.h"
 #include "dialogs/GUIDialogSelect.h"
 #include "dialogs/GUIDialogYesNo.h"
-#include "games/addons/GameClient.h"
+#include "games/GameUtils.h"
 #include "GUIUserMessages.h"
 #include "guilib/GUIWindowManager.h"
 #include "input/Key.h"
@@ -383,13 +383,8 @@ bool CGUIDialogAddonInfo::CanRun() const
     if (m_localAddon->Type() == ADDON_SCRIPT)
       return true;
 
-    if (m_localAddon->Type() == ADDON_GAMEDLL)
-    {
-      using namespace GAME;
-
-      GameClientPtr gameClient = std::static_pointer_cast<CGameClient>(m_localAddon);
-      return gameClient->IsStandalone();
-    }
+    if (GAME::CGameUtils::IsStandaloneGame(m_localAddon))
+      return true;
   }
 
   return false;

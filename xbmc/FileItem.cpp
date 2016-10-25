@@ -899,17 +899,7 @@ bool CFileItem::IsGame() const
     return false;
 
   if (HasAddonInfo())
-  {
-    if (GetAddonInfo()->Type() == ADDON::ADDON_GAMEDLL)
-    {
-      std::shared_ptr<const CGameClient> gameClient = std::static_pointer_cast<const CGameClient>(GetAddonInfo());
-      return gameClient->IsStandalone();
-    }
-    else if (GetAddonInfo()->Type() == ADDON::ADDON_SCRIPT)
-    {
-      return GetAddonInfo()->IsType(ADDON::ADDON_GAME);
-    }
-  }
+    return CGameUtils::IsStandaloneGame(std::const_pointer_cast<ADDON::IAddon>(GetAddonInfo()));
 
   return CGameUtils::HasGameExtension(m_strPath);
 }

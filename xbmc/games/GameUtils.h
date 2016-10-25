@@ -21,6 +21,7 @@
 
 #include "GameTypes.h"
 #include "addons/Addon.h"
+#include "addons/IAddon.h"
 
 #include <set>
 #include <string>
@@ -53,6 +54,13 @@ namespace GAME
     static bool HasGameExtension(const std::string& path);
 
     static std::set<std::string> GetGameExtensions();
+
+    /*!
+     * \brief Check if game script or game add-on can be launched directly
+     *
+     * \return true if the add-on can be launched, false otherwise
+     */
+    static bool IsStandaloneGame(const ADDON::AddonPtr& addon);
 
   private:
     static void GetGameClients(const CFileItem& file, GameClientVector& candidates, GameClientVector& installable, bool& bHasVfsGameClient);

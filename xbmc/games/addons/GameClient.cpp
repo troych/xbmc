@@ -181,6 +181,11 @@ ADDON::AddonPtr CGameClient::GetRunningInstance() const
   return addonCache.GetAddonInstance(ID(), Type());
 }
 
+bool CGameClient::SupportsPath() const
+{
+  return !m_extensions.empty() || m_bSupportsAllExtensions;
+}
+
 bool CGameClient::IsExtensionValid(const std::string& strExtension) const
 {
   if (strExtension.empty())
@@ -226,6 +231,23 @@ bool CGameClient::OpenFile(const CFileItem& file, IGameAudioCallback* audio, IGa
   if (audio == nullptr || video == nullptr)
     return false;
 
+  // Check if we should open in standalone mode
+  if (file.GetPath().empty())
+    return OpenStandalone(audio, video);
+
+  // Resolve special:// URLs
+  CURL translatedUrl(CSpecialProtocol::TranslatePath(file.GetPath()));;
+
+  // Remove file:// from URLs if add-on doesn't support VFS
+  if (!m_bSupportsVFS)
+  {
+    if (translatedUrl.GetProtocol() == "file")
+      translatedUrl.SetProtocol("");
+  }
+
+  std::string path = translatedUrl.Get();
+  CLog::Log(LOGDEBUG, "GameClient: Loading %s", CURL::GetRedacted(path).c_str());
+
   CSingleLock lock(m_critSection);
 
   if (!Initialized())
@@ -235,70 +257,70 @@ bool CGameClient::OpenFile(const CFileItem& file, IGameAudioCallback* audio, IGa
 
   GAME_ERROR error = GAME_ERROR_FAILED;
 
-  if (!m_bSupportsStandalone)
-  {
-    CURL translatedUrl(CSpecialProtocol::TranslatePath(file.GetPath()));;
-
-    if (!m_bSupportsVFS)
-    {
-      if (translatedUrl.GetProtocol() == "file")
-        translatedUrl.SetProtocol("");
-    }
-
-    std::string path = translatedUrl.Get();
-
-    CLog::Log(LOGDEBUG, "GameClient: Loading %s", path.c_str());
-
-    try { LogError(error = m_pStruct->LoadGame(path.c_str()), "LoadGame()"); }
-    catch (...) { LogException("LoadGame()"); }
-  }
-  else
-  {
-    CLog::Log(LOGDEBUG, "GameClient: Loading %s in standalone mode", ID().c_str());
-
-    try { LogError(error = m_pStruct->LoadStandalone(), "LoadStandalone()"); }
-    catch (...) { LogException("LoadStandalone()"); }
-  }
+  try { LogError(error = m_pStruct->LoadGame(path.c_str()), "LoadGame()"); }
+  catch (...) { LogException("LoadGame()"); }
 
   if (error != GAME_ERROR_NO_ERROR)
   {
-    std::string missingResource;
-
-    if (error == GAME_ERROR_RESTRICTED)
-      missingResource = GetMissingResource();
-
-    if (!missingResource.empty())
-    {
-      // Failed to play game
-      // This game requires the following add-on: %s
-      CGUIDialogOK::ShowAndGetInput(CVariant{ 35210 }, StringUtils::Format(g_localizeStrings.Get(35211).c_str(), missingResource.c_str()));
-    }
-    else
-    {
-      // Failed to play game
-      // The emulator "%s" had an internal error.
-      CGUIDialogOK::ShowAndGetInput(CVariant{ 35210 }, StringUtils::Format(g_localizeStrings.Get(35213).c_str(), Name().c_str()));
-    }
+    NotifyError(error);
+    return false;
   }
-  else
+
+  if (!InitializeGameplay(file.GetPath(), audio, video))
+    return false;
+
+  return true;
+}
+
+bool CGameClient::OpenStandalone(IGameAudioCallback* audio, IGameVideoCallback* video)
+{
+  if (audio == nullptr || video == nullptr)
+    return false;
+
+  CLog::Log(LOGDEBUG, "GameClient: Loading %s in standalone mode", ID().c_str());
+
+  CSingleLock lock(m_critSection);
+
+  if (!Initialized())
+    return false;
+
+  CloseFile();
+
+  GAME_ERROR error = GAME_ERROR_FAILED;
+
+  try { LogError(error = m_pStruct->LoadStandalone(), "LoadStandalone()"); }
+  catch (...) { LogException("LoadStandalone()"); }
+
+  if (error != GAME_ERROR_NO_ERROR)
   {
-    if (LoadGameInfo(file.GetPath()) && NormalizeAudio(audio))
-    {
-      m_bIsPlaying      = true;
-      m_gamePath        = file.GetPath();
-      m_serializeSize   = GetSerializeSize();
-      m_audio           = audio;
-      m_video           = video;
-      m_inputRateHandle = PERIPHERALS::g_peripherals.SetEventScanRate(INPUT_SCAN_RATE);
+    NotifyError(error);
+    return false;
+  }
 
-      if (m_bSupportsKeyboard)
-        OpenKeyboard();
+  if (!InitializeGameplay(ID(), audio, video))
+    return false;
 
-      // Start playback
-      CreatePlayback();
+  return true;
+}
 
-      return true;
-    }
+bool CGameClient::InitializeGameplay(const std::string& gamePath, IGameAudioCallback* audio, IGameVideoCallback* video)
+{
+  if (LoadGameInfo() && NormalizeAudio(audio))
+  {
+    m_bIsPlaying      = true;
+    m_gamePath        = gamePath;
+    m_serializeSize   = GetSerializeSize();
+    m_audio           = audio;
+    m_video           = video;
+    m_inputRateHandle = PERIPHERALS::g_peripherals.SetEventScanRate(INPUT_SCAN_RATE);
+
+    if (m_bSupportsKeyboard)
+      OpenKeyboard();
+
+    // Start playback
+    CreatePlayback();
+
+    return true;
   }
 
   return false;
@@ -331,7 +353,7 @@ bool CGameClient::NormalizeAudio(IGameAudioCallback* audioCallback)
   return true;
 }
 
-bool CGameClient::LoadGameInfo(const std::string& logPath)
+bool CGameClient::LoadGameInfo()
 {
   // Get information about system audio/video timings and geometry
   // Can be called only after retro_load_game()
@@ -349,7 +371,6 @@ bool CGameClient::LoadGameInfo(const std::string& logPath)
   catch (...) { LogException("GetRegion()"); return false; }
 
   CLog::Log(LOGINFO, "GAME: ---------------------------------------");
-  CLog::Log(LOGINFO, "GAME: Opened file %s",   logPath.c_str());
   CLog::Log(LOGINFO, "GAME: Base Width:   %u", av_info.geometry.base_width);
   CLog::Log(LOGINFO, "GAME: Base Height:  %u", av_info.geometry.base_height);
   CLog::Log(LOGINFO, "GAME: Max Width:    %u", av_info.geometry.max_width);
@@ -365,6 +386,27 @@ bool CGameClient::LoadGameInfo(const std::string& logPath)
   m_region = region;
 
   return true;
+}
+
+void CGameClient::NotifyError(GAME_ERROR error)
+{
+  std::string missingResource;
+
+  if (error == GAME_ERROR_RESTRICTED)
+    missingResource = GetMissingResource();
+
+  if (!missingResource.empty())
+  {
+    // Failed to play game
+    // This game requires the following add-on: %s
+    CGUIDialogOK::ShowAndGetInput(CVariant{ 35210 }, StringUtils::Format(g_localizeStrings.Get(35211).c_str(), missingResource.c_str()));
+  }
+  else
+  {
+    // Failed to play game
+    // The emulator "%s" had an internal error.
+    CGUIDialogOK::ShowAndGetInput(CVariant{ 35210 }, StringUtils::Format(g_localizeStrings.Get(35213).c_str(), Name().c_str()));
+  }
 }
 
 std::string CGameClient::GetMissingResource()
