@@ -274,9 +274,6 @@ bool CGameClient::OpenFile(const CFileItem& file, IGameAudioCallback* audio, IGa
 
 bool CGameClient::OpenStandalone(IGameAudioCallback* audio, IGameVideoCallback* video)
 {
-  if (audio == nullptr || video == nullptr)
-    return false;
-
   CLog::Log(LOGDEBUG, "GameClient: Loading %s in standalone mode", ID().c_str());
 
   CSingleLock lock(m_critSection);
