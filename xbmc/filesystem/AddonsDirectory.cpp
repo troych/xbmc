@@ -880,6 +880,12 @@ bool CAddonsDirectory::GetScriptsAndPlugins(const std::string &content, CFileIte
         path = "script://" + addon->ID();
         break;
       }
+      case ADDON_GAMEDLL:
+      {
+        // Kodi fails to launch games with empty path from home screen
+        path = "game://" + addon->ID();
+        break;
+      }
       default:
         break;
     }
