@@ -26,7 +26,6 @@
 #include "addons/kodi-addon-dev-kit/include/kodi/kodi_game_types.h"
 #include "games/controllers/ControllerTypes.h"
 #include "games/GameTypes.h"
-//#include "games/SerialState.h"
 #include "input/keyboard/IKeyboardHandler.h"
 #include "peripherals/EventScanRate.h"
 #include "threads/CriticalSection.h"
