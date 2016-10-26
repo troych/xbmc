@@ -1,5 +1,6 @@
 SRCS=GameClient.cpp \
      GameClientInput.cpp \
+     GameClientKeyboard.cpp \
      GameClientProperties.cpp \
      GameClientTiming.cpp \
      GameClientTranslator.cpp \

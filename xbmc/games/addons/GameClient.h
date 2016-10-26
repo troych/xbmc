@@ -26,7 +26,6 @@
 #include "addons/kodi-addon-dev-kit/include/kodi/kodi_game_types.h"
 #include "games/controllers/ControllerTypes.h"
 #include "games/GameTypes.h"
-#include "input/keyboard/IKeyboardHandler.h"
 #include "peripherals/EventScanRate.h"
 #include "threads/CriticalSection.h"
 
@@ -42,14 +41,14 @@ namespace GAME
 {
 
 class CGameClientInput;
+class CGameClientKeyboard;
 class IGameAudioCallback;
 class IGameClientPlayback;
 class IGameVideoCallback;
 
 // --- CGameClient -------------------------------------------------------------
 
-class CGameClient : public ADDON::CAddonDll<DllGameClient, GameClient, game_client_properties>,
-                    public KEYBOARD::IKeyboardHandler
+class CGameClient : public ADDON::CAddonDll<DllGameClient, GameClient, game_client_properties>
 {
 public:
   static std::unique_ptr<CGameClient> FromExtension(ADDON::AddonProps props, const cp_extension_t* ext);
@@ -104,15 +103,11 @@ public:
 
   // Input functions
   bool HasFeature(const std::string& controller, const std::string& feature);
-  bool AcceptsInput(void);
+  bool AcceptsInput(void) const;
   bool OnButtonPress(int port, const std::string& feature, bool bPressed);
   bool OnButtonMotion(int port, const std::string& feature, float magnitude);
   bool OnAnalogStickMotion(int port, const std::string& feature, float x, float y);
   bool OnAccelerometerMotion(int port, const std::string& feature, float x, float y, float z);
-
-  // implementation of IKeyboardHandler
-  virtual bool OnKeyPress(const CKey& key) override;
-  virtual void OnKeyRelease(const CKey& key) override;
 
 private:
   // Private gameplay functions
@@ -166,6 +161,7 @@ private:
 
   // Input
   std::vector<CGameClientInput*> m_ports;
+  std::unique_ptr<CGameClientKeyboard> m_keyboard;
 
   CCriticalSection m_critSection;
 };

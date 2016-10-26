@@ -21,6 +21,7 @@
 #include "GameClient.h"
 #include "GameClientCallbacks.h"
 #include "GameClientInput.h"
+#include "GameClientKeyboard.h"
 #include "GameClientTranslator.h"
 #include "addons/AddonManager.h"
 #include "addons/BinaryAddonCache.h"
@@ -34,7 +35,6 @@
 #include "games/ports/PortManager.h"
 #include "guilib/GUIWindowManager.h"
 #include "guilib/WindowIDs.h"
-#include "input/InputManager.h"
 #include "input/joysticks/DefaultJoystick.h" // for DEFAULT_CONTROLLER_ID
 #include "input/joysticks/JoystickTypes.h"
 #include "peripherals/Peripherals.h"
@@ -58,7 +58,6 @@ using namespace GAME;
 
 #define EXTENSION_SEPARATOR          "|"
 #define EXTENSION_WILDCARD           "*"
-#define BUTTON_INDEX_MASK            0x01ff
 
 #define GAME_PROPERTY_EXTENSIONS           "extensions"
 #define GAME_PROPERTY_SUPPORTS_VFS         "supports_vfs"
@@ -793,7 +792,7 @@ bool CGameClient::HasFeature(const std::string& controller, const std::string& f
   return false;
 }
 
-bool CGameClient::AcceptsInput(void)
+bool CGameClient::AcceptsInput(void) const
 {
   return g_application.IsAppFocused() &&
          g_windowManager.GetActiveWindowID() == WINDOW_FULLSCREEN_GAME;
@@ -946,61 +945,12 @@ bool CGameClient::SetRumble(unsigned int port, const std::string& feature, float
 
 void CGameClient::OpenKeyboard(void)
 {
-  CInputManager::GetInstance().RegisterKeyboardHandler(this);
+  m_keyboard.reset(new CGameClientKeyboard(this, m_pStruct));
 }
 
 void CGameClient::CloseKeyboard(void)
 {
-  CInputManager::GetInstance().UnregisterKeyboardHandler(this);
-}
-
-bool CGameClient::OnKeyPress(const CKey& key)
-{
-  // Only allow activated input in fullscreen game
-  if (!AcceptsInput())
-  {
-    CLog::Log(LOGDEBUG, "GameClient: key press ignored, not in fullscreen game");
-    return false;
-  }
-
-  bool bHandled = false;
-
-  game_input_event event;
-
-  event.type            = GAME_INPUT_EVENT_KEY;
-  event.port            = -1;
-  event.controller_id   = ""; // TODO
-  event.feature_name    = ""; // TODO
-  event.key.pressed     = true;
-  event.key.character   = key.GetButtonCode() & BUTTON_INDEX_MASK;
-  event.key.modifiers   = CGameClientTranslator::GetModifiers(static_cast<CKey::Modifier>(key.GetModifiers()));
-
-  if (event.key.character != 0)
-  {
-    try { bHandled = m_pStruct->InputEvent(&event); }
-    catch (...) { LogException("InputEvent()"); }
-  }
-
-  return bHandled;
-}
-
-void CGameClient::OnKeyRelease(const CKey& key)
-{
-  game_input_event event;
-
-  event.type            = GAME_INPUT_EVENT_KEY;
-  event.port            = 0;
-  event.controller_id   = ""; // TODO
-  event.feature_name    = ""; // TODO
-  event.key.pressed     = false;
-  event.key.character   = key.GetButtonCode() & BUTTON_INDEX_MASK;
-  event.key.modifiers   = CGameClientTranslator::GetModifiers(static_cast<CKey::Modifier>(key.GetModifiers()));
-
-  if (event.key.character != 0)
-  {
-    try { m_pStruct->InputEvent(&event); }
-    catch (...) { LogException("InputEvent()"); }
-  }
+  m_keyboard.reset();
 }
 
 void CGameClient::LogAddonProperties(void) const

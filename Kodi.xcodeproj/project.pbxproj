@@ -347,6 +347,8 @@
 		68C1497A1CDDF1DB0014ADDB /* GUIDialogSavestates.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68C149771CDDF1DB0014ADDB /* GUIDialogSavestates.cpp */; };
 		68CEE4721DC022F900F477CA /* SavestateTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68CEE4701DC022F900F477CA /* SavestateTranslator.cpp */; };
 		68CEE4731DC022F900F477CA /* SavestateTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68CEE4701DC022F900F477CA /* SavestateTranslator.cpp */; };
+		68CEE4761DC02A1900F477CA /* GameClientKeyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68CEE4741DC02A1900F477CA /* GameClientKeyboard.cpp */; };
+		68CEE4771DC02A1A00F477CA /* GameClientKeyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68CEE4741DC02A1900F477CA /* GameClientKeyboard.cpp */; };
 		68CF61DE1D9C3B8500773EEA /* GameResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68CF61DD1D9C3B8500773EEA /* GameResource.cpp */; };
 		68CF61DF1D9C3B8500773EEA /* GameResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68CF61DD1D9C3B8500773EEA /* GameResource.cpp */; };
 		68D41C1B1D94494000544EFC /* JoystickEasterEgg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D41C191D94494000544EFC /* JoystickEasterEgg.cpp */; };
@@ -2954,6 +2956,8 @@
 		68C149781CDDF1DB0014ADDB /* GUIDialogSavestates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIDialogSavestates.h; path = games/dialogs/GUIDialogSavestates.h; sourceTree = "<group>"; };
 		68CEE4701DC022F900F477CA /* SavestateTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SavestateTranslator.cpp; path = games/addons/savestates/SavestateTranslator.cpp; sourceTree = "<group>"; };
 		68CEE4711DC022F900F477CA /* SavestateTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SavestateTranslator.h; path = games/addons/savestates/SavestateTranslator.h; sourceTree = "<group>"; };
+		68CEE4741DC02A1900F477CA /* GameClientKeyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameClientKeyboard.cpp; path = games/addons/GameClientKeyboard.cpp; sourceTree = "<group>"; };
+		68CEE4751DC02A1900F477CA /* GameClientKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameClientKeyboard.h; path = games/addons/GameClientKeyboard.h; sourceTree = "<group>"; };
 		68CF61DC1D9C3B3E00773EEA /* GameResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameResource.h; sourceTree = "<group>"; };
 		68CF61DD1D9C3B8500773EEA /* GameResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameResource.cpp; sourceTree = "<group>"; };
 		68D41C181D94494000544EFC /* IButtonSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IButtonSequence.h; path = joysticks/IButtonSequence.h; sourceTree = "<group>"; };
@@ -6555,6 +6559,8 @@
 				68D77D291CD1C7EB004C1735 /* GameClientCallbacks.h */,
 				68D77D2A1CD1C7EB004C1735 /* GameClientInput.cpp */,
 				68D77D2B1CD1C7EB004C1735 /* GameClientInput.h */,
+				68CEE4741DC02A1900F477CA /* GameClientKeyboard.cpp */,
+				68CEE4751DC02A1900F477CA /* GameClientKeyboard.h */,
 				68D77D2C1CD1C7EB004C1735 /* GameClientProperties.cpp */,
 				68D77D2D1CD1C7EB004C1735 /* GameClientProperties.h */,
 				68D77D2E1CD1C7EB004C1735 /* GameClientTiming.cpp */,
@@ -10194,6 +10200,7 @@
 				395C29D81A98A11C00EBC7AD /* WsgiInputStream.cpp in Sources */,
 				E38E200B0D25F9FD00618676 /* DllLibCurl.cpp in Sources */,
 				E38E200E0D25F9FD00618676 /* File.cpp in Sources */,
+				68CEE4761DC02A1900F477CA /* GameClientKeyboard.cpp in Sources */,
 				E38E20130D25F9FD00618676 /* FileFactory.cpp in Sources */,
 				E38E20230D25F9FD00618676 /* FTPDirectory.cpp in Sources */,
 				E38E20240D25F9FD00618676 /* FTPParse.cpp in Sources */,
@@ -12044,6 +12051,7 @@
 				E4991460174E605900741B6D /* LangCodeExpander.cpp in Sources */,
 				E4991461174E605900741B6D /* LegacyPathTranslation.cpp in Sources */,
 				395C2A151A9F072400EBC7AD /* ResourceFile.cpp in Sources */,
+				68CEE4771DC02A1A00F477CA /* GameClientKeyboard.cpp in Sources */,
 				E4991462174E605900741B6D /* log.cpp in Sources */,
 				E4991463174E605900741B6D /* md5.cpp in Sources */,
 				E4991464174E605900741B6D /* Mime.cpp in Sources */,
