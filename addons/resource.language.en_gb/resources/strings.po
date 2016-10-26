@@ -16430,7 +16430,13 @@ msgctxt "#35214"
 msgid "This game can only be played directly from a hard drive or partition. Compressed files must be extracted."
 msgstr ""
 
-#empty strings from id 35215 to 35219
+#. Error dialog text when libretro support is disabled
+#: xbmc/games/addons/GameClientProperties.cpp
+msgctxt "#35215"
+msgid "This game depends on a disabled add-on. Would you like to enable it?"
+msgstr ""
+
+#empty strings from id 35216 to 35219
 
 #. Description of add-on category for game providers
 #: xbmc/filesystem/AddonsDirectory.cpp
