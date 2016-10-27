@@ -44,6 +44,13 @@ namespace KEYBOARD
   class IKeyboardHandler;
 }
 
+namespace MOUSE
+{
+  class IMouseButtonMap;
+  class IMouseDriverHandler;
+  class IMouseInputHandler;
+}
+
 class CInputManager : public ISettingCallback
 {
 private:
@@ -223,6 +230,20 @@ public:
   void RegisterKeyboardHandler(KEYBOARD::IKeyboardHandler* handler);
   void UnregisterKeyboardHandler(KEYBOARD::IKeyboardHandler* handler);
 
+  /*! \brief Registers a handler to be called on mouse input (e.g a game client).
+   *
+   * \param handler The handler to call on mouse input.
+   * \return[in] The controller ID that serves as a context for incoming events.
+   * \sa IMouseButtonMap
+   */
+  std::string RegisterMouseHandler(MOUSE::IMouseInputHandler* handler);
+
+  /*! \brief Unregisters handler from mouse input.
+   *
+   * \param[in] handler The handler to unregister from mouse input.
+   */
+  void UnregisterMouseHandler(MOUSE::IMouseInputHandler* handler);
+
 private:
 
   /*! \brief Process keyboard event and translate into an action
@@ -274,6 +295,9 @@ private:
   CCriticalSection     m_actionMutex;
 
   std::vector<KEYBOARD::IKeyboardHandler*> m_keyboardHandlers;
+  typedef std::pair<MOUSE::IMouseInputHandler*, std::unique_ptr<MOUSE::IMouseDriverHandler>> MouseHandlerHandle;
+  std::vector<MouseHandlerHandle> m_mouseHandlers;
+  std::unique_ptr<MOUSE::IMouseButtonMap> m_mouseButtonMap;
 
   std::unique_ptr<KEYBOARD::IKeyboardHandler> m_keyboardEasterEgg;
 };

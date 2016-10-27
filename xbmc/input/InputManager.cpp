@@ -23,6 +23,9 @@
 #include "Application.h"
 #include "InputManager.h"
 #include "input/keyboard/IKeyboardHandler.h"
+#include "input/mouse/generic/MouseInputHandling.h"
+#include "input/mouse/IMouseDriverHandler.h"
+#include "input/mouse/MouseWindowingButtonMap.h"
 #include "input/keyboard/KeyboardEasterEgg.h"
 #include "input/Key.h"
 #include "messaging/ApplicationMessenger.h"
@@ -70,6 +73,7 @@ using namespace KODI::MESSAGING;
 using PERIPHERALS::CPeripherals;
 
 CInputManager::CInputManager() :
+  m_mouseButtonMap(new MOUSE::CMouseWindowingButtonMap),
   m_keyboardEasterEgg(new KEYBOARD::CKeyboardEasterEgg)
 {
   RegisterKeyboardHandler(m_keyboardEasterEgg.get());
@@ -394,9 +398,37 @@ bool CInputManager::OnEvent(XBMC_Event& newEvent)
   case XBMC_MOUSEBUTTONDOWN:
   case XBMC_MOUSEBUTTONUP:
   case XBMC_MOUSEMOTION:
-    m_Mouse.HandleEvent(newEvent);
-    ProcessMouse(g_windowManager.GetActiveWindowID());
+  {
+    bool handled = false;
+
+    for (auto it = m_mouseHandlers.begin(); it != m_mouseHandlers.end(); ++it)
+    {
+      if (newEvent.type == XBMC_MOUSEMOTION)
+      {
+        if (it->second->OnPosition(newEvent.motion.x, newEvent.motion.y))
+          handled = true;
+      }
+      else
+      {
+        if (newEvent.button.type == XBMC_MOUSEBUTTONDOWN)
+        {
+          if (it->second->OnButtonPress(newEvent.button.button))
+            handled = true;
+        }
+        else if (newEvent.button.type == XBMC_MOUSEBUTTONUP)
+        {
+          it->second->OnButtonRelease(newEvent.button.button);
+        }
+      }
+    }
+
+    if (!handled)
+    {
+      m_Mouse.HandleEvent(newEvent);
+      ProcessMouse(g_windowManager.GetActiveWindowID());
+    }
     break;
+  }
   case XBMC_TOUCH:
   {
     if (newEvent.touch.action == ACTION_TOUCH_TAP)
@@ -798,4 +830,30 @@ void CInputManager::RegisterKeyboardHandler(KEYBOARD::IKeyboardHandler* handler)
 void CInputManager::UnregisterKeyboardHandler(KEYBOARD::IKeyboardHandler* handler)
 {
   m_keyboardHandlers.erase(std::remove(m_keyboardHandlers.begin(), m_keyboardHandlers.end(), handler), m_keyboardHandlers.end());
+}
+
+std::string CInputManager::RegisterMouseHandler(MOUSE::IMouseInputHandler* handler)
+{
+  auto it = std::find_if(m_mouseHandlers.begin(), m_mouseHandlers.end(),
+    [handler](const MouseHandlerHandle& element)
+    {
+      return element.first == handler;
+    });
+
+  if (it == m_mouseHandlers.end())
+    m_mouseHandlers.emplace_back(std::make_pair(handler, std::unique_ptr<MOUSE::IMouseDriverHandler>(new MOUSE::CMouseInputHandling(handler, m_mouseButtonMap.get()))));
+
+  return m_mouseButtonMap->ControllerID();
+}
+
+void CInputManager::UnregisterMouseHandler(MOUSE::IMouseInputHandler* handler)
+{
+  auto it = std::find_if(m_mouseHandlers.begin(), m_mouseHandlers.end(),
+    [handler](const MouseHandlerHandle& element)
+    {
+      return element.first == handler;
+    });
+
+  if (it != m_mouseHandlers.end())
+    m_mouseHandlers.erase(it);
 }

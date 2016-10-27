@@ -157,11 +157,11 @@ GAME_ERROR HwContextDestroy(void);
  *
  * Ports can be opened using the OpenPort() callback
  *
- * \param port The port number passed to OpenPort()
+ * \param port Non-negative for a joystick port, or GAME_INPUT_PORT value otherwise
  * \param collected True if a controller was connected, false if disconnected
  * \param controller The connected controller
  */
-void UpdatePort(unsigned int port, bool connected, const game_controller* controller);
+void UpdatePort(int port, bool connected, const game_controller* controller);
 
 /*!
  * \brief Check if input is accepted for a feature on the controller
