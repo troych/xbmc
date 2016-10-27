@@ -19,7 +19,8 @@ endfunction()
 function(add_addon_depends addon searchpath)
   # input: string addon string searchpath
 
-  set(OUTPUT_DIR ${DEPENDS_PATH})
+  set(OUTPUT_DIR ${ADDON_DEPENDS_PATH})
+  # look for platform-specific dependencies
   # look for platform-specific dependencies
   file(GLOB_RECURSE cmake_input_files ${searchpath}/${CORE_SYSTEM_NAME}/*.txt)
 
