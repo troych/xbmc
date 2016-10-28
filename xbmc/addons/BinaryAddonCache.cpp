@@ -20,6 +20,7 @@
 
 #include "BinaryAddonCache.h"
 #include "AddonManager.h"
+#include "games/addons/GameClient.h" // TODO
 #include "threads/SingleLock.h"
 
 namespace ADDON
@@ -101,6 +102,27 @@ void CBinaryAddonCache::Update()
     VECADDONS addons;
     CAddonMgr::GetInstance().GetInstalledAddons(addons, addonType);
     addonmap.insert(AddonMap::value_type(addonType, addons));
+
+
+    if (addonType == ADDON::ADDON_GAMEDLL)
+    {
+      static bool bInitialized = false;
+      if (!bInitialized)
+      {
+        bInitialized = true;
+
+        for (auto& addon : addons)
+        {
+          GAME::GameClientPtr gameClient = std::static_pointer_cast<GAME::CGameClient>(addon);
+
+          if (gameClient->ID() != "game.libretro.reicast")
+          {
+            gameClient->Initialize();
+            gameClient->Unload();
+          }
+        }
+      }
+    }
   }
 
   {
