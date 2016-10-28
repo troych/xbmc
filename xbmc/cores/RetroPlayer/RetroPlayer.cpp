@@ -151,11 +151,6 @@ void CRetroPlayer::Pause()
   {
     m_gameClient->GetPlayback()->PauseUnpause();
     m_audio->Enable(m_gameClient->GetPlayback()->GetSpeed() == 1.0);
-
-    if (GetSpeed() == 0.0)
-      m_callback.OnPlayBackPaused();
-    else
-      m_callback.OnPlayBackResumed();
   }
 }
 
@@ -288,6 +283,14 @@ void CRetroPlayer::SetSpeed(float speed)
 {
   if (m_gameClient)
   {
+    if (m_gameClient->GetPlayback()->GetSpeed() != speed)
+    {
+      if (speed == 1.0f)
+        m_callback.OnPlayBackResumed();
+      else if (speed == 0.0f)
+        m_callback.OnPlayBackPaused();
+    }
+
     m_gameClient->GetPlayback()->SetSpeed(speed);
     m_audio->Enable(m_gameClient->GetPlayback()->GetSpeed() == 1.0);
   }
