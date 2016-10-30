@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<layout name="keyboard" label="30000" image="layout.png">
+  <category name="all" label="35105">
+    <key label="35107"/> <!-- Special feature: User is prompted for a key before mapping a button -->
+  </category>
+  <category name="individual" label="35106">
+    <button name="a" type="digital" label="30001"/>
+    <button name="b" type="digital" label="30002"/>
+    <button name="c" type="digital" label="30003"/>
+    <button name="d" type="digital" label="30004"/>
+    <button name="e" type="digital" label="30005"/>
+  </category>
+</layout>
