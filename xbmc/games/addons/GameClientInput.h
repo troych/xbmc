@@ -22,6 +22,8 @@
 #include "games/controllers/ControllerTypes.h"
 #include "input/joysticks/IInputHandler.h"
 
+struct GameClient;
+
 namespace GAME
 {
   class CGameClient;
@@ -29,7 +31,7 @@ namespace GAME
   class CGameClientInput : public JOYSTICK::IInputHandler
   {
   public:
-    CGameClientInput(CGameClient* addon, int port, const ControllerPtr& controller);
+    CGameClientInput(CGameClient* addon, int port, const ControllerPtr& controller, const GameClient* dllStruct);
 
     // Implementation of IInputHandler
     virtual std::string ControllerID(void) const override;
@@ -45,8 +47,9 @@ namespace GAME
     bool SetRumble(const std::string& feature, float magnitude);
 
   private:
-    CGameClient* const  m_addon;
-    const int           m_port;
-    const ControllerPtr m_controller;
+    const CGameClient* const  m_gameClient;
+    const int                 m_port;
+    const ControllerPtr       m_controller;
+    const GameClient* const   m_dllStruct;
   };
 }

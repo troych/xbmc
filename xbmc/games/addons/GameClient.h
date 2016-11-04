@@ -103,12 +103,7 @@ public:
   bool ReceiveInputEvent(const game_input_event& eventStruct);
 
   // Input functions
-  bool HasFeature(const std::string& controller, const std::string& feature);
   bool AcceptsInput(void) const;
-  bool OnButtonPress(int port, const std::string& feature, bool bPressed);
-  bool OnButtonMotion(int port, const std::string& feature, float magnitude);
-  bool OnAnalogStickMotion(int port, const std::string& feature, float x, float y);
-  bool OnAccelerometerMotion(int port, const std::string& feature, float x, float y, float z);
 
 private:
   // Private gameplay functions

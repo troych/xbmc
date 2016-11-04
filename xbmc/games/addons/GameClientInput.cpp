@@ -28,13 +28,14 @@
 
 using namespace GAME;
 
-CGameClientInput::CGameClientInput(CGameClient* addon, int port, const ControllerPtr& controller) :
-  m_addon(addon),
+CGameClientInput::CGameClientInput(CGameClient* gameClient, int port, const ControllerPtr& controller, const GameClient *dllStruct) :
+  m_gameClient(gameClient),
   m_port(port),
-  m_controller(controller)
+  m_controller(controller),
+  m_dllStruct(dllStruct)
 {
-  assert(m_addon != NULL);
-  assert(controller.get() != NULL);
+  assert(m_gameClient != NULL);
+  assert(m_controller.get() != NULL);
 }
 
 std::string CGameClientInput::ControllerID(void) const
@@ -44,12 +45,21 @@ std::string CGameClientInput::ControllerID(void) const
 
 bool CGameClientInput::HasFeature(const std::string& feature) const
 {
-  return m_addon->HasFeature(m_controller->ID(), feature);
+  try
+  {
+    return m_dllStruct->HasFeature(m_controller->ID().c_str(), feature.c_str());
+  }
+  catch (...)
+  {
+    CLog::Log(LOGERROR, "GAME: %s: exception caught in HasFeature()", m_gameClient->ID().c_str());
+  }
+
+  return false;
 }
 
 bool CGameClientInput::AcceptsInput(void)
 {
-  return m_addon->AcceptsInput();
+  return m_gameClient->AcceptsInput();
 }
 
 JOYSTICK::INPUT_TYPE CGameClientInput::GetInputType(const std::string& feature) const
@@ -67,22 +77,109 @@ JOYSTICK::INPUT_TYPE CGameClientInput::GetInputType(const std::string& feature) 
 
 bool CGameClientInput::OnButtonPress(const std::string& feature, bool bPressed)
 {
-  return m_addon->OnButtonPress(m_port, feature, bPressed);
+  bool bHandled = false;
+
+  game_input_event event;
+
+  std::string controllerId = m_controller->ID();
+
+  event.type                   = GAME_INPUT_EVENT_DIGITAL_BUTTON;
+  event.port                   = m_port;
+  event.controller_id          = controllerId.c_str();
+  event.feature_name           = feature.c_str();
+  event.digital_button.pressed = bPressed;
+
+  try
+  {
+    bHandled = m_dllStruct->InputEvent(&event);
+  }
+  catch (...)
+  {
+    CLog::Log(LOGERROR, "GAME: %s: exception caught in InputEvent()", m_gameClient->ID().c_str());
+  }
+
+  return bHandled;
 }
 
 bool CGameClientInput::OnButtonMotion(const std::string& feature, float magnitude)
 {
-  return m_addon->OnButtonMotion(m_port, feature, magnitude);
+  bool bHandled = false;
+
+  game_input_event event;
+
+  std::string controllerId = m_controller->ID();
+
+  event.type                    = GAME_INPUT_EVENT_ANALOG_BUTTON;
+  event.port                    = m_port;
+  event.controller_id           = controllerId.c_str();
+  event.feature_name            = feature.c_str();
+  event.analog_button.magnitude = magnitude;
+
+  try
+  {
+    bHandled = m_dllStruct->InputEvent(&event);
+  }
+  catch (...)
+  {
+    CLog::Log(LOGERROR, "GAME: %s: exception caught in InputEvent()", m_gameClient->ID().c_str());
+  }
+
+  return bHandled;
 }
 
 bool CGameClientInput::OnAnalogStickMotion(const std::string& feature, float x, float y, unsigned int motionTimeMs /* = 0 */)
 {
-  return m_addon->OnAnalogStickMotion(m_port, feature, x, y);
+  bool bHandled = false;
+
+  game_input_event event;
+
+  std::string controllerId = m_controller->ID();
+
+  event.type           = GAME_INPUT_EVENT_ANALOG_STICK;
+  event.port           = m_port;
+  event.controller_id  = controllerId.c_str();
+  event.feature_name   = feature.c_str();
+  event.analog_stick.x = x;
+  event.analog_stick.y = y;
+
+  try
+  {
+    bHandled = m_dllStruct->InputEvent(&event);
+  }
+  catch (...)
+  {
+    CLog::Log(LOGERROR, "GAME: %s: exception caught in InputEvent()", m_gameClient->ID().c_str());
+  }
+
+  return bHandled;
 }
 
 bool CGameClientInput::OnAccelerometerMotion(const std::string& feature, float x, float y, float z)
 {
-  return m_addon->OnAccelerometerMotion(m_port, feature, x, y, z);
+  bool bHandled = false;
+
+  game_input_event event;
+
+  std::string controllerId = m_controller->ID();
+
+  event.type            = GAME_INPUT_EVENT_ACCELEROMETER;
+  event.port            = m_port;
+  event.controller_id   = controllerId.c_str();
+  event.feature_name    = feature.c_str();
+  event.accelerometer.x = x;
+  event.accelerometer.y = y;
+  event.accelerometer.z = z;
+
+  try
+  {
+    bHandled = m_dllStruct->InputEvent(&event);
+  }
+  catch (...)
+  {
+    CLog::Log(LOGERROR, "GAME: %s: exception caught in InputEvent()", m_gameClient->ID().c_str());
+  }
+
+  return bHandled;
 }
 
 bool CGameClientInput::SetRumble(const std::string& feature, float magnitude)
