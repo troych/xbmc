@@ -243,7 +243,7 @@ bool CGameClient::OpenFile(const CFileItem& file, IGameAudioCallback* audio, IGa
     return OpenStandalone(audio, video);
 
   // Resolve special:// URLs
-  CURL translatedUrl(CSpecialProtocol::TranslatePath(file.GetPath()));;
+  CURL translatedUrl(CSpecialProtocol::TranslatePath(file.GetPath()));
 
   // Remove file:// from URLs if add-on doesn't support VFS
   if (!m_bSupportsVFS)
