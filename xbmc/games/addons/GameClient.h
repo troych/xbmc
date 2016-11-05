@@ -42,6 +42,7 @@ namespace GAME
 
 class CGameClientInput;
 class CGameClientKeyboard;
+class CGameClientMouse;
 class IGameAudioCallback;
 class IGameClientPlayback;
 class IGameVideoCallback;
@@ -126,6 +127,8 @@ private:
   bool SetRumble(unsigned int port, const std::string& feature, float magnitude);
   void OpenKeyboard(void);
   void CloseKeyboard(void);
+  void OpenMouse(void);
+  void CloseMouse(void);
   ControllerVector GetControllers(void) const;
 
   // Private memory stream functions
@@ -144,6 +147,7 @@ private:
   bool                  m_bSupportsVFS;
   bool                  m_bSupportsStandalone;
   bool                  m_bSupportsKeyboard;
+  bool                  m_bSupportsMouse;
   std::set<std::string> m_extensions;
   bool                  m_bSupportsAllExtensions;
   //GamePlatforms         m_platforms;
@@ -160,8 +164,9 @@ private:
   GAME_REGION           m_region;              // Region of the loaded game
 
   // Input
-  std::vector<CGameClientInput*> m_ports;
+  std::map<int, std::unique_ptr<CGameClientInput>> m_ports;
   std::unique_ptr<CGameClientKeyboard> m_keyboard;
+  std::unique_ptr<CGameClientMouse> m_mouse;
 
   CCriticalSection m_critSection;
 };

@@ -22,6 +22,7 @@
 #include "GameClientCallbacks.h"
 #include "GameClientInput.h"
 #include "GameClientKeyboard.h"
+#include "GameClientMouse.h"
 #include "GameClientTranslator.h"
 #include "addons/AddonManager.h"
 #include "addons/BinaryAddonCache.h"
@@ -63,6 +64,7 @@ using namespace GAME;
 #define GAME_PROPERTY_SUPPORTS_VFS         "supports_vfs"
 #define GAME_PROPERTY_SUPPORTS_STANDALONE  "supports_standalone"
 #define GAME_PROPERTY_SUPPORTS_KEYBOARD    "supports_keyboard"
+#define GAME_PROPERTY_SUPPORTS_MOUSE       "supports_mouse"
 
 #define INPUT_SCAN_RATE  125 // Hz
 
@@ -100,6 +102,7 @@ std::unique_ptr<CGameClient> CGameClient::FromExtension(ADDON::AddonProps props,
       GAME_PROPERTY_SUPPORTS_VFS,
       GAME_PROPERTY_SUPPORTS_STANDALONE,
       GAME_PROPERTY_SUPPORTS_KEYBOARD,
+      GAME_PROPERTY_SUPPORTS_MOUSE,
   };
 
   for (const auto& property : properties)
@@ -119,6 +122,7 @@ CGameClient::CGameClient(ADDON::AddonProps props) :
   m_bSupportsVFS(false),
   m_bSupportsStandalone(false),
   m_bSupportsKeyboard(false),
+  m_bSupportsMouse(false),
   m_bSupportsAllExtensions(false),
   m_bIsPlaying(false),
   m_serializeSize(0),
@@ -155,6 +159,10 @@ CGameClient::CGameClient(ADDON::AddonProps props) :
   it = extraInfo.find(GAME_PROPERTY_SUPPORTS_KEYBOARD);
   if (it != extraInfo.end())
     m_bSupportsKeyboard = (it->second == "true");
+
+  it = extraInfo.find(GAME_PROPERTY_SUPPORTS_MOUSE);
+  if (it != extraInfo.end())
+    m_bSupportsMouse = (it->second == "true");
 
   ResetPlayback();
 }
@@ -230,7 +238,7 @@ bool CGameClient::OpenFile(const CFileItem& file, IGameAudioCallback* audio, IGa
   if (audio == nullptr || video == nullptr)
     return false;
 
-  // Check if we should open in standalone mode
+  // Check if we should open in standalone mode
   if (file.GetPath().empty())
     return OpenStandalone(audio, video);
 
@@ -312,6 +320,9 @@ bool CGameClient::InitializeGameplay(const std::string& gamePath, IGameAudioCall
 
     if (m_bSupportsKeyboard)
       OpenKeyboard();
+
+    if (m_bSupportsMouse)
+      OpenMouse();
 
     // Start playback
     CreatePlayback();
@@ -483,6 +494,9 @@ void CGameClient::CloseFile()
 
   if (m_bSupportsKeyboard)
     CloseKeyboard();
+
+  if (m_bSupportsMouse)
+    CloseMouse();
 
   m_bIsPlaying = false;
   m_gamePath.clear();
@@ -702,7 +716,7 @@ bool CGameClient::Deserialize(const uint8_t* data, size_t size)
 bool CGameClient::OpenPort(unsigned int port)
 {
   // Fail if port is already open
-  if (port < m_ports.size() && m_ports[port] != nullptr)
+  if (m_ports.find(port) != m_ports.end())
     return false;
 
   ControllerVector controllers = GetControllers();
@@ -713,20 +727,14 @@ bool CGameClient::OpenPort(unsigned int port)
 
     if (controller->LoadLayout())
     {
-      ClosePort(port);
-
-      // Ensure port exists
-      if (port >= m_ports.size())
-        m_ports.resize(port + 1);
-
-      m_ports[port] = new CGameClientInput(this, port, controller);
+      m_ports[port].reset(new CGameClientInput(this, port, controller));
 
       // If keyboard input is being captured by this add-on, force the port type to PERIPHERAL_JOYSTICK
       PERIPHERALS::PeripheralType device = PERIPHERALS::PERIPHERAL_UNKNOWN;
       if (m_bSupportsKeyboard)
         device = PERIPHERALS::PERIPHERAL_JOYSTICK;
 
-      CPortManager::GetInstance().OpenPort(m_ports[port], port, device);
+      CPortManager::GetInstance().OpenPort(m_ports[port].get(), port, device);
 
       UpdatePort(port, controller);
 
@@ -740,18 +748,14 @@ bool CGameClient::OpenPort(unsigned int port)
 void CGameClient::ClosePort(unsigned int port)
 {
   // Can't close port if it doesn't exist
-  if (port >= m_ports.size())
+  if (m_ports.find(port) == m_ports.end())
     return;
 
-  if (m_ports[port] != nullptr)
-  {
-    CPortManager::GetInstance().ClosePort(m_ports[port]);
+  CPortManager::GetInstance().ClosePort(m_ports[port].get());
 
-    delete m_ports[port];
-    m_ports[port] = nullptr;
+  m_ports.erase(port);
 
-    UpdatePort(port, CController::EmptyPtr);
-  }
+  UpdatePort(port, CController::EmptyPtr);
 }
 
 void CGameClient::UpdatePort(unsigned int port, const ControllerPtr& controller)
@@ -770,7 +774,7 @@ void CGameClient::UpdatePort(unsigned int port, const ControllerPtr& controller)
     controllerStruct.analog_stick_count   = controller->Layout().FeatureCount(FEATURE_TYPE::ANALOG_STICK);
     controllerStruct.accelerometer_count  = controller->Layout().FeatureCount(FEATURE_TYPE::ACCELEROMETER);
     controllerStruct.key_count            = 0; // TODO
-    controllerStruct.rel_pointer_count    = 0; // TODO
+    controllerStruct.rel_pointer_count    = controller->Layout().FeatureCount(FEATURE_TYPE::RELPOINTER);
     controllerStruct.abs_pointer_count    = 0; // TODO
     controllerStruct.motor_count          = controller->Layout().FeatureCount(FEATURE_TYPE::MOTOR);
 
@@ -800,8 +804,8 @@ bool CGameClient::AcceptsInput(void) const
 
 void CGameClient::ClearPorts(void)
 {
-  for (unsigned int i = 0; i < m_ports.size(); i++)
-    ClosePort(i);
+  for (const auto &it : m_ports)
+    ClosePort(it.first);
 }
 
 ControllerVector CGameClient::GetControllers(void) const
@@ -937,7 +941,7 @@ bool CGameClient::SetRumble(unsigned int port, const std::string& feature, float
 {
   bool bHandled = false;
 
-  if (port < m_ports.size() && m_ports[port] != nullptr)
+  if (m_ports.find(port) != m_ports.end())
     bHandled = m_ports[port]->SetRumble(feature, magnitude);
 
   return bHandled;
@@ -953,6 +957,26 @@ void CGameClient::CloseKeyboard(void)
   m_keyboard.reset();
 }
 
+void CGameClient::OpenMouse(void)
+{
+  m_mouse.reset(new CGameClientMouse(this, m_pStruct));
+
+  std::string strId = m_mouse->ControllerID();
+
+  game_controller controllerStruct = { strId.c_str() };
+
+  try { m_pStruct->UpdatePort(GAME_INPUT_PORT_MOUSE, true, &controllerStruct); }
+  catch (...) { LogException("UpdatePort()"); }
+}
+
+void CGameClient::CloseMouse(void)
+{
+  try { m_pStruct->UpdatePort(GAME_INPUT_PORT_MOUSE, false, nullptr); }
+  catch (...) { LogException("UpdatePort()"); }
+
+  m_mouse.reset();
+}
+
 void CGameClient::LogAddonProperties(void) const
 {
   CLog::Log(LOGINFO, "GAME: ------------------------------------");
@@ -962,6 +986,7 @@ void CGameClient::LogAddonProperties(void) const
   CLog::Log(LOGINFO, "GAME: Supports VFS:                  %s", m_bSupportsVFS ? "yes" : "no");
   CLog::Log(LOGINFO, "GAME: Supports standalone execution: %s", m_bSupportsStandalone ? "yes" : "no");
   CLog::Log(LOGINFO, "GAME: Supports keyboard:             %s", m_bSupportsKeyboard ? "yes" : "no");
+  CLog::Log(LOGINFO, "GAME: Supports mouse:                %s", m_bSupportsMouse ? "yes" : "no");
   CLog::Log(LOGINFO, "GAME: ------------------------------------");
 }
 

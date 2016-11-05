@@ -21,10 +21,10 @@
 #define KODI_GAME_TYPES_H_
 
 /* current game API version */
-#define GAME_API_VERSION                "1.0.27"
+#define GAME_API_VERSION                "1.0.28"
 
 /* min. game API version */
-#define GAME_MIN_API_VERSION            "1.0.26"
+#define GAME_MIN_API_VERSION            "1.0.28"
 
 #include <stddef.h>
 #include <stdint.h>
@@ -54,6 +54,12 @@
 #if !defined(ATTRIBUTE_PACKED)
   #define ATTRIBUTE_PACKED
   #define PRAGMA_PACK 1
+#endif
+
+#ifdef BUILD_KODI_ADDON
+#include "XBMC_vkeys.h"
+#else
+#include "input/XBMC_vkeys.h"
 #endif
 
 #ifdef __cplusplus
@@ -157,6 +163,13 @@ typedef enum GAME_HW_CONTEXT_TYPE
   GAME_HW_CONTEXT_OPENGL_CORE, // Modern desktop core GL context. Use major/minor fields to set GL version
   GAME_HW_CONTEXT_OPENGLES3,   // GLES 3.0
 } GAME_HW_CONTEXT_TYPE;
+
+typedef enum GAME_INPUT_PORT
+{
+  GAME_INPUT_PORT_JOYSTICK_START = 0, // Non-negative values are for joystick ports
+  GAME_INPUT_PORT_KEYBOARD = -1,
+  GAME_INPUT_PORT_MOUSE = -2,
+} GAME_INPUT_PORT;
 
 typedef enum GAME_INPUT_EVENT_SOURCE
 {
@@ -307,7 +320,7 @@ typedef struct game_accelerometer_event
 typedef struct game_key_event
 {
   bool         pressed;
-  uint32_t     character; // text character of the pressed key (UTF-32)
+  XBMCVKey     character;
   GAME_KEY_MOD modifiers;
 } ATTRIBUTE_PACKED game_key_event;
 
@@ -456,7 +469,7 @@ typedef struct GameClient
   GAME_ERROR  (__cdecl* Reset)(void);
   GAME_ERROR  (__cdecl* HwContextReset)(void);
   GAME_ERROR  (__cdecl* HwContextDestroy)(void);
-  void        (__cdecl* UpdatePort)(unsigned int, bool, const game_controller*);
+  void        (__cdecl* UpdatePort)(int, bool, const game_controller*);
   bool        (__cdecl* HasFeature)(const char* controller_id, const char* feature_name);
   bool        (__cdecl* InputEvent)(const game_input_event*);
   size_t      (__cdecl* SerializeSize)(void);

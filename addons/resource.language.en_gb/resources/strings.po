@@ -16329,7 +16329,17 @@ msgctxt "#35102"
 msgid "Disable joystick when this device is present"
 msgstr ""
 
-#empty strings from id 35103 to 35196
+#. Label for mouse buttons. Used in the controller mapping dialog.
+msgctxt "#35103"
+msgid "Buttons"
+msgstr ""
+
+#. Label for relative mounters like the mouse pointer. Used in the controller mapping dialog.
+msgctxt "#35104"
+msgid "Pointers"
+msgstr ""
+
+#empty strings from id 35105 to 35196
 
 #: system/settings/settings.xml
 msgctxt "#35197"

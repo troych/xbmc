@@ -125,9 +125,11 @@ typedef struct CB_GameLib
   // --- Input callbacks -------------------------------------------------------
 
   /*!
-   * \brief Begin reporting events for the specified port
+   * \brief Begin reporting events for the specified joystick port
    *
    * \param port The zero-indexed port number
+   *
+   * \return true if the port was opened, false otherwise
    */
   bool (*OpenPort)(void* addonData, unsigned int port);
 
