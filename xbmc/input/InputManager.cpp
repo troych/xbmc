@@ -405,19 +405,19 @@ bool CInputManager::OnEvent(XBMC_Event& newEvent)
     {
       if (newEvent.type == XBMC_MOUSEMOTION)
       {
-        if (it->second->OnPosition(newEvent.motion.x, newEvent.motion.y))
+        if (it->driverHandler->OnPosition(newEvent.motion.x, newEvent.motion.y))
           handled = true;
       }
       else
       {
         if (newEvent.button.type == XBMC_MOUSEBUTTONDOWN)
         {
-          if (it->second->OnButtonPress(newEvent.button.button))
+          if (it->driverHandler->OnButtonPress(newEvent.button.button))
             handled = true;
         }
         else if (newEvent.button.type == XBMC_MOUSEBUTTONUP)
         {
-          it->second->OnButtonRelease(newEvent.button.button);
+          it->driverHandler->OnButtonRelease(newEvent.button.button);
         }
       }
     }
@@ -837,11 +837,15 @@ std::string CInputManager::RegisterMouseHandler(MOUSE::IMouseInputHandler* handl
   auto it = std::find_if(m_mouseHandlers.begin(), m_mouseHandlers.end(),
     [handler](const MouseHandlerHandle& element)
     {
-      return element.first == handler;
+      return element.inputHandler == handler;
     });
 
   if (it == m_mouseHandlers.end())
-    m_mouseHandlers.emplace_back(std::make_pair(handler, std::unique_ptr<MOUSE::IMouseDriverHandler>(new MOUSE::CMouseInputHandling(handler, m_mouseButtonMap.get()))));
+  {
+    std::unique_ptr<MOUSE::IMouseDriverHandler> driverHandler(new MOUSE::CMouseInputHandling(handler, m_mouseButtonMap.get()));
+    MouseHandlerHandle handle = { handler, std::move(driverHandler) };
+    m_mouseHandlers.emplace_back(std::move(handle));
+  }
 
   return m_mouseButtonMap->ControllerID();
 }
@@ -851,7 +855,7 @@ void CInputManager::UnregisterMouseHandler(MOUSE::IMouseInputHandler* handler)
   auto it = std::find_if(m_mouseHandlers.begin(), m_mouseHandlers.end(),
     [handler](const MouseHandlerHandle& element)
     {
-      return element.first == handler;
+      return element.inputHandler == handler;
     });
 
   if (it != m_mouseHandlers.end())

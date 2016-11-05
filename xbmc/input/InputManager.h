@@ -295,7 +295,13 @@ private:
   CCriticalSection     m_actionMutex;
 
   std::vector<KEYBOARD::IKeyboardHandler*> m_keyboardHandlers;
-  typedef std::pair<MOUSE::IMouseInputHandler*, std::unique_ptr<MOUSE::IMouseDriverHandler>> MouseHandlerHandle;
+
+  struct MouseHandlerHandle
+  {
+    MOUSE::IMouseInputHandler*                  inputHandler;
+    std::unique_ptr<MOUSE::IMouseDriverHandler> driverHandler;
+  };
+
   std::vector<MouseHandlerHandle> m_mouseHandlers;
   std::unique_ptr<MOUSE::IMouseButtonMap> m_mouseButtonMap;
 
