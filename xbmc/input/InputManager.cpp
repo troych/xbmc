@@ -420,6 +420,9 @@ bool CInputManager::OnEvent(XBMC_Event& newEvent)
           it->driverHandler->OnButtonRelease(newEvent.button.button);
         }
       }
+
+      if (handled)
+        break;
     }
 
     if (!handled)
