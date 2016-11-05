@@ -844,7 +844,7 @@ std::string CInputManager::RegisterMouseHandler(MOUSE::IMouseInputHandler* handl
   {
     std::unique_ptr<MOUSE::IMouseDriverHandler> driverHandler(new MOUSE::CMouseInputHandling(handler, m_mouseButtonMap.get()));
     MouseHandlerHandle handle = { handler, std::move(driverHandler) };
-    m_mouseHandlers.emplace_back(std::move(handle));
+    m_mouseHandlers.insert(m_mouseHandlers.begin(), std::move(handle));
   }
 
   return m_mouseButtonMap->ControllerID();
