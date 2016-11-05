@@ -3,6 +3,7 @@ set(SOURCES GUIAnalogStickButton.cpp
             GUIFeatureButton.cpp
             GUIFeatureControls.cpp
             GUIGameController.cpp
+            GUIKeyboardButton.cpp
             GUIScalarFeatureButton.cpp)
 
 set(HEADERS GUIAnalogStickButton.h
@@ -10,6 +11,7 @@ set(HEADERS GUIAnalogStickButton.h
             GUIFeatureButton.h
             GUIFeatureControls.h
             GUIGameController.h
+            GUIKeyboardButton.h
             GUIScalarFeatureButton.h)
 
 core_add_library(games_controller_guicontrols)

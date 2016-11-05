@@ -38,6 +38,7 @@ namespace JOYSTICK
    *   3) accelerometer
    *   4) rumble motor
    *   5) relative pointer
+   *   6) keyboard key
    *
    * [1] All three driver primitives (buttons, hats and axes) have a state that
    *     can be represented using a single scalar value. For this reason,
@@ -51,6 +52,7 @@ namespace JOYSTICK
     ACCELEROMETER,
     MOTOR,
     RELPOINTER,
+    KEY,
   };
 
   /*!

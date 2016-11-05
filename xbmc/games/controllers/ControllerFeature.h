@@ -46,6 +46,8 @@ public:
   unsigned int           LabelID(void) const    { return m_labelId; }
   JOYSTICK::INPUT_TYPE   InputType(void) const  { return m_inputType; }
 
+  void SetName(const std::string& name) { m_strName = name; }
+
   bool Deserialize(const TiXmlElement* pElement, const CController* controller, const std::string& strGroup);
 
 private:

@@ -16339,7 +16339,42 @@ msgctxt "#35104"
 msgid "Pointers"
 msgstr ""
 
-#empty strings from id 35105 to 35196
+#. Label for button to map any key pressed by the user. Used in the controller mapping dialog.
+msgctxt "#35105"
+msgid "Any key"
+msgstr ""
+
+#. Label for button to map individual keys. Used in the controller mapping dialog.
+msgctxt "#35106"
+msgid "Individual keys"
+msgstr ""
+
+#. Prompt to select a keyboard key to map to a joystick button. Used in the controller mapping dialog.
+msgctxt "#35107"
+msgid "Select key"
+msgstr ""
+
+#. Prompt to press keyboard key without timeout. Used in the controller mapping dialog.
+msgctxt "#35108"
+msgid "Press key..."
+msgstr ""
+
+#. Prompt to press keyboard key with timeout. Used in the controller mapping dialog. %d - seconds left in prompt
+msgctxt "#35109"
+msgid "Press key... (%d)"
+msgstr ""
+
+#. Prompt to press joystick button without timeout. Used in the controller mapping dialog.
+msgctxt "#35110"
+msgid "Press button..."
+msgstr ""
+
+#. Prompt to press joystick button with timeout. Used in the controller mapping dialog. %d - seconds left in prompt
+msgctxt "#35111"
+msgid "Press button... (%d)"
+msgstr ""
+
+#empty strings from id 35112 to 35196
 
 #: system/settings/settings.xml
 msgctxt "#35197"

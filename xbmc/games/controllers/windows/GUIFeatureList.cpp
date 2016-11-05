@@ -24,6 +24,7 @@
 #include "GUIControllerDefines.h"
 #include "games/controllers/guicontrols/GUIAnalogStickButton.h"
 #include "games/controllers/guicontrols/GUIFeatureControls.h"
+#include "games/controllers/guicontrols/GUIKeyboardButton.h"
 #include "games/controllers/guicontrols/GUIScalarFeatureButton.h"
 #include "games/controllers/Controller.h"
 #include "guilib/GUIButtonControl.h"
@@ -222,8 +223,14 @@ std::vector<CGUIButtonControl*> CGUIFeatureList::GetButtons(const std::vector<CC
         break;
       }
       case JOYSTICK::FEATURE_TYPE::ANALOG_STICK:
+      case JOYSTICK::FEATURE_TYPE::RELPOINTER:
       {
         pButton = new CGUIAnalogStickButton(*m_guiButtonTemplate, m_wizard, feature, featureIndex);
+        break;
+      }
+      case JOYSTICK::FEATURE_TYPE::KEY:
+      {
+        pButton = new CGUIKeyboardButton(*m_guiButtonTemplate, m_wizard, feature, featureIndex);
         break;
       }
       default:

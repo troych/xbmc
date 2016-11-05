@@ -3,6 +3,7 @@ SRCS=GUIAnalogStickButton.cpp \
      GUIFeatureButton.cpp \
      GUIFeatureControls.cpp \
      GUIGameController.cpp \
+     GUIKeyboardButton.cpp \
      GUIScalarFeatureButton.cpp \
 
 LIB=controllerguicontrols.a

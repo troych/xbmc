@@ -188,6 +188,7 @@ bool CGUIConfigurationWizard::MapPrimitive(JOYSTICK::IButtonMap* buttonMap, cons
           break;
         }
         case FEATURE_TYPE::ANALOG_STICK:
+        case FEATURE_TYPE::RELPOINTER:
         {
           buttonMap->AddAnalogStick(feature.Name(), currentDirection, primitive);
           bHandled = true;

@@ -75,12 +75,15 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
   // Group was obtained from parent XML node
   m_group = strGroup;
 
-  // Name
-  m_strName = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_FEATURE_NAME);
-  if (m_strName.empty())
+  // Name (not required for keys: feature name is set when key is pressed)
+  if (m_type != FEATURE_TYPE::KEY)
   {
-    CLog::Log(LOGERROR, "<%s> tag has no \"%s\" attribute", strType.c_str(), LAYOUT_XML_ATTR_FEATURE_NAME);
-    return false;
+    m_strName = XMLUtils::GetAttribute(pElement, LAYOUT_XML_ATTR_FEATURE_NAME);
+    if (m_strName.empty())
+    {
+      CLog::Log(LOGERROR, "<%s> tag has no \"%s\" attribute", strType.c_str(), LAYOUT_XML_ATTR_FEATURE_NAME);
+      return false;
+    }
   }
 
   // Label (not used for motors)
@@ -97,6 +100,8 @@ bool CControllerFeature::Deserialize(const TiXmlElement* pElement, const CContro
 
     // Label (string)
     m_strLabel = g_localizeStrings.GetAddonString(controller->ID(), m_labelId);
+    if (m_strLabel.empty())
+      m_strLabel = g_localizeStrings.Get(m_labelId);
   }
 
   // Input type

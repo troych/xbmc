@@ -56,7 +56,7 @@ namespace GAME
       return static_cast<T>(static_cast<int>(state) + 1);
     }
 
-    const CControllerFeature m_feature;
+    CControllerFeature m_feature;
 
   private:
     IConfigurationWizard* const  m_wizard;
