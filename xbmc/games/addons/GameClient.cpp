@@ -804,8 +804,8 @@ bool CGameClient::AcceptsInput(void) const
 
 void CGameClient::ClearPorts(void)
 {
-  for (const auto &it : m_ports)
-    ClosePort(it.first);
+  while (!m_ports.empty())
+    ClosePort(m_ports.begin()->first);
 }
 
 ControllerVector CGameClient::GetControllers(void) const
