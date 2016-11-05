@@ -852,12 +852,9 @@ std::string CInputManager::RegisterMouseHandler(MOUSE::IMouseInputHandler* handl
 
 void CInputManager::UnregisterMouseHandler(MOUSE::IMouseInputHandler* handler)
 {
-  auto it = std::find_if(m_mouseHandlers.begin(), m_mouseHandlers.end(),
-    [handler](const MouseHandlerHandle& element)
+  m_mouseHandlers.erase(std::remove_if(m_mouseHandlers.begin(), m_mouseHandlers.end(),
+    [handler](const MouseHandlerHandle& handle)
     {
-      return element.inputHandler == handler;
-    });
-
-  if (it != m_mouseHandlers.end())
-    m_mouseHandlers.erase(it);
+      return handle.inputHandler == handler;
+    }), m_mouseHandlers.end());
 }
