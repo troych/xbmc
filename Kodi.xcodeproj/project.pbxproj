@@ -255,6 +255,8 @@
 		5EF801001A97892A0035AA4D /* ReplayGain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5EF800FE1A97892A0035AA4D /* ReplayGain.cpp */; };
 		6800042B1DC52789009E481A /* GameClientMouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 680004291DC52789009E481A /* GameClientMouse.cpp */; };
 		6800042C1DC52789009E481A /* GameClientMouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 680004291DC52789009E481A /* GameClientMouse.cpp */; };
+		680E23B31DD3D65200D2B766 /* GUIDialogButtonCapture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 680E23B11DD3D65200D2B766 /* GUIDialogButtonCapture.cpp */; };
+		680E23B41DD3D65200D2B766 /* GUIDialogButtonCapture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 680E23B11DD3D65200D2B766 /* GUIDialogButtonCapture.cpp */; };
 		681073F51DC72796001B0F60 /* MouseInputHandling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 681073F31DC72796001B0F60 /* MouseInputHandling.cpp */; };
 		681073F61DC72796001B0F60 /* MouseInputHandling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 681073F31DC72796001B0F60 /* MouseInputHandling.cpp */; };
 		6815C1411CC7BADB000DB91A /* RumbleGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6815C13F1CC7BADB000DB91A /* RumbleGenerator.cpp */; };
@@ -2848,6 +2850,9 @@
 		5EF800FF1A97892A0035AA4D /* ReplayGain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplayGain.h; sourceTree = "<group>"; };
 		680004291DC52789009E481A /* GameClientMouse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameClientMouse.cpp; path = games/addons/GameClientMouse.cpp; sourceTree = "<group>"; };
 		6800042A1DC52789009E481A /* GameClientMouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameClientMouse.h; path = games/addons/GameClientMouse.h; sourceTree = "<group>"; };
+		680E23B11DD3D65200D2B766 /* GUIDialogButtonCapture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUIDialogButtonCapture.cpp; path = games/controllers/dialogs/GUIDialogButtonCapture.cpp; sourceTree = "<group>"; };
+		680E23B21DD3D65200D2B766 /* GUIDialogButtonCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIDialogButtonCapture.h; path = games/controllers/dialogs/GUIDialogButtonCapture.h; sourceTree = "<group>"; };
+		680E23B51DD42BF700D2B766 /* IActionMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IActionMap.h; path = joysticks/IActionMap.h; sourceTree = "<group>"; };
 		681073F31DC72796001B0F60 /* MouseInputHandling.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MouseInputHandling.cpp; path = mouse/generic/MouseInputHandling.cpp; sourceTree = "<group>"; };
 		681073F41DC72796001B0F60 /* MouseInputHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MouseInputHandling.h; path = mouse/generic/MouseInputHandling.h; sourceTree = "<group>"; };
 		6815C13F1CC7BADB000DB91A /* RumbleGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RumbleGenerator.cpp; path = joysticks/RumbleGenerator.cpp; sourceTree = "<group>"; };
@@ -6357,6 +6362,15 @@
 			name = mouse;
 			sourceTree = "<group>";
 		};
+		680E23B01DD3D63600D2B766 /* dialogs */ = {
+			isa = PBXGroup;
+			children = (
+				680E23B11DD3D65200D2B766 /* GUIDialogButtonCapture.cpp */,
+				680E23B21DD3D65200D2B766 /* GUIDialogButtonCapture.h */,
+			);
+			name = dialogs;
+			sourceTree = "<group>";
+		};
 		681073F21DC72788001B0F60 /* generic */ = {
 			isa = PBXGroup;
 			children = (
@@ -6395,6 +6409,7 @@
 				68AE5BAD1C9241DF00C4D527 /* DefaultJoystick.h */,
 				68AE5BAE1C9241DF00C4D527 /* DriverPrimitive.cpp */,
 				68AE5BAF1C9241DF00C4D527 /* DriverPrimitive.h */,
+				680E23B51DD42BF700D2B766 /* IActionMap.h */,
 				68AE5BB01C9241DF00C4D527 /* IButtonMap.h */,
 				6819C8B61D76492500A60E30 /* IButtonMapCallback.h */,
 				68AE5BB11C9241DF00C4D527 /* IButtonMapper.h */,
@@ -6473,6 +6488,7 @@
 		68AE5BFA1C92433900C4D527 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
+				680E23B01DD3D63600D2B766 /* dialogs */,
 				68AE5BFB1C92435200C4D527 /* guicontrols */,
 				68AE5BFC1C92436500C4D527 /* windows */,
 				68AE5C231C9243A000C4D527 /* Controller.cpp */,
@@ -10226,6 +10242,7 @@
 				E38E1FAF0D25F9FD00618676 /* DVDSubtitleStream.cpp in Sources */,
 				68D77D6C1CD1C86B004C1735 /* RetroPlayerAudio.cpp in Sources */,
 				E38E1FC50D25F9FD00618676 /* AudioDecoder.cpp in Sources */,
+				680E23B31DD3D65200D2B766 /* GUIDialogButtonCapture.cpp in Sources */,
 				E38E1FC70D25F9FD00618676 /* CodecFactory.cpp in Sources */,
 				E38E1FE90D25F9FD00618676 /* LinuxRendererGL.cpp in Sources */,
 				E38E1FEC0D25F9FD00618676 /* RenderManager.cpp in Sources */,
@@ -11414,6 +11431,7 @@
 				E49911A6174E5CFE00741B6D /* AEBitstreamPacker.cpp in Sources */,
 				E49911A7174E5CFE00741B6D /* AEBuffer.cpp in Sources */,
 				E49911A8174E5CFE00741B6D /* AEChannelInfo.cpp in Sources */,
+				680E23B41DD3D65200D2B766 /* GUIDialogButtonCapture.cpp in Sources */,
 				E49911AA174E5CFE00741B6D /* AEDeviceInfo.cpp in Sources */,
 				E49911AB174E5CFE00741B6D /* AELimiter.cpp in Sources */,
 				E49911AC174E5CFE00741B6D /* AEPackIEC61937.cpp in Sources */,

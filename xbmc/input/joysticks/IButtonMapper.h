@@ -24,6 +24,7 @@
 namespace JOYSTICK
 {
   class CDriverPrimitive;
+  class IActionMap;
   class IButtonMap;
   class IButtonMapCallback;
 
@@ -69,11 +70,12 @@ namespace JOYSTICK
      * \brief Handle button/hat press or axis threshold
      *
      * \param buttonMap  The button map being manipulated
-     * \param primitive  The source of the action
+     * \param actionMap  An interface capable of translating driver primitives to Kodi actions
+     * \param primitive  The driver primitive
      *
-     * \return True if action was mapped to a feature
+     * \return True if driver primitive was mapped to a feature
      */
-    virtual bool MapPrimitive(IButtonMap* buttonMap, const CDriverPrimitive& primitive) = 0;
+    virtual bool MapPrimitive(IButtonMap* buttonMap, IActionMap* actionMap, const CDriverPrimitive& primitive) = 0;
 
     // Button map callback interface
     void SetButtonMapCallback(IButtonMapCallback* callback) { m_callback = callback; }
@@ -82,5 +84,6 @@ namespace JOYSTICK
 
   private:
     IButtonMapCallback* m_callback;
+    IActionMap*         m_actionMap;
   };
 }
