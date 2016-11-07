@@ -16038,7 +16038,7 @@ msgstr ""
 #. Text of dialog to ask users if they would like to configure a new controller
 #: xbmc/input/joysticks/dialogs/GUIDialogNewJoystick.cpp
 msgctxt "#35012"
-msgid "Would you like to configure your controller? This can be done later in System Settings."
+msgid "A new controller has been detected. Configuration can be done at any time in \"Settings -> System Settings -> Input\". Would you like to configure it now?"
 msgstr ""
 
 #empty strings from id 35013 to 35048

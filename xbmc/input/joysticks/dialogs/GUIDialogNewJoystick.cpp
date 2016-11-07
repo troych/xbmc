@@ -51,7 +51,7 @@ void CGUIDialogNewJoystick::Process()
   using namespace KODI::MESSAGING::HELPERS;
 
   // "New controller detected"
-  // "Would you like to configure your controller? This can also be done in System Settings."
+  // "A new controller has been detected. Configuration can be done at any time in "Settings -> System Settings -> Input". Would you like to configure it now?"
   if (ShowYesNoDialogText(CVariant{ 35011 }, CVariant{ 35012 }) == DialogResponse::YES)
   {
     g_windowManager.ActivateWindow(WINDOW_DIALOG_GAME_CONTROLLERS);
