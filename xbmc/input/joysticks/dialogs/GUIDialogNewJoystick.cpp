@@ -19,9 +19,9 @@
  */
 
 #include "GUIDialogNewJoystick.h"
-#include "dialogs/GUIDialogYesNo.h"
 #include "guilib/GUIWindowManager.h"
 #include "guilib/WindowIDs.h"
+#include "messaging/helpers/DialogHelper.h"
 #include "settings/Settings.h"
 
 using namespace JOYSTICK;
@@ -48,9 +48,11 @@ void CGUIDialogNewJoystick::ShowAsync()
 
 void CGUIDialogNewJoystick::Process()
 {
+  using namespace KODI::MESSAGING::HELPERS;
+
   // "New controller detected"
   // "Would you like to configure your controller? This can also be done in System Settings."
-  if (CGUIDialogYesNo::ShowAndGetInput(CVariant{ 35011 }, CVariant{ 35012 }))
+  if (ShowYesNoDialogText(CVariant{ 35011 }, CVariant{ 35012 }) == DialogResponse::YES)
   {
     g_windowManager.ActivateWindow(WINDOW_DIALOG_GAME_CONTROLLERS);
   }
