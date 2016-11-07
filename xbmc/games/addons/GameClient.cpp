@@ -727,7 +727,7 @@ bool CGameClient::OpenPort(unsigned int port)
 
     if (controller->LoadLayout())
     {
-      m_ports[port].reset(new CGameClientInput(this, port, controller));
+      m_ports[port].reset(new CGameClientInput(this, port, controller, m_pStruct));
 
       // If keyboard input is being captured by this add-on, force the port type to PERIPHERAL_JOYSTICK
       PERIPHERALS::PeripheralType device = PERIPHERALS::PERIPHERAL_UNKNOWN;
@@ -788,14 +788,6 @@ void CGameClient::UpdatePort(unsigned int port, const ControllerPtr& controller)
   }
 }
 
-bool CGameClient::HasFeature(const std::string& controller, const std::string& feature)
-{
-  try { return m_pStruct->HasFeature(controller.c_str(), feature.c_str()); }
-  catch (...) { LogException("HasFeature()"); }
-
-  return false;
-}
-
 bool CGameClient::AcceptsInput(void) const
 {
   return g_application.IsAppFocused() &&
@@ -835,89 +827,6 @@ ControllerVector CGameClient::GetControllers(void) const
   }
 
   return controllers;
-}
-
-bool CGameClient::OnButtonPress(int port, const std::string& feature, bool bPressed)
-{
-  std::string strControllerId = m_ports[port]->ControllerID();
-
-  bool bHandled = false;
-
-  game_input_event event;
-
-  event.type                   = GAME_INPUT_EVENT_DIGITAL_BUTTON;
-  event.port                   = port;
-  event.controller_id          = strControllerId.c_str();
-  event.feature_name           = feature.c_str();
-  event.digital_button.pressed = bPressed;
-
-  try { bHandled = m_pStruct->InputEvent(&event); }
-  catch (...) { LogException("InputEvent()"); }
-
-  return bHandled;
-}
-
-bool CGameClient::OnButtonMotion(int port, const std::string& feature, float magnitude)
-{
-  std::string strControllerId = m_ports[port]->ControllerID();
-
-  bool bHandled = false;
-
-  game_input_event event;
-
-  event.type                    = GAME_INPUT_EVENT_ANALOG_BUTTON;
-  event.port                    = port;
-  event.controller_id           = strControllerId.c_str();
-  event.feature_name            = feature.c_str();
-  event.analog_button.magnitude = magnitude;
-
-  try { bHandled = m_pStruct->InputEvent(&event); }
-  catch (...) { LogException("InputEvent()"); }
-
-  return bHandled;
-}
-
-bool CGameClient::OnAnalogStickMotion(int port, const std::string& feature, float x, float y)
-{
-  std::string strControllerId = m_ports[port]->ControllerID();
-
-  bool bHandled = false;
-
-  game_input_event event;
-
-  event.type           = GAME_INPUT_EVENT_ANALOG_STICK;
-  event.port           = port;
-  event.controller_id  = strControllerId.c_str();
-  event.feature_name   = feature.c_str();
-  event.analog_stick.x = x;
-  event.analog_stick.y = y;
-
-  try { bHandled = m_pStruct->InputEvent(&event); }
-  catch (...) { LogException("InputEvent()"); }
-
-  return bHandled;
-}
-
-bool CGameClient::OnAccelerometerMotion(int port, const std::string& feature, float x, float y, float z)
-{
-  std::string strControllerId = m_ports[port]->ControllerID();
-
-  bool bHandled = false;
-
-  game_input_event event;
-
-  event.type            = GAME_INPUT_EVENT_ACCELEROMETER;
-  event.port            = port;
-  event.controller_id   = strControllerId.c_str();
-  event.feature_name    = feature.c_str();
-  event.accelerometer.x = x;
-  event.accelerometer.y = y;
-  event.accelerometer.z = z;
-
-  try { bHandled = m_pStruct->InputEvent(&event); }
-  catch (...) { LogException("InputEvent()"); }
-
-  return bHandled;
 }
 
 bool CGameClient::ReceiveInputEvent(const game_input_event& event)
