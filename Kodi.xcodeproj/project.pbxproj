@@ -397,14 +397,14 @@
 		68D77D6D1CD1C86B004C1735 /* RetroPlayerAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D641CD1C86B004C1735 /* RetroPlayerAudio.cpp */; };
 		68D77D6E1CD1C86B004C1735 /* RetroPlayerVideo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D661CD1C86B004C1735 /* RetroPlayerVideo.cpp */; };
 		68D77D6F1CD1C86B004C1735 /* RetroPlayerVideo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D661CD1C86B004C1735 /* RetroPlayerVideo.cpp */; };
-		68DE2BEB1CDEBAC9002EA0F7 /* Savestate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68DE2BE71CDEBAC9002EA0F7 /* Savestate.cpp */; };
-		68DE2BEC1CDEBAC9002EA0F7 /* Savestate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68DE2BE71CDEBAC9002EA0F7 /* Savestate.cpp */; };
-		68E68CB21DC71B6500712EC5 /* MouseWindowingButtonMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68E68CB01DC71B6500712EC5 /* MouseWindowingButtonMap.cpp */; };
-		68E68CB31DC71B6500712EC5 /* MouseWindowingButtonMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68E68CB01DC71B6500712EC5 /* MouseWindowingButtonMap.cpp */; };
 		68D77D751CD1C89A004C1735 /* GUIViewStateWindowGames.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D711CD1C89A004C1735 /* GUIViewStateWindowGames.cpp */; };
 		68D77D761CD1C89A004C1735 /* GUIViewStateWindowGames.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D711CD1C89A004C1735 /* GUIViewStateWindowGames.cpp */; };
 		68D77D771CD1C89A004C1735 /* GUIWindowGames.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D731CD1C89A004C1735 /* GUIWindowGames.cpp */; };
 		68D77D781CD1C89A004C1735 /* GUIWindowGames.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77D731CD1C89A004C1735 /* GUIWindowGames.cpp */; };
+		68DE2BEB1CDEBAC9002EA0F7 /* Savestate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68DE2BE71CDEBAC9002EA0F7 /* Savestate.cpp */; };
+		68DE2BEC1CDEBAC9002EA0F7 /* Savestate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68DE2BE71CDEBAC9002EA0F7 /* Savestate.cpp */; };
+		68E68CB21DC71B6500712EC5 /* MouseWindowingButtonMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68E68CB01DC71B6500712EC5 /* MouseWindowingButtonMap.cpp */; };
+		68E68CB31DC71B6500712EC5 /* MouseWindowingButtonMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68E68CB01DC71B6500712EC5 /* MouseWindowingButtonMap.cpp */; };
 		761170901C8B85F8006C6366 /* AddonGUIRenderingControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7611708C1C8B85F8006C6366 /* AddonGUIRenderingControl.cpp */; };
 		761170911C8B85F8006C6366 /* AddonGUIWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7611708E1C8B85F8006C6366 /* AddonGUIWindow.cpp */; };
 		76AEFB361C8F79BD00EF2EC0 /* AddonInterfaces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDED2E991C878F61000F5E80 /* AddonInterfaces.cpp */; };
@@ -2953,7 +2953,6 @@
 		68B1E8831D35A9AC000D1A46 /* RetroPlayerDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RetroPlayerDefines.h; path = RetroPlayer/RetroPlayerDefines.h; sourceTree = "<group>"; };
 		68B7E5E61D5FA9B300A5AEC0 /* GUIFeatureControls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUIFeatureControls.cpp; path = games/controllers/guicontrols/GUIFeatureControls.cpp; sourceTree = "<group>"; };
 		68B7E5E71D5FA9B300A5AEC0 /* GUIFeatureControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIFeatureControls.h; path = games/controllers/guicontrols/GUIFeatureControls.h; sourceTree = "<group>"; };
-		68B1E8831D35A9AC000D1A46 /* RetroPlayerDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RetroPlayerDefines.h; path = RetroPlayer/RetroPlayerDefines.h; sourceTree = "<group>"; };
 		68C1495F1CDDF0B60014ADDB /* SavestateDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SavestateDatabase.cpp; path = games/addons/savestates/SavestateDatabase.cpp; sourceTree = "<group>"; };
 		68C149601CDDF0B60014ADDB /* SavestateDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SavestateDatabase.h; path = games/addons/savestates/SavestateDatabase.h; sourceTree = "<group>"; };
 		68C149611CDDF0B60014ADDB /* SavestateDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SavestateDefines.h; path = games/addons/savestates/SavestateDefines.h; sourceTree = "<group>"; };
@@ -3025,15 +3024,15 @@
 		68D77D651CD1C86B004C1735 /* RetroPlayerAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RetroPlayerAudio.h; path = RetroPlayer/RetroPlayerAudio.h; sourceTree = "<group>"; };
 		68D77D661CD1C86B004C1735 /* RetroPlayerVideo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RetroPlayerVideo.cpp; path = RetroPlayer/RetroPlayerVideo.cpp; sourceTree = "<group>"; };
 		68D77D671CD1C86B004C1735 /* RetroPlayerVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RetroPlayerVideo.h; path = RetroPlayer/RetroPlayerVideo.h; sourceTree = "<group>"; };
+		68D77D711CD1C89A004C1735 /* GUIViewStateWindowGames.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUIViewStateWindowGames.cpp; path = games/windows/GUIViewStateWindowGames.cpp; sourceTree = "<group>"; };
+		68D77D721CD1C89A004C1735 /* GUIViewStateWindowGames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIViewStateWindowGames.h; path = games/windows/GUIViewStateWindowGames.h; sourceTree = "<group>"; };
+		68D77D731CD1C89A004C1735 /* GUIWindowGames.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUIWindowGames.cpp; path = games/windows/GUIWindowGames.cpp; sourceTree = "<group>"; };
+		68D77D741CD1C89A004C1735 /* GUIWindowGames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIWindowGames.h; path = games/windows/GUIWindowGames.h; sourceTree = "<group>"; };
 		68DE2BE71CDEBAC9002EA0F7 /* Savestate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Savestate.cpp; path = games/addons/savestates/Savestate.cpp; sourceTree = "<group>"; };
 		68DE2BE81CDEBAC9002EA0F7 /* Savestate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Savestate.h; path = games/addons/savestates/Savestate.h; sourceTree = "<group>"; };
 		68E68CA31DC70B5200712EC5 /* IMouseButtonMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IMouseButtonMap.h; path = mouse/IMouseButtonMap.h; sourceTree = "<group>"; };
 		68E68CB01DC71B6500712EC5 /* MouseWindowingButtonMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MouseWindowingButtonMap.cpp; path = mouse/MouseWindowingButtonMap.cpp; sourceTree = "<group>"; };
 		68E68CB11DC71B6500712EC5 /* MouseWindowingButtonMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MouseWindowingButtonMap.h; path = mouse/MouseWindowingButtonMap.h; sourceTree = "<group>"; };
-		68D77D711CD1C89A004C1735 /* GUIViewStateWindowGames.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUIViewStateWindowGames.cpp; path = games/windows/GUIViewStateWindowGames.cpp; sourceTree = "<group>"; };
-		68D77D721CD1C89A004C1735 /* GUIViewStateWindowGames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIViewStateWindowGames.h; path = games/windows/GUIViewStateWindowGames.h; sourceTree = "<group>"; };
-		68D77D731CD1C89A004C1735 /* GUIWindowGames.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUIWindowGames.cpp; path = games/windows/GUIWindowGames.cpp; sourceTree = "<group>"; };
-		68D77D741CD1C89A004C1735 /* GUIWindowGames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIWindowGames.h; path = games/windows/GUIWindowGames.h; sourceTree = "<group>"; };
 		6E97BDBF0DA2B620003A2A89 /* EventClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventClient.h; sourceTree = "<group>"; };
 		6E97BDC00DA2B620003A2A89 /* EventPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventPacket.h; sourceTree = "<group>"; };
 		6E97BDC10DA2B620003A2A89 /* EventServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventServer.h; sourceTree = "<group>"; };
@@ -6636,23 +6635,6 @@
 			name = playback;
 			sourceTree = "<group>";
 		};
-		76EC19BB1D15510D00D4AF19 /* AudioDSPAddons */ = {
-			isa = PBXGroup;
-			children = (
-				76EC19BC1D15514200D4AF19 /* ActiveAEDSP.cpp */,
-				76EC19BD1D15514200D4AF19 /* ActiveAEDSP.h */,
-				76EC19BE1D15514200D4AF19 /* ActiveAEDSPAddon.cpp */,
-				76EC19BF1D15514200D4AF19 /* ActiveAEDSPAddon.h */,
-				76EC19C01D15514200D4AF19 /* ActiveAEDSPDatabase.cpp */,
-				76EC19C11D15514200D4AF19 /* ActiveAEDSPDatabase.h */,
-				76EC19C21D15514200D4AF19 /* ActiveAEDSPMode.cpp */,
-				76EC19C31D15514200D4AF19 /* ActiveAEDSPMode.h */,
-				76EC19C41D15514200D4AF19 /* ActiveAEDSPProcess.cpp */,
-				76EC19C51D15514200D4AF19 /* ActiveAEDSPProcess.h */,
-			);
-			name = AudioDSPAddons;
-			sourceTree = "<group>";
-		};
 		68D77D5F1CD1C841004C1735 /* RetroPlayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -6679,6 +6661,23 @@
 				68D77D741CD1C89A004C1735 /* GUIWindowGames.h */,
 			);
 			name = windows;
+			sourceTree = "<group>";
+		};
+		76EC19BB1D15510D00D4AF19 /* AudioDSPAddons */ = {
+			isa = PBXGroup;
+			children = (
+				76EC19BC1D15514200D4AF19 /* ActiveAEDSP.cpp */,
+				76EC19BD1D15514200D4AF19 /* ActiveAEDSP.h */,
+				76EC19BE1D15514200D4AF19 /* ActiveAEDSPAddon.cpp */,
+				76EC19BF1D15514200D4AF19 /* ActiveAEDSPAddon.h */,
+				76EC19C01D15514200D4AF19 /* ActiveAEDSPDatabase.cpp */,
+				76EC19C11D15514200D4AF19 /* ActiveAEDSPDatabase.h */,
+				76EC19C21D15514200D4AF19 /* ActiveAEDSPMode.cpp */,
+				76EC19C31D15514200D4AF19 /* ActiveAEDSPMode.h */,
+				76EC19C41D15514200D4AF19 /* ActiveAEDSPProcess.cpp */,
+				76EC19C51D15514200D4AF19 /* ActiveAEDSPProcess.h */,
+			);
+			name = AudioDSPAddons;
 			sourceTree = "<group>";
 		};
 		76F4C37B1C8E927A00A1E64B /* InputStream */ = {
