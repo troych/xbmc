@@ -36,7 +36,6 @@ using namespace XbmcThreads;
 
 #define MAPPING_COOLDOWN_MS  50    // Guard against repeated input
 #define AXIS_THRESHOLD       0.75f // Axis must exceed this value to be mapped
-#define WAIT_FOR_STUCK_AXES_MS  50 // To ignore "stuck" axes, like anomalous triggers or accelerometers
 
 CButtonMapping::CButtonMapping(IButtonMapper* buttonMapper, IButtonMap* buttonMap)
   : m_buttonMapper(buttonMapper),
@@ -139,26 +138,12 @@ void CButtonMapping::MapPrimitive(const CDriverPrimitive& primitive)
 
 void CButtonMapping::Activate(const CDriverPrimitive& semiaxis)
 {
-  // Check for "stuck" axes
-  if (!IsStuck(semiaxis) && m_buttonMapper->MappingDurationMs() <= WAIT_FOR_STUCK_AXES_MS)
-  {
-    CLog::Log(LOGDEBUG, "Button mapping: axis %u appears to be stuck, ignoring for now", semiaxis.Index());
-    m_stuckAxes.push_back(semiaxis);
-  }
-
-  if (!IsActive(semiaxis) && !IsStuck(semiaxis))
+  if (!IsActive(semiaxis))
     m_activatedAxes.push_back(ActivatedAxis{semiaxis});
 }
 
 void CButtonMapping::Deactivate(const CDriverPrimitive& semiaxis)
 {
-  // Unstick axis
-  if (IsStuck(semiaxis) && m_buttonMapper->MappingDurationMs() > WAIT_FOR_STUCK_AXES_MS)
-  {
-    CLog::Log(LOGDEBUG, "Button mapping: axis %u is unstuck", semiaxis.Index());
-    m_stuckAxes.erase(std::remove(m_stuckAxes.begin(), m_stuckAxes.end(), semiaxis), m_stuckAxes.end());
-  }
-
   m_activatedAxes.erase(std::remove_if(m_activatedAxes.begin(), m_activatedAxes.end(),
     [&semiaxis](const ActivatedAxis& axis)
     {
@@ -173,9 +158,4 @@ bool CButtonMapping::IsActive(const CDriverPrimitive& semiaxis)
     {
       return semiaxis == axis.driverPrimitive;
     }) != m_activatedAxes.end();
-}
-
-bool CButtonMapping::IsStuck(const CDriverPrimitive& semiAxis)
-{
-  return std::find(m_stuckAxes.begin(), m_stuckAxes.end(), semiAxis) != m_stuckAxes.end();
 }

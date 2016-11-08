@@ -68,7 +68,6 @@ namespace JOYSTICK
     void Activate(const CDriverPrimitive& semiAxis);
     void Deactivate(const CDriverPrimitive& semiAxis);
     bool IsActive(const CDriverPrimitive& semiAxis);
-    bool IsStuck(const CDriverPrimitive& semiAxis);
 
     IButtonMapper* const m_buttonMapper;
     IButtonMap* const    m_buttonMap;
@@ -80,7 +79,6 @@ namespace JOYSTICK
     };
 
     std::vector<ActivatedAxis> m_activatedAxes;
-    std::vector<CDriverPrimitive> m_stuckAxes;
     unsigned int               m_lastAction;
   };
 }
