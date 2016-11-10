@@ -24,6 +24,7 @@
 namespace MOUSE
 {
   /*!
+   * \ingroup mouse
    * \brief Button map interface to translate between the mouse's driver data
    *        and its higher-level features.
    */

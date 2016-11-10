@@ -31,6 +31,7 @@ namespace JOYSTICK
 namespace KEYBOARD
 {
   /*!
+   * \ingroup keyboard
    * \brief Generic implementation of a handler for joysticks that use keyboard
    *        drivers. It basically emulates a joystick with many buttons.
    */

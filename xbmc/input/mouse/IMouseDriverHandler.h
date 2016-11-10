@@ -22,7 +22,7 @@
 namespace MOUSE
 {
   /*!
-   * \ingroup input
+   * \ingroup mouse
    * \brief Interface for handling mouse driver events
    */
   class IMouseDriverHandler
