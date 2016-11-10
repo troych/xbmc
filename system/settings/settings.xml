@@ -2022,9 +2022,6 @@
       <group id="1" label="35199">
         <setting id="gamesinput.controllerconfig" type="action" label="35063" help="35064">
           <level>0</level>
-          <dependencies>
-            <dependency type="enable" on="property" name="SupportsPeripheralControllers" />
-          </dependencies>
           <control type="button" format="action" />
         </setting>
         <setting id="gamesinput.rumblenotify" type="boolean" label="35080" help="35081">

@@ -83,21 +83,6 @@ bool HasPeripherals(const std::string &condition, const std::string &value, cons
   return PERIPHERALS::g_peripherals.GetNumberOfPeripherals() > 0;
 }
 
-bool SupportsPeripheralControllers(const std::string &condition, const std::string &value, const CSetting *setting, void *data)
-{
-  using namespace PERIPHERALS;
-
-  PeripheralVector results;
-  g_peripherals.GetPeripheralsWithFeature(results, FEATURE_JOYSTICK);
-
-  // Ignore emulated joysticks
-  return std::find_if(results.begin(), results.end(),
-    [](const PeripheralPtr& result)
-    {
-      return result->Type() == PERIPHERAL_JOYSTICK;
-    }) != results.end();
-}
-
 bool HasRumbleFeature(const std::string &condition, const std::string &value, const CSetting *setting, void *data)
 {
   using namespace PERIPHERALS;
@@ -364,7 +349,6 @@ void CSettingConditions::Initialize()
   m_complexConditions.insert(std::pair<std::string, SettingConditionCheck>("checkmasterlock",               CheckMasterLock));
   m_complexConditions.insert(std::pair<std::string, SettingConditionCheck>("checkpvrparentalpin",           CheckPVRParentalPin));
   m_complexConditions.insert(std::pair<std::string, SettingConditionCheck>("hasperipherals",                HasPeripherals));
-  m_complexConditions.insert(std::pair<std::string, SettingConditionCheck>("supportsperipheralcontrollers", SupportsPeripheralControllers));
   m_complexConditions.insert(std::pair<std::string, SettingConditionCheck>("hasrumblefeature",              HasRumbleFeature));
   m_complexConditions.insert(std::pair<std::string, SettingConditionCheck>("isfullscreen",                  IsFullscreen));
   m_complexConditions.insert(std::pair<std::string, SettingConditionCheck>("ismasteruser",                  IsMasterUser));
