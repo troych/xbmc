@@ -51,6 +51,15 @@ namespace JOYSTICK
     virtual std::string ControllerID(void) const = 0;
 
     /*!
+    * \brief Return true if the button mapper wants a cooldown between button
+    *        mapping commands
+    *
+    * \return True to only send button mapping commands that occur after a small
+    *         timeout from the previous command.
+    */
+    virtual bool NeedsCooldown(void) const = 0;
+
+    /*!
      * \brief Test if the mapping process is being performed for an emulated controller
      *
      * \return true if an emulated controller is being mapped, false otherwise

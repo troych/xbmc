@@ -54,6 +54,7 @@ namespace GAME
 
     // implementation of IButtonMapper
     virtual std::string ControllerID(void) const override { return m_strControllerId; }
+    virtual bool NeedsCooldown(void) const override { return true; }
     virtual bool Emulation(void) const override { return m_bEmulation; }
     virtual unsigned int ControllerNumber(void) const override { return m_controllerNumber; }
     virtual bool MapPrimitive(JOYSTICK::IButtonMap* buttonMap,

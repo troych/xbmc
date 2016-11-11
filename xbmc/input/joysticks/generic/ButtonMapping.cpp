@@ -135,7 +135,11 @@ bool CButtonMapping::MapPrimitive(const CDriverPrimitive& primitive)
 
   const unsigned int now = SystemClockMillis();
 
-  bool bTimeoutElapsed = (now >= m_lastAction + MAPPING_COOLDOWN_MS);
+  bool bTimeoutElapsed = true;
+
+  if (m_buttonMapper->NeedsCooldown())
+    bTimeoutElapsed = (now >= m_lastAction + MAPPING_COOLDOWN_MS);
+
   if (bTimeoutElapsed)
   {
     bHandled = m_buttonMapper->MapPrimitive(m_buttonMap, m_actionMap, primitive);
