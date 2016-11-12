@@ -106,6 +106,8 @@ namespace PERIPHERALS
     virtual bool CheckAPIVersion(void) override;
 
   private:
+    void UnregisterButtonMap(CPeripheral* device);
+
     /*!
      * @brief Helper functions
      */

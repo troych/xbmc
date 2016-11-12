@@ -256,6 +256,7 @@ void CPeripheralAddon::UnregisterRemovedDevices(const PeripheralScanResults &res
     auto it = m_peripherals.find(index);
     const PeripheralPtr& peripheral = it->second;
     CLog::Log(LOGNOTICE, "%s - device removed from %s/%s: %s (%s:%s)", __FUNCTION__, PeripheralTypeTranslator::TypeToString(peripheral->Type()), peripheral->Location().c_str(), peripheral->DeviceName().c_str(), peripheral->VendorIdAsString(), peripheral->ProductIdAsString());
+    UnregisterButtonMap(peripheral.get());
     peripheral->OnDeviceRemoved();
     removedPeripherals.push_back(peripheral);
     m_peripherals.erase(it);
@@ -747,6 +748,15 @@ void CPeripheralAddon::UnregisterButtonMap(IButtonMap* buttonMap)
       break;
     }
   }
+}
+
+void CPeripheralAddon::UnregisterButtonMap(CPeripheral* device)
+{
+  m_buttonMaps.erase(std::remove_if(m_buttonMaps.begin(), m_buttonMaps.end(),
+    [device](const std::pair<CPeripheral*, JOYSTICK::IButtonMap*>& buttonMap)
+    {
+      return buttonMap.first == device;
+    }), m_buttonMaps.end());
 }
 
 void CPeripheralAddon::RefreshButtonMaps(const std::string& strDeviceName /* = "" */)
