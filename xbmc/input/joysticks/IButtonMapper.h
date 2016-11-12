@@ -93,6 +93,5 @@ namespace JOYSTICK
 
   private:
     IButtonMapCallback* m_callback;
-    IActionMap*         m_actionMap;
   };
 }

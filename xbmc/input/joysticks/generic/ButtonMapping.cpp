@@ -147,7 +147,11 @@ bool CButtonMapping::MapPrimitive(const CDriverPrimitive& primitive)
     if (bHandled)
       m_lastAction = SystemClockMillis();
   }
-  else if (!m_buttonMap->IsIgnored(primitive))
+  else if (m_buttonMap->IsIgnored(primitive))
+  {
+    bHandled = true;
+  }
+  else
   {
     const unsigned int elapsed = now - m_lastAction;
     CLog::Log(LOGDEBUG, "Button mapping: rapid input after %ums dropped for profile \"%s\"",

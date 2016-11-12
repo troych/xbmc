@@ -164,7 +164,11 @@ bool CGUIConfigurationWizard::MapPrimitive(JOYSTICK::IButtonMap* buttonMap,
     // Primitive has already been mapped this round, ignore it
     bHandled = true;
   }
-  else if (!buttonMap->IsIgnored(primitive))
+  else if (buttonMap->IsIgnored(primitive))
+  {
+    bHandled = true;
+  }
+  else
   {
     // Get the current state of the thread
     IFeatureButton* currentButton;
