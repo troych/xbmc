@@ -214,7 +214,7 @@ namespace PERIPHERALS
      * @brief rateHz The rate in Hz
      * @return A handle that unsets its rate when expired
      */
-    EventRateHandle SetEventScanRate(float rateHz) { return m_eventScanner.SetRate(rateHz); }
+    EventRateHandle SetEventScanRate(double rateHz) { return m_eventScanner.SetRate(rateHz); }
 
     /*!
      * 
