@@ -39,6 +39,7 @@ namespace JOYSTICK
   class IButtonSequence;
 
   /*!
+   * \ingroup joystick
    * \brief Implementation of IInputHandler for Kodi input
    *
    * \sa IInputHandler

@@ -24,7 +24,7 @@
 namespace MOUSE
 {
   /*!
-   * \ingroup input
+   * \ingroup mouse
    * \brief Interface for handling mouse events
    */
   class IMouseInputHandler

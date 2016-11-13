@@ -27,6 +27,10 @@
 
 namespace MOUSE
 {
+  /*!
+   * \ingroup mouse
+   * \brief Maps mouse windowing events to higher-level features understood by IMouseInputHandler implementations.
+   */
   class CMouseWindowingButtonMap : public IMouseButtonMap
   {
   public:
