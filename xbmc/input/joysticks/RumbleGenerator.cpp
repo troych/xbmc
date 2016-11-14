@@ -23,13 +23,8 @@
 #include "games/controllers/Controller.h"
 #include "games/controllers/ControllerFeature.h"
 #include "input/joysticks/IInputReceiver.h"
-#include "settings/Settings.h"
 
-#include <algorithm>
-
-// From game.controller.default profile
-#define STRONG_MOTOR_NAME  "leftmotor"
-#define WEAK_MOTOR_NAME    "rightmotor"
+#define RUMBLE_DURATION_MS     1000
 
 using namespace JOYSTICK;
 
@@ -58,8 +53,13 @@ bool CRumbleGenerator::DoTest(IInputReceiver* receiver)
 {
   if (receiver && !m_motors.empty())
   {
-    // Test now uses notification effect
-    NotifyUser(receiver);
+    if (IsRunning())
+      StopThread(true);
+
+    m_receiver = receiver;
+    m_type = RUMBLE_TEST;
+    Create();
+
     return true;
   }
   return  false;
@@ -71,23 +71,10 @@ void CRumbleGenerator::Process(void)
   {
   case RUMBLE_NOTIFICATION:
   {
-    const double duration = CSettings::GetInstance().GetNumber(CSettings::SETTING_GAMES_RUMBLE_DURATION);
-    const unsigned int durationMs = std::min(static_cast<unsigned int>(duration * 1000), 1000U);
-
-    const unsigned int strongPercent = CSettings::GetInstance().GetInt(CSettings::SETTING_GAMES_RUMBLE_STRONG);
-    const unsigned int weakPercent = CSettings::GetInstance().GetInt(CSettings::SETTING_GAMES_RUMBLE_WEAK);
-
     for (const std::string& motor : m_motors)
-    {
-      if (motor == STRONG_MOTOR_NAME)
-        m_receiver->SetRumbleState(motor, static_cast<float>(strongPercent) / 100.0f);
-      else if (motor == WEAK_MOTOR_NAME)
-        m_receiver->SetRumbleState(motor, static_cast<float>(weakPercent) / 100.0f);
-      else
-        m_receiver->SetRumbleState(motor, 1.0f);
-    }
+      m_receiver->SetRumbleState(motor, 1.0f);
 
-    Sleep(durationMs);
+    Sleep(1000);
 
     if (m_bStop)
       break;
