@@ -19,6 +19,7 @@
  */
 #pragma once
 
+#include <map>
 #include <string>
 
 namespace JOYSTICK
