@@ -29,6 +29,7 @@
 #include "threads/Thread.h"
 #include "utils/Observer.h"
 
+#include <atomic>
 #include <set>
 #include <string>
 #include <vector>
@@ -60,6 +61,7 @@ namespace GAME
     virtual bool MapPrimitive(JOYSTICK::IButtonMap* buttonMap,
                               JOYSTICK::IActionMap* actionMap,
                               const JOYSTICK::CDriverPrimitive& primitive) override;
+    virtual void OnFrame(bool bMotion) override;
 
     // implementation of IKeyboardHandler
     virtual bool OnKeyPress(const CKey& key) override;
@@ -83,6 +85,9 @@ namespace GAME
     void InstallHooks(void);
     void RemoveHooks(void);
 
+    void OnMotion();
+    void OnMotionless();
+
     // Construction parameters
     const bool                           m_bEmulation;
     const unsigned int                   m_controllerNumber;
@@ -99,7 +104,9 @@ namespace GAME
     unsigned int                         m_lastMappingActionMs; // The last mapping action, or 0 if not currently mapping
     CCriticalSection                     m_stateMutex;
 
-    // Synchronization event
+    // Synchronization events
     CEvent                               m_inputEvent;
+    CEvent                               m_motionlessEvent;
+    std::atomic<bool>                    m_bInMotion;
   };
 }
