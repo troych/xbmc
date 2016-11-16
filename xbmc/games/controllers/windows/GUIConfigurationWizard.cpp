@@ -38,6 +38,7 @@ CGUIConfigurationWizard::CGUIConfigurationWizard(bool bEmulation, unsigned int c
   CThread("GUIConfigurationWizard"),
   m_bEmulation(bEmulation),
   m_controllerNumber(controllerNumber),
+  m_callback(nullptr),
   m_bInMotion(false)
 {
   InitializeState();
