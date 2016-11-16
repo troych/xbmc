@@ -68,6 +68,8 @@ using namespace GAME;
 
 #define INPUT_SCAN_RATE  125 // Hz
 
+#define GAME_CLIENT_VIDEO_TIMEOUT_MS  1000 // Wait this long for the first video frame
+
 // --- NormalizeExtension ------------------------------------------------------
 
 namespace
@@ -128,7 +130,8 @@ CGameClient::CGameClient(ADDON::AddonProps props) :
   m_serializeSize(0),
   m_audio(nullptr),
   m_video(nullptr),
-  m_region(GAME_REGION_UNKNOWN)
+  m_region(GAME_REGION_UNKNOWN),
+  m_bFirstFrame(false)
 {
   const ADDON::InfoMap& extraInfo = m_props.extrainfo;
   ADDON::InfoMap::const_iterator it;
@@ -317,6 +320,8 @@ bool CGameClient::InitializeGameplay(const std::string& gamePath, IGameAudioCall
     m_audio           = audio;
     m_video           = video;
     m_inputRateHandle = PERIPHERALS::g_peripherals.SetEventScanRate(INPUT_SCAN_RATE);
+    m_bFirstFrame     = false;
+    m_firstFrameEvent.Reset();
 
     if (m_bSupportsKeyboard)
       OpenKeyboard();
@@ -327,7 +332,13 @@ bool CGameClient::InitializeGameplay(const std::string& gamePath, IGameAudioCall
     // Start playback
     CreatePlayback();
 
-    return true;
+    if (m_firstFrameEvent.WaitMSec(GAME_CLIENT_VIDEO_TIMEOUT_MS))
+      return true;
+    else
+    {
+      CLog::Log(LOGERROR, "%s: Timeout waiting for first video frame", ID().c_str());
+      NotifyError(GAME_ERROR_FAILED);
+    }
   }
 
   return false;
@@ -636,7 +647,14 @@ void CGameClient::AddStreamData(GAME_STREAM_TYPE stream, const uint8_t* data, un
   case GAME_STREAM_VIDEO:
   {
     if (m_video)
+    {
+      if (!m_bFirstFrame)
+      {
+        m_bFirstFrame = true;
+        m_firstFrameEvent.Set();
+      }
       m_video->AddData(data, size);
+    }
     break;
   }
   default:

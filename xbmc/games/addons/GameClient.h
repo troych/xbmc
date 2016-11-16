@@ -161,6 +161,8 @@ private:
   PERIPHERALS::EventRateHandle m_inputRateHandle; // Handle while keeping the input sampling rate at the frame rate
   std::unique_ptr<IGameClientPlayback> m_playback; // Interface to control playback
   GAME_REGION           m_region;              // Region of the loaded game
+  bool                  m_bFirstFrame;
+  CEvent                m_firstFrameEvent;
 
   // Input
   std::map<int, std::unique_ptr<CGameClientInput>> m_ports;
