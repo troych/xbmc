@@ -2034,9 +2034,6 @@
         <setting id="gamesinput.controllerpoweroff" type="boolean" label="35088" help="35089">
           <level>0</level>
           <default>false</default>
-          <dependencies>
-            <dependency type="enable" on="property" name="SupportsPeripheralControllers" />
-          </dependencies>
           <control type="toggle" />
         </setting>
       </group>
