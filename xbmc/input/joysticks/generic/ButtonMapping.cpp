@@ -75,35 +75,24 @@ bool CButtonMapping::OnHatMotion(unsigned int hatIndex, HAT_STATE state)
 
 bool CButtonMapping::OnAxisMotion(unsigned int axisIndex, float position)
 {
-  const bool bInMotion = (position != 0.0f);
-  const bool bIsActive = (std::abs(position) >= AXIS_THRESHOLD);
+  SEMIAXIS_DIRECTION dir = CJoystickTranslator::PositionToSemiAxisDirection(position);
 
-  if (!bInMotion)
+  CDriverPrimitive axis(axisIndex, dir);
+  CDriverPrimitive oppositeAxis(axisIndex, dir * -1);
+
+  if (position == 0.0f)
   {
-    CDriverPrimitive axis(axisIndex, SEMIAXIS_DIRECTION::POSITIVE);
-    CDriverPrimitive oppositeAxis(axisIndex, SEMIAXIS_DIRECTION::NEGATIVE);
-
-    OnMotionless(axis);
-    OnMotionless(oppositeAxis);
-
     Deactivate(axis);
     Deactivate(oppositeAxis);
   }
   else
   {
-    SEMIAXIS_DIRECTION dir = CJoystickTranslator::PositionToSemiAxisDirection(position);
+    Deactivate(oppositeAxis);
 
-    CDriverPrimitive axis(axisIndex, dir);
-    CDriverPrimitive oppositeAxis(axisIndex, dir * -1);
-
-    // OnMotion() occurs within ProcessAxisMotions()
-    OnMotionless(oppositeAxis);
-
-    if (bIsActive)
+    if (std::abs(position) >= AXIS_THRESHOLD)
       Activate(axis);
     else
       Deactivate(axis);
-    Deactivate(oppositeAxis);
   }
 
   return true;
@@ -111,7 +100,6 @@ bool CButtonMapping::OnAxisMotion(unsigned int axisIndex, float position)
 
 void CButtonMapping::ProcessAxisMotions(void)
 {
-  // Process newly-activated axes
   for (std::vector<ActivatedAxis>::iterator it = m_activatedAxes.begin(); it != m_activatedAxes.end(); ++it)
   {
     ActivatedAxis& semiaxis = *it;
@@ -120,12 +108,9 @@ void CButtonMapping::ProcessAxisMotions(void)
     if (!semiaxis.bEmitted)
     {
       semiaxis.bEmitted = true;
-      if (MapPrimitive(semiaxis.driverPrimitive))
-        OnMotion(semiaxis.driverPrimitive);
+      MapPrimitive(semiaxis.driverPrimitive);
     }
   }
-
-  m_buttonMapper->OnFrame(IsMoving());
 }
 
 void CButtonMapping::SaveButtonMap()
@@ -175,22 +160,6 @@ bool CButtonMapping::MapPrimitive(const CDriverPrimitive& primitive)
   }
 
   return bHandled;
-}
-
-void CButtonMapping::OnMotion(const CDriverPrimitive& semiaxis)
-{
-  if (std::find(m_movingAxes.begin(), m_movingAxes.end(), semiaxis) == m_movingAxes.end())
-    m_movingAxes.push_back(semiaxis);
-}
-
-void CButtonMapping::OnMotionless(const CDriverPrimitive& semiaxis)
-{
-  m_movingAxes.erase(std::remove(m_movingAxes.begin(), m_movingAxes.end(), semiaxis), m_movingAxes.end());
-}
-
-bool CButtonMapping::IsMoving()
-{
-  return !m_movingAxes.empty();
 }
 
 void CButtonMapping::Activate(const CDriverPrimitive& semiaxis)

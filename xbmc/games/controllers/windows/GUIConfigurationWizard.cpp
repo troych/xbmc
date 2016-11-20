@@ -38,8 +38,7 @@ CGUIConfigurationWizard::CGUIConfigurationWizard(bool bEmulation, unsigned int c
   CThread("GUIConfigurationWizard"),
   m_bEmulation(bEmulation),
   m_controllerNumber(controllerNumber),
-  m_callback(nullptr),
-  m_bInMotion(false)
+  m_callback(nullptr)
 {
   InitializeState();
 }
@@ -50,10 +49,6 @@ void CGUIConfigurationWizard::InitializeState(void)
   m_currentDirection = JOYSTICK::ANALOG_STICK_DIRECTION::UNKNOWN;
   m_history.clear();
   m_lastMappingActionMs = 0;
-
-  // Reset synchronization variables
-  m_inputEvent.Reset();
-  m_motionlessEvent.Reset();
 }
 
 void CGUIConfigurationWizard::Run(const std::string& strControllerId, const std::vector<IFeatureButton*>& buttons, IConfigurationWizardCallback* callback)
@@ -90,7 +85,6 @@ bool CGUIConfigurationWizard::Abort(bool bWait /* = true */)
     StopThread(false);
 
     m_inputEvent.Set();
-    m_motionlessEvent.Set();
 
     if (bWait)
       StopThread(true);
@@ -146,12 +140,6 @@ void CGUIConfigurationWizard::Process(void)
 
   for (auto callback : ButtonMapCallbacks())
     callback.second->SaveButtonMap();
-
-  if (m_bInMotion)
-  {
-    CLog::Log(LOGDEBUG, "Configuration wizard: waiting for axes to neutralize");
-    m_motionlessEvent.Wait();
-  }
 
   RemoveHooks();
 
@@ -231,30 +219,12 @@ bool CGUIConfigurationWizard::MapPrimitive(JOYSTICK::IButtonMap* buttonMap,
         }
         m_lastMappingActionMs = XbmcThreads::SystemClockMillis();
 
-        OnMotion();
         m_inputEvent.Set();
       }
     }
   }
   
   return bHandled;
-}
-
-void CGUIConfigurationWizard::OnFrame(bool bMotion)
-{
-  if (m_bInMotion && !bMotion)
-    OnMotionless();
-}
-
-void CGUIConfigurationWizard::OnMotion()
-{
-  m_bInMotion = true;
-}
-
-void CGUIConfigurationWizard::OnMotionless()
-{
-  m_bInMotion = false;
-  m_motionlessEvent.Set();
 }
 
 bool CGUIConfigurationWizard::OnKeyPress(const CKey& key)
