@@ -38,8 +38,7 @@ CGUIConfigurationWizard::CGUIConfigurationWizard(bool bEmulation, unsigned int c
   CThread("GUIConfigurationWizard"),
   m_bEmulation(bEmulation),
   m_controllerNumber(controllerNumber),
-  m_callback(nullptr),
-  m_bInMotion(false)
+  m_callback(nullptr)
 {
   InitializeState();
 }
@@ -67,7 +66,7 @@ void CGUIConfigurationWizard::Run(const std::string& strControllerId, const std:
     // Reset synchronization variables
     m_inputEvent.Reset();
     m_motionlessEvent.Reset();
-    m_bInMotion = false;
+    m_bInMotion.clear();
 
     // Initialize state variables
     InitializeState();
@@ -148,7 +147,14 @@ void CGUIConfigurationWizard::Process(void)
   for (auto callback : ButtonMapCallbacks())
     callback.second->SaveButtonMap();
 
-  if (m_bInMotion)
+  bool bInMotion;
+
+  {
+    CSingleLock lock(m_motionMutex);
+    bInMotion = !m_bInMotion.empty();
+  }
+
+  if (bInMotion)
   {
     CLog::Log(LOGDEBUG, "Configuration wizard: waiting for axes to neutralize");
     m_motionlessEvent.Wait();
@@ -232,7 +238,7 @@ bool CGUIConfigurationWizard::MapPrimitive(JOYSTICK::IButtonMap* buttonMap,
         }
         m_lastMappingActionMs = XbmcThreads::SystemClockMillis();
 
-        OnMotion();
+        OnMotion(buttonMap);
         m_inputEvent.Set();
       }
     }
@@ -241,22 +247,27 @@ bool CGUIConfigurationWizard::MapPrimitive(JOYSTICK::IButtonMap* buttonMap,
   return bHandled;
 }
 
-void CGUIConfigurationWizard::OnEventFrame(bool bMotion)
+void CGUIConfigurationWizard::OnEventFrame(const JOYSTICK::IButtonMap* buttonMap, bool bMotion)
 {
-  if (m_bInMotion && !bMotion)
-    OnMotionless();
+  CSingleLock lock(m_motionMutex);
+
+  if (m_bInMotion.find(buttonMap) != m_bInMotion.end() && !bMotion)
+    OnMotionless(buttonMap);
 }
 
-void CGUIConfigurationWizard::OnMotion()
+void CGUIConfigurationWizard::OnMotion(const JOYSTICK::IButtonMap* buttonMap)
 {
+  CSingleLock lock(m_motionMutex);
+
   m_motionlessEvent.Reset();
-  m_bInMotion = true;
+  m_bInMotion.insert(buttonMap);
 }
 
-void CGUIConfigurationWizard::OnMotionless()
+void CGUIConfigurationWizard::OnMotionless(const JOYSTICK::IButtonMap* buttonMap)
 {
-  m_bInMotion = false;
-  m_motionlessEvent.Set();
+  m_bInMotion.erase(buttonMap);
+  if (m_bInMotion.empty())
+    m_motionlessEvent.Set();
 }
 
 bool CGUIConfigurationWizard::OnKeyPress(const CKey& key)

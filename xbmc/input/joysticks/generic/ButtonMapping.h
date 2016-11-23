@@ -104,6 +104,5 @@ namespace JOYSTICK
     std::vector<CDriverPrimitive> m_movingAxes;
     std::vector<ActivatedAxis> m_activatedAxes;
     unsigned int               m_lastAction;
-    bool                       m_bIsMoving;
   };
 }

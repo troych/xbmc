@@ -91,6 +91,7 @@ namespace JOYSTICK
     /*!
      * \brief Called once per event frame to notify the implementation of motion status
      *
+     * \param buttonMap The button map passed to MapPrimitive() (shall not be modified)
      * \param bMotion True if a previously-mapped axis is still in motion
      *
      * This allows the implementer to wait for an axis to be centered before
@@ -106,7 +107,7 @@ namespace JOYSTICK
      *
      * Called in the same thread as \ref IButtonMapper::MapPrimitive.
      */
-    virtual void OnEventFrame(bool bMotion) = 0;
+    virtual void OnEventFrame(const IButtonMap* buttonMap, bool bMotion) = 0;
 
     // Button map callback interface
     void SetButtonMapCallback(const std::string& deviceName, IButtonMapCallback* callback) { m_callbacks[deviceName] = callback; }

@@ -125,7 +125,7 @@ void CButtonMapping::ProcessAxisMotions(void)
     }
   }
 
-  m_buttonMapper->OnEventFrame(IsMoving());
+  m_buttonMapper->OnEventFrame(m_buttonMap, IsMoving());
 }
 
 void CButtonMapping::SaveButtonMap()
