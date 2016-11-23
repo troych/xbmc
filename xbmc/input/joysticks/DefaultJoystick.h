@@ -92,12 +92,16 @@ namespace JOYSTICK
      */
     static const std::vector<ANALOG_STICK_DIRECTION>& GetDirections(void);
 
-    IKeymapHandler* const  m_handler;
+    // Handler to process joystick input to Kodi actions
+    IKeymapHandler* const m_handler;
 
+    // State variables used to process joystick input
     std::map<unsigned int, unsigned int> m_holdStartTimes; // Key ID -> hold start time (ms)
 
+    // Rumble functionality
     CRumbleGenerator m_rumbleGenerator;
 
+    // Hush!
     std::unique_ptr<IButtonSequence> m_easterEgg;
   };
 }
