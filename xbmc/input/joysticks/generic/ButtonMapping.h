@@ -83,12 +83,12 @@ namespace JOYSTICK
     // Motion functions
     void OnMotion(const CDriverPrimitive& semiaxis);
     void OnMotionless(const CDriverPrimitive& semiaxis);
-    bool IsMoving();
+    bool IsMoving() const;
 
     // Action functions
     void Activate(const CDriverPrimitive& semiaxis);
     void Deactivate(const CDriverPrimitive& semiaxis);
-    bool IsActive(const CDriverPrimitive& semiaxis);
+    bool IsActive(const CDriverPrimitive& semiaxis) const;
 
     // Construction parameters
     IButtonMapper* const m_buttonMapper;

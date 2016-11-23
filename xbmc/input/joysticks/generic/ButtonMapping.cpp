@@ -188,7 +188,7 @@ void CButtonMapping::OnMotionless(const CDriverPrimitive& semiaxis)
   m_movingAxes.erase(std::remove(m_movingAxes.begin(), m_movingAxes.end(), semiaxis), m_movingAxes.end());
 }
 
-bool CButtonMapping::IsMoving()
+bool CButtonMapping::IsMoving() const
 {
   return !m_movingAxes.empty();
 }
@@ -208,7 +208,7 @@ void CButtonMapping::Deactivate(const CDriverPrimitive& semiaxis)
     }), m_activatedAxes.end());
 }
 
-bool CButtonMapping::IsActive(const CDriverPrimitive& semiaxis)
+bool CButtonMapping::IsActive(const CDriverPrimitive& semiaxis) const
 {
   return std::find_if(m_activatedAxes.begin(), m_activatedAxes.end(),
     [&semiaxis](const ActivatedAxis& axis)
