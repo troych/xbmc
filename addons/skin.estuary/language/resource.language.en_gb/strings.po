@@ -684,7 +684,7 @@ msgctxt "#31154"
 msgid "Press OK to switch between locations"
 msgstr ""
 
-#: /1080i/VideoOSDBookmarks.xml
+#: /1080i/DialogBookmarks.xml
 msgctxt "#31155"
 msgid "No bookmarks created yet."
 msgstr ""
@@ -722,4 +722,9 @@ msgstr ""
 #: /xml/Home.xml
 msgctxt "#31162"
 msgid "Play your personal games or download one of the many game add-ons from the official repository."
+msgstr ""
+
+#: /xml/Variables.xml
+msgctxt "#31163"
+msgid "No game states saved yet."
 msgstr ""
