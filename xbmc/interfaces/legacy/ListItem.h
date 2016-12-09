@@ -639,7 +639,7 @@ namespace XBMCAddon
       /// | developer     | string (Square)
       /// | overview      | string (Long Description)
       /// | year          | integer (1980)
-      /// | emulator      | string (game.libretro.fceumm)
+      /// | gameclient    | string (game.libretro.fceumm)
       ///
       ///
       ///-----------------------------------------------------------------------
@@ -649,6 +649,7 @@ namespace XBMCAddon
       /// @python_v17
       /// Added labels **setid**, **set**, **imdbnumber**, **code**, **dbid** and **userrating**.
       /// Expanded the possible infoLabels for the option **mediatype**.
+      /// @python_v18 Added new **game** type and associated infolabels.
       ///
       /// **Example:**
       /// ~~~~~~~~~~~~~{.py}
