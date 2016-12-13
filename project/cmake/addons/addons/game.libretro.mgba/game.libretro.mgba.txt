@@ -1,1 +1,1 @@
-game.libretro.mgba https://github.com/kodi-game/game.libretro.mgba testing-garbear
+game.libretro.mgba https://github.com/kodi-game/game.libretro.mgba testing-garbear2

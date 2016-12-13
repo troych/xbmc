@@ -1,1 +1,1 @@
-game.libretro.beetle-bsnes https://github.com/kodi-game/game.libretro.beetle-bsnes testing-garbear
+game.libretro.beetle-bsnes https://github.com/kodi-game/game.libretro.beetle-bsnes testing-garbear2

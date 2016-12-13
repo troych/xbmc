@@ -1,1 +1,1 @@
-game.libretro.beetle-vb https://github.com/kodi-game/game.libretro.beetle-vb testing-garbear
+game.libretro.beetle-vb https://github.com/kodi-game/game.libretro.beetle-vb testing-garbear2

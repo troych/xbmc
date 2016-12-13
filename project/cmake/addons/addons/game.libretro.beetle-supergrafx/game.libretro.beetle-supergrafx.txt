@@ -1,1 +1,1 @@
-game.libretro.beetle-supergrafx https://github.com/kodi-game/game.libretro.beetle-supergrafx testing-garbear
+game.libretro.beetle-supergrafx https://github.com/kodi-game/game.libretro.beetle-supergrafx testing-garbear2

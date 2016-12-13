@@ -1,1 +1,1 @@
-game.libretro.beetle-wswan https://github.com/kodi-game/game.libretro.beetle-wswan testing-garbear
+game.libretro.beetle-wswan https://github.com/kodi-game/game.libretro.beetle-wswan testing-garbear2

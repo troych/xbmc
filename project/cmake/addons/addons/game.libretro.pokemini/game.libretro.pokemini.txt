@@ -1,1 +1,1 @@
-game.libretro.pokemini https://github.com/kodi-game/game.libretro.pokemini testing-garbear
+game.libretro.pokemini https://github.com/kodi-game/game.libretro.pokemini testing-garbear2

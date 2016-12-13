@@ -1,1 +1,1 @@
-game.libretro.4do https://github.com/kodi-game/game.libretro.4do testing-garbear
+game.libretro.4do https://github.com/kodi-game/game.libretro.4do testing-garbear2

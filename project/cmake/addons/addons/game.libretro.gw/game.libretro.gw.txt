@@ -1,1 +1,1 @@
-game.libretro.gw https://github.com/kodi-game/game.libretro.gw testing-garbear
+game.libretro.gw https://github.com/kodi-game/game.libretro.gw testing-garbear2

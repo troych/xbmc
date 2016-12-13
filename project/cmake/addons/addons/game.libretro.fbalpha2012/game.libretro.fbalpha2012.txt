@@ -1,1 +1,1 @@
-game.libretro.fbalpha2012 https://github.com/kodi-game/game.libretro.fbalpha2012 testing-garbear
+game.libretro.fbalpha2012 https://github.com/kodi-game/game.libretro.fbalpha2012 testing-garbear2

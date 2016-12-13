@@ -1,1 +1,1 @@
-game.libretro.snes9x2002 https://github.com/kodi-game/game.libretro.snes9x2002 testing-garbear
+game.libretro.snes9x2002 https://github.com/kodi-game/game.libretro.snes9x2002 testing-garbear2

@@ -1,1 +1,1 @@
-game.libretro.fmsx https://github.com/kodi-game/game.libretro.fmsx testing-garbear
+game.libretro.fmsx https://github.com/kodi-game/game.libretro.fmsx testing-garbear2

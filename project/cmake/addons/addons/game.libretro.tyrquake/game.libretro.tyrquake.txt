@@ -1,1 +1,1 @@
-game.libretro.tyrquake https://github.com/kodi-game/game.libretro.tyrquake testing-garbear
+game.libretro.tyrquake https://github.com/kodi-game/game.libretro.tyrquake testing-garbear2

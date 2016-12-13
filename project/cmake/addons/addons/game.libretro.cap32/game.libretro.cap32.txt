@@ -1,1 +1,1 @@
-game.libretro.cap32 https://github.com/kodi-game/game.libretro.cap32 testing-garbear
+game.libretro.cap32 https://github.com/kodi-game/game.libretro.cap32 testing-garbear2

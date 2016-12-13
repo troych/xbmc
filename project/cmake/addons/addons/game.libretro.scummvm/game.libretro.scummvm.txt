@@ -1,1 +1,1 @@
-game.libretro.scummvm https://github.com/kodi-game/game.libretro.scummvm testing-garbear
+game.libretro.scummvm https://github.com/kodi-game/game.libretro.scummvm testing-garbear2

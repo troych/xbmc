@@ -1,1 +1,1 @@
-game.libretro.beetle-ngp https://github.com/kodi-game/game.libretro.beetle-ngp testing-garbear
+game.libretro.beetle-ngp https://github.com/kodi-game/game.libretro.beetle-ngp testing-garbear2
