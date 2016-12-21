@@ -185,7 +185,10 @@ bool CGameUtils::HasGameExtension(const std::string &path)
   StringUtils::ToLower(extension);
   extension.append("|");
 
-  return g_advancedSettings.GetGameExtensions().find(extension) != std::string::npos;
+  std::string extensions = g_advancedSettings.GetGameExtensions();
+  extensions.append("|");
+
+  return extensions.find(extension) != std::string::npos;
 }
 
 bool CGameUtils::IsStandaloneGame(const ADDON::AddonPtr& addon)
