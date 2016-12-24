@@ -30,7 +30,6 @@
 #include "ContextMenuManager.h"
 #include "filesystem/Directory.h"
 #include "filesystem/File.h"
-#include "filesystem/SpecialProtocol.h"
 #include "RepositoryUpdater.h"
 #include "settings/Settings.h"
 #include "ServiceBroker.h"
@@ -332,19 +331,7 @@ std::string CAddon::LibPath() const
 {
   if (m_props.libname.empty())
     return "";
-
-  std::string strLibPath = URIUtils::AddFileToFolder(m_props.path, m_props.libname);
-
-  // Check if add-on library has been installed to the binaries path instead
-  std::string strSharePath = CSpecialProtocol::TranslatePath("special://xbmc/");
-  const bool bIsInSharePath = StringUtils::StartsWith(strLibPath, strSharePath);
-  if (bIsInSharePath && !CFile::Exists(strLibPath))
-  {
-    std::string strBinPath = CSpecialProtocol::TranslatePath("special://xbmcbin/");
-    strLibPath.replace(0, strSharePath.length(), strBinPath);
-  }
-
-  return strLibPath;
+  return URIUtils::AddFileToFolder(m_props.path, m_props.libname);
 }
 
 AddonVersion CAddon::GetDependencyVersion(const std::string &dependencyID) const
