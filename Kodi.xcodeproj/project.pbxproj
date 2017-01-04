@@ -391,6 +391,8 @@
 		68AE5C321C9243A000C4D527 /* ControllerLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68AE5C281C9243A000C4D527 /* ControllerLayout.cpp */; };
 		68AE5C331C9243A000C4D527 /* ControllerTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68AE5C2A1C9243A000C4D527 /* ControllerTranslator.cpp */; };
 		68AE5C341C9243A000C4D527 /* ControllerTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68AE5C2A1C9243A000C4D527 /* ControllerTranslator.cpp */; };
+		68B4D5701E1DBFB30006FDDC /* GameClientInGameSaves.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B4D56E1E1DBFB30006FDDC /* GameClientInGameSaves.cpp */; };
+		68B4D5711E1DBFB30006FDDC /* GameClientInGameSaves.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B4D56E1E1DBFB30006FDDC /* GameClientInGameSaves.cpp */; };
 		68B7E5E81D5FA9B300A5AEC0 /* GUIFeatureControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B7E5E61D5FA9B300A5AEC0 /* GUIFeatureControls.cpp */; };
 		68B7E5E91D5FA9B300A5AEC0 /* GUIFeatureControls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68B7E5E61D5FA9B300A5AEC0 /* GUIFeatureControls.cpp */; };
 		68D77CFF1CD1C5E4004C1735 /* GameSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68D77CFD1CD1C5E4004C1735 /* GameSettings.cpp */; };
@@ -3027,6 +3029,8 @@
 		68AE5C2A1C9243A000C4D527 /* ControllerTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerTranslator.cpp; path = games/controllers/ControllerTranslator.cpp; sourceTree = "<group>"; };
 		68AE5C2B1C9243A000C4D527 /* ControllerTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControllerTranslator.h; path = games/controllers/ControllerTranslator.h; sourceTree = "<group>"; };
 		68AE5C2C1C9243A000C4D527 /* ControllerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControllerTypes.h; path = games/controllers/ControllerTypes.h; sourceTree = "<group>"; };
+		68B4D56E1E1DBFB30006FDDC /* GameClientInGameSaves.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameClientInGameSaves.cpp; path = games/addons/GameClientInGameSaves.cpp; sourceTree = "<group>"; };
+		68B4D56F1E1DBFB30006FDDC /* GameClientInGameSaves.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameClientInGameSaves.h; path = games/addons/GameClientInGameSaves.h; sourceTree = "<group>"; };
 		68B7E5E61D5FA9B300A5AEC0 /* GUIFeatureControls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GUIFeatureControls.cpp; path = games/controllers/guicontrols/GUIFeatureControls.cpp; sourceTree = "<group>"; };
 		68B7E5E71D5FA9B300A5AEC0 /* GUIFeatureControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GUIFeatureControls.h; path = games/controllers/guicontrols/GUIFeatureControls.h; sourceTree = "<group>"; };
 		68D77CFD1CD1C5E4004C1735 /* GameSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameSettings.cpp; path = games/GameSettings.cpp; sourceTree = "<group>"; };
@@ -6373,6 +6377,8 @@
 				6890C1F61DDBDBFC00F8F362 /* GameClient.cpp */,
 				6890C1F71DDBDBFC00F8F362 /* GameClient.h */,
 				6890C1F81DDBDBFC00F8F362 /* GameClientCallbacks.h */,
+				68B4D56E1E1DBFB30006FDDC /* GameClientInGameSaves.cpp */,
+				68B4D56F1E1DBFB30006FDDC /* GameClientInGameSaves.h */,
 				6890C1F91DDBDBFC00F8F362 /* GameClientInput.cpp */,
 				6890C1FA1DDBDBFC00F8F362 /* GameClientInput.h */,
 				6890C1FB1DDBDBFC00F8F362 /* GameClientKeyboard.cpp */,
@@ -10736,6 +10742,7 @@
 				18B7C7CB1294222E009E7A26 /* GUIListGroup.cpp in Sources */,
 				18B7C7CC1294222E009E7A26 /* GUIListItem.cpp in Sources */,
 				18B7C7CD1294222E009E7A26 /* GUIListItemLayout.cpp in Sources */,
+				68B4D5701E1DBFB30006FDDC /* GameClientInGameSaves.cpp in Sources */,
 				18B7C7CE1294222E009E7A26 /* GUIListLabel.cpp in Sources */,
 				18B7C7CF1294222E009E7A26 /* GUIMessage.cpp in Sources */,
 				2AB491701CDDF1920004C263 /* HTTPRequestHandlerUtils.cpp in Sources */,
@@ -11813,6 +11820,7 @@
 				E4991316174E5DAD00741B6D /* GUITextLayout.cpp in Sources */,
 				E4991317174E5DAD00741B6D /* GUITexture.cpp in Sources */,
 				395C2A121A9F072400EBC7AD /* ResourceDirectory.cpp in Sources */,
+				68B4D5711E1DBFB30006FDDC /* GameClientInGameSaves.cpp in Sources */,
 				E4991318174E5DAD00741B6D /* GUITextureD3D.cpp in Sources */,
 				E4991319174E5DAD00741B6D /* GUITextureGL.cpp in Sources */,
 				6890C1E91DDBDBE500F8F362 /* SavestateUtils.cpp in Sources */,
